@@ -1,0 +1,26 @@
+---
+- hosts: local
+  tasks:
+    - name: Install with Package Manager
+      package: name={{ item }} state=installed
+      with_items:
+        - anki
+        - atom
+        - ansible
+        - tmux
+        - rsync
+        - redshift
+        - pianobar
+        - mps-youtube
+        - npm
+        - ipython
+        - golang
+        - speedtest-cli
+    - name: Install with PIP
+      pip: name={{ item }} state=latest
+      with_items:
+        - grin
+        - doit
+        - requests
+        - numpy
+        - pyglet
