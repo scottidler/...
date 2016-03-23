@@ -1,26 +1,49 @@
 ---
 - hosts: local
+  vars:
+    github: https://github.com
   tasks:
-    - name: Install with Package Manager
-      package: name={{ item }} state=installed
+    - name: Get CWD
+      shell: pwd
+      register: cwd
+    - name: Show CWD
+      debug: msg={{cwd.stdout}}
+    - name: Get Files
+      shell: find root/* -type f | sed 's|root||' | (while read f; do if [ ! -e $f ]; then echo $f; fi; done)
+      register: symlink_files
+    - name: Git Repos
+      git: clone=yes dest={{cwd.stdout}}/repos/{{item}} repo={{github}}/{{item}}
       with_items:
+        - scottidler/dock
+    - name: Show Symlink Files
+      debug: msg={{symlink_files.stdout_lines}}
+    - name: Link Files
+      file: src={{cwd.stdout}}/root{{item}} dest={{item}} state=link
+      with_items: "{{symlink_files.stdout_lines}}"
+    - name: Install with Package Manager
+      package: name={{item}} state=installed
+      with_items:
+        - npm
         - anki
-        - atom
-        - ansible
+        #- atom
         - tmux
         - rsync
+        - golang
+        - ansible
+        - ipython
         - redshift
         - pianobar
-        - mps-youtube
-        - npm
-        - ipython
-        - golang
-        - speedtest-cli
+        - python-pip
+        - python-dev
+        #- mps-youtube
+        #- speedtest-cli
     - name: Install with PIP
-      pip: name={{ item }} state=latest
+      pip: name={{item}} state=latest
       with_items:
         - grin
         - doit
         - requests
         - numpy
-        - pyglet
+        #- pyglet
+
+
