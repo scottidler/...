@@ -1,0 +1,5 @@
+[user]
+	email = scott.a.idler@gmail.com
+	name = scott.a.idler
+[core]
+	pager = diff-so-fancy | less --tabs=1,5 -R

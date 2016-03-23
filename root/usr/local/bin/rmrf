@@ -1,0 +1,17 @@
+#!/bin/bash
+
+CUTOFF=`date -d -2mins +"%s"`
+RMRF_DIR="/var/tmp/rmrf"
+TIMESTAMP=`date +"%Y-%m-%d@%H:%M:%S"`
+KEEPALIVE=21
+
+if [[ -n "$RMRF_VERBOSE" ]]; then
+    set -x
+    set -e
+fi
+
+mkdir -p "$RMRF_DIR" || "use sudo once to create /var/tmp/rmrf"
+find "$RMRF_DIR" -mtime "+$KEEPALIVE" -exec rm -rf {} +
+for ARG in "$@"; do
+    mv "$ARG" "$RMRF_DIR/${TIMESTAMP}_`basename $ARG`"
+done

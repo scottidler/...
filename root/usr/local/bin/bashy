@@ -1,0 +1,10 @@
+#!/bin/bash
+
+TEMPY="$1"
+
+cat << EOF > $PWD/${TEMPY:-temp.sh}
+#!/bin/bash
+
+echo "temp.sh: \$@"
+EOF
+chmod 755 $PWD/${TEMPY:-temp.sh}

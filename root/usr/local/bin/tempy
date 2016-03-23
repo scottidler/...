@@ -1,0 +1,18 @@
+#!/bin/bash
+
+TEMPY="$1"
+
+cat << EOF > $PWD/${TEMPY:-temp.py}
+#!/usr/bin/env python
+
+import os
+import re
+import sys
+
+def main(argv):
+    print 'argv: ', argv
+
+if __name__ == '__main__':
+    main(sys.argv)
+EOF
+chmod 755 $PWD/${TEMPY:-temp.py}

@@ -1,0 +1,123 @@
+#!/usr/bin/env python
+
+class cidr:
+    def __init__(self, **args):
+        addr = args['begin']
+        if args.has_key('prefix'):
+            prefix = args['prefix']
+        else:
+            prefix = 32
+        self.fillfromprefix(addr, prefix)
+
+    def fillfromprefix(self, addr, prefix):
+        self.prefix     = prefix
+        self.netmask    = self.getnetbits(prefix)
+        self.hostmask   = self.gethostbits(prefix)
+        self.netaddr    = addr & self.netmask
+        self.bcastaddr  = addr | self.hostmask
+
+    def getnetbits(self, mask):
+        return 2 ** 32 - 2 ** (32 - mask)
+
+    def gethostbits(self, mask):
+        return 2 ** (32 - mask) - 1
+
+    def addrstr(self, addr):
+        return '.'.join(['%d' % quad for quad in
+                         [(addr >> shift) & 0xff for shift in (24, 16, 8, 0)]])
+
+    def show(self):
+        netstr  = self.addrstr(self.netaddr)
+        maskstr = self.addrstr(self.netmask)
+        count   = self.bcastaddr - self.netaddr + 1
+        print '%s/%d:' % (netstr, self.prefix)
+        if 1 == count:
+            print '  address:              %-16s0x%08x' % (netstr, self.netaddr)
+        else:
+            print '  network address:      %-16s0x%08x' % (netstr, self.netaddr)
+        if 1 < count:
+            bcaststr = self.addrstr(self.bcastaddr)
+            print '  broadcast address:    %-16s0x%08x' % (bcaststr, self.bcastaddr)
+        print '  network mask:         %-16s0x%08x' % (maskstr, self.netmask)
+        if 1 == count:
+            print '  1 address total'
+        else:
+            print '  %d addresses total (%d usable)' % (count, count - 2)
+        if 2 < count:
+            firststr = self.addrstr(self.netaddr + 1)
+            laststr = self.addrstr(self.bcastaddr - 1)
+            print '  first host address:   %-16s0x%08x' % (firststr, self.netaddr + 1)
+            print '  last host address:    %-16s0x%08x' % (laststr, self.bcastaddr - 1)
+
+import sys
+
+def parseaddr(addr, expfx = None):
+    if addr.lower().startswith('0x'):
+        try:
+            if 10 < len(addr):
+                raise ValueError, 'moo'
+            impfx = (len(addr) - 2) * 4
+            swap = list(addr[2:])
+            swap.reverse()
+            bytes = [int(ii[1], 16) << (ii[0] * 4) for ii in enumerate(swap)]
+        except ValueError:
+            raise ValueError, 'illegal hexidecimal IP address: %s' % addr
+    else:
+        try:
+            dots = addr.count('.')
+            if 3 < dots:
+                raise ValueError, 'moo'
+            impfx = (1 + dots) * 8
+            num = [int(ii, 10) for ii in addr.split('.')]
+        except ValueError:
+            raise ValueError, 'badly formatted IP address: %s' % addr
+        if [ii for ii in num if 0 > ii or 255 < ii]:
+            raise ValueError, 'illegal IP address: %s' % addr
+        bytes = [ii[0] << ii[1] for ii in zip(num, (24, 16, 8, 0))]
+    if None == expfx:
+        expfx = impfx
+    return (sum(bytes), expfx)
+
+def parseprefix(prefix):
+    try:
+        num = int(prefix, 10)
+    except ValueError:
+        num = None
+    if None == num or 0 > num or 32 < num:
+        print 'invalid prefix length: %s' % prefix
+        return None
+    return num
+
+def parsearg(arg, mask = None):
+    if 0 <= arg.find('/'):
+        if mask != None:
+            raise ValueError, 'both /bits and separate netmask specified'
+        pair = arg.split('/', 1)
+        addr = parseaddr(pair[0], parseprefix(pair[1]))
+    elif mask != None:
+        pfx = parseaddr(mask)[0]
+        bits = 32
+        while pfx & 1 == 0:
+            bits -= 1
+            pfx >>= 1
+        addr = parseaddr(arg, bits)
+    else:
+        addr = parseaddr(arg, 32)
+    return cidr(begin  = addr[0],
+                prefix = addr[1])
+
+def main():
+    if len(sys.argv) < 2 or len(sys.argv) > 3 or sys.argv[1] in ('-h', '--help'):
+        print "usage: cidr address/maskbits"
+        print "       cidr address netmask"
+        sys.exit(1)
+    if len(sys.argv) == 2:
+        addr = parsearg(sys.argv[1])
+    else:
+        addr = parsearg(sys.argv[1], sys.argv[2])
+    if addr:
+        addr.show()
+
+if __name__ == '__main__':
+    main()
+

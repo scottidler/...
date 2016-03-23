@@ -1,0 +1,3 @@
+#!/bin/bash
+speedtest_cli=`/usr/bin/which speedtest-cli`
+echo "`date +'%Y-%m-%d|%H:%M:%S'` IP: `curl -s ifconfig.co` `${speedtest_cli} --simple | xargs echo`"

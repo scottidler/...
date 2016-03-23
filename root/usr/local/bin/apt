@@ -1,0 +1,35 @@
+#!/bin/bash
+
+CMD="$1"
+VERBOSE=false
+
+GET_HELP=`apt-get --help`
+CACHE_HELP=`apt-cache --help`
+GET_CMDS=($(echo "$GET_HELP" | sed -n '/^Commands:$/,/^$/p' | sed '1d;$d' | awk '{print$1}'))
+CACHE_CMDS=($(echo "$CACHE_HELP" | sed -n '/^Commands:$/,/^$/p' | sed '1d;$d' | awk '{print$1}'))
+
+function usage() {
+    echo "$GET_HELP"
+    echo "---------------------------------------------------------------------"
+    echo "$CACHE_HELP"
+    echo "---------------------------------------------------------------------"
+    echo "The apt program is meta to apt-get and apt-cache.  Without one of the"
+    echo "commands from either, apt has no way to know which program to exec."
+    echo "Above are the help messages from apt-get and apt-cache, respectively."
+}
+
+function print_cmds() {
+    declare -a cmds=("${!1}")
+    for cmd in "${cmds[@]}"; do
+        echo "  $cmd"
+    done
+}
+
+if [[ "--help" -ne "${CMD}" ]]; then
+    if [[ " ${GET_CMDS[@]} " =~ " ${CMD} " ]]; then
+        exec sudo apt-get "$@"
+    elif [[ " ${CACHE_CMDS[@]} " =~ " ${CMD} " ]]; then
+        exec apt-cache "$@"
+    fi
+fi
+usage
