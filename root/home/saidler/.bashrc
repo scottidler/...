@@ -92,6 +92,7 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
+alias lah='ls -lah --color=auto'
 alias ll='ls -alF --color=auto'
 alias la='ls -A --color=auto'
 alias l='ls -CF --color=auto'
@@ -106,7 +107,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+    source ~/.bash_aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -119,20 +120,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-# custom handling of using ssh agents in every shell... -sai
-#if [ -f ~/.ssh-agent.sai ]; then
-#    source ~/.ssh-agent.sai
-#    if ! kill -0 "${SSH_AGENT_PID}" > /dev/null 2>&1; then
-#        unset SSH_AUTH_SOCK
-#        unset SSH_AGENT_PID
-#    fi
-#fi
-#
-#if [ -z "${SSH_AGENT_PID}" ]; then
-#    ssh-agent | head -2 > ~/.ssh-agent.sai
-#    source ~/.ssh-agent.sai
-#fi
 
 # http://stackoverflow.com/questions/9457233/unlimited-bash-history
 # Eternal bash history.
@@ -151,7 +138,14 @@ export HISTIGNORE="history -w"
 export HISTCONTROL="ignoreboth:erasedups"
 shopt -s histappend
 #PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
-PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
+function __history() {
+    local EC=$?
+    history -a
+    history -c
+    history -r
+    return $EC
+}
+PROMPT_COMMAND="__history; $PROMPT_COMMAND"
 
 if hash thefuck 2> /dev/null; then
     eval $(thefuck --alias dafuq)
