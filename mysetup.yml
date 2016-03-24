@@ -2,6 +2,10 @@
 - hosts: local
   vars:
     github: https://github.com
+    repos:
+      - scottidler/dock
+      - scottidler/clone
+      - ccontavalli/ssh-ident
   tasks:
     - name: Get CWD
       shell: pwd
@@ -11,14 +15,12 @@
       debug: msg={{cwd.stdout}}
 
     - name: Get Files
-      shell: find root/* -type f | sed 's|root||' | (while read f; do if [ ! -e $f ]; then echo $f; fi; done)
+      shell: (find root/* -type f && find root/* -type l) | sed 's|root||' | (while read f; do if [ ! -e $f ]; then echo $f; fi; done)
       register: symlink_files
 
-    - name: Git Repos
+    - name: Clone Repos
       git: clone=yes dest={{cwd.stdout}}/repos/{{item}} repo={{github}}/{{item}}
-      with_items:
-        - scottidler/dock
-        - scottidler/clone
+      with_items: "{{repos}}"
 
     - name: Show Symlink Files
       debug: msg={{symlink_files.stdout_lines}}
