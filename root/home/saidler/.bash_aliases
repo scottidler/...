@@ -1,4 +1,3 @@
-
 alias ag="sudo apt-get install"
 alias as="apt-cache search"
 alias bd1="ssh -A saidler@backdoor1.awbdev.org"
@@ -176,27 +175,42 @@ PathShort="\w"
 PathFull="\W"
 NewLine="\n"
 Jobs="\j"
-if [ -f /.dockerinit ]; then
-    Prompt="\n>---($BIGreenº$Reset>"
-else
-    Prompt="\n><((($BIPurpleº$Reset>"
-fi
 
+function __prompt_command() {
+    local EC="$?"
+    PS1=""
+    local Alive="º"
+    local Dead="ˣ"
+    local Flesh="\n><(("
+    local Bones="\n>---"
+    local Body=$Flesh
+    local Color=$BIPurple
+    local Eye=$Alive
+    if [ $EC != 0 ]; then
+        Eye=$Dead
+    fi
+    if [ -f /.dockerinit ]; then
+        Body=$Bones
+        Color=$BIGreen
+    fi
+    local Head="($Color$Eye$Reset>"
+    local Prompt=$Body$Head
+    # This PS1 snippet was adopted from code for MAC/BSD I saw from: http://allancraig.net/index.php?option=com_content&view=article&id=108:ps1-export-command-for-git&catid=45:general&Itemid=96
+    # I tweaked it to work on UBUNTU 11.04 & 11.10 plus made it mo' better
+    PS1=$Yellow$PathShort$Reset'$(git branch &>/dev/null;\
+    if [ $? -eq 0 ]; then \
+      echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
+      if [ "$?" -eq "0" ]; then \
+        # @4 - Clean repository - nothing to commit
+        echo "'$Green'"$(__git_ps1 " (%s)"); \
+      else \
+        # @5 - Changes to working tree
+        echo "'$IRed'"$(__git_ps1 " {%s}"); \
+      fi) '$Reset$Prompt$Reset' "; \
+    else \
+      # @2 - Prompt when not in GIT repo
+      echo " '$Reset$Prompt$Reset' "; \
+    fi)'
+}
+PROMPT_COMMAND=__prompt_command
 
-# This PS1 snippet was adopted from code for MAC/BSD I saw from: http://allancraig.net/index.php?option=com_content&view=article&id=108:ps1-export-command-for-git&catid=45:general&Itemid=96
-# I tweaked it to work on UBUNTU 11.04 & 11.10 plus made it mo' better
-
-export PS1=$Yellow$PathShort$Reset'$(git branch &>/dev/null;\
-if [ $? -eq 0 ]; then \
-  echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
-  if [ "$?" -eq "0" ]; then \
-    # @4 - Clean repository - nothing to commit
-    echo "'$Green'"$(__git_ps1 " (%s)"); \
-  else \
-    # @5 - Changes to working tree
-    echo "'$IRed'"$(__git_ps1 " {%s}"); \
-  fi) '$Reset$Prompt$Reset' "; \
-else \
-  # @2 - Prompt when not in GIT repo
-  echo " '$Reset$Prompt$Reset' "; \
-fi)'
