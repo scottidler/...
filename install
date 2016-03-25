@@ -1,0 +1,8 @@
+#!/bin/bash
+
+SCRIPT="$0"
+ARG="$1"
+
+echo "SCRIPT=$SCRIPT ARG=$ARG"
+
+sudo ansible-playbook -c local mysetup.yml
