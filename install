@@ -1,14 +1,9 @@
 #!/bin/bash
 
-if [ -f mysetup.yml ]; then
-    PLAYBOOK=mysetup.yml
-else
-    PLAYBOOK=mysetup/mysetup.yml
-fi
-
 if [ "$0" == "bash" ]; then
     echo "downloading mysetup.yml"
     git clone https://github.com/scottidler/mysetup
+    exec mysetup/install
 fi
 
-sudo ansible-playbook -c local $PLAYBOOK
+sudo ansible-playbook -c local mysetup.yml
