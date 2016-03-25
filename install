@@ -6,4 +6,5 @@ if [ "$0" == "bash" ]; then
     cd mysetup && exec ./install
 fi
 
+git describe
 sudo ansible-playbook -c local mysetup.yml
