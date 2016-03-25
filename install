@@ -1,8 +1,14 @@
 #!/bin/bash
 
-if [ "$0" == "bash" ]; then
-    echo "downloading mysetup.yml"
-    curl -L https://raw.githubusercontent.com/scottidler/mysetup/master/mysetup.yml -o mysetup.yml
+if [ -f mysetup.yml ]; then
+    PLAYBOOK=mysetup.yml
+else
+    PLAYBOOK=mysetup/mysetup.yml
 fi
 
-sudo ansible-playbook -c local mysetup.yml
+if [ "$0" == "bash" ]; then
+    echo "downloading mysetup.yml"
+    git clone https://github.com/scottidler/mysetup
+fi
+
+sudo ansible-playbook -c local $PLAYBOOK
