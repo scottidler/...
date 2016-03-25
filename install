@@ -3,7 +3,7 @@
 if [ "$0" == "bash" ]; then
     echo "downloading mysetup.yml"
     git clone https://github.com/scottidler/mysetup
-    cd mysetup && exec install
+    cd mysetup && exec ./install
 fi
 
 sudo ansible-playbook -c local mysetup.yml
