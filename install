@@ -1,8 +1,7 @@
 #!/bin/bash
 
-SCRIPT="$0"
-ARG="$1"
-
-echo "SCRIPT=$SCRIPT ARG=$ARG"
+if [ "$0" == "bash" ]; then
+    https://raw.githubusercontent.com/scottidler/mysetup/master/mysetup.yml
+fi
 
 sudo ansible-playbook -c local mysetup.yml
