@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if [ "$0" == "bash" ]; then
+    echo "downloading mysetup.yml"
     https://raw.githubusercontent.com/scottidler/mysetup/master/mysetup.yml
 fi
 
