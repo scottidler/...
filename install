@@ -6,5 +6,101 @@ if [ "$0" == "bash" ]; then
     cd mysetup && exec ./install
 fi
 
-echo "mysetup version: `git describe`"
-sudo ansible-playbook -c local mysetup.yml
+# A POSIX variable
+OPTIND=1         # Reset in case getopts has been used previously in the shell.
+
+# Initialize our own variables:
+output_file=""
+verbose=0
+
+function usage() {
+    echo "show usage bruh!"
+}
+
+while getopts "h?vf:" opt; do
+    case "$opt" in
+    h|\?)
+        usage
+        exit 0
+        ;;
+    v)  verbose=1
+        ;;
+    f)  output_file=$OPTARG
+        ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+[ "$1" = "--" ] && shift
+
+echo "verbose=$verbose, output_file='$output_file', Leftovers: $@"
+
+#VERBOSE=false
+#declare -a SECTIONS=()
+#CFG="manifest.cfg"
+#
+#for item in "$@"; do
+#    case $item in
+#        -v|--verbose)
+#            VERBOSE=true
+#        ;;
+#        *)
+#            SECTIONS+=("$item")
+#        ;;
+#    esac
+#done
+#
+#function parse() {
+#
+#    local cfg=$1; shift
+#    mkdir -p "/tmp/$cfg"
+#    local manifest=`mktemp -d -p "/tmp/$cfg"`
+#
+#    while IFS=$'\n' read line; do
+#        local line="${line//[[:space:]]/}"
+#        if [ -n "$line" ]; then
+#            if [[ $line == \[*] ]]; then
+#                IFS="[]"
+#                set $line
+#                local section=$2
+#                unset var
+#                unset val
+#                mkdir $manifest/$section
+#                continue
+#            elif [[ "$line" =~ "=" ]]; then
+#                IFS="="
+#                set $line
+#                local var=$1
+#                local val=$2
+#            else
+#                local val=$line
+#            fi
+#            if [ -n "$val" ] && [ -n "$var" ]; then
+#                echo "$val" >> $manifest/$section/$var
+#            fi
+#        fi
+#    done < $cfg
+#
+#    RETVAL=$manifest
+#}
+#
+#parse $CFG
+#config=$RETVAL
+#
+#if [ ${#SECTIONS[@]} -eq 0 ]; then
+#    while IFS=$'\n' read -r -d '' section; do
+#        if [ "$section" != "$config" ]; then
+#            SECTIONS+=(`basename $section`)
+#        fi
+#    done < <(find $config -maxdepth 1 -type d -print0)
+#fi
+#
+#for section in "${SECTIONS[@]}"; do
+#    while IFS=$'\n' read -r -d '' key; do
+#        echo "key=`basename $key`"
+#    done < <(find "$config/$section" -maxdepth 1 -type f -print0)
+#done
+
+
+
