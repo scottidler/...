@@ -7,50 +7,63 @@ if [ "$0" == "bash" ]; then
 fi
 
 # A POSIX variable
-OPTIND=1         # Reset in case getopts has been used previously in the shell.
+# Reset in case getopts has been used previously in the shell.
+OPTIND=1
+
+MANIFEST_CFG="manifest.cfg"
+mkdir -p "/tmp/$MANIFEST_CFG"
+MANIFEST_DIR=`mktemp -d -p "/tmp/$MANIFEST_CFG`
 
 # Initialize our own variables:
-output_file=""
+filename=""
 verbose=0
 
 function usage() {
     echo "show usage bruh!"
+    exit 1
+}
+
+function parse() {
+    while IFS=$'\n' read line; do
+        local line="${line//[[:space:]]/}"
+        if [[ $line == \[*] ]]; then
+            IFS="[]"
+            set $line
+            local section=$2
+            unset var
+            unset val
+            mkdir -p $MANIFEST_DIR/$section
+            continue
+        elif [[ "$line" =~ "=" ]]; then
+            IFS="="
+            set $line
+            local var=$1
+            local val=$2
+        else
+            local val=$line
+        fi
+        if [ -n "$val" ] && [ -n "$var" ]; then
+            touch "$MANIFEST_DIRjust /$SECTION/$VAR/$VAL"
+        fi
+    done < $FILENAME
 }
 
 while getopts "h?vf:" opt; do
     case "$opt" in
     h|\?)
         usage
-        exit 0
         ;;
     v)  verbose=1
         ;;
-    f)  output_file=$OPTARG
+    f)  filename=$OPTARG
         ;;
     esac
 done
 
 shift $((OPTIND-1))
-
 [ "$1" = "--" ] && shift
+echo "verbose=$verbose, filename='$filename', Leftovers: $@"
 
-echo "verbose=$verbose, output_file='$output_file', Leftovers: $@"
-
-#VERBOSE=false
-#declare -a SECTIONS=()
-#CFG="manifest.cfg"
-#
-#for item in "$@"; do
-#    case $item in
-#        -v|--verbose)
-#            VERBOSE=true
-#        ;;
-#        *)
-#            SECTIONS+=("$item")
-#        ;;
-#    esac
-#done
-#
 #function parse() {
 #
 #    local cfg=$1; shift
