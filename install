@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$0" == "bash" ]; then
-    echo "downloading mysetup.yml"
+    echo "cloning scottidler/mysetup"
     git clone https://github.com/scottidler/mysetup
     cd mysetup && exec ./install
 fi
@@ -10,110 +10,112 @@ fi
 # Reset in case getopts has been used previously in the shell.
 OPTIND=1
 
-MANIFEST_CFG="manifest.cfg"
-mkdir -p "/tmp/$MANIFEST_CFG"
-MANIFEST_DIR=`mktemp -d -p "/tmp/$MANIFEST_CFG`
-
 # Initialize our own variables:
-filename=""
-verbose=0
 
-function usage() {
-    echo "show usage bruh!"
-    exit 1
+LIST=false
+VERBOSE=false
+SECTION=""
+VAR=""
+
+MANIFEST="manifest.cfg"
+PKG=()
+PPA=()
+APT=()
+DNF=()
+PIP=()
+
+function show() {
+    local VAR=$1[@]
+    if [ -n "${!VAR[@]}" ]; then
+        echo "$1 ="
+    fi
+    for var in ${!VAR}; do
+        echo "    $var"
+    done
 }
 
-function parse() {
-    while IFS=$'\n' read line; do
-        local line="${line//[[:space:]]/}"
-        if [[ $line == \[*] ]]; then
-            IFS="[]"
-            set $line
-            local section=$2
-            unset var
-            unset val
-            mkdir -p $MANIFEST_DIR/$section
-            continue
-        elif [[ "$line" =~ "=" ]]; then
-            IFS="="
-            set $line
-            local var=$1
-            local val=$2
-        else
-            local val=$line
-        fi
-        if [ -n "$val" ] && [ -n "$var" ]; then
-            touch "$MANIFEST_DIRjust /$SECTION/$VAR/$VAL"
-        fi
-    done < $FILENAME
-}
-
-while getopts "h?vf:" opt; do
+while getopts "h?lvs:v:" opt; do
     case "$opt" in
     h|\?)
         usage
         ;;
-    v)  verbose=1
+    s)  SECTION=$OPTARG
         ;;
-    f)  filename=$OPTARG
+    v)  VAR=$OPTARG
+        ;;
+    l)
+        LIST=true
+        ;;
+    v)  VERBOSE=true
         ;;
     esac
 done
 
 shift $((OPTIND-1))
 [ "$1" = "--" ] && shift
-echo "verbose=$verbose, filename='$filename', Leftovers: $@"
 
-#function parse() {
-#
-#    local cfg=$1; shift
-#    mkdir -p "/tmp/$cfg"
-#    local manifest=`mktemp -d -p "/tmp/$cfg"`
-#
-#    while IFS=$'\n' read line; do
-#        local line="${line//[[:space:]]/}"
-#        if [ -n "$line" ]; then
-#            if [[ $line == \[*] ]]; then
-#                IFS="[]"
-#                set $line
-#                local section=$2
-#                unset var
-#                unset val
-#                mkdir $manifest/$section
-#                continue
-#            elif [[ "$line" =~ "=" ]]; then
-#                IFS="="
-#                set $line
-#                local var=$1
-#                local val=$2
-#            else
-#                local val=$line
-#            fi
-#            if [ -n "$val" ] && [ -n "$var" ]; then
-#                echo "$val" >> $manifest/$section/$var
-#            fi
-#        fi
-#    done < $cfg
-#
-#    RETVAL=$manifest
-#}
-#
-#parse $CFG
-#config=$RETVAL
-#
-#if [ ${#SECTIONS[@]} -eq 0 ]; then
-#    while IFS=$'\n' read -r -d '' section; do
-#        if [ "$section" != "$config" ]; then
-#            SECTIONS+=(`basename $section`)
-#        fi
-#    done < <(find $config -maxdepth 1 -type d -print0)
-#fi
-#
-#for section in "${SECTIONS[@]}"; do
-#    while IFS=$'\n' read -r -d '' key; do
-#        echo "key=`basename $key`"
-#    done < <(find "$config/$section" -maxdepth 1 -type f -print0)
-#done
+while IFS=$'\n' read line; do
+    line="${line//[[:space:]]/}"
+    if [ -z "$line" ]; then
+        continue
+    fi
 
+    if [[ $line == \[*] ]]; then
+        IFS="[]"
+        set $line
+        section=$2
+        unset var
+        unset val
+        continue
+    elif [ -n "$SECTION" ] && [ -n "$section" ]; then
+        if ! [[ "$section" =~ "$SECTION" ]]; then
+            continue
+        fi
+    fi
 
+    if [[ "$line" =~ "=" ]]; then
+        IFS="="
+        set $line
+        var=$1
+        val=$2
+    else
+        val=$line
+    fi
+
+    if [ -n "$val" ]; then
+        case $var in
+        pkg) PKG+=($val) ;;
+        ppa) hash apt-add-repository 2> /dev/null && PPA+=($val) ;;
+        apt) hash apt-get 2> /dev/null && APT+=($val) ;;
+        dnf) hash dnf 2> /dev/null && DNF+=($val) ;;
+        pip) hash pip 2> /dev/null && PIP+=($val) ;;
+        esac
+    fi
+done < $MANIFEST
+
+if $LIST; then
+    show "PKG"
+    show "PPA"
+    show "APT"
+    show "DNF"
+    show "PIP"
+    exit 1
+fi
+
+if hash apt-get 2> /dev/null; then
+    for ppa in "${PPA[@]}"; do
+        sudo apt-add-repository -y -u "ppa:$ppa"
+    done
+    [ ${#PKG[@]} -eq 0 ] || sudo apt-get install -y "${PKG[@]}"
+    [ ${#APT[@]} -eq 0 ] || sudo apt-get install -y "${APT[@]}"
+elif hash dnf 2> /dev/null; then
+    [ ${#PKG[@]} -eq 0 ] || sudo dnf install --dry-run "${PKG[@]}"
+    [ ${#DNF[@]} -eq 0 ] || sudo install --dry-run "${DNF[@]}"
+fi
+
+if hash pip 2> /dev/null; then
+    [ ${#PIP[@]} -eq 0 ] || sudo -H pip install -U "${PIP[@]}"
+fi
+
+exit 0
 
