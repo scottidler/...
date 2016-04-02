@@ -1,5 +1,3 @@
-alias ag="sudo apt-get install"
-alias as="apt-cache search"
 alias bd1="ssh -A saidler@backdoor1.awbdev.org"
 alias bd2="ssh -A saidler@backdoor2.awbdev.org"
 alias auu="sudo apt-get update && sudo apt-get upgrade -y"
@@ -10,6 +8,8 @@ alias piu3="pip3 list | cut -d' ' -f1 | xargs sudo -H pip3 install --upgrade"
 alias update="auu && piu"
 alias udpate="update"
 
+
+alias tunnel7999="ssh -N -L 7999:git.ops.awb:22 saidler@backdoor1.awbdev.org &"
 alias dev070="ssh -t -A saidler@backdoor1.awbdev.org ssh -A command@lxc070.dev.awb"
 
 alias linode="ssh root@45.33.26.141"
