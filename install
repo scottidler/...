@@ -85,7 +85,7 @@ while IFS=$'\n' read line; do
     if [ -n "$val" ]; then
         case $var in
         pkg) PKG+=($val) ;;
-        ppa) hash apt-add-repository 2> /dev/null && PPA+=($val) ;;
+        ppa) hash apt-get 2> /dev/null && PPA+=($val) ;;
         apt) hash apt-get 2> /dev/null && APT+=($val) ;;
         dnf) hash dnf 2> /dev/null && DNF+=($val) ;;
         pip) hash pip 2> /dev/null && PIP+=($val) ;;
@@ -103,12 +103,15 @@ if $LIST; then
 fi
 
 if hash apt-get 2> /dev/null; then
+    sudo apt-get update && sudo apt-get upgrade
+    sudo apt-get install -y python-software-properties
     for ppa in "${PPA[@]}"; do
         sudo apt-add-repository -y -u "ppa:$ppa"
     done
     [ ${#PKG[@]} -eq 0 ] || sudo apt-get install -y "${PKG[@]}"
     [ ${#APT[@]} -eq 0 ] || sudo apt-get install -y "${APT[@]}"
 elif hash dnf 2> /dev/null; then
+    sudo dnf update
     [ ${#PKG[@]} -eq 0 ] || sudo dnf install --dry-run "${PKG[@]}"
     [ ${#DNF[@]} -eq 0 ] || sudo install --dry-run "${DNF[@]}"
 fi
