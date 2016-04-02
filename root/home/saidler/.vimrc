@@ -19,6 +19,8 @@ hi NonText guibg=#32322f ctermbg=Black
 hi ColorColumn guibg=#2c2d27 ctermbg=235
 let &colorcolumn=join(range(1,80),",")
 
+hi Search ctermfg=Red ctermbg=None cterm=bold,underline
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                                  Formatting
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
