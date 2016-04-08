@@ -8,6 +8,7 @@ alias piu3="pip3 list | cut -d' ' -f1 | xargs sudo -H pip3 install --upgrade"
 alias update="auu && piu"
 alias udpate="update"
 
+alias idvm="ssh -A saidler@172.16.216.128"
 
 alias tunnel7999="ssh -N -L 7999:git.ops.awb:22 saidler@backdoor1.awbdev.org &"
 alias dev070="ssh -t -A saidler@backdoor1.awbdev.org ssh -A command@lxc070.dev.awb"
@@ -74,6 +75,9 @@ alias srcbashrc=". ~/.bashrc"
 
 alias reboot="sudo reboot"
 alias shutdown="sudo shutdown now"
+
+alias ureboot="update && reboot"
+alias ushutdown="update && shutdown"
 
 alias grn="grep -rn"
 alias pgrn="| grn"
