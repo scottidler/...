@@ -105,15 +105,14 @@ fi
 if hash apt-get 2> /dev/null; then
     sudo apt-get update && sudo apt-get upgrade
     sudo apt-get install -y software-properties-common
+
     for ppa in "${PPA[@]}"; do
         ppas=`find /etc/apt/ -name *.list | xargs cat | grep  ^[[:space:]]*deb | grep -v deb-src`
         if [[ $ppas != *"$ppa"* ]]; then
             sudo add-apt-repository -y "ppa:$ppa"
         fi
     done
-    if [ -n "${PPA[@]}" ]; then
-        sudo apt-get update
-    fi
+    [ ${#PPA[@]} -eq 0 ] || sudo apt-get update
     [ ${#PKG[@]} -eq 0 ] || sudo apt-get install -y "${PKG[@]}"
     [ ${#APT[@]} -eq 0 ] || sudo apt-get install -y "${APT[@]}"
 elif hash dnf 2> /dev/null; then
