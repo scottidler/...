@@ -106,7 +106,10 @@ if hash apt-get 2> /dev/null; then
     sudo apt-get update && sudo apt-get upgrade
     sudo apt-get install -y python-software-properties
     for ppa in "${PPA[@]}"; do
-        sudo apt-add-repository -y -u "ppa:$ppa"
+        ppas=`find /etc/apt/ -name *.list | xargs cat | grep  ^[[:space:]]*deb | grep -v deb-src`
+        if ! [[ $ppas == *"$ppa"* ]]; then
+            sudo apt-add-repository -y -u "ppa:$ppa"
+        fi
     done
     [ ${#PKG[@]} -eq 0 ] || sudo apt-get install -y "${PKG[@]}"
     [ ${#APT[@]} -eq 0 ] || sudo apt-get install -y "${APT[@]}"
