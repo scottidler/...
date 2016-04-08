@@ -108,9 +108,12 @@ if hash apt-get 2> /dev/null; then
     for ppa in "${PPA[@]}"; do
         ppas=`find /etc/apt/ -name *.list | xargs cat | grep  ^[[:space:]]*deb | grep -v deb-src`
         if [[ $ppas != *"$ppa"* ]]; then
-            sudo apt-add-repository -y -u "ppa:$ppa"
+            sudo add-apt-repository -y "ppa:$ppa"
         fi
     done
+    if [ -n "${PPA[@]}" ]; then
+        sudo apt-get update
+    fi
     [ ${#PKG[@]} -eq 0 ] || sudo apt-get install -y "${PKG[@]}"
     [ ${#APT[@]} -eq 0 ] || sudo apt-get install -y "${APT[@]}"
 elif hash dnf 2> /dev/null; then
