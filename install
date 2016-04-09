@@ -3,12 +3,13 @@
 if [ "$0" == "bash" ]; then
     echo "cloning scottidler/mysetup"
     git clone https://github.com/scottidler/mysetup
-    cd mysetup && exec ./install
+    cd mysetup
+    git pull
+    git checkout master
+    exec ./install
 fi
 
 cd "`dirname "$0"`"
-git pull
-git checkout master
 
 # A POSIX variable
 # Reset in case getopts has been used previously in the shell.
