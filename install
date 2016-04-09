@@ -6,6 +6,10 @@ if [ "$0" == "bash" ]; then
     cd mysetup && exec ./install
 fi
 
+cd "`dirname "$0"`"
+git pull
+git checkout master
+
 # A POSIX variable
 # Reset in case getopts has been used previously in the shell.
 OPTIND=1
@@ -53,6 +57,23 @@ done
 
 shift $((OPTIND-1))
 [ "$1" = "--" ] && shift
+
+for file in `find root/ -type f`; do
+    link="${file#root*}"
+    if [[ -f "$link" ]]; then
+        echo "$link exists"
+	    if [ "`realpath $file`" == "`readlink -f $link`" ]; then
+            echo "`realpath $file` == `readlink -f $link`; doing nothing"
+        else
+            echo "$file != $target; moving $link to $link.bak"
+            #sudo mv $link $link.bak
+        fi
+    else
+        echo "creating symlink: $link -> $file"
+        mkdir -p `dirname $link`
+        sudo ln --relative --symbolic $file $link
+    fi
+done
 
 while IFS=$'\n' read line; do
     line="${line//[[:space:]]/}"
