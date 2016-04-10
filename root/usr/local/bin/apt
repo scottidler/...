@@ -5,8 +5,8 @@ VERBOSE=false
 
 GET_HELP=`apt-get --help`
 CACHE_HELP=`apt-cache --help`
-GET_CMDS=($(echo "$GET_HELP" | sed -n '/^Commands:$/,/^$/p' | sed '1d;$d' | awk '{print$1}'))
-CACHE_CMDS=($(echo "$CACHE_HELP" | sed -n '/^Commands:$/,/^$/p' | sed '1d;$d' | awk '{print$1}'))
+GET_CMDS=($(echo "$GET_HELP" | sed -n '/^.*ommands:$/,/^$/p' | sed '1d;$d' | awk '{print$1}'))
+CACHE_CMDS=($(echo "$CACHE_HELP" | sed -n '/^.*ommands:$/,/^$/p' | sed '1d;$d' | awk '{print$1}'))
 
 function usage() {
     echo "$GET_HELP"
