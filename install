@@ -28,6 +28,7 @@ PPA=()
 APT=()
 DNF=()
 PIP=()
+GIT=()
 
 function show() {
     local VAR=$1[@]
@@ -59,7 +60,7 @@ done
 shift $((OPTIND-1))
 [ "$1" = "--" ] && shift
 
-for file in `find root/ -type f`; do
+for file in `find root/ -type f && find root/ -type l`; do
     link="${file#root*}"
     if [[ -f "$link" ]]; then
         echo "$link exists"
@@ -67,7 +68,7 @@ for file in `find root/ -type f`; do
             echo "`realpath $file` == `readlink -f $link`; doing nothing"
         else
             echo "$file != $target; moving $link to $link.bak"
-            #sudo mv $link $link.bak
+            sudo mv $link $link.bak
         fi
     else
         echo "creating symlink: $link -> $file"
@@ -111,6 +112,7 @@ while IFS=$'\n' read line; do
         apt) hash apt-get 2> /dev/null && APT+=($val) ;;
         dnf) hash dnf 2> /dev/null && DNF+=($val) ;;
         pip) hash pip 2> /dev/null && PIP+=($val) ;;
+        git) hash git 2> /dev/null && GIT+=($val) ;;
         esac
     fi
 done < $MANIFEST
@@ -121,8 +123,15 @@ if $LIST; then
     show "APT"
     show "DNF"
     show "PIP"
+    show "GIT"
     exit 1
 fi
+
+mkdir -p repos
+for git in "${GIT[@]}"; do
+    [ -d "repos/$git" ] || git clone https://github.com/$git repos/$git
+    (cd repos/$git && git pull && git checkout HEAD)
+done
 
 if hash apt-get 2> /dev/null; then
     sudo apt-get update && sudo apt-get upgrade
