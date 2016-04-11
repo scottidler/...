@@ -93,6 +93,7 @@ fi
 
 # some more ls aliases
 alias lah='ls -lah --color=auto'
+alias ltr='ls -ltr --color=auto'
 alias ll='ls -alF --color=auto'
 alias la='ls -A --color=auto'
 alias l='ls -CF --color=auto'
