@@ -1,0 +1,209 @@
+#!/usr/bin/env python
+
+# Copyright (c) 2012-2015 Joshua R. Elsasser.
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+import os
+import shlex
+import sys
+from optparse import OptionParser, IndentedHelpFormatter
+from subprocess import call, check_call
+
+
+_conf = {
+    'server': 'tssh',
+    'flags': [],
+}
+
+
+class MyHelpFormatter(IndentedHelpFormatter):
+    def format_epilog(self, epilog):
+        return epilog
+
+
+def readrc(path):
+    groups = {}
+    if not os.path.exists(path):
+        return groups
+    for line in open(path).readlines():
+        tok = shlex.split(line, True)
+        if len(tok) == 0:
+            continue
+        elif len(tok) < 2 or tok[1] != '=':
+            print 'warning: ignoring unparsable line: %s' % line
+            continue
+        groups[tok[0]] = tok[2:]
+    return groups
+
+
+def can_expand_host(name, groups):
+    return name in groups
+
+
+def expand_hosts(names, groups):
+    done = False
+    while not done:
+        done = True
+        new = []
+        for name in names:
+            if name in groups:
+                done = False
+                new.extend(groups[name])
+            else:
+                new.append(name)
+        names = new
+    return names
+
+
+def _tmux_command():
+    # I managed to crash the tmux server a number of times while
+    # playing with this, so use a separate server just to be safe.
+    return ['tmux', '-L', _conf['server']] + _conf['flags']
+
+
+def tmux_session(hosts, display_names=None, shared_session=True, debug=False,
+                 autoclose=False):
+    title = ' '.join(display_names if display_names else hosts)
+    title = title.replace(':', '-')
+    ssh = "exec ssh -o StrictHostKeyChecking=no '%s'"
+    tmux = _tmux_command()
+
+    if shared_session:
+        session = 'tssh'
+        null = open('/dev/null', mode='a+')
+        has = ['has-session', '-t', session]
+        if debug:
+            print ' '.join(tmux + has)
+        neww = (call(tmux + has, stdout=null, stderr=null) == 0)
+    else:
+        session = title
+        neww = False
+
+    # set global options for server
+    cmd = ['set-option', '-g', 'detach-on-destroy', 'off']
+
+    # create window and set pane layout
+    if neww:
+        cmd += [';', 'new-window', '-t', session + ':', '-n', title]
+    else:
+        cmd += [';', 'new-session', '-d', '-s', session, '-n', title]
+    cmd += [ssh % hosts[0]]
+    cmd += [';', 'select-layout', 'tiled']
+
+    # set options
+    cmd += [';', 'set-window-option', 'remain-on-exit',
+            ('off' if autoclose else 'on')]
+    cmd += [';', 'set-window-option', 'synchronize-panes', 'on']
+
+    # create remaining panes
+    for host in reversed(hosts[1:]):
+        cmd += [';', 'split-window', '-d', ssh % host]
+        # retile after each split so we don't run out of space
+        cmd += [';', 'select-layout']
+
+    if debug:
+        print ' '.join(tmux + cmd).replace(';', '\\;')
+    else:
+        check_call(tmux + cmd)
+
+    # return a command to attach this session
+    return ['attach-session', '-t', session]
+
+
+def tmux_attach(cmd, debug=False):
+    tmux = _tmux_command()
+    print 'If you detach, use "%s attach" to reattach.' % ' '.join(tmux)
+    print 'Further tssh invocations will create additional tmux sessions.'
+    if debug:
+        print ' '.join(tmux + cmd).replace(';', '\\;')
+    else:
+        os.execvp(tmux[0], tmux + cmd)
+
+
+def main():
+    epilog = '''
+Handy tips:
+
+  Bind <prefix> y to toggle synchronized input:
+    echo "bind y set-option synchronize-panes" >> ~/.tmux.conf
+
+  Rearrange windows vertically: <prefix> M-2
+  Rearrange windows tiled:      <prefix> M-5
+  Kill a pane:                  <prefix> x
+  Kill a window:                <prefix> &
+  Zoom/unzoom a pane:           <prefix> z      (tmux 1.8+)
+'''
+    parser = OptionParser(epilog=epilog, formatter=MyHelpFormatter())
+    parser.set_defaults(window_policy='guess')
+    parser.add_option('--debug', default=False, action='store_true',
+                      help='Print commands without executing')
+    parser.add_option('-v', '--verbose', default=False, action='store_true',
+                      help='Invoke tmux with the -v flag to enable logging')
+    parser.add_option('-c', '--config', default='~/.csshrc', metavar='FILE',
+                      help='Read configuration from FILE.')
+    parser.add_option('-j', '--join', dest='window_policy',
+                      action='store_const', const='join',
+                      help='Open all host groups in a single window.')
+    parser.add_option('-i', '--individual', dest='window_policy',
+                      action='store_const', const='individual',
+                      help='Open each argument in an individual window')
+    parser.add_option('-s', '--session', default=False, action='store_true',
+                      help='Open a new tmux session for each group of hosts.')
+    parser.add_option('-x', '--close-on-exit', default=False,
+                      action='store_true',
+                      help='Automatically close tmux panes when the ssh exits')
+    parser.add_option('-L', '--server', default=_conf['server'],
+                      help=('Use an alternate tmux server instead of %r.' %
+                            _conf['server']))
+    (args, names) = parser.parse_args()
+    _conf['server'] = args.server
+    if args.verbose:
+        _conf['flags'].append('-v')
+    if len(names) == 0:
+        # optparse sucks
+        parser.parse_args(['--help'])
+
+    groups = readrc(os.path.expanduser(args.config))
+
+    if args.window_policy == 'guess':
+        names_are_expandable = [can_expand_host(n, groups) for n in names]
+        if not any(names_are_expandable):
+            args.window_policy = 'join'
+        elif all(names_are_expandable):
+            args.window_policy = 'individual'
+        else:
+            print 'error: mixture of host and group names: %s' % ' '.join(names)
+            print 'either use the -j or -i options to specify joined or individual tmux windows'
+            sys.exit(1)
+
+    if args.window_policy == 'join':
+        hosts = expand_hosts(names, groups)
+        attach = tmux_session(hosts,
+                              debug=args.debug,
+                              autoclose=args.close_on_exit,
+                              display_names=names,
+                              shared_session=(not args.session))
+    else:
+        for name in names:
+            name = (name,)
+            hosts = expand_hosts(name, groups)
+            attach = tmux_session(hosts,
+                                  debug=args.debug,
+                                  autoclose=args.close_on_exit,
+                                  display_names=name,
+                                  shared_session=(not args.session))
+    tmux_attach(attach, debug=args.debug)
+
+if __name__ == '__main__':
+    main()
