@@ -1,5 +1,10 @@
 #!/bin/bash
 
+SUDO=$([ `uname` == *"BSD"* ] && echo "doas" || echo "sudo")
+
+echo "SUDO=$SUDO"
+exit 0
+
 if [ "$0" == "bash" ]; then
     echo "cloning scottidler/mysetup"
     git clone https://github.com/scottidler/mysetup
@@ -68,12 +73,12 @@ for file in `find root/ -type f && find root/ -type l`; do
             echo "symlink, $link, already exists; skipping"
         else
             echo "backing up $link.bak"
-            sudo mv $link $link.bak
+            $SUDO mv $link $link.bak
         fi
     else
         echo "creating symlink: $link -> $file"
         mkdir -p `dirname $link`
-        sudo ln --relative --symbolic $file $link
+        $SUDO ln --relative --symbolic $file $link
     fi
 done
 
@@ -134,26 +139,26 @@ for git in "${GIT[@]}"; do
 done
 
 if hash apt-get 2> /dev/null; then
-    sudo apt-get update && sudo apt-get upgrade
-    sudo apt-get install -y software-properties-common
+    $SUDO apt-get update && $SUDO apt-get upgrade
+    $SUDO apt-get install -y software-properties-common
 
     for ppa in "${PPA[@]}"; do
         ppas=`find /etc/apt/ -name *.list | xargs cat | grep  ^[[:space:]]*deb | grep -v deb-src`
         if [[ $ppas != *"$ppa"* ]]; then
-            sudo add-apt-repository -y "ppa:$ppa"
+            $SUDO add-apt-repository -y "ppa:$ppa"
         fi
     done
-    [ ${#PPA[@]} -eq 0 ] || sudo apt-get update
-    [ ${#PKG[@]} -eq 0 ] || sudo apt-get install -y "${PKG[@]}"
-    [ ${#APT[@]} -eq 0 ] || sudo apt-get install -y "${APT[@]}"
+    [ ${#PPA[@]} -eq 0 ] || $SUDO apt-get update
+    [ ${#PKG[@]} -eq 0 ] || $SUDO apt-get install -y "${PKG[@]}"
+    [ ${#APT[@]} -eq 0 ] || $SUDO apt-get install -y "${APT[@]}"
 elif hash dnf 2> /dev/null; then
-    sudo dnf update
-    [ ${#PKG[@]} -eq 0 ] || sudo dnf install --dry-run "${PKG[@]}"
-    [ ${#DNF[@]} -eq 0 ] || sudo install --dry-run "${DNF[@]}"
+    $SUDO dnf update
+    [ ${#PKG[@]} -eq 0 ] || $SUDO dnf install --dry-run "${PKG[@]}"
+    [ ${#DNF[@]} -eq 0 ] || $SUDO install --dry-run "${DNF[@]}"
 fi
 
 if hash pip 2> /dev/null; then
-    [ ${#PIP[@]} -eq 0 ] || sudo -H pip install -U "${PIP[@]}"
+    [ ${#PIP[@]} -eq 0 ] || $SUDO -H pip install -U "${PIP[@]}"
 fi
 
 exit 0
