@@ -65,9 +65,9 @@ for file in `find root/ -type f && find root/ -type l`; do
     if [[ -f "$link" ]]; then
         echo "$link exists"
 	    if [ "`realpath $file`" == "`readlink -f $link`" ]; then
-            echo "`realpath $file` == `readlink -f $link`; doing nothing"
+            echo "symlink, $link, already exists; skipping"
         else
-            echo "$file != $target; moving $link to $link.bak"
+            echo "backing up $link.bak"
             sudo mv $link $link.bak
         fi
     else
