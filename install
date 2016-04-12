@@ -1,10 +1,5 @@
 #!/bin/bash
 
-SUDO=$([ `uname` == *"BSD"* ] && echo "doas" || echo "sudo")
-
-echo "SUDO=$SUDO"
-exit 0
-
 if [ "$0" == "bash" ]; then
     echo "cloning scottidler/mysetup"
     git clone https://github.com/scottidler/mysetup
@@ -15,6 +10,8 @@ if [ "$0" == "bash" ]; then
 fi
 
 cd "`dirname "$0"`"
+
+SUDO=$([ `uname` == *"BSD"* ] && echo "doas" || echo "sudo")
 
 # A POSIX variable
 # Reset in case getopts has been used previously in the shell.
