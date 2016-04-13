@@ -64,10 +64,10 @@ shift $((OPTIND-1))
 
 for file in `find root/ -type f && find root/ -type l`; do
     link="${file#root*}"
+    file=`realpath $file`
     if [[ -f "$link" ]]; then
-        echo "$link exists"
-	    if [ "`realpath $file`" == "`readlink -f $link`" ]; then
-            echo "symlink, $link, already exists; skipping"
+	    if [ "$file" == "`readlink -f $link`" ]; then
+            echo "already exists; skipping $link"
         else
             echo "backing up $link.bak"
             $SUDO mv $link $link.bak
@@ -75,7 +75,7 @@ for file in `find root/ -type f && find root/ -type l`; do
     else
         echo "creating symlink: $link -> $file"
         mkdir -p `dirname $link`
-        $SUDO ln --relative --symbolic $file $link
+        $SUDO ln -s $file $link
     fi
 done
 
