@@ -32,6 +32,10 @@ DNF=()
 PIP=()
 GIT=()
 
+function realpath() {
+    echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
+}
+
 function show() {
     local VAR=$1[@]
     if [ -n "${!VAR[@]}" ]; then
