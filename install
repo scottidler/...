@@ -73,8 +73,6 @@ for file in `find root/ -type f && find root/ -type l`; do
         echo "backing up $link.bak"
         $SUDO mv $link $link.bak
     fi
-
-
     if [ -f "$link" ]; then
         echo "already exists; skipping $link"
     else
@@ -82,7 +80,6 @@ for file in `find root/ -type f && find root/ -type l`; do
         mkdir -p `dirname $link`
         $SUDO ln -s $file $link
     fi
-
 done
 
 while IFS=$'\n' read line; do
