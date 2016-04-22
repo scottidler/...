@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Exec=synclient TapButton3=2 && synclient ClickFinger3=2
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_US]=FixTouchpad
+Name=FixTouchpad
+Comment[en_US]=Adds 3finger middle click to touchpad
+Comment=Adds 3finger middle click to touchpad
+
