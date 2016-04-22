@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Exec=synclient TapButton3=2 && synclient RightButtonAreaTop=0 && synclient RightButtonAreaLeft=0
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name[en_US]=FixTouchpad
+Name=FixTouchpad
+Comment[en_US]=Removes the soft mouse buttons and adds three finger middle click on the touchpad
+Comment=Removes the soft mouse buttons and adds three finger middle click on the touchpad
