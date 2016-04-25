@@ -103,7 +103,6 @@ alias l='ls -CF --color=auto'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 if [ -e ~/.git-prompt.sh ]; then
-    echo "sourcing ~/.git-prompt.sh"
     source ~/.git-prompt.sh
 fi
 
