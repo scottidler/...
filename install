@@ -2,7 +2,7 @@
 
 if [ "$0" == "bash" ]; then
     echo "cloning scottidler/mysetup"
-    git clone https://github.com/scottidler/mysetup
+    git clone --depth 1 https://github.com/scottidler/mysetup
     cd mysetup
     git pull
     git checkout master
@@ -160,6 +160,8 @@ fi
 if hash pip 2> /dev/null; then
     [ ${#PIP[@]} -eq 0 ] || $SUDO -H pip install -U "${PIP[@]}"
 fi
+
+source ~/.bashrc
 
 exit 0
 

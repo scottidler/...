@@ -1,0 +1,1 @@
+../../../repos/git/git/contrib/completion/git-prompt.sh
