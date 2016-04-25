@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "updating pip packages..."
+pip list | cut -d' ' -f1 | xargs sudo -H pip install --upgrade

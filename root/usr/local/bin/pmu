@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if hash apt-get 2> /dev/null; then
+    echo "updating apt packages..."
+    sudo apt-get update
+    sudo apt-get upgrade -y
+    sudo apt-get dist-upgrade -y
+    sudo apt-get autoremove -y
+fi
+
+if hash dnf 2> /dev/null; then
+    echo "updating dnf packages..."
+    sudo dnf upgrade -y
+    sudo dnf autoclean -y
+elif hash yum 2> /dev/null; then
+    echo "updating yum packages..."
+    sudo yum upgrade -y
+    sudo yum autoclean -y
+fi

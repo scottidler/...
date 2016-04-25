@@ -1,0 +1,3 @@
+#!/bin/bash
+DIR="`dirname "$0"`"
+$DIR/pmu && $DIR/piu && $DIR/piu3
