@@ -153,8 +153,8 @@ if hash apt-get 2> /dev/null; then
     [ ${#APT[@]} -eq 0 ] || $SUDO apt-get install -y "${APT[@]}"
 elif hash dnf 2> /dev/null; then
     $SUDO dnf update -y
-    [ ${#PKG[@]} -eq 0 ] || $SUDO dnf install --dry-run "${PKG[@]}"
-    [ ${#DNF[@]} -eq 0 ] || $SUDO install --dry-run "${DNF[@]}"
+    [ ${#PKG[@]} -eq 0 ] || $SUDO dnf install "${PKG[@]}"
+    [ ${#DNF[@]} -eq 0 ] || $SUDO dnf install "${DNF[@]}"
 fi
 
 if hash pip 2> /dev/null; then
