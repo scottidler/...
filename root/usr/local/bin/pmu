@@ -11,9 +11,7 @@ fi
 if hash dnf 2> /dev/null; then
     echo "updating dnf packages..."
     sudo dnf upgrade -y
-    sudo dnf autoclean -y
 elif hash yum 2> /dev/null; then
     echo "updating yum packages..."
     sudo yum upgrade -y
-    sudo yum autoclean -y
 fi
