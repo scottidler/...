@@ -1,0 +1,9 @@
+#!/bin/bash
+
+exitcode=0
+
+if [ -z "`pgrep ssh-agent`" ]; then
+    echo "starting agent"
+    [ "`ssh -A saidler@backdoor1.awbdev.org 'ssh-add -l'`" != "`ssh-add -l`" ] && exit -1
+fi
+exit 0

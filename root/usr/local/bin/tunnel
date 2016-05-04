@@ -1,0 +1,13 @@
+#!/bin/bash
+
+FORWARDING_ARGS="7999:git.ops.awb:22"
+BACKDOOR1="saidler@backdoor1.awbdev.org"
+
+if agent; then
+    if [ -z "`pgrep -f $FORWARDING_ARGS`" ]; then
+        echo "tunneling..."
+        ssh -N -L $FORWARDING_ARGS $BACKDOOR1 &
+    else
+        echo "tunnel active"
+    fi
+fi
