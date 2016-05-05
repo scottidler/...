@@ -6,8 +6,7 @@ alias pip3="sudo -H pip3"
 alias udpate="update"
 
 alias idvm="ssh -A saidler@172.16.216.128"
-
-alias tunnel7999="ssh -N -L 7999:git.ops.awb:22 saidler@backdoor1.awbdev.org &"
+alias salt="ssh -t -A saidler@backdoor2.awbdev.org ssh -A command@salt.ops.awb"
 alias dev070="ssh -t -A saidler@backdoor1.awbdev.org ssh -A command@lxc070.dev.awb"
 
 alias linode="ssh root@45.33.26.141"
