@@ -10,8 +10,8 @@ if [[ -n "$RMRF_VERBOSE" ]]; then
     set -e
 fi
 
-mkdir -p "$RMRF_DIR" || "use sudo once to create /var/tmp/rmrf"
-find "$RMRF_DIR" -mtime "+$KEEPALIVE" -exec rm -rf {} +
+sudo mkdir -p "$RMRF_DIR"
+find "$RMRF_DIR" -mtime "+$KEEPALIVE" -exec sudo rm -rf {} +
 for ARG in "$@"; do
-    mv "$ARG" "$RMRF_DIR/${TIMESTAMP}_`basename $ARG`"
+    sudo mv "$ARG" "$RMRF_DIR/${TIMESTAMP}_`basename $ARG`"
 done
