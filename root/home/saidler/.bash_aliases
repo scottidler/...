@@ -6,6 +6,7 @@ alias pip3="sudo -H pip3"
 alias udpate="update"
 
 alias idvm="ssh -A saidler@172.16.216.128"
+alias ca="ssh -t -A saidler@backdoor2.awbdev.org ssh -A saidler@ca.ops.awb"
 alias salt="ssh -t -A saidler@backdoor2.awbdev.org ssh -A command@salt.ops.awb"
 alias dev070="ssh -t -A saidler@backdoor1.awbdev.org ssh -A command@lxc070.dev.awb"
 
