@@ -1,3 +1,5 @@
 #!/bin/bash
-echo "updating pip3 packages..."
-pip3 list | cut -d' ' -f1 | xargs sudo -H pip3 install --upgrade
+if hash pip3 2> /dev/null; then
+    echo "updating pip3 packages..."
+    pip3 list | cut -d' ' -f1 | xargs sudo -H pip3 install --upgrade
+fi
