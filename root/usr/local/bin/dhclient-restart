@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sudo dhclient -r -v wlp2s0 && sudo rm /var/lib/dhcp/dhclient.*; sudo dhclient -v wlp2s0
