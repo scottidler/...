@@ -16,6 +16,8 @@ alias srt="ssh -N -L 7999:git.ops.awb:22 saidler@backdoor1.awbdev.org &"
 
 alias cl="clear"
 
+alias cdr=". /usr/local/bin/.cdr"
+
 #alias doit="doit -n `nproc`"
 alias ipy="ipython"
 
