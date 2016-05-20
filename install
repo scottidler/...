@@ -71,14 +71,14 @@ for file in `find root/ -type f && find root/ -type l`; do
     file=`realpath $file`
     if [ -f "$link" ] && [ "$file" != "`readlink $link`" ]; then
         echo "backing up $link.bak"
-        $SUDO mv $link $link.bak
+        mv $link $link.bak
     fi
     if [ -f "$link" ]; then
         echo "already exists; skipping $link"
     else
         echo "creating symlink: $link -> $file"
         mkdir -p `dirname $link`
-        $SUDO ln -s $file $link
+        ln -s $file $link
     fi
 done
 
