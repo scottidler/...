@@ -1,5 +1,0 @@
-#!/bin/bash
-if hash pip 2> /dev/null; then
-    echo "updating pip packages..."
-    pip list | cut -d' ' -f1 | xargs sudo -H pip install --upgrade
-fi

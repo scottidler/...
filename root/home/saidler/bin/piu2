@@ -1,0 +1,5 @@
+#!/bin/bash
+if hash pip2 2> /dev/null; then
+    echo "updating pip2 packages..."
+    pip2 list | cut -d' ' -f1 | xargs sudo -H pip2 install --upgrade
+fi
