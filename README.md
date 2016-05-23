@@ -1,2 +1,2 @@
 # mysetup
-my setup
+curl -sL https://raw.githubusercontent.com/scottidler/mysetup/master/install | bash
