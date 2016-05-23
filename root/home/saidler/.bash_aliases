@@ -84,7 +84,7 @@ alias egrn="egrep -rn"
 alias pegrn="| egrn"
 alias psgrep="ps aux | grep -v grep | grep"
 
-alias fw="ssh fw@fw.lan"
+alias fw="ssh saidler@fw.lan"
 alias fedev="ssh saidler@fedev.lan"
 
 alias sotalang="cd ~/repos/sota/lang"
