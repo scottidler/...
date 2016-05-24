@@ -1,0 +1,140 @@
+#!/usr/bin/env python
+
+import os
+import re
+import sys
+import yaml
+
+from argparse import ArgumentParser
+
+TEMPLATES = '''
+py.header: |
+    #!/usr/bin/env python
+sh.header: |
+    #!/bin/sh
+bash.header: |
+    #!/bin/bash
+
+py.common: |
+    import os
+    import re
+    import sys
+    sys.dont_write_bytecode = True
+
+    print 'name: ', __file__
+    print 'args: ', ' '.join(sys.argv[1:])
+
+py.suffix: py
+sh.suffix: sh
+ini.suffix: ini
+bash.suffix: sh
+yaml.suffix: yml
+docopt.suffix: py
+argparse.suffix: py
+'''
+
+KINDS = '''
+py: |
+    %(py.header)s
+    %(py.common)s
+sh: |
+    %(sh.header)s
+    echo "name: $0"
+    echo "args: $@"
+ini: |
+    [person]
+    name: Ripley
+    age: 43
+bash: |
+    %(bash.header)s
+    echo "name: $0"
+    echo "args: $@"
+yaml: |
+    yaml
+docopt: |
+    %(py.header)s
+    """Naval Fate.
+
+    Usage:
+      naval_fate.py ship new <name>...
+      naval_fate.py ship <name> move <x> <y> [--speed=<kn>]
+      naval_fate.py ship shoot <x> <y>
+      naval_fate.py mine (set|remove) <x> <y> [--moored | --drifting]
+      naval_fate.py (-h | --help)
+      naval_fate.py --version
+
+    Options:
+      -h --help     Show this screen.
+      --version     Show version.
+      --speed=<kn>  Speed in knots [default: 10].
+      --moored      Moored (anchored) mine.
+      --drifting    Drifting mine.
+
+    """
+    from docopt import docopt
+
+
+    if __name__ == '__main__':
+        arguments = docopt(__doc__, version='Naval Fate 2.0')
+        print(arguments)
+argparse: |
+    %(py.header)s
+    %(py.common)s
+
+    from argparse import ArgumentParser
+
+    if __name__ == '__main__':
+        parser = ArgumentParser()
+        parser.add_argument(
+            '--opt1',
+            default='opt1_val',
+            help='help for optional argument 1')
+        parser.add_argument(
+            'pos1',
+            help='help for positional argument 1')
+
+        ns = parser.parse_args()
+        print ns
+
+'''
+
+def interpolate(d1, d2):
+    return dict([(k,v % d2) for k,v in d1.iteritems()])
+
+def main(args):
+    exitcode = 0
+    templates = yaml.load(TEMPLATES)
+    kinds = yaml.load(KINDS)
+    parser = ArgumentParser()
+    parser.add_argument(
+        '-N', '--nerf',
+        action='store_true',
+        help='only print contents of the file to made')
+    parser.add_argument(
+        '-r', '--rm',
+        action='store_true',
+        help='delete filename')
+    parser.add_argument(
+        '-n', '--name',
+        default='tmp',
+        help='optionally name the script')
+    parser.add_argument(
+        'kind',
+        choices=kinds.keys(),
+        help='choose which kind of tmp file')
+
+    ns = parser.parse_args(args)
+    ns.filename = ns.name + '.' + templates.get(ns.kind + '.suffix', 'unknown')
+    kinds = interpolate(kinds, templates)
+
+    if ns.nerf:
+        print kinds[ns.kind]
+    elif ns.rm:
+        os.remove(ns.filename)
+    else:
+        with open(ns.filename, 'w') as f:
+            f.write(kinds[ns.kind])
+        os.chmod(ns.filename, 0755)
+
+if __name__ == '__main__':
+    main(sys.argv[1:])

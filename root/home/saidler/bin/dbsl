@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "[d]elete [b]roken [s]ymbolic [l]inks"
+find -L . -name . -o -type d -prune -o -type l -exec rm {} +
