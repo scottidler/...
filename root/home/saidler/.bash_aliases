@@ -11,6 +11,7 @@ alias salt="ssh -t -A saidler@backdoor2.awbdev.org ssh -A command@salt.ops.awb"
 alias dev070="ssh -t -A saidler@backdoor1.awbdev.org ssh -A command@lxc070.dev.awb"
 
 alias linode="ssh root@45.33.26.141"
+alias fog="ssh -A saidler@45.33.26.141"
 
 alias srt="ssh -N -L 7999:git.ops.awb:22 saidler@backdoor1.awbdev.org &"
 
