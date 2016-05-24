@@ -1,13 +1,11 @@
 #!/bin/bash
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 FORWARDING_ARGS="7999:git.ops.awb:22"
 BACKDOOR1="saidler@backdoor1.awbdev.org"
+TUNNEL="ssh -N -L $FORWARDING_ARGS $BACKDOOR1"
 
 if agent; then
-    if [ -z "`pgrep -f $FORWARDING_ARGS`" ]; then
-        echo "tunneling..."
-        ssh -N -L $FORWARDING_ARGS $BACKDOOR1 &
-    else
-        echo "tunnel active"
-    fi
+    kill `pgrep -f $FORWARDING_ARGS`
+    $DIR/ds $TUNNEL
 fi
