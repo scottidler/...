@@ -1,3 +1,12 @@
 VERBOSITY = LOG_INFO
 
 SSH_ADD_DEFAULT_OPTIONS = "-t 32400"
+
+MATCH_ARGV = [
+    (r".lan", "home"),
+    (r"45.33.26.141", "home"),
+]
+
+DEFAULT_IDENTITY = "work"
+
+PATTERN_KEYS = ".*"
