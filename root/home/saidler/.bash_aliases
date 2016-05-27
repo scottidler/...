@@ -19,6 +19,8 @@ alias cl="clear"
 
 alias cdr=". ~/bin/.cdr"
 
+alias pb="pianobar"
+
 #alias doit="doit -n `nproc`"
 alias ipy="ipython"
 

@@ -7,5 +7,5 @@ TUNNEL="ssh -N -L $FORWARDING_ARGS $BACKDOOR1"
 
 if agent; then
     kill `pgrep -f $FORWARDING_ARGS`
-    $DIR/ds $TUNNEL
+    $TUNNEL &
 fi
