@@ -198,7 +198,7 @@ function __prompt_command() {
     if [ $EC != 0 ]; then
         Eye=$Dead
     fi
-    if [ -f /.dockerinit ]; then
+    if [ -f /.docker* ]; then
         Body=$Bones
         Color=$BIGreen
     fi
