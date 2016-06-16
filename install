@@ -162,6 +162,11 @@ if hash pip 2> /dev/null; then
     [ ${#PIP[@]} -eq 0 ] || $SUDO -H pip install -U "${PIP[@]}"
 fi
 
+if [ -d ~/.ssh ]; then
+    sudo chmod 700 ~/.ssh
+    sudo chmod -R 644 ~/.ssh/*
+fi
+
 source ~/.bashrc
 
 exit 0
