@@ -70,8 +70,9 @@ for file in `find root/ -type f && find root/ -type l`; do
     link="${file#root*}"
     file=`realpath $file`
     if [ -f "$link" ] && [ "$file" != "`readlink $link`" ]; then
-        echo "backing up $link.bak"
-        mv $link $link.bak
+        orig="$link.orig"
+        echo "backing up $orig"
+        mv $link $orig
     fi
     if [ -f "$link" ]; then
         echo "already exists; skipping $link"
