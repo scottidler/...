@@ -89,6 +89,7 @@ alias psgrep="ps aux | grep -v grep | grep"
 
 alias fw="ssh fw.lan"
 alias fedev="ssh fedev.lan"
+alias xps="ssh xps.lan"
 
 alias sotalang="cd ~/repos/sota/lang"
 
