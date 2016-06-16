@@ -163,9 +163,10 @@ if hash pip 2> /dev/null; then
 fi
 
 if [ -d ~/.ssh ]; then
-    sudo chmod 700 ~/.ssh
-    sudo chmod 644 **/id_rsa.pub
-    sudo chmod 600 **/id_rsa
+    sudo chmod -R 700 ~/.ssh
+    sudo chmod 644 .ssh/config
+    sudo chmod 600 .ssh/identities/*/id_rsa
+    sudo chmod 644 .ssh/identities/*/id_rsa.pub
 fi
 
 source ~/.bashrc
