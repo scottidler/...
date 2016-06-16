@@ -164,7 +164,8 @@ fi
 
 if [ -d ~/.ssh ]; then
     sudo chmod 700 ~/.ssh
-    sudo chmod -R 644 ~/.ssh/*
+    sudo chmod 644 **/id_rsa.pub
+    sudo chmod 600 **/id_rsa
 fi
 
 source ~/.bashrc
