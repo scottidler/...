@@ -151,3 +151,6 @@ fi
 if [ -f /home/saidler/google-cloud-sdk/completion.bash.inc ]; then
     source /home/saidler/google-cloud-sdk/completion.bash.inc
 fi
+
+# make sure ~/bin is first in the path
+PATH=/home/$USER/bin:$(echo -n $PATH | sed -e "s|:/home/$USER/bin:|:|g")
