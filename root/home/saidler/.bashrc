@@ -160,3 +160,9 @@ PROMPT_COMMAND="__history; $PROMPT_COMMAND"
 if hash thefuck 2> /dev/null; then
     eval $(thefuck --alias dafuq)
 fi
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/home/saidler/google-cloud-sdk/path.bash.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/home/saidler/google-cloud-sdk/completion.bash.inc'
