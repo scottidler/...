@@ -143,7 +143,11 @@ if hash thefuck 2> /dev/null; then
 fi
 
 # The next line updates PATH for the Google Cloud SDK.
-source '/home/saidler/google-cloud-sdk/path.bash.inc'
+if [ -f /home/saidler/google-cloud-sdk/path.bash.inc ]; then
+    source /home/saidler/google-cloud-sdk/path.bash.inc
+fi
 
 # The next line enables shell command completion for gcloud.
-source '/home/saidler/google-cloud-sdk/completion.bash.inc'
+if [ -f /home/saidler/google-cloud-sdk/completion.bash.inc ]; then
+    source /home/saidler/google-cloud-sdk/completion.bash.inc
+fi
