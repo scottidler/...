@@ -5,7 +5,12 @@ FORWARDING_ARGS="7999:git.ops.awb:22"
 BACKDOOR1="saidler@backdoor1.awbdev.org"
 TUNNEL="ssh -N -L $FORWARDING_ARGS $BACKDOOR1"
 
-if agent; then
+echo "starting tunnel..."
+if [[ "`agent`" == *"success"* ]]; then
     kill `pgrep -f $FORWARDING_ARGS`
     $TUNNEL &
+    echo "success"
+    exit 0
 fi
+echo "failure"
+exit -1

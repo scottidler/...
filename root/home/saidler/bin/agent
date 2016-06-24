@@ -1,9 +1,12 @@
 #!/bin/bash
 
-exitcode=0
-
-if [ -z "`pgrep ssh-agent`" ]; then
-    echo "starting agent"
-    [ "`ssh -A saidler@backdoor1.awbdev.org 'ssh-add -l'`" != "`ssh-add -l`" ] && exit -1
+echo "starting agent..."
+pkill ssh-agent
+ssh-add -D
+if [[ "`ssh backdoor1.awbdev.org 'ssh-add -l'`" == *"The agent has no identities."* ]]; then
+    echo "failure"
+    exit -1
 fi
+echo "success"
 exit 0
+
