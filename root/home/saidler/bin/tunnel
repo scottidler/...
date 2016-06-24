@@ -9,7 +9,7 @@ if `agent`; then
     pid=`pgrep -f $FORWARDING_ARGS`
     [ -n "$pid" ] && kill $pid
     $TUNNEL &
-    sleep 1
+    sleep 0.1
     exit 0
 fi
 exit -1
