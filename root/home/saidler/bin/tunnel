@@ -3,14 +3,13 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 FORWARDING_ARGS="7999:git.ops.awb:22"
 BACKDOOR1="saidler@backdoor1.awbdev.org"
-TUNNEL="ssh -N -L $FORWARDING_ARGS $BACKDOOR1"
+TUNNEL="ssh -f -N -L $FORWARDING_ARGS $BACKDOOR1"
 
-echo "starting tunnel..."
-if [[ "`agent`" == *"success"* ]]; then
-    kill `pgrep -f $FORWARDING_ARGS`
+if `agent`; then
+    pid=`pgrep -f $FORWARDING_ARGS`
+    [ -n "$pid" ] && kill $pid
     $TUNNEL &
-    echo "success"
+    sleep 1
     exit 0
 fi
-echo "failure"
 exit -1

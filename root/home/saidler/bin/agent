@@ -1,12 +1,9 @@
 #!/bin/bash
 
-echo "starting agent..."
 pkill ssh-agent
 ssh-add -D
-if [[ "`ssh backdoor1.awbdev.org 'ssh-add -l'`" == *"The agent has no identities."* ]]; then
-    echo "failure"
-    exit -1
+if `ssh -f backdoor1.awbdev.org '[ "$(ssh-add -l)" != *"The agent has no identities"* ]'`; then
+    exit 0
 fi
-echo "success"
-exit 0
+exit -1
 
