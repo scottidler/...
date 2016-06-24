@@ -11,7 +11,7 @@ if [[ -n "$RMRF_VERBOSE" ]]; then
 fi
 
 sudo mkdir -p "$RMRF_DIR"
-find "$RMRF_DIR" -mtime "+$KEEPALIVE" -exec sudo rm -rf {} +
+find "$RMRF_DIR" -mtime "+$KEEPALIVE" -print0 | xargs -0 sudo rm -rf
 for ARG in "$@"; do
     sudo mv "$ARG" "$RMRF_DIR/${TIMESTAMP}_`basename $ARG`"
 done
