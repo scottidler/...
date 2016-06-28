@@ -75,9 +75,9 @@ for file in `find root/ -type f && find root/ -type l`; do
         mv $link $orig
     fi
     if [ -f "$link" ]; then
-        echo "already exists; skipping $link"
+        echo "[exists] $link"
     else
-        echo "creating symlink: $link -> $file"
+        echo "[create] $link -> $file"
         mkdir -p `dirname $link`
         ln -s $file $link
     fi
