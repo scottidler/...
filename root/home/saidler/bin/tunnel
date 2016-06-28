@@ -1,6 +1,5 @@
 #!/bin/bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 FORWARDING_ARGS="7999:git.ops.awb:22"
 BACKDOOR1="saidler@backdoor1.awbdev.org"
 TUNNEL="ssh -f -N -L $FORWARDING_ARGS $BACKDOOR1"
