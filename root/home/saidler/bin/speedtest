@@ -1,3 +1,4 @@
 #!/bin/bash
 speedtest_cli=`/usr/bin/which speedtest-cli`
+[ -f /var/log/speedtest.log ] && tail -1 /var/log/speedtest.log
 echo "`date +'%Y-%m-%d|%H:%M:%S'` IP: `curl -s ifconfig.co` `${speedtest_cli} --simple | xargs echo`"
