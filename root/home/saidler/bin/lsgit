@@ -1,2 +1,4 @@
 #!/bin/bash
-find . -name .git -type d -exec dirname {} \; | sed 's|./||'
+DIR="${1:-`pwd`}"
+DIR="$(cd "$(dirname "$DIR")"; pwd)/$(basename "$DIR")"
+find $DIR -name .git -type d -exec dirname {} \; | sed "s|$DIR/||"
