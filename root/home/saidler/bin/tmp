@@ -50,7 +50,12 @@ bash: |
     echo "name: $0"
     echo "args: $@"
 yaml: |
-    yaml
+    person:
+      - name: scott
+        age: 43
+        pets:
+          - penny
+          - bill
 docopt: |
     %(py.header)s
     """Naval Fate.
