@@ -27,7 +27,7 @@ function print_cmds() {
 
 if [[ "--help" -ne "${CMD}" ]]; then
     if [[ " ${GET_CMDS[@]} " =~ " ${CMD} " ]]; then
-        exec sudo apt-get "$@"
+        exec sudo apt-get "$@" -y
     elif [[ " ${CACHE_CMDS[@]} " =~ " ${CMD} " ]]; then
         exec apt-cache "$@"
     fi
