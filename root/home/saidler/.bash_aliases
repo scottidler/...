@@ -94,6 +94,9 @@ alias xps="ssh xps.lan"
 
 alias sotalang="cd ~/repos/sota/lang"
 
+alias clipboard="xclip -sel clip"
+alias cb="clipboard"
+
 function int2ip() {
     ifconfig ${1:-wlp2s0} | grep 'inet addr' | sed -e 's/:/ /' | awk '{print $3}'
 }
