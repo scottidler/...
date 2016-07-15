@@ -68,6 +68,7 @@ shift $((OPTIND-1))
 
 for file in `find root/ -type f && find root/ -type l`; do
     link="${file#root*}"
+    link="${link/USER/${USER}}"
     file=`realpath $file`
     if [ -f "$link" ] && [ "$file" != "`readlink $link`" ]; then
         orig="$link.orig"
