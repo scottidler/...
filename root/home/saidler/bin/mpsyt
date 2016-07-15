@@ -1,9 +1,10 @@
 #!/bin/bash
 
+IMAGE=andrey01/mps-youtube
 docker run \
     --rm \
-    -it \
+    -ti \
     --read-only=true \
     -v $XDG_RUNTIME_DIR/pulse:/run/user/1000/pulse:ro \
     -e PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native \
-    andrey01/mps-youtube
+    $IMAGE
