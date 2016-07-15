@@ -74,6 +74,9 @@ for file in `find root/ -type f && find root/ -type l`; do
         orig="$link.orig"
         echo "backing up $orig"
         mv $link $orig
+    elif [ ! -f "$link" ] && [ -L "$link" ]; then
+        echo "removing broken link $link"
+        unlink $link
     fi
     if [ -f "$link" ]; then
         echo "[exists] $link"
