@@ -1,3 +1,4 @@
 #!/bin/sh
+DIR="${1:-`pwd`}"
 echo "[d]elete [b]roken [s]ymbolic [l]inks"
-find -L . -name . -o -type d -prune -o -type l -exec rm {} +
+(cd $DIR && find -L . -name . -o -type d -prune -o -type l -exec rm {} +)
