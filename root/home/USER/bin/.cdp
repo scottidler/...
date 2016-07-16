@@ -1,0 +1,10 @@
+#!/bin/bash
+URL=`git config --get remote.origin.url`
+REPONAME=${URL#*github.com/}
+REPOROOT=`git rev-parse --show-toplevel`
+if [[ "$REPOROOT" == *"$REPONAME" ]]; then
+    PARENT="${REPOROOT%$REPONAME}"
+else
+    PARENT=`dirname $REPOROOT`
+fi
+cd $PARENT
