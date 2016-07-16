@@ -66,27 +66,6 @@ done
 shift $((OPTIND-1))
 [ "$1" = "--" ] && shift
 
-for file in `find root/ -type f && find root/ -type l`; do
-    link="${file#root*}"
-    link="${link/USER/${USER}}"
-    file=`realpath $file`
-    if [ -f "$link" ] && [ "$file" != "`readlink $link`" ]; then
-        orig="$link.orig"
-        echo "backing up $orig"
-        mv $link $orig
-    elif [ ! -f "$link" ] && [ -L "$link" ]; then
-        echo "removing broken link $link"
-        unlink $link
-    fi
-    if [ -f "$link" ]; then
-        echo "[exists] $link"
-    else
-        echo "[create] $link -> $file"
-        mkdir -p `dirname $link`
-        ln -s $file $link
-    fi
-done
-
 while IFS=$'\n' read line; do
     line="${line//[[:space:]]/}"
     if [ -z "$line" ]; then
@@ -137,13 +116,40 @@ if $LIST; then
     exit 1
 fi
 
+echo "creating symlinks..."
+IFS=$' \t\n'
+for file in `find root/ -type f && find root/ -type l`; do
+    link="${file#root*}"
+    link="${link/USER/${USER}}"
+    file=`realpath $file`
+    if [ -f "$link" ] && [ "$file" != "`readlink $link`" ]; then
+        orig="$link.orig"
+        echo "backing up $orig"
+        mv $link $orig
+    elif [ ! -f "$link" ] && [ -L "$link" ]; then
+        echo "removing broken link $link"
+        unlink $link
+    fi
+    if [ -f "$link" ]; then
+        echo "[exists] $link"
+    else
+        echo "[create] $link -> $file"
+        mkdir -p `dirname $link`
+        ln -s $file $link
+    fi
+done
+echo
+
+echo "checking out repos..."
 mkdir -p repos
 for git in "${GIT[@]}"; do
     [ -d "repos/$git" ] || git clone https://github.com/$git repos/$git
     (cd repos/$git && pwd && git pull && git checkout HEAD)
 done
+echo
 
 if hash apt-get 2> /dev/null; then
+    echo "installing ppas..."
     $SUDO apt-get update && $SUDO apt-get upgrade -y
     $SUDO apt-get install -y software-properties-common
 
@@ -153,24 +159,33 @@ if hash apt-get 2> /dev/null; then
             $SUDO add-apt-repository -y "ppa:$ppa"
         fi
     done
+    echo
+    echo "installing apt-get packages..."
     [ ${#PPA[@]} -eq 0 ] || $SUDO apt-get update -y
     [ ${#PKG[@]} -eq 0 ] || $SUDO apt-get install -y "${PKG[@]}"
     [ ${#APT[@]} -eq 0 ] || $SUDO apt-get install -y "${APT[@]}"
+    echo
 elif hash dnf 2> /dev/null; then
+    echo "installing yum/dnf packages..."
     $SUDO dnf update -y
     [ ${#PKG[@]} -eq 0 ] || $SUDO dnf install "${PKG[@]}"
     [ ${#DNF[@]} -eq 0 ] || $SUDO dnf install "${DNF[@]}"
+    echo
 fi
 
 if hash pip 2> /dev/null; then
-    [ ${#PIP[@]} -eq 0 ] || $SUDO -H pip install -U "${PIP[@]}"
+    echo "installing pip2 packages..."
+    [ ${#PIP[@]} -eq 0 ] || $SUDO -H pip2 install --upgrade "${PIP[@]}"
+    echo
 fi
 
 if [ -d ~/.ssh ]; then
+    echo "fixing up perms for ssh..."
     sudo chmod -R 700 ~/.ssh
-    sudo chmod 644 ~/.ssh/config
+    sudo chmod 600 ~/.ssh/config
     sudo chmod 600 ~/.ssh/identities/{home,work}/id_rsa
     sudo chmod 644 ~/.ssh/identities/{home,work}/id_rsa.pub
+    echo "done"
 fi
 
 source ~/.bashrc
