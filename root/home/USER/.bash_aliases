@@ -19,6 +19,7 @@ alias srt="ssh -N -L 7999:git.ops.awb:22 saidler@backdoor1.awbdev.org &"
 alias cl="clear"
 
 alias cdr=". ~/bin/.cdr"
+alias cdp=". ~/bin/.cdp"
 
 alias pb="pianobar"
 

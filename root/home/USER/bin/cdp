@@ -1,4 +1,0 @@
-#!/bin/bash
-# cd parent of repo root
-source .cdp
-
