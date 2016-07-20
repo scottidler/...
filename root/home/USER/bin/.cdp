@@ -1,6 +1,6 @@
 #!/bin/bash
-URL=`git config --get remote.origin.url`
-REPONAME=${URL#*github.com/}
+REPONAME=`git config --get remote.origin.url | sed -E 's;^(git|ssh|https)://([A-Za-z0-9\-\_]+@)?([A-Za-z0-9\.]+)/;;'`
+REPONAME=${REPONAME%.git}
 REPOROOT=`git rev-parse --show-toplevel`
 if [[ "$REPOROOT" == *"$REPONAME" ]]; then
     PARENT="${REPOROOT%$REPONAME}"
