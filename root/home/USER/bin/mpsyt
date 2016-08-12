@@ -1,0 +1,21 @@
+#!/bin/bash
+
+IMAGE="andrey01/mps-youtube"
+
+MPSYT1="/usr/local/bin/mpsyt"
+MPSYT2="/usr/bin/mpsyt"
+
+if [ -f $MPSYT1 ]; then
+    echo $MPSYT1
+    exec $MPSYT1
+elif [ -f $MPSYT2 ]; then
+    echo $MPSYT2
+    exec $MPSYT2
+else
+    docker pull $IMAGE
+    exec docker run --rm -it \
+        --read-only=true \
+        -v  $XDG_RUNTIME_DIR/pulse:/run/user/1000/pulse:ro \
+        -e PULSE_SERVER=unix:$XDG_RUNTIME_DIR/pulse/native \
+        $IMAGE
+fi
