@@ -7,6 +7,6 @@ MATCH_ARGV = [
     (r"45.33.26.141", "home"),
 ]
 
-DEFAULT_IDENTITY = "work"
+DEFAULT_IDENTITY = "home"
 
 PATTERN_KEYS = ".*"
