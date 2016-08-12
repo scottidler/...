@@ -12,7 +12,7 @@ elif [ -f $MPSYT2 ]; then
     echo $MPSYT2
     exec $MPSYT2
 else
-    docker pull $IMAGE
+    docker pull $IMAGE 2>&1 > /dev/null
     exec docker run --rm -it \
         --read-only=true \
         -v  $XDG_RUNTIME_DIR/pulse:/run/user/1000/pulse:ro \
