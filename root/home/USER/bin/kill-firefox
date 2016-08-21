@@ -1,5 +1,5 @@
 #!/bin/bash
 
-PIDS=`pidof chrome`
+PIDS=`pidof firefox`
 kill $PIDS
 kill -s 0 $PID && kill -9 $PIDS
