@@ -78,9 +78,6 @@ alias gsmui="gsm update --init"
 alias vibashrc="vi ~/.bashrc"
 alias srcbashrc=". ~/.bashrc"
 
-alias reboot="sudo systemctl reboot"
-alias shutdown="sudo systemctl poweroff"
-
 alias ureboot="update && reboot"
 alias ushutdown="update && shutdown"
 

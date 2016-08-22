@@ -1,0 +1,4 @@
+#!/bin/bash
+kill-chrome
+kill-firefox
+sudo systemctl poweroff
