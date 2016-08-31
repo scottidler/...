@@ -2,8 +2,6 @@ alias bd1="ssh -A saidler@backdoor1.awbdev.org"
 alias bd2="ssh -A saidler@backdoor2.awbdev.org"
 alias bd3="ssh -A saidler@backdoor3.awbdev.org"
 alias auu="sudo apt-get update && sudo apt-get upgrade -y"
-alias pip="sudo -H pip"
-alias pip3="sudo -H pip3"
 alias udpate="update"
 
 alias idvm="ssh -A saidler@172.16.216.128"
