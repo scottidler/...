@@ -183,8 +183,11 @@ if [ -d ~/.ssh ]; then
     echo "fixing up perms for ssh..."
     sudo chmod -R 700 ~/.ssh
     sudo chmod 600 ~/.ssh/config
-    sudo chmod 600 ~/.ssh/identities/{home,work}/id_rsa
-    sudo chmod 644 ~/.ssh/identities/{home,work}/id_rsa.pub
+    for id in "home work"; do
+        key=~/.ssh/identities/$id/id_rsa
+        [ -f "$key" ] && sudo chmod 600 "$key"
+        [ -f "$key.pub" ] && sudo chmod 644 "$key.pub"
+    done
     echo "done"
 fi
 
