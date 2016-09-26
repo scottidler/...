@@ -29,7 +29,8 @@ PKG=()
 PPA=()
 APT=()
 DNF=()
-PIP=()
+PIP2=()
+PIP3=()
 GIT=()
 
 function realpath() {
@@ -100,7 +101,8 @@ while IFS=$'\n' read line; do
         ppa) hash apt-get 2> /dev/null && PPA+=($val) ;;
         apt) hash apt-get 2> /dev/null && APT+=($val) ;;
         dnf) hash dnf 2> /dev/null && DNF+=($val) ;;
-        pip) hash pip 2> /dev/null && PIP+=($val) ;;
+        pip2) hash pip2 2> /dev/null && PIP2+=($val) ;;
+        pip3) hash pip3 2> /dev/null && PIP3+=($val) ;;
         git) hash git 2> /dev/null && GIT+=($val) ;;
         esac
     fi
@@ -111,7 +113,8 @@ if $LIST; then
     show "PPA"
     show "APT"
     show "DNF"
-    show "PIP"
+    show "PIP2"
+    show "PIP3"
     show "GIT"
     exit 1
 fi
@@ -173,9 +176,15 @@ elif hash dnf 2> /dev/null; then
     echo
 fi
 
-if hash pip 2> /dev/null; then
+if hash pip2 2> /dev/null; then
     echo "installing pip2 packages..."
-    [ ${#PIP[@]} -eq 0 ] || $SUDO -H pip2 install --upgrade "${PIP[@]}"
+    [ ${#PIP2[@]} -eq 0 ] || $SUDO -H pip2 install --upgrade "${PIP2[@]}"
+    echo
+fi
+
+if hash pip3 2> /dev/null; then
+    echo "installing pip3 packages..."
+    [ ${#PIP3[@]} -eq 0 ] || $SUDO -H pip3 install --upgrade "${PIP3[@]}"
     echo
 fi
 
