@@ -15,8 +15,16 @@ fi
 echo "updating scottidler/mysetup repo..."
 (cd $REPO && git pull)
 
-[ -f "$INSTALL" ] || echo "install script not found!"; exit 1
+if [ ! -f "$INSTALL" ]; then
+    echo "install script not found!"
+    exit 1
+fi
+
 $INSTALL
 
-[ -f "$UPDATE" ] || echo "update script not found!"; exit 1
+if [ ! -f "$UPDATE" ]; then
+    echo "update script not found!"
+    exit 1
+fi
+
 $UPDATE
