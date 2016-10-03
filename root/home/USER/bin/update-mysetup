@@ -3,6 +3,7 @@
 DIR="$(cd "$( dirname $(readlink "${BASH_SOURCE[0]}") )" && pwd)"
 REPO="$(cd $DIR && git rev-parse --show-toplevel)"
 STATUS="$(cd $REPO && git status --porcelain)"
+INSTALL="$(find $REPO -type f -name install)"
 UPDATE="$(find $REPO -type f -name update)"
 
 if [ -n "$STATUS" ]; then
@@ -11,5 +12,11 @@ if [ -n "$STATUS" ]; then
     exit 1
 fi
 
-(cd $REPO && git pull && ./install)
-[ -f "$UPDATE" ] && $UPDATE
+echo "updating scottidler/mysetup repo..."
+(cd $REPO && git pull)
+
+[ -f "$INSTALL" ] || echo "install script not found!"; exit 1
+$INSTALL
+
+[ -f "$UPDATE" ] || echo "update script not found!"; exit 1
+$UPDATE
