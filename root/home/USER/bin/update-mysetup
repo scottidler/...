@@ -1,0 +1,14 @@
+#!/bin/bash
+
+DIR="$(cd "$( dirname $(readlink "${BASH_SOURCE[0]}") )" && pwd)"
+REPO="$(cd $DIR && git rev-parse --show-toplevel)"
+STATUS="$(cd $REPO && git status --porcelain)"
+
+if [ -n "$STATUS" ]; then
+    echo "$REPO is dirty; can't be updated..."
+    echo "$STATUS"
+    exit 1
+fi
+
+(cd $REPO && git pull && ./install)
+
