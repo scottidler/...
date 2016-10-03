@@ -176,15 +176,17 @@ elif hash dnf 2> /dev/null; then
     echo
 fi
 
-if hash pip2 2> /dev/null; then
+if hash pip2 2> /dev/null && [ ${#PIP2[@]} -ne 0 ]; then
     echo "installing pip2 packages..."
-    [ ${#PIP2[@]} -eq 0 ] || $SUDO -H pip2 install --upgrade "${PIP2[@]}"
+    $SUDO -H pip2 install --upgrade pip
+    $SUDO -H pip2 install --upgrade "${PIP2[@]}"
     echo
 fi
 
-if hash pip3 2> /dev/null; then
+if hash pip3 2> /dev/null && [ ${#PIP3[@]} -ne 0 ]; then
     echo "installing pip3 packages..."
-    [ ${#PIP3[@]} -eq 0 ] || $SUDO -H pip3 install --upgrade "${PIP3[@]}"
+    $SUDO -H pip3 install --upgrade pip
+    $SUDO -H pip3 install --upgrade "${PIP3[@]}"
     echo
 fi
 
