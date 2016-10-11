@@ -9,3 +9,5 @@
 	mnemonicprefix = true
 [rerere]
 	enabled = true
+[merge]
+	tool = meld
