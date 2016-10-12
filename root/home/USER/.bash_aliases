@@ -1,18 +1,7 @@
-alias bd1="ssh -A saidler@backdoor1.awbdev.org"
-alias bd2="ssh -A saidler@backdoor2.awbdev.org"
-alias bd3="ssh -A saidler@backdoor3.awbdev.org"
-alias auu="sudo apt-get update && sudo apt-get upgrade -y"
 alias udpate="update"
-
-alias idvm="ssh -A saidler@172.16.216.128"
-alias ca="ssh -t -A saidler@backdoor2.awbdev.org ssh -A saidler@ca.ops.awb"
-alias salt="ssh -t -A saidler@backdoor2.awbdev.org ssh -A command@salt.ops.awb"
-alias dev070="ssh -t -A saidler@backdoor1.awbdev.org ssh -A command@lxc070.dev.awb"
 
 alias linode="ssh root@45.33.26.141"
 alias fog="ssh -A saidler@45.33.26.141"
-
-alias srt="ssh -N -L 7999:git.ops.awb:22 saidler@backdoor1.awbdev.org &"
 
 alias cl="clear"
 
@@ -22,7 +11,6 @@ alias cdrr=". ~/bin/.cdrr"
 
 alias pb="pianobar"
 
-#alias doit="doit -n `nproc`"
 alias ipy="ipython"
 
 alias d="docker"
@@ -32,9 +20,6 @@ alias dpsa="docker ps -a"
 alias dpsaq="docker ps -aq"
 alias drm="docker rm"
 alias drmi="docker rmi"
-
-alias backlog="(cd ~/repos/sre/todo && git pull && ls backlog/*)"
-alias ssh2u10="ssh -p 2222 u10@localhost"
 
 alias g="git"
 alias ga="git add"
@@ -84,11 +69,11 @@ alias egrn="egrep -rn"
 alias pegrn="| egrn"
 alias psgrep="ps aux | grep -v grep | grep"
 
-alias fw="ssh fw.lan"
-alias fedev="ssh fedev.lan"
+alias moz="ssh moz.lan"
 alias xps="ssh xps.lan"
-
-alias sotalang="cd ~/repos/sota/lang"
+alias pffw="ssh pffw.lan"
+alias twin="ssh twin.lan"
+alias fedev="ssh fedev.lan"
 
 alias clipboard="xclip -sel clip"
 alias cb="clipboard"
