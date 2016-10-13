@@ -1,6 +1,6 @@
 [user]
 	email = scott.a.idler@gmail.com
-	name = scott.a.idler
+	name = Scott Idler
 [core]
 	pager = diff-so-fancy | less --tabs=1,5 -R
 [branch]
