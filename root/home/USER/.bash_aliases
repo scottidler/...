@@ -44,15 +44,9 @@ alias grph="git rev-parse HEAD"
 alias gfbn="git fetch origin +refs/notes/buildno/:refs/notes/buildno"
 alias gfofu="git fetch origin -f -u +refs/heads/*:refs/heads/*"
 alias tags="git tag -l"
-
 alias gl="git log"
-alias gl1="git log -1"
-alias gl2="git log -1"
-alias gl3="git log -1"
-alias gl5="git log -1"
-alias gl10="git log -1"
-alias gl20="git log -1"
-alias gl50="git log -1"
+
+alias gbp="git-big-picture"
 
 alias gsm="git submodule"
 alias gsmu="gsm update"
