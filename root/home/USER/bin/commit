@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [[ "$@" == *"-h" ]] || [[ "$@" == "-h"* ]] || [[ "$@" == *"--help" ]] || [[ "$@" == "--help"* ]]; then
+    echo "usage: commit [-h|--help] [message] [comment] [filename]"
+    echo
+    echo "positional arguments:"
+    echo "  message         text to use for commit message"
+    echo "  content         text to be appended to the filename"
+    echo "  filename        filename to be modified and added to the commit"
+    echo
+    echo "optional arguments:"
+    echo "  -h, --help   show this help message and exit"
+    exit 1
+fi
+
+MESSAGE="${1:-message}"
+CONTENT="${2:-$(mktemp -u)}"
+FILENAME="${3:-file}"
+
+echo "commit script for git demo purposes"
+echo "MESSAGE  = $MESSAGE"
+echo "CONTENT  = $CONTENT"
+echo "FILENAME = $FILENAME"
+
+set -xe
+
+echo "$CONTENT" >> $FILENAME
+git add $FILENAME
+git commit -m "$MESSAGE"
