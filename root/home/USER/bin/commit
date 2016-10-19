@@ -1,15 +1,19 @@
 #!/bin/bash
 
+read -d '' USAGE <<- EOF
+usage: commit [-h|--help] [message] [comment] [filename]
+
+positional arguments:
+  message         text to use for commit message"
+  content         text to be appended to the filename"
+  filename        filename to be modified and added to the commit"
+
+optional arguments:"
+  -h, --help   show this help message and exit"
+EOF
+
 if [[ "$@" == *"-h" ]] || [[ "$@" == "-h"* ]] || [[ "$@" == *"--help" ]] || [[ "$@" == "--help"* ]]; then
-    echo "usage: commit [-h|--help] [message] [comment] [filename]"
-    echo
-    echo "positional arguments:"
-    echo "  message         text to use for commit message"
-    echo "  content         text to be appended to the filename"
-    echo "  filename        filename to be modified and added to the commit"
-    echo
-    echo "optional arguments:"
-    echo "  -h, --help   show this help message and exit"
+    echo "$USAGE"
     exit 1
 fi
 
