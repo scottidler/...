@@ -12,10 +12,13 @@ optional arguments:"
   -h, --help   show this help message and exit"
 EOF
 
-if [[ "$@" == *"-h" ]] || [[ "$@" == "-h"* ]] || [[ "$@" == *"--help" ]] || [[ "$@" == "--help"* ]]; then
-    echo "$USAGE"
-    exit 1
-fi
+FLAGS="-h --help"
+for FLAG in $FLAGS; do
+    if [[ "$@" == *$FLAG ]] || [[ "$@" == $FLAG* ]]; then
+        echo "$USAGE"
+        exit 1
+    fi
+done
 
 MESSAGE="${1:-message}"
 CONTENT="${2:-$(mktemp -u)}"
