@@ -32,6 +32,7 @@ DNF=()
 PIP2=()
 PIP3=()
 GIT=()
+NPM=()
 
 function realpath() {
     echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
@@ -104,6 +105,7 @@ while IFS=$'\n' read line; do
         pip2) hash pip2 2> /dev/null && PIP2+=($val) ;;
         pip3) hash pip3 2> /dev/null && PIP3+=($val) ;;
         git) hash git 2> /dev/null && GIT+=($val) ;;
+        npm) hash npm 2> /dev/null && NPM+=($val) ;;
         esac
     fi
 done < $MANIFEST
@@ -116,6 +118,7 @@ if $LIST; then
     show "PIP2"
     show "PIP3"
     show "GIT"
+    show "NPM"
     exit 1
 fi
 
@@ -187,6 +190,12 @@ if hash pip3 2> /dev/null && [ ${#PIP3[@]} -ne 0 ]; then
     echo "installing pip3 packages..."
     $SUDO -H pip3 install --upgrade pip
     $SUDO -H pip3 install --upgrade "${PIP3[@]}"
+    echo
+fi
+
+if hash npm 2> /dev/null; then
+    echo "installing npm packages..."
+    [ ${#NPM[@]} -eq 0 ] || $SUDO npm install -g "${NPM[@]}"
     echo
 fi
 
