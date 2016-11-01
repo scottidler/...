@@ -12,6 +12,7 @@ alias cdrr=". ~/bin/.cdrr"
 alias pb="pianobar"
 
 alias ipy="ipython"
+alias ipy3="ipython3"
 
 alias d="docker"
 alias dc="docker-compose"
