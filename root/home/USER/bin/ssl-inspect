@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# src: https://gist.github.com/gene1wood/6530100
+
+if [ -e "$1" ]; then
+    if grep -- ' PRIVATE KEY-' "$1" >/dev/null; then
+        action=rsa
+    elif grep -- '-BEGIN CERTIFICATE REQUEST-' "$1" >/dev/null; then
+        action=req
+    elif grep -- '-BEGIN CERTIFICATE-' "$1" >/dev/null; then
+        action=x509
+    else
+        echo "Couldn't detect the file type of $1"
+        exit 1
+    fi
+    echo -n | openssl $action -in "$1" -noout -text
+else
+    echo -n | openssl s_client -connect $1:443 | openssl x509 -text
+fi
