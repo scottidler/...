@@ -174,8 +174,8 @@ if hash apt-get 2> /dev/null; then
 elif hash dnf 2> /dev/null; then
     echo "installing yum/dnf packages..."
     $SUDO dnf update -y
-    [ ${#PKG[@]} -eq 0 ] || $SUDO dnf install "${PKG[@]}"
-    [ ${#DNF[@]} -eq 0 ] || $SUDO dnf install "${DNF[@]}"
+    [ ${#PKG[@]} -eq 0 ] || $SUDO dnf install -y "${PKG[@]}"
+    [ ${#DNF[@]} -eq 0 ] || $SUDO dnf install -y "${DNF[@]}"
     echo
 fi
 
