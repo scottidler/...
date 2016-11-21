@@ -211,6 +211,9 @@ if [ -d ~/.ssh ]; then
     echo "done"
 fi
 
+echo "running ~/bin/update..."
+~/bin/update
+
 source ~/.bashrc
 
 exit 0
