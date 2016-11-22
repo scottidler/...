@@ -10,6 +10,7 @@ set hlsearch
 set incsearch
 set showmode
 set showcmd
+set showmatch
 set ruler
 syntax on
 map <C-N> :tabnext <Return>
