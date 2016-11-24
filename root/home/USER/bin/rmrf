@@ -1,17 +1,33 @@
 #!/bin/bash
 
-CUTOFF=`date -d -2mins +"%s"`
-RMRF_DIR="/var/tmp/rmrf"
-TIMESTAMP=`date +"%Y-%m-%d@%H:%M:%S"`
-KEEPALIVE=21
-
 if [[ -n "$RMRF_VERBOSE" ]]; then
     set -x
     set -e
 fi
+ARGS=( $@ )
+CUTOFF=`date -d -2mins +"%s"`
+RMRF_DIR="/var/tmp/rmrf"
+TIMESTAMP=`date +"%Y-%m-%d@%H:%M:%S"`
+KEEPALIVE=21
+SUDO=sudo
+
+shopt -s extglob
+CFG=~/.config/rmrf/rmrf.cfg
+if [ -e "$CFG" ]; then
+    while IFS='= ' read lhs rhs; do
+        if [[ ! $lhs =~ ^\ *# && -n $lhs ]]; then
+            rhs="${rhs%%\#*}"    # Del in line right comments
+            rhs="${rhs%%*( )}"   # Del trailing spaces
+            rhs="${rhs%\"*}"     # Del opening string quotes
+            rhs="${rhs#\"*}"     # Del closing string quotes
+            declare $lhs="$rhs"
+        fi
+    done < $CFG
+fi
 
 sudo mkdir -p "$RMRF_DIR"
 find "$RMRF_DIR" -mtime "+$KEEPALIVE" -print0 | xargs -0 sudo rm -rf
-for ARG in "$@"; do
-    sudo mv "$ARG" "$RMRF_DIR/${TIMESTAMP}_`basename $ARG`"
-done
+$SUDO tar --force-local -cvf $TIMESTAMP.tar.gz "$@"
+$SUDO mv $TIMESTAMP.tar.gz $RMRF_DIR
+echo "removed to $RMRF_DIR/$TIMESTAMP.tar.gz"
+$SUDO rm -rf "$@"
