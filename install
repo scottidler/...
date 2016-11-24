@@ -1,9 +1,9 @@
 #!/bin/bash
 
 if [ "$0" == "bash" ]; then
-    echo "cloning scottidler/mysetup"
-    git clone --depth 1 https://github.com/scottidler/mysetup
-    cd mysetup
+    echo "cloning scottidler/..."
+    git clone --depth 1 ssh://git@github.com/scottidler/...
+    cd ...
     git checkout master
     git pull
     exec ./install
