@@ -74,9 +74,7 @@ alias fedev="ssh fedev.lan"
 alias clipboard="xclip -sel clip"
 alias cb="clipboard"
 
-function int2ip() {
-    ifconfig ${1:-wlp2s0} | grep 'inet addr' | sed -e 's/:/ /' | awk '{print $3}'
-}
+alias dots="cd ~/..."
 
 #  Customize BASH PS1 prompt to show current GIT repository and branch.
 #  by Mike Stewart - http://MediaDoneRight.com
