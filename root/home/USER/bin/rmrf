@@ -42,7 +42,7 @@ if [ -n "$DELETED" ]; then
     echo "-> /dev/null"
 fi
 find "$RMRF_DIR" -mtime "+$KEEPALIVE" -delete
-$SUDO tar --force-local --absolute-names -cvf $TIMESTAMP.tar.gz "${ARGS[@]}"
+$SUDO tar --force-local --absolute-names --preserve-permissions -cvf $TIMESTAMP.tar.gz "${ARGS[@]}"
 $SUDO mv $TIMESTAMP.tar.gz $RMRF_DIR
 echo "-> $RMRF_DIR/$TIMESTAMP.tar.gz"
 $SUDO rm -rf "${ARGS[@]}"
