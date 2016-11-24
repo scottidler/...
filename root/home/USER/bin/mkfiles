@@ -1,0 +1,20 @@
+#!/bin/bash
+
+NUM="$1"
+DIR="${2:-.}"
+
+echo "NUM=$NUM"
+echo "DIR=$DIR"
+
+function usage() {
+    echo "NUM [DIR]"
+}
+
+if ((NUM > 0)); then
+    mkdir -p $DIR
+    for i in `seq 1 $NUM`; do
+        mktemp -p $DIR
+    done
+else
+    usage
+fi
