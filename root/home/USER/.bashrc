@@ -105,6 +105,10 @@ if [ -f ~/.bash_functions ]; then
     source ~/.bash_functions
 fi
 
+if [ -f ~/.bash_prompt ]; then
+    source ~/.bash_prompt
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -141,10 +145,6 @@ function __history() {
     return $EC
 }
 PROMPT_COMMAND="__history; $PROMPT_COMMAND"
-
-if hash thefuck 2> /dev/null; then
-    eval $(thefuck --alias dafuq)
-fi
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f /home/saidler/google-cloud-sdk/path.bash.inc ]; then
