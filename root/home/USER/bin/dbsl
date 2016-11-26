@@ -1,4 +1,9 @@
 #!/bin/sh
-DIR="${1:-`pwd`}"
 echo "[d]elete [b]roken [s]ymbolic [l]inks"
-(cd $DIR && find -L . -name . -o -type d -prune -o -type l -exec rm {} +)
+DIR="${1:-`pwd`}"
+RESULTS=`find -L $DIR -maxdepth 1 -type l`
+if [ -n "$RESULTS" ]; then
+    echo "$RESULTS"
+    echo "-> /dev/null"
+    find -L $DIR -maxdepth 1 -type l -delete
+fi
