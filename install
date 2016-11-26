@@ -214,6 +214,10 @@ fi
 echo "running ~/bin/update..."
 ~/bin/update
 
+echo "removing dead symlinks..."
+~/bin/dbsl ~
+~/bin/dbsl ~/bin
+
 source ~/.bashrc
 
 exit 0
