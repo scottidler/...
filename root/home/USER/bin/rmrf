@@ -1,14 +1,23 @@
 #!/bin/bash
 
+SUDO=
+KEEPALIVE=0
+RMRF_DIR="/var/tmp/rmrf"
+TIMESTAMP="%Y-%m-%d@%H:%M:%S"
+SCRIPT_NAME="$(basename "$(test -L "$0" && readlink "$0" || echo "$0")")"
+
 set -e
 if [[ -n "$RMRF_VERBOSE" ]]; then
     set -x
 fi
 
-SUDO=
-KEEPALIVE=0
-RMRF_DIR="/var/tmp/rmrf"
-TIMESTAMP="%Y-%m-%d@%H:%M:%S"
+if [ "$SCRIPT_NAME" == "ls-rmrf" ]; then
+    for tarball in /var/tmp/rmrf/*; do
+        echo "$tarball"
+        tar --absolute-names -tvf "$tarball" | grep -v ^d | sed 's/^/  /'
+    done
+    exit 0
+fi
 
 shopt -s extglob
 CFG=~/.config/rmrf/rmrf.cfg
