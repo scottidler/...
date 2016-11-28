@@ -3,8 +3,6 @@ if [ -f ~/.bashrc.orig ]; then
     source ~/.bashrc.orig
 fi
 
-setterm -blength 0
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
