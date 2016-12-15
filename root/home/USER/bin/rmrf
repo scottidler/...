@@ -1,5 +1,6 @@
 #!/bin/bash
 
+CFG=~/.config/rmrf/rmrf.cfg
 SUDO=
 KEEPALIVE=0
 RMRF_DIR="/var/tmp/rmrf"
@@ -20,7 +21,6 @@ if [ "$SCRIPT_NAME" == "ls-rmrf" ]; then
 fi
 
 shopt -s extglob
-CFG=~/.config/rmrf/rmrf.cfg
 if [ -e "$CFG" ]; then
     while IFS='= ' read lhs rhs; do
         if [[ ! $lhs =~ ^\ *# && -n $lhs ]]; then
@@ -41,6 +41,12 @@ ARGS=()
 for arg in "${@}"; do
     ARGS+=(`realpath $arg`)
 done
+
+if [[ "${ARGS[0]}" == $RMRF_DIR* ]]; then
+    echo "$RMRF_DIR ->"
+    $SUDO tar --absolute-names -xvf "$1" | sed 's/^/  /'
+    exit 0
+fi
 
 TIMESTAMP=`date +"$TIMESTAMP"`
 
