@@ -43,7 +43,7 @@ for arg in "${@}"; do
 done
 
 if [[ "${ARGS[0]}" == $RMRF_DIR* ]]; then
-    echo "$RMRF_DIR ->"
+    echo "${ARGS[0]} ->"
     $SUDO tar --absolute-names -xvf "$1" | sed 's/^/  /'
     exit 0
 fi
