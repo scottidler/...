@@ -36,3 +36,22 @@ function cdrr() {
     cdr
 }
 
+function upsearch() {
+    FILE="$1"
+    DIR="$PWD"
+    while [[ "$DIR" != '/' ]]; do
+        if [[ -e "$DIR/$FILE" ]]; then
+            echo "$DIR"
+            return
+        else
+            DIR=`dirname $DIR`
+        fi
+    done
+    echo "$PWD"
+    return
+}
+
+function doit() {
+    (cd "`upsearch dodo.py`" && "`which doit`" "$@")
+}
+
