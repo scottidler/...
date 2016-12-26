@@ -39,7 +39,7 @@ fi
 
 ARGS=()
 for arg in "${@}"; do
-    ARGS+=(`realpath $arg`)
+    ARGS+=("`realpath "$arg"`")
 done
 
 if [[ "${ARGS[0]}" == $RMRF_DIR* ]]; then
@@ -56,7 +56,7 @@ if [ -n "$DELETED" ]; then
     echo $DELETED
     echo "-> /dev/null"
 fi
-find "$RMRF_DIR" -mtime "+$KEEPALIVE" -delete
+$SUDO find "$RMRF_DIR" -mtime "+$KEEPALIVE" -delete
 $SUDO tar --force-local --absolute-names --preserve-permissions -cvf $TIMESTAMP.tar.gz "${ARGS[@]}"
 $SUDO mv $TIMESTAMP.tar.gz $RMRF_DIR
 echo "-> $RMRF_DIR/$TIMESTAMP.tar.gz"
