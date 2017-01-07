@@ -6,4 +6,4 @@ while read line; do
         TEXT="$TEXT$line\n"
     fi
 done < "${1:-/dev/stdin}"
-echo -e "$TEXT" | openssl req -in /dev/stdin -noout -text
+printf '%b' "$TEXT" | openssl req -in /dev/stdin -noout -text
