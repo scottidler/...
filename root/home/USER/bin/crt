@@ -1,9 +1,0 @@
-#!/bin/sh
-while read line; do
-    if [ -z "$TEXT" ]; then
-        TEXT="$line\n"
-    else
-        TEXT="$TEXT$line\n"
-    fi
-done < "${1:-/dev/stdin}"
-printf '%b' "$TEXT" | openssl x509 -in /dev/stdin -noout -text

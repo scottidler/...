@@ -1,19 +1,27 @@
 #!/bin/bash
+# based off of src: https://gist.github.com/gene1wood/6530100
 
-# src: https://gist.github.com/gene1wood/6530100
+if ! hash openssl 2> /dev/null; then
+    echo "openssl not installed..."
+    exit 1
+fi
 
-if [ -e "$1" ]; then
-    if grep -- ' PRIVATE KEY-' "$1" >/dev/null; then
-        action=rsa
-    elif grep -- '-BEGIN CERTIFICATE REQUEST-' "$1" >/dev/null; then
-        action=req
-    elif grep -- '-BEGIN CERTIFICATE-' "$1" >/dev/null; then
-        action=x509
+declare -A hashmap
+hashmap["-----BEGIN CERTIFICATE-----"]="x509"
+hashmap["-----BEGIN CERTIFICATE REQUEST-----"]="req"
+hashmap["-----BEGIN RSA PRIVATE KEY-----"]="rsa"
+
+while read line; do
+    if [ -z "$TEXT" ]; then
+        action="${hashmap["$line"]}"
+        TEXT="$line\n"
     else
-        echo "Couldn't detect the file type of $1"
-        exit 1
+        TEXT="$TEXT$line\n"
     fi
-    echo -n | openssl $action -in "$1" -noout -text
+done < "${1:-/dev/stdin}" > /dev/null 2>&1
+
+if [ -n "$TEXT" ] && [ -n "$action" ]; then
+    printf '%b' "$TEXT" | openssl $action -in /dev/stdin -noout -text
 else
     echo -n | openssl s_client -connect $1:443 | openssl x509 -text
 fi
