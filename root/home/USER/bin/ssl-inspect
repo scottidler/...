@@ -6,14 +6,15 @@ if ! hash openssl 2> /dev/null; then
     exit 1
 fi
 
-declare -A hashmap
-hashmap["-----BEGIN CERTIFICATE-----"]="x509"
-hashmap["-----BEGIN CERTIFICATE REQUEST-----"]="req"
-hashmap["-----BEGIN RSA PRIVATE KEY-----"]="rsa"
-
 while read line; do
     if [ -z "$TEXT" ]; then
-        action="${hashmap["$line"]}"
+        if [ "$line" == "-----BEGIN CERTIFICATE-----" ]; then
+            action="x509"
+        elif [ "$line" == "-----BEGIN CERTIFICATE REQUEST-----" ]; then
+            action="req"
+        elif [ "$line" == "-----BEGIN RSA PRIVATE KEY-----" ]; then
+            action="rsa"
+        fi
         TEXT="$line\n"
     else
         TEXT="$TEXT$line\n"
