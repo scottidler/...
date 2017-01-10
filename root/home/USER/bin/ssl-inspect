@@ -19,10 +19,10 @@ while read line; do
     else
         TEXT="$TEXT$line\n"
     fi
-done < "${1:-/dev/stdin}" > /dev/null 2>&1
+done < "${1:-/dev/stdin}"
 
 if [ -n "$TEXT" ] && [ -n "$action" ]; then
     printf '%b' "$TEXT" | openssl $action -in /dev/stdin -noout -text
 else
-    echo -n | openssl s_client -connect $1:443 | openssl x509 -text
+    echo -n | openssl s_client -connect "$1:443" | openssl x509 -text
 fi
