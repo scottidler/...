@@ -9,7 +9,8 @@ from argparse import ArgumentParser
 
 TEMPLATES = '''
 py.header: |
-    #!/usr/bin/env python
+    #!/usr/bin/env python3
+    # -*- coding: utf-8 -*-
 sh.header: |
     #!/bin/sh
 bash.header: |
