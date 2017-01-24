@@ -5,8 +5,8 @@ alias fog="ssh -A saidler@45.33.26.141"
 alias cl="clear"
 alias pb="pianobar"
 
-alias ipy="ipython"
-alias ipy3="ipython3"
+alias ipy="sudo ipython"
+alias ipy3="sudo ipython3"
 
 alias d="docker"
 alias dc="docker-compose"
