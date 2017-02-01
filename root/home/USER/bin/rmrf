@@ -53,7 +53,9 @@ TIMESTAMP=`date +"$TIMESTAMP"`
 mkdir -p "$RMRF_DIR"
 DELETED=`find "$RMRF_DIR" -mtime "+$KEEPALIVE"`
 if [ -n "$DELETED" ]; then
-    echo $DELETED
+    for item in "$DELETED"; do
+        echo "$item"
+    done
     echo "-> /dev/null"
 fi
 $SUDO find "$RMRF_DIR" -mtime "+$KEEPALIVE" -delete
