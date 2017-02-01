@@ -52,6 +52,6 @@ function upsearch() {
 }
 
 function doit() {
-    (cd "`upsearch dodo.py`" && "`which doit`" "$@")
+    (cd "`upsearch dodo.py`" && time "`which doit`" "$@")
 }
 
