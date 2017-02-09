@@ -22,8 +22,8 @@ py.common: |
     import sys
     sys.dont_write_bytecode = True
 
-    print 'name: ', __file__
-    print 'args: ', ' '.join(sys.argv[1:])
+    print('name: ', __file__)
+    print('args: ', ' '.join(sys.argv[1:]))
 
 py.suffix: py
 sh.suffix: sh
