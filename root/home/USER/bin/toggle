@@ -12,17 +12,19 @@ from argparse import ArgumentParser
 
 sys.dont_write_bytecode = True
 
-def toggle_filter(line, marker, padding=' '):
-    if line.startswith(marker):
-        line = line[len(marker):] + padding + marker
-    elif line.endswith(marker):
-        line = marker + padding + line[:-len(marker)]
+def toggle_filter(line, marker, padding):
+    left = marker + padding
+    right = padding + marker
+    if line.startswith(left):
+        line = line[len(left):] + right
+    elif line.endswith(right):
+        line = left + line[:-len(right)]
     return line.rstrip(' ')
 
-def toggle_file(filepath, marker, trial, show):
+def toggle_file(filepath, marker, padding, trial, show):
     filepath_toggle = filepath + '.toggle'
     lines = open(filepath).read().split('\n')
-    lines = [toggle_filter(line, marker) for line in lines]
+    lines = [toggle_filter(line, marker, padding) for line in lines]
     text = '\n'.join(lines)
     if show:
         print(text)
@@ -31,21 +33,21 @@ def toggle_file(filepath, marker, trial, show):
     if not trial:
        shutil.move(filepath_toggle, filepath)
 
-def toggle_dir(dirpath, marker, trial, show):
+def toggle_dir(dirpath, marker, padding, trial, show):
     filepaths = os.path.listdir(dirpath)
     for filepath in filepaths:
-        toggle_file(filepath, marker, trial, show)
+        toggle_file(filepath, marker, padding, trial, show)
 
 def toggle(ns):
     paths = itertools.chain(*[glob.glob(target) for target in ns.targets])
     for path in paths:
         if os.path.isdir(path):
             if ns.allow_directories:
-                toggle_directory(path, ns.marker, ns.trial, ns.show)
+                toggle_directory(path, ns.marker, ns.padding, ns.trial, ns.show)
             else:
                 print('add -d|--allow-directories to toggle path={0}'.format(path))
         elif os.path.isfile(path):
-            toggle_file(path, ns.marker, ns.trial, ns.show)
+            toggle_file(path, ns.marker, ns.padding, ns.trial, ns.show)
         else:
             raise Exception(path)
 
@@ -55,6 +57,10 @@ if __name__ == '__main__':
         '-m', '--marker',
         default='##',
         help='default="%(default)s"; change the marker string')
+    parser.add_argument(
+        '-p', '--padding',
+        default=' ',
+        help='default="%(default)s"; change the padding string')
     parser.add_argument(
         '-d', '--allow-directories',
         action='store_true',
