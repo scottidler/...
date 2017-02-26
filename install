@@ -173,7 +173,7 @@ echo "checking out repos..."
 mkdir -p repos
 for git in "${GIT[@]}"; do
     [ -d "repos/$git" ] || run git clone https://github.com/$git repos/$git
-    (run cd repos/$git && pwd && git pull && git checkout HEAD)
+    (cd repos/$git && pwd && run git pull && run git checkout HEAD)
 done
 echo
 
@@ -196,7 +196,7 @@ if hash apt-get 2> /dev/null; then
     echo
 elif hash dnf 2> /dev/null; then
     echo "installing yum/dnf packages..."
-    $SUDO dnf update -y
+    run $SUDO dnf update -y
     [ ${#PKG[@]} -eq 0 ] || run $SUDO dnf install -y "${PKG[@]}"
     [ ${#DNF[@]} -eq 0 ] || run $SUDO dnf install -y "${DNF[@]}"
     echo
