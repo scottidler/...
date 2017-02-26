@@ -100,7 +100,7 @@ argparse: |
             help='help for positional argument 1')
 
         ns = parser.parse_args()
-        print ns
+        print(ns)
 
 '''
 
