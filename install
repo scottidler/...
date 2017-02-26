@@ -20,9 +20,11 @@ OPTIND=1
 # Initialize our own variables:
 
 LIST=false
+NERF=false
+UPDATE=false
 VERBOSE=false
 SECTION=""
-VAR=""
+PROMPT=""
 
 MANIFEST="manifest.cfg"
 PKG=()
@@ -33,6 +35,17 @@ PIP2=()
 PIP3=()
 GIT=()
 NPM=()
+
+function run() {
+    #if $NERF || $VERBOSE; then
+    if [[ -n "$PROMPT" ]]; then
+        echo "$PROMPT $@"
+        if $NERF;  then
+            return
+        fi
+    fi
+    "$@"
+}
 
 function realpath() {
     echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
@@ -48,19 +61,27 @@ function show() {
     done
 }
 
-while getopts "h?lvs:v:" opt; do
+while getopts "h?lnuvs:" opt; do
     case "$opt" in
     h|\?)
         usage
         ;;
-    s)  SECTION=$OPTARG
+    l)  LIST=true
+        echo "LIST true"
         ;;
-    v)  VAR=$OPTARG
+    n)  NERF=true
+        PROMPT="nerf>"
+        echo "NERF true"
         ;;
-    l)
-        LIST=true
+    u)  UPDATE=true
+        echo "UPDATE true"
         ;;
     v)  VERBOSE=true
+        PROMPT="run>"
+        echo "VERBOSE true"
+        ;;
+    s)  SECTION=$OPTARG
+        echo "SECTION=$SECTION"
         ;;
     esac
 done
@@ -83,6 +104,7 @@ while IFS=$'\n' read line; do
         continue
     elif [ -n "$SECTION" ] && [ -n "$section" ]; then
         if ! [[ "$section" =~ "$SECTION" ]]; then
+            echo "skipping section $section"
             continue
         fi
     fi
@@ -110,7 +132,7 @@ while IFS=$'\n' read line; do
     fi
 done < $MANIFEST
 
-if $LIST; then
+if $LIST || $VERBOSE; then
     show "PKG"
     show "PPA"
     show "APT"
@@ -119,7 +141,9 @@ if $LIST; then
     show "PIP3"
     show "GIT"
     show "NPM"
-    exit 1
+    if $LIST; then
+        exit 1
+    fi
 fi
 
 echo "creating symlinks..."
@@ -131,17 +155,16 @@ for file in `find root/ -type f && find root/ -type l`; do
     if [ -f "$link" ] && [ "$file" != "`readlink $link`" ]; then
         orig="$link.orig"
         echo "backing up $orig"
-        mv $link $orig
+        run mv $link $orig
     elif [ ! -f "$link" ] && [ -L "$link" ]; then
         echo "removing broken link $link"
-        unlink $link
+        run unlink $link
     fi
     if [ -f "$link" ]; then
         echo "[exists] $link"
     else
         echo "[create] $link -> $file"
-        mkdir -p `dirname $link`
-        ln -s $file $link
+        run mkdir -p `dirname $link`; ln -s $file $link
     fi
 done
 echo
@@ -149,76 +172,80 @@ echo
 echo "checking out repos..."
 mkdir -p repos
 for git in "${GIT[@]}"; do
-    [ -d "repos/$git" ] || git clone https://github.com/$git repos/$git
-    (cd repos/$git && pwd && git pull && git checkout HEAD)
+    [ -d "repos/$git" ] || run git clone https://github.com/$git repos/$git
+    (run cd repos/$git && pwd && git pull && git checkout HEAD)
 done
 echo
 
 if hash apt-get 2> /dev/null; then
     echo "installing ppas..."
-    $SUDO apt-get update && $SUDO apt-get upgrade -y
-    $SUDO apt-get install -y software-properties-common
+    run $SUDO apt-get update && $SUDO apt-get upgrade -y
+    run $SUDO apt-get install -y software-properties-common
 
     for ppa in "${PPA[@]}"; do
         ppas=`find /etc/apt/ -name *.list | xargs cat | grep  ^[[:space:]]*deb | grep -v deb-src`
         if [[ $ppas != *"$ppa"* ]]; then
-            $SUDO add-apt-repository -y "ppa:$ppa"
+            run $SUDO add-apt-repository -y "ppa:$ppa"
         fi
     done
     echo
     echo "installing apt-get packages..."
-    [ ${#PPA[@]} -eq 0 ] || $SUDO apt-get update -y
-    [ ${#PKG[@]} -eq 0 ] || $SUDO apt-get install -y "${PKG[@]}"
-    [ ${#APT[@]} -eq 0 ] || $SUDO apt-get install -y "${APT[@]}"
+    [ ${#PPA[@]} -eq 0 ] || run $SUDO apt-get update -y
+    [ ${#PKG[@]} -eq 0 ] || run $SUDO apt-get install -y "${PKG[@]}"
+    [ ${#APT[@]} -eq 0 ] || run $SUDO apt-get install -y "${APT[@]}"
     echo
 elif hash dnf 2> /dev/null; then
     echo "installing yum/dnf packages..."
     $SUDO dnf update -y
-    [ ${#PKG[@]} -eq 0 ] || $SUDO dnf install -y "${PKG[@]}"
-    [ ${#DNF[@]} -eq 0 ] || $SUDO dnf install -y "${DNF[@]}"
+    [ ${#PKG[@]} -eq 0 ] || run $SUDO dnf install -y "${PKG[@]}"
+    [ ${#DNF[@]} -eq 0 ] || run $SUDO dnf install -y "${DNF[@]}"
     echo
 fi
 
 if hash pip2 2> /dev/null && [ ${#PIP2[@]} -ne 0 ]; then
     echo "installing pip2 packages..."
-    $SUDO -H pip2 install --upgrade pip
-    $SUDO -H pip2 install --upgrade "${PIP2[@]}"
+    run $SUDO -H pip2 install --upgrade pip
+    run $SUDO -H pip2 install --upgrade setuptools
+    run $SUDO -H pip2 install --upgrade "${PIP2[@]}"
     echo
 fi
 
 if hash pip3 2> /dev/null && [ ${#PIP3[@]} -ne 0 ]; then
     echo "installing pip3 packages..."
-    $SUDO -H pip3 install --upgrade pip
-    $SUDO -H pip3 install --upgrade "${PIP3[@]}"
+    run $SUDO -H pip3 install --upgrade pip
+    run $SUDO -H pip3 install --upgrade setuptools
+    run $SUDO -H pip3 install --upgrade "${PIP3[@]}"
     echo
 fi
 
 if hash npm 2> /dev/null; then
     echo "installing npm packages..."
-    [ ${#NPM[@]} -eq 0 ] || $SUDO npm install -g "${NPM[@]}"
+    [ ${#NPM[@]} -eq 0 ] || run $SUDO npm install -g "${NPM[@]}"
     echo
 fi
 
 if [ -d ~/.ssh ]; then
     echo "fixing up perms for ssh..."
-    sudo chmod -R 700 ~/.ssh
-    sudo chmod 600 ~/.ssh/config
+    run $SUDO chmod -R 700 ~/.ssh
+    run $SUDO chmod 600 ~/.ssh/config
     for id in "home work"; do
         key=~/.ssh/identities/$id/id_rsa
-        [ -f "$key" ] && sudo chmod 600 "$key"
-        [ -f "$key.pub" ] && sudo chmod 644 "$key.pub"
+        [ -f "$key" ] && run $SUDO chmod 600 "$key"
+        [ -f "$key.pub" ] && run $SUDO chmod 644 "$key.pub"
     done
     echo "done"
 fi
 
-echo "running ~/bin/update..."
-~/bin/update
+if $UPDATE; then
+    echo "running ~/bin/update..."
+    run ~/bin/update
+fi
 
 echo "removing dead symlinks..."
-~/bin/dbsl ~
-~/bin/dbsl ~/bin
+run ~/bin/dbsl ~
+run ~/bin/dbsl ~/bin
 
-source ~/.bashrc
+run source ~/.bashrc
 
 exit 0
 
