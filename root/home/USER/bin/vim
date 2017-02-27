@@ -1,0 +1,20 @@
+#!/bin/bash
+
+this="$0"
+args=("$@")
+vim=`which vim`
+
+if [ "$this" == "$vim" ]; then
+    echo "this=$this is the same as vim=$vim"
+    exit 1
+fi
+
+for arg in "${args[@]}"; do
+    [[ "$arg" == "-"* ]] && exec $vim "${args[@]}"
+done
+
+case ${#args[@]} in
+    [0-1])  exec $vim    "${args[@]}";;
+    2)      exec $vim -O "${args[@]}";;
+    *)      exec $vim -o "${args[@]}";;
+esac
