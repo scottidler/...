@@ -1,0 +1,14 @@
+#!/bin/bash
+
+usage() {
+    echo "supply image name"
+    exit 1
+}
+
+if [ "$#" -ne 1 ]; then
+    usage
+fi
+
+IMAGE="$1"
+wget -q https://registry.hub.docker.com/v1/repositories/$IMAGE/tags -O -  | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}'
+
