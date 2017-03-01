@@ -68,6 +68,9 @@ alias fedev="ssh fedev.lan"
 alias clipboard="xclip -sel clip"
 alias cb="clipboard"
 
+alias irc="irccloud-search"
+alias ac="autocert"
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
