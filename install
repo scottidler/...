@@ -15,11 +15,12 @@ SUDO=$([[ `uname` == *"BSD"* ]] && echo "doas" || echo "sudo")
 
 # A POSIX variable
 # Reset in case getopts has been used previously in the shell.
-OPTIND=1
+#OPTIND=1
 
 # Initialize our own variables:
 
-LIST=false
+LINK=false
+SHOW=false
 NERF=false
 UPDATE=false
 VERBOSE=false
@@ -36,58 +37,78 @@ PIP3=()
 GIT=()
 NPM=()
 
-function run() {
-    #if $NERF || $VERBOSE; then
-    if [[ -n "$PROMPT" ]]; then
-        echo "$PROMPT $@"
-        if $NERF;  then
-            return
-        fi
-    fi
-    "$@"
+getopt --test > /dev/null
+if [[ $? -ne 4 ]]; then
+    echo "'getopt --test' failed in this environment"
+    exit 1
+fi
+
+SHORT="hlsnuvS:"
+LONG="help,link,show,nerf,update,verbose,section:"
+
+PARSED=`getopt --option $SHORT --longoptions $LONG --name "$0" -- "$@"`
+if [[ $? -ne 0 ]]; then
+    exit 2
+fi
+
+eval set -- "$PARSED"
+
+usage() {
+    cat <<EOF
+usage: $0 [options]
+  Options:
+    -h|--help               print this help message
+    -l|--link               run linking and quit
+    -s|--show               show the collected packages to be installed
+    -n|--nerf               only print what commands are to be run
+    -u|--update             run the update command after installing
+    -v|--verbose            toggle verbose message printing
+    -S|--section SECTION    install from one section only
+EOF
 }
 
-function realpath() {
-    echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
-}
-
-function show() {
-    local VAR=$1[@]
-    if [ -n "${!VAR[@]}" ]; then
-        echo "$1 ="
-    fi
-    for var in ${!VAR}; do
-        echo "    $var"
-    done
-}
-
-while getopts "h?lnuvs:" opt; do
-    case "$opt" in
-    h|\?)
-        usage
-        ;;
-    l)  LIST=true
-        echo "LIST true"
-        ;;
-    n)  NERF=true
-        PROMPT="nerf>"
-        echo "NERF true"
-        ;;
-    u)  UPDATE=true
-        echo "UPDATE true"
-        ;;
-    v)  VERBOSE=true
-        PROMPT="run>"
-        echo "VERBOSE true"
-        ;;
-    s)  SECTION=$OPTARG
-        echo "SECTION=$SECTION"
-        ;;
+while true; do
+    case "$1" in
+        -h|--help)
+            usage
+            exit 1
+            shift
+            ;;
+        -l|--link)
+            LINK=true
+            shift
+            ;;
+        -s|--show)
+            SHOW=true
+            shift
+            ;;
+        -n|--nerf)
+            NERF=true
+            PROMPT="nerf>"
+            shift
+            ;;
+        -u|--update)
+            UPDATE=true
+            shift
+            ;;
+        -v|--verbose)
+            VERBOSE=true
+            shift
+            ;;
+        -S|--section):
+            SECTION="$2"
+            shift 2
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            echo "unrecognized $1"
+            exit -1
+            ;;
     esac
 done
-
-shift $((OPTIND-1))
-[ "$1" = "--" ] && shift
 
 while IFS=$'\n' read line; do
     line="${line//[[:space:]]/}"
@@ -104,7 +125,7 @@ while IFS=$'\n' read line; do
         continue
     elif [ -n "$SECTION" ] && [ -n "$section" ]; then
         if ! [[ "$section" =~ "$SECTION" ]]; then
-            echo "skipping section $section"
+            $VERBOSE && echo "skipping section $section"
             continue
         fi
     fi
@@ -132,7 +153,31 @@ while IFS=$'\n' read line; do
     fi
 done < $MANIFEST
 
-if $LIST || $VERBOSE; then
+function run() {
+    if [[ -n "$PROMPT" ]]; then
+        echo "$PROMPT $@"
+        if $NERF;  then
+            return
+        fi
+    fi
+    "$@"
+}
+
+function realpath() {
+    echo "$(cd "$(dirname "$1")"; pwd)/$(basename "$1")"
+}
+
+function show() {
+    local VAR=$1[@]
+    if [ -n "${!VAR[@]}" ]; then
+        echo "$1 ="
+    fi
+    for var in ${!VAR}; do
+        echo "    $var"
+    done
+}
+
+if $SHOW || $VERBOSE; then
     show "PKG"
     show "PPA"
     show "APT"
@@ -141,7 +186,7 @@ if $LIST || $VERBOSE; then
     show "PIP3"
     show "GIT"
     show "NPM"
-    if $LIST; then
+    if $SHOW; then
         exit 1
     fi
 fi
@@ -154,10 +199,10 @@ for file in `find root/ -type f && find root/ -type l`; do
     file=`realpath $file`
     if [ -f "$link" ] && [ "$file" != "`readlink $link`" ]; then
         orig="$link.orig"
-        echo "backing up $orig"
+        $VERBOSE && echo "backing up $orig"
         run mv $link $orig
     elif [ ! -f "$link" ] && [ -L "$link" ]; then
-        echo "removing broken link $link"
+        $VERBOSE echo "removing broken link $link"
         run unlink $link
     fi
     if [ -f "$link" ]; then
@@ -168,6 +213,11 @@ for file in `find root/ -type f && find root/ -type l`; do
     fi
 done
 echo
+
+if $LINK; then
+    $VERBOSE && echo "linking only complete"
+    exit 0
+fi
 
 echo "checking out repos..."
 mkdir -p repos
@@ -183,7 +233,7 @@ if hash apt-get 2> /dev/null; then
     run $SUDO apt-get install -y software-properties-common
 
     for ppa in "${PPA[@]}"; do
-        ppas=`find /etc/apt/ -name *.list | xargs cat | grep  ^[[:space:]]*deb | grep -v deb-src`
+        ppas=`find /etc/apt/ -name *.list | xargs cat | grep ^[[:space:]]*deb | grep -v deb-src`
         if [[ $ppas != *"$ppa"* ]]; then
             run $SUDO add-apt-repository -y "ppa:$ppa"
         fi
@@ -246,6 +296,8 @@ run ~/bin/dbsl ~
 run ~/bin/dbsl ~/bin
 
 run source ~/.bashrc
+
+echo "install complete"
 
 exit 0
 
