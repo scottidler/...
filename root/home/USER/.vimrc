@@ -30,7 +30,7 @@ hi Search ctermfg=Red ctermbg=None cterm=bold,underline
 "filetype plugin indent on
 "set shiftwidth=4 tabstop=4 softtabstop=4 expandtab autoindent
 "autocmd filetype c,asm,sls,yml,yaml,python,sh setlocal shiftwidth=4 tabstop=4 softtabstop=4
-autocmd filetype make setlocal noexpandtab
+autocmd FileType make setlocal noexpandtab
 
 autocmd BufWritePre * :%s/\s\+$//e
 
