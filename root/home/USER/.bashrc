@@ -134,6 +134,11 @@ if [ -f /home/saidler/google-cloud-sdk/completion.bash.inc ]; then
     source /home/saidler/google-cloud-sdk/completion.bash.inc
 fi
 
+# enables python3.5 on centos 7 boxes
+if [ -f /opt/rh/rh-python35/enable ]; then
+    source /opt/rh/rh-python35/enable
+fi
+
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
