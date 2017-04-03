@@ -61,6 +61,7 @@ alias psgrep="ps aux | grep -v grep | grep"
 
 alias moz="ssh moz.lan"
 alias xps="ssh xps.lan"
+alias core="ssh core.lan"
 alias pffw="ssh pffw.lan"
 alias twin="ssh twin.lan"
 alias fedev="ssh fedev.lan"
