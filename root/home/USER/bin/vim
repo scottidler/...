@@ -12,6 +12,6 @@ done
 
 case ${#args[@]} in
     [0-1])  exec $vim    "${args[@]}";;
-    2)      exec $vim -O "${args[@]}";;
+    [2-3])  exec $vim -O "${args[@]}";;
     *)      exec $vim -o "${args[@]}";;
 esac
