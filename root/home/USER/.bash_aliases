@@ -47,8 +47,9 @@ alias gsm="git submodule"
 alias gsmu="gsm update"
 alias gsmui="gsm update --jobs=$((3 * $(nproc))) --init --recursive"
 
-alias vibashrc="vi ~/.bashrc"
-alias srcbashrc=". ~/.bashrc"
+alias bashrc="vim ~/.bashrc; . ~/.bashrc"
+alias bash_aliases="vim ~/.bash_aliases; . ~/.bashrc"
+alias bash_functions="vim ~/.bash_functions; . ~/.bashrc"
 
 alias ureboot="update && reboot"
 alias ushutdown="update && shutdown"
@@ -67,6 +68,11 @@ alias pffw="ssh saidler@pffw.lan"
 alias twin="ssh saidler@twin.lan"
 alias fedev="ssh saidler@fedev.lan"
 alias fog="ssh saidler@fog.linode"
+
+alias pip2="sudo -H pip2"
+alias pip3="sudo -H pip3"
+
+alias xdo="xdotool"
 
 alias clipboard="xclip -sel clip"
 alias cb="clipboard"
