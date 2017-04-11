@@ -21,9 +21,7 @@ set term=screen-256color
 hi Normal guibg=#32322f ctermbg=Black
 hi NonText guibg=#32322f ctermbg=Black
 let &colorcolumn=join(range(1,80),",")
-hi ColorColumn ctermbg=0 guibg=#000000
-
-
+hi ColorColumn ctermbg=235 guibg=#2c2d27
 hi Search ctermfg=Red ctermbg=None cterm=bold,underline
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
