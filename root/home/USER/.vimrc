@@ -16,10 +16,13 @@ syntax on
 map <C-N> :tabnext <Return>
 map <C-P> :tabprevious <Return>
 
+set term=screen-256color
+
 hi Normal guibg=#32322f ctermbg=Black
 hi NonText guibg=#32322f ctermbg=Black
-hi ColorColumn guibg=#2c2d27 ctermbg=235
 let &colorcolumn=join(range(1,80),",")
+hi ColorColumn ctermbg=0 guibg=#000000
+
 
 hi Search ctermfg=Red ctermbg=None cterm=bold,underline
 
