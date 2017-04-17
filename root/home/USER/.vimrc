@@ -1,6 +1,5 @@
 "return" 2>&- || "exit"
 
-set visualbell
 set nocp
 set noai
 set et
