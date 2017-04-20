@@ -15,7 +15,7 @@ syntax on
 map <C-N> :tabnext <Return>
 map <C-P> :tabprevious <Return>
 
-set term=screen-256color
+set term=xterm-256color
 
 hi Normal guibg=#32322f ctermbg=Black
 hi NonText guibg=#32322f ctermbg=Black
@@ -33,4 +33,13 @@ hi Search ctermfg=Red ctermbg=None cterm=bold,underline
 autocmd FileType make setlocal noexpandtab
 
 autocmd BufWritePre * :%s/\s\+$//e
+
+" Handle TERM quirks in vim
+if $term =~ '^screen-256color'
+    set t_Co=256
+    nmap <Esc>OH <Home>
+    imap <Esc>OH <Home>
+    nmap <Esc>OF <End>
+    imap <Esc>OF <End>
+endif
 
