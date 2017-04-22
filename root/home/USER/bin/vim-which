@@ -1,0 +1,13 @@
+#!/bin/bash
+
+args=( $@ )
+cmd=`which vim`
+for arg in "${args[@]}"; do
+    which_arg=`which $arg`
+    if [ -z "$which_arg" ]; then
+        echo "$0 failed: \`which $arg\`"
+        exit -1
+    fi
+    cmd="$cmd $which_arg"
+done
+exec $cmd
