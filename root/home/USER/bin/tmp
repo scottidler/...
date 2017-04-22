@@ -130,7 +130,10 @@ def main(args):
         help='choose which kind of tmp file')
 
     ns = parser.parse_args(args)
-    ns.filename = ns.name + '.' + templates.get(ns.kind + '.suffix', 'unknown')
+    ns.filename = ns.name
+    if ns.filename == 'tmp':
+        ns.filename = ns.name + '.' + templates.get(ns.kind + '.suffix', 'unknown')
+
     kinds = interpolate(kinds, templates)
 
     if ns.nerf:
