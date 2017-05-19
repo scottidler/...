@@ -1,6 +1,7 @@
 #!/bin/bash
 
 IMAGE=andrey01/mps-youtube
+docker pull $IMAGE
 docker run \
     --rm \
     -ti \
