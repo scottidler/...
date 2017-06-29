@@ -146,5 +146,3 @@ export PATH=$PATH:$GOPATH/bin
 PATH=/home/$USER/bin:$(echo -n $PATH | sed -e "s|:/home/$USER/bin:|:|g")
 
 export AWS_VAULT_BACKEND=secret-service
-
-gnome-keyring-daemon &
