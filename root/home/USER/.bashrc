@@ -144,3 +144,7 @@ export PATH=$PATH:$GOPATH/bin
 
 # make sure ~/bin is first in the path
 PATH=/home/$USER/bin:$(echo -n $PATH | sed -e "s|:/home/$USER/bin:|:|g")
+
+export AWS_VAULT_BACKEND=secret-service
+
+gnome-keyring-daemon &
