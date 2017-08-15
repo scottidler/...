@@ -1,3 +1,4 @@
 #!/bin/bash
 
-sudo dhclient -r -v wlp2s0 && sudo rm /var/lib/dhcp/dhclient.*; sudo dhclient -v wlp2s0
+ETH=${1:-wlp4s0}
+sudo dhclient -r -v $ETH && sudo rm /var/lib/dhcp/dhclient.*; sudo dhclient -v $ETH
