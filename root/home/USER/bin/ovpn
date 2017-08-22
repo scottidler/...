@@ -1,0 +1,12 @@
+#!/bin/bash
+
+ARGS="$@"
+sudo pkill openvpn
+find ~/.openvpn/ -name *.ovpn |
+while read FILEPATH; do
+    DIR=`dirname $FILEPATH`
+    CFG=`basename $FILEPATH`
+    CMD="(cd $DIR && sudo openvpn --config $CFG $ARGS) &"
+    echo "$CMD"
+    eval "$CMD"
+done
