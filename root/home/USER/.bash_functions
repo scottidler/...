@@ -11,7 +11,7 @@ function reponame() {
 
 function gpo() {
     REF=${1:-`git symbolic-ref --short -q HEAD`}
-    if [ -n "$REF" ];
+    if [ -n "$REF" ]; then
         echo "REF=$REF; zero length string no allowed"
     fi
     git push origin "$REF"
