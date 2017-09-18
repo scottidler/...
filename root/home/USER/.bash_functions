@@ -15,7 +15,7 @@ function gpo() {
         echo "REF=$REF; zero length string no allowed"
         exit 1
     fi
-    git push origin "$REF"
+    git push -u origin "$REF"
 }
 
 function cdp() {
