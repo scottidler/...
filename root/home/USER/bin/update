@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
 set -e
 DIR="`dirname "$0"`"
 echo

@@ -3,7 +3,10 @@
 # Speech Script by Dan Fountain #
 #      TalkToDanF@gmail.com     #
 #################################
-
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
 
 INPUT=$*
 STRINGNUM=0

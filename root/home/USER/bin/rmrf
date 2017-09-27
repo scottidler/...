@@ -1,5 +1,8 @@
 #!/bin/bash
-
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
 CFG=~/.config/rmrf/rmrf.cfg
 SUDO=
 KEEPALIVE=0

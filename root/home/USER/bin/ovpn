@@ -1,5 +1,8 @@
 #!/bin/bash
-
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
 ARGS="$@"
 sudo pkill openvpn
 find ~/.openvpn/ -name *.ovpn |
