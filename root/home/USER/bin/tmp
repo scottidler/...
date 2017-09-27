@@ -8,15 +8,23 @@ import yaml
 from argparse import ArgumentParser
 
 TEMPLATES = '''
-py.header: |
+py-header: |
     #!/usr/bin/env python3
     # -*- coding: utf-8 -*-
-sh.header: |
+
+sh-header: |
     #!/bin/sh
-bash.header: |
+
+bash-header: |
     #!/bin/bash
 
-py.common: |
+shell-debug: |
+    if [ -n "$DEBUG" ]; then
+        PS4=':${LINENO}+'
+        set -x
+    fi
+
+py-common: |
     import os
     import re
     import sys
@@ -25,21 +33,22 @@ py.common: |
     print('name: ', __file__)
     print('args: ', ' '.join(sys.argv[1:]))
 
-py.suffix: py
-sh.suffix: sh
-ini.suffix: ini
-bash.suffix: sh
-yaml.suffix: yml
-docopt.suffix: py
-argparse.suffix: py
+py-suffix: py
+sh-suffix: sh
+ini-suffix: ini
+bash-suffix: sh
+yaml-suffix: yml
+docopt-suffix: py
+argparse-suffix: py
 '''
 
 KINDS = '''
 py: |
-    %(py.header)s
-    %(py.common)s
+    {py-header}
+    {py-common}
 sh: |
-    %(sh.header)s
+    {sh-header}
+    {shell-debug}
     echo "name: $0"
     echo "args: $@"
 ini: |
@@ -47,7 +56,8 @@ ini: |
     name: Ripley
     age: 43
 bash: |
-    %(bash.header)s
+    {bash-header}
+    {shell-debug}
     echo "name: $0"
     echo "args: $@"
 yaml: |
@@ -58,7 +68,7 @@ yaml: |
           - penny
           - bill
 docopt: |
-    %(py.header)s
+    {py-header}
     """Naval Fate.
 
     Usage:
@@ -84,8 +94,8 @@ docopt: |
         arguments = docopt(__doc__, version='Naval Fate 2.0')
         print(arguments)
 argparse: |
-    %(py.header)s
-    %(py.common)s
+    {py-header}
+    {py-common}
 
     from argparse import ArgumentParser
 
@@ -106,6 +116,9 @@ argparse: |
 
 def interpolate(d1, d2):
     return dict([(k,v % d2) for k,v in d1.iteritems()])
+
+def interpolate2(d1, d2):
+    return dict([(k, v.format(**d2)) for k, v in d1.iteritems()])
 
 def main(args):
     exitcode = 0
@@ -132,9 +145,9 @@ def main(args):
     ns = parser.parse_args(args)
     ns.filename = ns.name
     if ns.filename == 'tmp':
-        ns.filename = ns.name + '.' + templates.get(ns.kind + '.suffix', 'unknown')
+        ns.filename = ns.name + '.' + templates.get(ns.kind + '-suffix', 'unknown')
 
-    kinds = interpolate(kinds, templates)
+    kinds = interpolate2(kinds, templates)
 
     if ns.nerf:
         print kinds[ns.kind]
