@@ -1,2 +1,2 @@
 #!/bin/bash
-docker rmi $(docker images -q --filter "dangling=true")
+docker rmi `docker images -q --filter "dangling=true"`
