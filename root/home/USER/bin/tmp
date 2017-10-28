@@ -40,6 +40,7 @@ bash-suffix: sh
 yaml-suffix: yml
 docopt-suffix: py
 argparse-suffix: py
+argparse-yaml-suffix: py
 '''
 
 KINDS = '''
@@ -61,12 +62,9 @@ bash: |
     echo "name: $0"
     echo "args: $@"
 yaml: |
-    person:
-      - name: scott
-        age: 43
-        pets:
-          - penny
-          - bill
+    firstname: scott
+    lastname: idler
+    age: 43
 docopt: |
     {py-header}
     """Naval Fate.
@@ -111,13 +109,50 @@ argparse: |
 
         ns = parser.parse_args()
         print(ns)
+argparse-yaml: |
+    {py-header}
+    {py-common}
+
+    SCRIPTNAME = os.path.splitext(__file__)[0]
+
+    from ruamel import yaml
+    from argparse import ArgumentParser, RawDescriptionHelpFormatter
+
+    if __name__ == '__main__':
+        parser = ArgumentParser(
+            description=__doc__,
+            formatter_class=RawDescriptionHelpFormatter,
+            add_help=False)
+        parser.add_argument(
+            '--config',
+            metavar='FILEPATH',
+            default='%(SCRIPTNAME)s.yml' % globals(),
+            help='default="%(default)s"; config filepath')
+        ns, rem = parser.parse_known_args()
+        try:
+            config = yaml.safe_load(open(ns.config))
+        except FileNotFoundError as er:
+            pass
+        except:
+            config = dict()
+        parser = ArgumentParser(
+            parents=[parser])
+        parser.set_defaults(**config)
+        parser.add_argument(
+            '--firstname',
+            help='first name')
+        parser.add_argument(
+            '--lastname',
+            help='last name')
+        parser.add_argument(
+            '--age',
+            help='age')
+        ns = parser.parse_args(rem)
+        print(ns)
 
 '''
 
 def interpolate(d1, d2):
-    return dict([(k,v % d2) for k,v in d1.iteritems()])
-
-def interpolate2(d1, d2):
     return dict([(k, v.format(**d2)) for k, v in d1.iteritems()])
 
 def main(args):
@@ -147,7 +182,7 @@ def main(args):
     if ns.filename == 'tmp':
         ns.filename = ns.name + '.' + templates.get(ns.kind + '-suffix', 'unknown')
 
-    kinds = interpolate2(kinds, templates)
+    kinds = interpolate(kinds, templates)
 
     if ns.nerf:
         print kinds[ns.kind]
