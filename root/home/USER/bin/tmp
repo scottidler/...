@@ -132,8 +132,6 @@ argparse-yaml: |
         try:
             config = yaml.safe_load(open(ns.config))
         except FileNotFoundError as er:
-            pass
-        except:
             config = dict()
         parser = ArgumentParser(
             parents=[parser])
