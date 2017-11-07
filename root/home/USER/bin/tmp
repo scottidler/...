@@ -138,13 +138,13 @@ argparse-yaml: |
         parser.set_defaults(**config)
         parser.add_argument(
             '--firstname',
-            help='first name')
+            help='default="%(default)s"; first name')
         parser.add_argument(
             '--lastname',
-            help='last name')
+            help='default="%(default)s"; last name')
         parser.add_argument(
             '--age',
-            help='age')
+            help='default="%(default)s"; age')
         ns = parser.parse_args(rem)
         print(ns)
 
