@@ -78,6 +78,7 @@ alias cb="clipboard"
 
 alias irc="irccloud-search"
 alias ac="autocert"
+alias ad="autodomain"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
