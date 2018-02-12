@@ -1,7 +1,5 @@
 #!/bin/bash
 
-WORDS=("$@")
-
 if [ -n "$DEBUG" ]; then
     PS4=':${LINENO}+'
     set -x
@@ -14,7 +12,7 @@ while read -n1 CHAR; do
     else
         RESULT="$RESULT:${CHAR}_:"
     fi
-done  < <(echo -n "${WORDS[@]}")
+done  < <(echo -n "$@")
 echo "$RESULT"
 
 if ! hash xclip 2> /dev/null; then
