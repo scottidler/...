@@ -1,0 +1,29 @@
+#!/bin/bash
+
+WORDS=("$@")
+
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
+
+RESULT=""
+while read -n1 CHAR; do
+    echo "CHAR=$CHAR"
+    if [ -z "$CHAR" ]; then
+        RESULT="$RESULT:blank_:"
+    else
+        RESULT="$RESULT:${CHAR}_:"
+    fi
+done  < <(echo -n "${WORDS[@]}")
+echo "$RESULT"
+
+if ! hash xclip 2> /dev/null; then
+    echo "must install xclip"
+    exit 1
+else
+    echo "$RESULT" | xclip -selection clipboard
+fi
+
+
+
