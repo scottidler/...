@@ -9,7 +9,6 @@ fi
 
 RESULT=""
 while read -n1 CHAR; do
-    echo "CHAR=$CHAR"
     if [ -z "$CHAR" ]; then
         RESULT="$RESULT:blank_:"
     else
