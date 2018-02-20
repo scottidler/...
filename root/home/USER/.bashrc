@@ -139,7 +139,7 @@ if [ -f /opt/rh/rh-python35/enable ]; then
     source /opt/rh/rh-python35/enable
 fi
 
-if [-d /usr/local/go/bin ]; then
+if [ -d /usr/local/go/bin ]; then
     export PATH=$PATH:/usr/local/go/bin
 fi
 
