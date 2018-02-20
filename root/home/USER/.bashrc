@@ -139,8 +139,9 @@ if [ -f /opt/rh/rh-python35/enable ]; then
     source /opt/rh/rh-python35/enable
 fi
 
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
+if [-d /usr/local/go/bin ]; then
+    export PATH=$PATH:/usr/local/go/bin
+fi
 
 # make sure ~/bin is first in the path
 PATH=/home/$USER/bin:$(echo -n $PATH | sed -e "s|:/home/$USER/bin:|:|g")
