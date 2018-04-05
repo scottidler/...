@@ -78,7 +78,7 @@ alias cb="clipboard"
 
 alias irc="irccloud-search"
 alias ac="autocert"
-alias ad="autodomain"
+alias ap="ansible-playbook"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
