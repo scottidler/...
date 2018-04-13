@@ -104,3 +104,5 @@ alias ll='ls -alF --color=auto'
 alias la='ls -A --color=auto'
 alias l='ls -CF --color=auto'
 
+alias json2yaml="curl -sF \"json=@-\" https://x2y.rocks/yaml"
+alias yaml2json="curl -sF \"yaml=@-\" https://x2y.rocks/json"
