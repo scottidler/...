@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
+
+cd ~/...
+git pull
+
+cd ~/.../repos
+for reponame in $(ls-git-repos); do
+    echo "reponame=$reponame"
+done

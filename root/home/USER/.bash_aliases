@@ -1,4 +1,3 @@
-alias dots="cd ~/...; git pull"
 alias udpate="update"
 alias linode="ssh root@45.33.26.141"
 alias fog="ssh -A saidler@45.33.26.141"
