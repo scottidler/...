@@ -65,10 +65,8 @@ function doit() {
 }
 
 function dots() {
-    cd ~/...
-    git pull
-
+    cd ~/...; pwd; git pull
     for reponame in $(root/home/USER/bin/ls-git-repos repos); do
-        (cd repos/$reponame && git pull)
+        (cd repos/$reponame && pwd && git pull)
     done
 }
