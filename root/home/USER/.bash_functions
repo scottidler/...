@@ -64,3 +64,11 @@ function doit() {
     (cd "`upsearch dodo.py`" && time "`which doit`" "$@")
 }
 
+function dots() {
+    cd ~/...
+    git pull
+
+    for reponame in $(root/home/USER/bin/ls-git-repos repos); do
+        (cd repos/$reponame && git pull)
+    done
+}
