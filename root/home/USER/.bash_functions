@@ -70,3 +70,7 @@ function dots() {
         (cd repos/$reponame && pwd && git pull)
     done
 }
+
+function clone() {
+    cd $(~/bin/clone $1)
+}
