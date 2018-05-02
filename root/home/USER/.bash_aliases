@@ -97,11 +97,11 @@ fi
 alias less='less -r'
 
 # some more ls aliases
-alias lah='ls -lah --color=auto'
-alias ltr='ls -ltr --color=auto'
-alias ll='ls -alF --color=auto'
-alias la='ls -A --color=auto'
-alias l='ls -CF --color=auto'
+alias lah='ls-stat -lah --color=always'
+alias ltr='ls-stat -ltr --color=always'
+alias ll='ls-stat -alF --color=always'
+alias la='ls-stat -A --color=always'
+alias l='ls-stat -CF --color=always'
 
 alias json2yaml="curl -sF \"json=@-\" https://x2y.rocks/yaml"
 alias yaml2json="curl -sF \"yaml=@-\" https://x2y.rocks/json"
