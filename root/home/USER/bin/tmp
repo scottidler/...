@@ -33,9 +33,11 @@ py-common: |
     SCRIPT_PATH = os.path.abspath(__file__)
     SCRIPT_NAME = os.path.basename(SCRIPT_PATH)
     SCRIPT_DIR = os.path.dirname(SCRIPT_PATH)
-    REAL_PATH = os.path.abspath(os.readlink(__file__))
-    REAL_NAME = os.path.basename(REAL_PATH)
-    REAL_DIR = os.path.dirname(REAL_PATH)
+    NAME, EXT = os.path.splitext(SCRIPT_NAME)
+    if os.path.islink(__file__):
+        REAL_PATH = os.path.abspath(os.readlink(__file__))
+        REAL_NAME = os.path.basename(REAL_PATH)
+        REAL_DIR = os.path.dirname(REAL_PATH)
 
     print('name: ', __file__)
     print('args: ', ' '.join(sys.argv[1:]))
@@ -106,6 +108,13 @@ argparse: |
 
     if __name__ == '__main__':
         parser = ArgumentParser()
+        parser.add_argument(
+            '-C', '--config',
+            default=[
+                '~/.config/'+NAME+'/'+NAME+'.cfg',
+                SCRIPT_DIR+'/'+NAME+'.cfg',
+            ],
+            help='default=%(default)s; specify the config path')
         parser.add_argument(
             '--opt1',
             default='opt1_val',
