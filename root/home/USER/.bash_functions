@@ -74,3 +74,15 @@ function dots() {
 function clone() {
     cd $(~/bin/clone $1)
 }
+
+function toplevel() {
+    [ -d "$1" ] && echo "$1" || echo "$(dirname "$1")"
+}
+
+function mv-cd() {
+    mv "$1" "$2" && cd "$(toplevel "$2")"
+}
+
+function cp-cd() {
+    cp "$1" "$2" && cd "$(toplevel "$2")"
+}
