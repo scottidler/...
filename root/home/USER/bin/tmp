@@ -199,13 +199,14 @@ def main(args):
         action='store_true',
         help='delete filename')
     parser.add_argument(
-        '-n', '--name',
-        default='tmp',
-        help='optionally name the script')
-    parser.add_argument(
         'kind',
         choices=kinds.keys(),
         help='choose which kind of tmp file')
+    parser.add_argument(
+        'name',
+        default='tmp',
+        nargs='?',
+        help='optionally name the script')
 
     ns = parser.parse_args(args)
     ns.filename = ns.name
