@@ -30,6 +30,19 @@ hi Search ctermfg=Red ctermbg=None cterm=bold,underline
 "filetype plugin indent on
 "set shiftwidth=4 tabstop=4 softtabstop=4 expandtab autoindent
 "autocmd filetype c,asm,sls,yml,yaml,python,sh setlocal shiftwidth=4 tabstop=4 softtabstop=4
+
+" Uncomment the following to have Vim jump to the last position when
+" reopening a file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+"autoreload vimrc src: https://stackoverflow.com/a/2471060
+augroup myvimrc
+    au!
+    au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
+
 autocmd FileType make setlocal noexpandtab
 
 autocmd BufWritePre * :%s/\s\+$//e
