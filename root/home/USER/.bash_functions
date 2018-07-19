@@ -86,3 +86,7 @@ function mv-cd() {
 function cp-cd() {
     cp "$1" "$2" && cd "$(toplevel "$2")"
 }
+
+function mkdir-cd() {
+    mkdir "$1" && cd "$1"
+}
