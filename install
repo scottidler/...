@@ -202,7 +202,7 @@ for file in `find root/ -type f && find root/ -type l`; do
         $VERBOSE && echo "backing up $orig"
         run mv $link $orig
     elif [ ! -f "$link" ] && [ -L "$link" ]; then
-        $VERBOSE echo "removing broken link $link"
+        $VERBOSE && echo "removing broken link $link"
         run unlink $link
     fi
     if [ -f "$link" ]; then
