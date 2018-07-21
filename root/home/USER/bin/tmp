@@ -127,8 +127,8 @@ argparse: |
         parser.add_argument(
             '-C', '--config',
             default=[
-                '~/.config/'+NAME+'/'+NAME+'.cfg',
-                SCRIPT_DIR+'/'+NAME+'.cfg',
+                '~/.config/'+SCRIPT_NAME+'/'+SCRIPT_NAME+'.cfg',
+                SCRIPT_PATH+'/'+SCRIPT_NAME+'.cfg',
             ],
             help='default=%(default)s; specify the config path')
         parser.add_argument(
