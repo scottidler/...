@@ -1,9 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 import os
 import re
 import sys
-import yaml
+from ruamel import yaml
 
 from argparse import ArgumentParser
 
@@ -183,7 +184,7 @@ argparse-yaml: |
 '''
 
 def interpolate(d1, d2):
-    return dict([(k, v.format(**d2)) for k, v in d1.iteritems()])
+    return dict([(k, v.format(**d2)) for k, v in d1.items()])
 
 def main(args):
     exitcode = 0
@@ -216,13 +217,13 @@ def main(args):
     kinds = interpolate(kinds, templates)
 
     if ns.nerf:
-        print kinds[ns.kind]
+        print(kinds[ns.kind])
     elif ns.rm:
         os.remove(ns.filename)
     else:
         with open(ns.filename, 'w') as f:
             f.write(kinds[ns.kind])
-        os.chmod(ns.filename, 0755)
+        os.chmod(ns.filename, 0o755)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
