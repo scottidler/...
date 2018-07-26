@@ -97,16 +97,20 @@ function __prompt_command() {
     local Flesh="\n><(("
     local Bones="\n>---"
     local Body=$Flesh
-    local Color=$BIPurple
+    local EyeColor=$BIPurple
+    local BodyColor=$BICyan
     local Eye=$Alive
     if [ $EC != 0 ]; then
         Eye=$Dead
     fi
     if [ -f /.docker* ]; then
         Body=$Bones
-        Color=$BIGreen
+        EyeColor=$BIGreen
     fi
-    local Head="($Color$Eye$Reset>"
+    if [ -n "$VIRTUAL_ENV" ]; then
+        Body="$BodyColor$Body$Reset"
+    fi
+    local Head="($EyeColor$Eye$Reset>"
     local Prompt=$Body$Head
     # This PS1 snippet was adopted from code for MAC/BSD I saw from: http://allancraig.net/index.php?option=com_content&view=article&id=108:ps1-export-command-for-git&catid=45:general&Itemid=96
     # I tweaked it to work on UBUNTU 11.04 & 11.10 plus made it mo' better
