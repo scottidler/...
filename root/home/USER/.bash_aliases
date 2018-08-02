@@ -17,6 +17,9 @@ alias dpsaq="docker ps -aq"
 alias drm="docker rm"
 alias drmi="docker rmi"
 
+alias pbcopy="xclip -selection clipboard"
+alias pbpaste="xclip -selection clipboard -o"
+
 alias g="git"
 alias ga="git add"
 alias gb="git branch"
