@@ -113,17 +113,19 @@ docopt: |
     """
     from docopt import docopt
 
-
-    if __name__ == '__main__':
+    def main():
         arguments = docopt(__doc__, version='Naval Fate 2.0')
         print(arguments)
+
+    if __name__ == '__main__':
+        main()
 argparse: |
     {py-header}
     {py-common}
 
     from argparse import ArgumentParser
 
-    if __name__ == '__main__':
+    def main():
         parser = ArgumentParser()
         parser.add_argument(
             '-C', '--config',
@@ -142,16 +144,19 @@ argparse: |
 
         ns = parser.parse_args()
         print(ns)
+
+    if __name__ == '__main__':
+        main()
 argparse-yaml: |
     {py-header}
     {py-common}
 
-    SCRIPTNAME = os.path.splitext(__file__)[0]
+    NAME, EXT = os.path.splitext(__file__)
 
     from ruamel import yaml
     from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
-    if __name__ == '__main__':
+    def main():
         parser = ArgumentParser(
             description=__doc__,
             formatter_class=RawDescriptionHelpFormatter,
@@ -159,7 +164,7 @@ argparse-yaml: |
         parser.add_argument(
             '--config',
             metavar='FILEPATH',
-            default='%(SCRIPTNAME)s.yml' % globals(),
+            default='~/.config/%(NAME)s/%(NAME)s.yml' % globals(),
             help='default="%(default)s"; config filepath')
         ns, rem = parser.parse_known_args()
         try:
@@ -181,6 +186,8 @@ argparse-yaml: |
         ns = parser.parse_args(rem)
         print(ns)
 
+    if __name__ == '__main__':
+        main()
 '''
 
 def interpolate(d1, d2):
