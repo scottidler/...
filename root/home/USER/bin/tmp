@@ -9,7 +9,11 @@ from ruamel import yaml
 from argparse import ArgumentParser
 
 TEMPLATES = '''
-py-header: |
+py2-header: |
+    #!/usr/bin/env python2
+    # -*- coding: utf-8 -*-
+
+py3-header: |
     #!/usr/bin/env python3
     # -*- coding: utf-8 -*-
 
@@ -61,6 +65,10 @@ py-common: |
     print('name: ', __file__)
     print('args: ', ' '.join(sys.argv[1:]))
 
+sh-header-suffix: sh
+bash-header-suffix: sh
+py2-header-suffix: py
+py3-header-suffix: py
 py-suffix: py
 sh-suffix: sh
 ini-suffix: ini
@@ -72,8 +80,16 @@ argparse-yaml-suffix: py
 '''
 
 KINDS = '''
+sh-header: |
+    {sh-header}
+bash-header: |
+    {bash-header}
+py2-header: |
+    {py2-header}
+py3-header: |
+    {py3-header}
 py: |
-    {py-header}
+    {py3-header}
     {py-common}
 sh: |
     {sh-header}
@@ -92,7 +108,7 @@ yaml: |
     lastname: idler
     age: 43
 docopt: |
-    {py-header}
+    {py3-header}
     """Naval Fate.
 
     Usage:
@@ -120,7 +136,7 @@ docopt: |
     if __name__ == '__main__':
         main()
 argparse: |
-    {py-header}
+    {py3-header}
     {py-common}
 
     from argparse import ArgumentParser
@@ -148,7 +164,7 @@ argparse: |
     if __name__ == '__main__':
         main()
 argparse-yaml: |
-    {py-header}
+    {py3-header}
     {py-common}
 
     NAME, EXT = os.path.splitext(__file__)
@@ -207,6 +223,10 @@ def main(args):
         action='store_true',
         help='delete filename')
     parser.add_argument(
+        '-c', '--chmod',
+        default='755',
+        help='default="%(default)s"; set the value to chmod the file to')
+    parser.add_argument(
         'kind',
         choices=kinds.keys(),
         help='choose which kind of tmp file')
@@ -230,7 +250,8 @@ def main(args):
     else:
         with open(ns.filename, 'w') as f:
             f.write(kinds[ns.kind])
-        os.chmod(ns.filename, 0o755)
+        if ns.chmod:
+            os.chmod(ns.filename, int(ns.chmod, 8))
 
 if __name__ == '__main__':
     main(sys.argv[1:])
