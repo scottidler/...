@@ -167,7 +167,7 @@ argparse-yaml: |
     {py3-header}
     {py-common}
 
-    NAME, EXT = os.path.splitext(__file__)
+    NAME, EXT = os.path.splitext(SCRIPT_NAME)
 
     from ruamel import yaml
     from argparse import ArgumentParser, RawDescriptionHelpFormatter
