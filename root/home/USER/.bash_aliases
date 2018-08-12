@@ -5,6 +5,8 @@ alias cl="clear"
 alias pb="pianobar"
 alias pe="pipenv"
 
+alias repos="cd ~/repos"
+
 alias ipy="sudo ipython"
 alias ipy3="sudo ipython3"
 
