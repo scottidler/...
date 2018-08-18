@@ -148,6 +148,7 @@ PATH=/home/$USER/bin:$(echo -n $PATH | sed -e "s|:/home/$USER/bin:|:|g")
 
 export AWS_VAULT_BACKEND=secret-service
 export ANSIBLE_NOCOWS=1
+export GOPATH=~/go #FIXME: this won't allways be the case
 
 if hash kubectl 2> /dev/null; then
     source <(kubectl completion bash)

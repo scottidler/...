@@ -37,7 +37,7 @@ function cdr() {
     fi
 }
 
-function cdrr() {
+function cdpr() {
     cdr
     if `git rev-parse`; then
         cd ../
