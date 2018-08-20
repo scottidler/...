@@ -9,6 +9,8 @@
 	mnemonicprefix = true
 [rerere]
 	enabled = true
+[pull]
+	rebase = true
 [push]
 	default = simple
 	followTags = true
