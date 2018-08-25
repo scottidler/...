@@ -65,18 +65,32 @@ py-common: |
     print('name: ', __file__)
     print('args: ', ' '.join(sys.argv[1:]))
 
-sh-header-suffix: sh
-bash-header-suffix: sh
-py2-header-suffix: py
-py3-header-suffix: py
-py-suffix: py
-sh-suffix: sh
-ini-suffix: ini
-bash-suffix: sh
-yaml-suffix: yml
-docopt-suffix: py
-argparse-suffix: py
-argparse-yaml-suffix: py
+suffix:
+    py: py
+    sh: sh
+    ini: ini
+    bash: sh
+    yaml: yml
+    docopt: py
+    argparse: py
+    argparse-yaml: py
+    sh-header: sh
+    bash-header: sh
+    py2-header: py
+    py3-header: py
+chmod:
+    py: 775
+    sh: 775
+    ini: 664
+    bash: 775
+    yaml: 664
+    docopt: 775
+    argparse: 775
+    argparse-yaml: 775
+    sh-header: 775
+    bash-header: 775
+    py2-header: 664
+    py3-header: 664
 '''
 
 KINDS = '''
@@ -224,8 +238,7 @@ def main(args):
         help='delete filename')
     parser.add_argument(
         '-c', '--chmod',
-        default='755',
-        help='default="%(default)s"; set the value to chmod the file to')
+        help='set the value to chmod the file to')
     parser.add_argument(
         'kind',
         choices=kinds.keys(),
@@ -239,7 +252,8 @@ def main(args):
     ns = parser.parse_args(args)
     ns.filename = ns.name
     if ns.filename == 'tmp':
-        ns.filename = ns.name + '.' + templates.get(ns.kind + '-suffix', 'unknown')
+        suffix = templates['suffix'].get(ns.kind, 'unknown')
+        ns.filename = ns.name + '.' + suffix
 
     kinds = interpolate(kinds, templates)
 
@@ -250,8 +264,8 @@ def main(args):
     else:
         with open(ns.filename, 'w') as f:
             f.write(kinds[ns.kind])
-        if ns.chmod:
-            os.chmod(ns.filename, int(ns.chmod, 8))
+        chmod = ns.chmod if ns.chmod else templates['chmod'].get(ns.kind, 664)
+        os.chmod(ns.filename, int(str(chmod), 8))
 
 if __name__ == '__main__':
     main(sys.argv[1:])
