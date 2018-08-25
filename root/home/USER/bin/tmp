@@ -35,8 +35,8 @@ NAME, EXT = os.path.splitext(SCRIPT_NAME)
 def interpolate(kinds, templates):
     def visit(body):
         return dict(
-            chmod=body['chmod'],
-            suffix=body['suffix'],
+            chmod=body.get'chmod', 664),
+            suffix=body.get('suffix', 'unknown'),
             content=body['content'].format(**templates))
     return {kind: visit(body) for kind, body in kinds.items()}
 
@@ -88,8 +88,7 @@ def main(args):
     kind = kinds[ns.kind]
     filename = ns.name
     if filename == None:
-        suffix = kind.get('suffix', 'unknown')
-        filename = 'tmp.' + suffix
+        filename = 'tmp.' + kind['suffix']
 
     if ns.nerf:
         print(kind)
@@ -98,7 +97,7 @@ def main(args):
     else:
         with open(filename, 'w') as f:
             f.write(kind['content'])
-        chmod = ns.chmod if ns.chmod else kind.get('chmod', 664)
+        chmod = ns.chmod if ns.chmod else kind['chmod']
         os.chmod(filename, int(str(chmod), 8))
 
 if __name__ == '__main__':
