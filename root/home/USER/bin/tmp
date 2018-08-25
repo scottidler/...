@@ -35,7 +35,7 @@ NAME, EXT = os.path.splitext(SCRIPT_NAME)
 def interpolate(kinds, templates):
     def visit(body):
         return dict(
-            chmod=body.get'chmod', 664),
+            chmod=body.get('chmod', 664),
             suffix=body.get('suffix', 'unknown'),
             content=body['content'].format(**templates))
     return {kind: visit(body) for kind, body in kinds.items()}
