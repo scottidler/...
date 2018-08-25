@@ -12,13 +12,13 @@ kinds:
             {bash-header}
 
     py2-header:
-        chmod: 775
+        chmod: 664
         suffix: py
         content: |
             {py2-header}
 
     py3-header:
-        chmod: 775
+        chmod: 664
         suffix: py
         content: |
             {py3-header}
