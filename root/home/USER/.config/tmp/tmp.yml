@@ -29,6 +29,7 @@ kinds:
         content: |
             {py3-header}
             {py-common}
+            {py-footer}
 
     sh:
         chmod: 775
@@ -38,21 +39,17 @@ kinds:
             {shell-debug}
             {shell-common}
 
-    ini:
-        chmod: 664
-        suffix: ini
-        content: |
-            [person]
-            name: Ripley
-            age: 43
-
     cfg:
         chmod: 664
         suffix: cfg
         content: |
-            [person]
-            name: Ripley
-            age: 43
+            {cfg-ini}
+
+    ini:
+        chmod: 664
+        suffix: ini
+        content: |
+            {cfg-ini}
 
     bash:
         chmod: 775
@@ -99,8 +96,7 @@ kinds:
                 arguments = docopt(__doc__, version='Naval Fate 2.0')
                 print(arguments)
 
-            if __name__ == '__main__':
-                main()
+            {py-footer}
 
     argparse:
         chmod: 775
@@ -108,7 +104,6 @@ kinds:
         content: |
             {py3-header}
             {py-common}
-
             from argparse import ArgumentParser
 
             def main():
@@ -131,8 +126,7 @@ kinds:
                 ns = parser.parse_args()
                 print(ns)
 
-            if __name__ == '__main__':
-                main()
+            {py-footer}
 
     argparse-yaml:
         chmod: 775
@@ -140,7 +134,6 @@ kinds:
         content: |
             {py3-header}
             {py-common}
-
             NAME, EXT = os.path.splitext(SCRIPT_NAME)
 
             from ruamel import yaml
@@ -176,8 +169,7 @@ kinds:
                 ns = parser.parse_args(rem)
                 print(ns)
 
-            if __name__ == '__main__':
-                main()
+            {py-footer}
 
 templates:
     py2-header: |
@@ -200,6 +192,10 @@ templates:
             set -x
         fi
 
+    cfg-ini: |
+        [person]
+        name: Ripley
+        age: 43
     shell-common: |
         SCRIPT_FILE="$0"
         SCRIPT_NAME="$(basename "$SCRIPT_FILE")"
@@ -235,4 +231,8 @@ templates:
 
         print('name: ', __file__)
         print('args: ', ' '.join(sys.argv[1:]))
+
+    py-footer: |
+        if __name__ == '__main__':
+            main(sys.argv[1:])
 
