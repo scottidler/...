@@ -1,233 +1,69 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+'''
+tmp: helper function to quickly make file types defined in the config file
+
+by default, the config file is located here: ~/.config/tmp/tmp.yml
+
+kinds:
+    some-python-script:
+        chmod: 775
+        suffix: py
+        content: |
+            #!/usr/bin/env python3
+            # -*- coding: utf-8 -*-
+            print('hello world')
+'''
 
 import os
 import re
 import sys
+sys.dont_write_bytecode = True
 from ruamel import yaml
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
-from argparse import ArgumentParser
+SCRIPT_FILE = os.path.abspath(__file__)
+SCRIPT_NAME = os.path.basename(SCRIPT_FILE)
+SCRIPT_PATH = os.path.dirname(SCRIPT_FILE)
+if os.path.islink(__file__):
+    REAL_FILE = os.path.abspath(os.readlink(__file__))
+    REAL_NAME = os.path.basename(REAL_FILE)
+    REAL_PATH = os.path.dirname(REAL_FILE)
 
-TEMPLATES = '''
-py2-header: |
-    #!/usr/bin/env python2
-    # -*- coding: utf-8 -*-
+NAME, EXT = os.path.splitext(SCRIPT_NAME)
 
-py3-header: |
-    #!/usr/bin/env python3
-    # -*- coding: utf-8 -*-
+def interpolate(kinds, templates):
+    def visit(body):
+        return dict(
+            chmod=body['chmod'],
+            suffix=body['suffix'],
+            content=body['content'].format(**templates))
+    return {kind: visit(body) for kind, body in kinds.items()}
 
-sh-header: |
-    #!/bin/sh
-
-bash-header: |
-    #!/bin/bash
-
-shell-debug: |
-    if [ -n "$DEBUG" ]; then
-        PS4=':${LINENO}+'
-        set -x
-    fi
-
-shell-common: |
-    SCRIPT_FILE="$0"
-    SCRIPT_NAME="$(basename "$SCRIPT_FILE")"
-    SCRIPT_PATH="$(dirname "$SCRIPT_FILE")"
-    echo "SCRIPT_FILE=$SCRIPT_FILE"
-    echo "SCRIPT_NAME=$SCRIPT_NAME"
-    echo "SCRIPT_PATH=$SCRIPT_PATH"
-    if [ -L "$0" ]; then
-        REAL_FILE="$(readlink "$0")"
-        REAL_NAME="$(basename "$REAL_FILE")"
-        REAL_PATH="$(dirname "$REAL_FILE")"
-        echo "REAL_FILE=$REAL_FILE"
-        echo "REAL_NAME=$REAL_NAME"
-        echo "REAL_PATH=$REAL_PATH"
-    fi
-
-    echo "name: $0"
-    echo "args: $@"
-
-py-common: |
-    import os
-    import re
-    import sys
-    sys.dont_write_bytecode = True
-
-    SCRIPT_FILE = os.path.abspath(__file__)
-    SCRIPT_NAME = os.path.basename(SCRIPT_FILE)
-    SCRIPT_PATH = os.path.dirname(SCRIPT_FILE)
-    if os.path.islink(__file__):
-        REAL_FILE = os.path.abspath(os.readlink(__file__))
-        REAL_NAME = os.path.basename(REAL_FILE)
-        REAL_PATH = os.path.dirname(REAL_FILE)
-
-    print('name: ', __file__)
-    print('args: ', ' '.join(sys.argv[1:]))
-
-suffix:
-    py: py
-    sh: sh
-    ini: ini
-    bash: sh
-    yaml: yml
-    docopt: py
-    argparse: py
-    argparse-yaml: py
-    sh-header: sh
-    bash-header: sh
-    py2-header: py
-    py3-header: py
-chmod:
-    py: 775
-    sh: 775
-    ini: 664
-    bash: 775
-    yaml: 664
-    docopt: 775
-    argparse: 775
-    argparse-yaml: 775
-    sh-header: 775
-    bash-header: 775
-    py2-header: 664
-    py3-header: 664
-'''
-
-KINDS = '''
-sh-header: |
-    {sh-header}
-bash-header: |
-    {bash-header}
-py2-header: |
-    {py2-header}
-py3-header: |
-    {py3-header}
-py: |
-    {py3-header}
-    {py-common}
-sh: |
-    {sh-header}
-    {shell-debug}
-    {shell-common}
-ini: |
-    [person]
-    name: Ripley
-    age: 43
-bash: |
-    {bash-header}
-    {shell-debug}
-    {shell-common}
-yaml: |
-    firstname: scott
-    lastname: idler
-    age: 43
-docopt: |
-    {py3-header}
-    """Naval Fate.
-
-    Usage:
-      naval_fate.py ship new <name>...
-      naval_fate.py ship <name> move <x> <y> [--speed=<kn>]
-      naval_fate.py ship shoot <x> <y>
-      naval_fate.py mine (set|remove) <x> <y> [--moored | --drifting]
-      naval_fate.py (-h | --help)
-      naval_fate.py --version
-
-    Options:
-      -h --help     Show this screen.
-      --version     Show version.
-      --speed=<kn>  Speed in knots [default: 10].
-      --moored      Moored (anchored) mine.
-      --drifting    Drifting mine.
-
-    """
-    from docopt import docopt
-
-    def main():
-        arguments = docopt(__doc__, version='Naval Fate 2.0')
-        print(arguments)
-
-    if __name__ == '__main__':
-        main()
-argparse: |
-    {py3-header}
-    {py-common}
-
-    from argparse import ArgumentParser
-
-    def main():
-        parser = ArgumentParser()
-        parser.add_argument(
-            '-C', '--config',
-            default=[
-                '~/.config/'+SCRIPT_NAME+'/'+SCRIPT_NAME+'.cfg',
-                SCRIPT_PATH+'/'+SCRIPT_NAME+'.cfg',
-            ],
-            help='default=%(default)s; specify the config path')
-        parser.add_argument(
-            '--opt1',
-            default='opt1_val',
-            help='help for optional argument 1')
-        parser.add_argument(
-            'pos1',
-            help='help for positional argument 1')
-
-        ns = parser.parse_args()
-        print(ns)
-
-    if __name__ == '__main__':
-        main()
-argparse-yaml: |
-    {py3-header}
-    {py-common}
-
-    NAME, EXT = os.path.splitext(SCRIPT_NAME)
-
-    from ruamel import yaml
-    from argparse import ArgumentParser, RawDescriptionHelpFormatter
-
-    def main():
-        parser = ArgumentParser(
-            description=__doc__,
-            formatter_class=RawDescriptionHelpFormatter,
-            add_help=False)
-        parser.add_argument(
-            '--config',
-            metavar='FILEPATH',
-            default='~/.config/%(NAME)s/%(NAME)s.yml' % globals(),
-            help='default="%(default)s"; config filepath')
-        ns, rem = parser.parse_known_args()
-        try:
-            config = yaml.safe_load(open(ns.config))
-        except FileNotFoundError as er:
-            config = dict()
-        parser = ArgumentParser(
-            parents=[parser])
-        parser.set_defaults(**config)
-        parser.add_argument(
-            '--firstname',
-            help='default="%(default)s"; first name')
-        parser.add_argument(
-            '--lastname',
-            help='default="%(default)s"; last name')
-        parser.add_argument(
-            '--age',
-            help='default="%(default)s"; age')
-        ns = parser.parse_args(rem)
-        print(ns)
-
-    if __name__ == '__main__':
-        main()
-'''
-
-def interpolate(d1, d2):
-    return dict([(k, v.format(**d2)) for k, v in d1.items()])
+class ConfigFileNotFoundError(FileNotFoundError):
+    pass
 
 def main(args):
     exitcode = 0
-    templates = yaml.safe_load(TEMPLATES)
-    kinds = yaml.safe_load(KINDS)
-    parser = ArgumentParser()
+    parser = ArgumentParser(
+        description=__doc__,
+        formatter_class=RawDescriptionHelpFormatter,
+        add_help=False)
+    parser.add_argument(
+        '--config',
+        metavar='FILEPATH',
+        default='~/.config/{NAME}/{NAME}.yml'.format(**globals()),
+        help='default="%(default)s"; config filepath')
+    ns, rem = parser.parse_known_args()
+    try:
+        config = yaml.safe_load(open(os.path.expanduser(ns.config)))
+    except FileNotFoundError as er:
+        raise ConfigFileNotFoundError
+
+    kinds = interpolate(config['kinds'], config['templates'])
+    parser = ArgumentParser(
+        parents=[parser])
+    #parser.set_defaults(**config)
     parser.add_argument(
         '-N', '--nerf',
         action='store_true',
@@ -245,27 +81,25 @@ def main(args):
         help='choose which kind of tmp file')
     parser.add_argument(
         'name',
-        default='tmp',
         nargs='?',
-        help='optionally name the script')
+        help='default="tmp"; optionally name the script')
 
     ns = parser.parse_args(args)
-    ns.filename = ns.name
-    if ns.filename == 'tmp':
-        suffix = templates['suffix'].get(ns.kind, 'unknown')
-        ns.filename = ns.name + '.' + suffix
-
-    kinds = interpolate(kinds, templates)
+    kind = kinds[ns.kind]
+    filename = ns.name
+    if filename == None:
+        suffix = kind.get('suffix', 'unknown')
+        filename = 'tmp.' + suffix
 
     if ns.nerf:
-        print(kinds[ns.kind])
+        print(kind)
     elif ns.rm:
-        os.remove(ns.filename)
+        os.remove(filename)
     else:
-        with open(ns.filename, 'w') as f:
-            f.write(kinds[ns.kind])
-        chmod = ns.chmod if ns.chmod else templates['chmod'].get(ns.kind, 664)
-        os.chmod(ns.filename, int(str(chmod), 8))
+        with open(filename, 'w') as f:
+            f.write(kind['content'])
+        chmod = ns.chmod if ns.chmod else kind.get('chmod', 664)
+        os.chmod(filename, int(str(chmod), 8))
 
 if __name__ == '__main__':
     main(sys.argv[1:])
