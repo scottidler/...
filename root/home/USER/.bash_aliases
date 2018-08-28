@@ -49,6 +49,7 @@ alias gbp="git-big-picture"
 
 alias gsm="git submodule"
 alias gsmu="gsm update"
+alias gsmur="gsm update --remote"
 alias gsmui="gsm update --jobs=$((3 * $(nproc))) --init --recursive"
 alias reporoot="git rev-parse --show-toplevel"
 
