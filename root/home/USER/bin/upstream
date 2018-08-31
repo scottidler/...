@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+UPSTREAM="$1"
+
+if [ -z "$UPSTREAM" ]; then
+    echo "pass upstream repo url {ssh,https}"
+    exit 1
+fi
+
+if [ -n "$REPO_ROOT" ]; then
+    git remote add upstream "$UPSTREAM"
+    git remote -v
+    git fetch upstream
+    git checkout master
+    git merge --ff-only upstream/master
+fi
