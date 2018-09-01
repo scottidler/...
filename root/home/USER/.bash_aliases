@@ -7,7 +7,8 @@ alias pe="pipenv"
 
 alias repos="cd ~/repos"
 
-alias ipy="sudo ipython"
+alias ipy="sudo ipython3"
+alias ipy2="sudo ipython"
 alias ipy3="sudo ipython3"
 
 alias d="docker"
