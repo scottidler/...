@@ -1,8 +1,16 @@
 #!/bin/bash
 
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
+
 this="$0"
 args=("$@")
 vim=/usr/bin/vim
+
+VIM_MIN="${VIM_MIN:-2}"
+VIM_MAX="${VIM_MAX:-3}"
 
 for arg in "${args[@]}"; do
     if [[ "$arg" == "-"* ]]; then
@@ -11,7 +19,7 @@ for arg in "${args[@]}"; do
 done
 
 case ${#args[@]} in
-    [0-1])  exec $vim    "${args[@]}";;
-    [2-3])  exec $vim -O "${args[@]}";;
-    *)      exec $vim -o "${args[@]}";;
+    [0-1])                  exec $vim    "${args[@]}";;
+    [$VIM_MIN-$VIM_MAX])    exec $vim -O "${args[@]}";;
+    *)                      exec $vim -o "${args[@]}";;
 esac
