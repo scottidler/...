@@ -98,7 +98,7 @@ kinds:
 
             {py-footer}
 
-    argparse:
+    ap:
         chmod: 775
         suffix: py
         content: |
@@ -128,7 +128,7 @@ kinds:
 
             {py-footer}
 
-    argparse-yaml:
+    ap-yaml:
         chmod: 775
         suffix: py
         content: |
