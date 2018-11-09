@@ -1,5 +1,12 @@
 #!/bin/bash
+
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
+
 if hash pip3 2> /dev/null; then
     echo "updating pip3 packages..."
-    pip3 list | cut -d' ' -f1 | xargs sudo -H pip3 install --upgrade
+    PKGS="`pip3 list | tail -n +3 | cut -d' ' -f1 | xargs echo -n`"
+    sudo -H pip3 install --upgrade $PKGS
 fi
