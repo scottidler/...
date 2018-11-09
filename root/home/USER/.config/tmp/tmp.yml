@@ -139,7 +139,7 @@ kinds:
             from ruamel import yaml
             from argparse import ArgumentParser, RawDescriptionHelpFormatter
 
-            def main():
+            def main(args=None):
                 parser = ArgumentParser(
                     description=__doc__,
                     formatter_class=RawDescriptionHelpFormatter,
@@ -149,7 +149,7 @@ kinds:
                     metavar='FILEPATH',
                     default='~/.config/%(NAME)s/%(NAME)s.yml' % globals(),
                     help='default="%(default)s"; config filepath')
-                ns, rem = parser.parse_known_args()
+                ns, rem = parser.parse_known_args(args)
                 try:
                     config = yaml.safe_load(open(ns.config))
                 except FileNotFoundError as er:
