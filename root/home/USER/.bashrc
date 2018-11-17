@@ -150,6 +150,12 @@ export AWS_VAULT_BACKEND=secret-service
 export ANSIBLE_NOCOWS=1
 export GOPATH=~/go #FIXME: this won't allways be the case
 
+export term_pane=0,0,0,1840,2100
+export slack_pane=0,1840,1400,1000,700
+export spotify_pane=0,2840,1400,1000,700
+export home_pane=0,1840,0,1000,1400
+export work_pane=0,2840,0,1000,1400
+
 if hash kubectl 2> /dev/null; then
     source <(kubectl completion bash)
 fi

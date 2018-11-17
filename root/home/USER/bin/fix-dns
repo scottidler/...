@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
+
+sudo systemd-resolve --flush-caches
