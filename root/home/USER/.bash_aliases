@@ -76,6 +76,8 @@ alias twin="ssh saidler@twin.lan"
 alias fedev="ssh saidler@fedev.lan"
 alias fog="ssh saidler@fog.linode"
 
+alias k="kubectl"
+
 alias pip2="sudo -H pip2"
 alias pip3="sudo -H pip3"
 
