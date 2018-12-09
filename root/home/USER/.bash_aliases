@@ -23,6 +23,18 @@ alias drmi="docker rmi"
 alias pbcopy="xclip -selection clipboard"
 alias pbpaste="xclip -selection clipboard -o"
 
+alias k="kubectl"
+alias kgp="kubectl get pod"
+alias kgs="kubectl get svc"
+alias kgd="kubectl get deployment"
+alias kgv="kubectl get ingress.voyager.appscode.com"
+alias kdp="kubectl describe pod"
+alias kds="kubectl describe svc"
+alias kdd="kubectl describe deployment"
+alias kdv="kubectl describe ingress.voyager.appscode.com"
+
+alias ns="--namespace=slack"
+
 alias g="git"
 alias ga="git add"
 alias gb="git branch"
@@ -75,8 +87,6 @@ alias pffw="ssh saidler@pffw.lan"
 alias twin="ssh saidler@twin.lan"
 alias fedev="ssh saidler@fedev.lan"
 alias fog="ssh saidler@fog.linode"
-
-alias k="kubectl"
 
 alias pip2="sudo -H pip2"
 alias pip3="sudo -H pip3"
