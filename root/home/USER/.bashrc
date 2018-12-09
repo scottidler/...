@@ -163,3 +163,6 @@ fi
 if [ -f /home/sidler/.acme.sh/acme.sh.env ]; then
     source /home/sidler/.acme.sh/acme.sh.env
 fi
+
+# added by travis gem
+[ -f /home/sidler/.travis/travis.sh ] && source /home/sidler/.travis/travis.sh
