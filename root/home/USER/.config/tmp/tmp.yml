@@ -95,7 +95,7 @@ kinds:
             """
             from docopt import docopt
 
-            def main():
+            def main(args):
                 arguments = docopt(__doc__, version='Naval Fate 2.0')
                 print(arguments)
 
@@ -109,7 +109,7 @@ kinds:
             {py-common}
             from argparse import ArgumentParser
 
-            def main():
+            def main(args):
                 parser = ArgumentParser()
                 parser.add_argument(
                     '-C', '--config',
