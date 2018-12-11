@@ -9,8 +9,7 @@ export ZSH=$HOME/.oh-my-zsh
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="agnoster"
 
-eval `dircolors ~/.dir_colors/dircolors`
-
+source ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -86,7 +85,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
 eval `dircolors ~/.dir_colors/dircolors`
 
 # added by travis gem
