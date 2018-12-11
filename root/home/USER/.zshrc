@@ -85,7 +85,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-eval `dircolors ~/.dir_colors/dircolors`
 
 # added by travis gem
 [ -f /home/sidler/.travis/travis.sh ] && source /home/sidler/.travis/travis.sh
