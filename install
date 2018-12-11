@@ -222,7 +222,7 @@ fi
 echo "checking out repos..."
 mkdir -p repos
 for git in "${GIT[@]}"; do
-    [ -d "repos/$git" ] || run git clone https://github.com/$git repos/$git
+    [ -d "repos/$git" ] || run git clone --recursive https://github.com/$git repos/$git
     (cd repos/$git && pwd && run git pull && run git checkout HEAD)
 done
 echo
