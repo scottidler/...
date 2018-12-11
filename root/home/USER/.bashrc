@@ -75,14 +75,6 @@ fi
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.bash_aliases ]; then
-    source ~/.bash_aliases
-fi
-
-if [ -f ~/.bash_functions ]; then
-    source ~/.bash_functions
-fi
-
 if [ -f ~/.bash_prompt ]; then
     source ~/.bash_prompt
 fi
@@ -143,25 +135,24 @@ if [ -d /usr/local/go/bin ]; then
     export PATH=$PATH:/usr/local/go/bin
 fi
 
-# make sure ~/bin is first in the path
-PATH=/home/$USER/bin:$(echo -n $PATH | sed -e "s|:/home/$USER/bin:|:|g")
-
-export AWS_VAULT_BACKEND=secret-service
-export ANSIBLE_NOCOWS=1
-export GOPATH=~/go #FIXME: this won't allways be the case
-
-export term_pane=0,0,0,1840,2100
-export slack_pane=0,1840,1400,1000,700
-export spotify_pane=0,2840,1400,1000,700
-export home_pane=0,1840,0,1000,1400
-export work_pane=0,2840,0,1000,1400
-
 if hash kubectl 2> /dev/null; then
     source <(kubectl completion bash)
 fi
 
 if [ -f /home/sidler/.acme.sh/acme.sh.env ]; then
     source /home/sidler/.acme.sh/acme.sh.env
+fi
+
+if [ -f ~/.shell_aliases ]; then
+    source ~/.shell_aliases
+fi
+
+if [ -f ~/.shell_functions ]; then
+    source ~/.shell_functions
+fi
+
+if [ -f ~/.shell_exports ]; then
+    source ~/.shell_exports
 fi
 
 # added by travis gem

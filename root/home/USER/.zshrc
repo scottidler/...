@@ -86,5 +86,44 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f /home/saidler/google-cloud-sdk/path.bash.inc ]; then
+    source /home/saidler/google-cloud-sdk/path.bash.inc
+fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f /home/saidler/google-cloud-sdk/completion.bash.inc ]; then
+    source /home/saidler/google-cloud-sdk/completion.bash.inc
+fi
+
+# enables python3.5 on centos 7 boxes
+if [ -f /opt/rh/rh-python35/enable ]; then
+    source /opt/rh/rh-python35/enable
+fi
+
+if [ -d /usr/local/go/bin ]; then
+    export PATH=$PATH:/usr/local/go/bin
+fi
+
+if hash kubectl 2> /dev/null; then
+    source <(kubectl completion bash)
+fi
+
+if [ -f /home/sidler/.acme.sh/acme.sh.env ]; then
+    source /home/sidler/.acme.sh/acme.sh.env
+fi
+
+if [ -f ~/.shell_aliases ]; then
+    source ~/.shell_aliases
+fi
+
+if [ -f ~/.shell_functions ]; then
+    source ~/.shell_functions
+fi
+
+if [ -f ~/.shell_exports ]; then
+    source ~/.shell_exports
+fi
+
 # added by travis gem
 [ -f /home/sidler/.travis/travis.sh ] && source /home/sidler/.travis/travis.sh
