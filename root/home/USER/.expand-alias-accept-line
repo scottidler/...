@@ -1,0 +1,38 @@
+#!/bin/zsh
+
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
+
+. ~/.shell_aliases
+
+DIR="$(cd "$(dirname "$0")" && pwd)"
+expand-alias-accept-line() {
+    if [[ "$BUFFER" != "#"* ]]; then
+        TOKENS=($(echo "$BUFFER"))
+        BUFFER=""
+        CMD="${TOKENS[1]}"
+        CMD_EXP=$(alias "$CMD" | sed -re 's/([^=]+)=(.*)/\2/' | sed -re "s/^'(.*)'$/\1/")
+        if [[ -n "$CMD_EXP" ]]; then
+            BUFFER="$CMD_EXP"
+        else
+            BUFFER="$CMD"
+        fi
+        ARGS=($(echo "${TOKENS[2,-1]}"))
+        for ARG in $ARGS; do
+            ARG_EXP=$(alias -g "$ARG" | sed -re 's/([^=]+)=(.*)/\2/' | sed -re "s/^'(.*)'$/\1/")
+            if [[ -n "$ARG_EXP" ]]; then
+                BUFFER+=" $ARG_EXP"
+            else
+                BUFFER+=" $ARG"
+            fi
+        done
+        if [[ "$BUFFER" == *" !" ]]; then
+            BUFFER="sudo ${BUFFER% !}"
+        fi
+    fi
+    zle .accept-line
+}
+
+zle -N accept-line expand-alias-accept-line
