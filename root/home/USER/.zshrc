@@ -113,15 +113,15 @@ if [ -f /home/sidler/.acme.sh/acme.sh.env ]; then
     . /home/sidler/.acme.sh/acme.sh.env
 fi
 
-if [ -f ~/.shell_aliases ]; then
+if [ -f ~/.shell-aliases ]; then
     . ~/.shell_aliases
 fi
 
-if [ -f ~/.shell_functions ]; then
+if [ -f ~/.shell-functions ]; then
     . ~/.shell_functions
 fi
 
-if [ -f ~/.shell_exports ]; then
+if [ -f ~/.shell-exports ]; then
     . ~/.shell_exports
 fi
 
