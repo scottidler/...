@@ -5,7 +5,7 @@ if [ -n "$DEBUG" ]; then
     set -x
 fi
 
-. ~/.shell_aliases
+. ~/.shell-aliases
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
 expand-alias-accept-line() {
