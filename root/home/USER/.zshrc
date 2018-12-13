@@ -127,6 +127,7 @@ fi
 
 if [ -f ~/.expand-alias-accept-line ]; then
     . ~/.expand-alias-accept-line
+    export EXPAND_ALIASES=yes
 fi
 
 # added by travis gem
