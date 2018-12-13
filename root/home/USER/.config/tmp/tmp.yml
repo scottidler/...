@@ -42,6 +42,14 @@ kinds:
             {shell-debug}
             {shell-common}
 
+    zsh:
+        chmod: 775
+        suffix: sh
+        content: |
+            {zsh-header}
+            {shell-debug}
+            {shell-common}
+
     cfg:
         chmod: 664
         suffix: cfg
@@ -185,6 +193,9 @@ templates:
 
     sh-header: |
         #!/bin/sh
+
+    zsh-header: |
+        #!/bin/zsh
 
     bash-header: |
         #!/bin/bash
