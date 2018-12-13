@@ -9,7 +9,7 @@ fi
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
 expand-alias-accept-line() {
-    if [[ "$BUFFER" != "#"* ]]; then
+    if [[ -n "$EXPAND_ALIASES" ]] && [[ "$BUFFER" != "EXPAND_ALIASES="* ]] && [[ "$BUFFER" != "#"* ]]; then
         TOKENS=($(echo "$BUFFER"))
         BUFFER=""
         CMD="${TOKENS[1]}"

@@ -114,15 +114,15 @@ if [ -f /home/sidler/.acme.sh/acme.sh.env ]; then
 fi
 
 if [ -f ~/.shell-aliases ]; then
-    . ~/.shell_aliases
+    . ~/.shell-aliases
 fi
 
 if [ -f ~/.shell-functions ]; then
-    . ~/.shell_functions
+    . ~/.shell-functions
 fi
 
 if [ -f ~/.shell-exports ]; then
-    . ~/.shell_exports
+    . ~/.shell-exports
 fi
 
 if [ -f ~/.expand-alias-accept-line ]; then
