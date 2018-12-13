@@ -10,7 +10,7 @@ fi
 DIR="$(cd "$(dirname "$0")" && pwd)"
 expand-alias-accept-line() {
     if [[ -n "$EXPAND_ALIASES" ]] && [[ "$BUFFER" != "EXPAND_ALIASES="* ]] && [[ "$BUFFER" != "#"* ]]; then
-        TOKENS=(${(@s/ /)BUFFER})
+        TOKENS=("${(@s/ /)BUFFER}")
         BUFFER=""
         CMD="${TOKENS[1]}"
         CMD_EXP=$(alias "$CMD" | sed -re 's/([^=]+)=(.*)/\2/' | sed -re "s/^'(.*)'$/\1/")
