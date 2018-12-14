@@ -21,7 +21,7 @@ expand-alias-accept-line() {
         PS4=':${LINENO}+'
         set -x
     fi
-    if [[ -n "$EXPAND_ALIASES" ]] && [[ "$BUFFER" != "EXPAND_ALIASES="* ]] && [[ "$BUFFER" != "#"* ]]; then
+    if [[ -n "$EXPAND_ALIASES" ]] && [[ "$BUFFER" != "alias"* ]] && [[ "$BUFFER" != "#"* ]]; then
         TOKENS=("${(@s/ /)BUFFER}")
         BUFFER=""
         CMD="${TOKENS[1]}"
