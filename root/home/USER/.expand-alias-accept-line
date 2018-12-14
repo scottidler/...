@@ -1,32 +1,34 @@
 #!/bin/zsh
 
-if [ -n "$DEBUG" ]; then
-    PS4=':${LINENO}+'
-    set -x
-fi
-
 . ~/.shell-aliases
 
-DIR="$(cd "$(dirname "$0")" && pwd)"
+lookup() {
+    if [[ "$1" == "-g" ]]; then
+        OPT="$1"; shift
+    fi
+    if [[ "$1" != "-"* ]]; then
+        EXP=$(alias "$OPT" "$1" | sed -re 's/([^=]+)=(.*)/\2/' | sed -re "s/^'(.*)'$/\1/")
+        if [[ -n "$EXP" ]]; then
+            echo "$EXP"
+            return
+        fi
+    fi
+    echo "$1"
+}
+
 expand-alias-accept-line() {
+    if [ -n "$DEBUG" ]; then
+        PS4=':${LINENO}+'
+        set -x
+    fi
     if [[ -n "$EXPAND_ALIASES" ]] && [[ "$BUFFER" != "EXPAND_ALIASES="* ]] && [[ "$BUFFER" != "#"* ]]; then
         TOKENS=("${(@s/ /)BUFFER}")
         BUFFER=""
         CMD="${TOKENS[1]}"
-        CMD_EXP=$(alias "$CMD" | sed -re 's/([^=]+)=(.*)/\2/' | sed -re "s/^'(.*)'$/\1/")
-        if [[ -n "$CMD_EXP" ]]; then
-            BUFFER="$CMD_EXP"
-        else
-            BUFFER="$CMD"
-        fi
+        BUFFER="$(lookup "$CMD")"
         ARGS=($(echo "${TOKENS[2,-1]}"))
         for ARG in $ARGS; do
-            ARG_EXP=$(alias -g "$ARG" | sed -re 's/([^=]+)=(.*)/\2/' | sed -re "s/^'(.*)'$/\1/")
-            if [[ -n "$ARG_EXP" ]]; then
-                BUFFER+=" $ARG_EXP"
-            else
-                BUFFER+=" $ARG"
-            fi
+            BUFFER+=" $(lookup -g "$ARG")"
         done
         if [[ "$BUFFER" == *" !" ]]; then
             BUFFER="sudo ${BUFFER% !}"
