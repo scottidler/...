@@ -60,9 +60,9 @@ function upsearch() {
     return
 }
 
-function doit() {
-    (cd "`upsearch dodo.py`" && time "`which doit`" "$@")
-}
+#function doit() {
+#    (cd "`upsearch dodo.py`" && time doit "$@")
+#}
 
 function dots() {
     cd ~/...; pwd; git pull
