@@ -3,6 +3,10 @@
 . ~/.shell-aliases
 
 lookup() {
+    if [ -n "$DEBUG_LOOKUP" ]; then
+        PS4=':${LINENO}+'
+        set -x
+    fi
     if [[ "$1" == "-g" ]]; then
         OPT="$1"; shift
     fi
@@ -13,27 +17,31 @@ lookup() {
             return
         fi
     fi
-    echo "$1"
+    printf '%s\n' "$1"
 }
 
 expand-alias-accept-line() {
-    if [ -n "$DEBUG" ]; then
+    if [ -n "$DEBUG_EXPAND" ]; then
         PS4=':${LINENO}+'
         set -x
     fi
-    if [[ -n "$EXPAND_ALIASES" ]] && [[ "$BUFFER" != "alias"* ]] && [[ "$BUFFER" != "#"* ]]; then
+    if [[ -n "$BUFFER" ]] && [[ -n "$EXPAND_ALIASES" ]] && [[ "$BUFFER" != "alias"* ]] && [[ "$BUFFER" != "#"* ]]; then
         TOKENS=("${(@s/ /)BUFFER}")
-        BUFFER=""
+        NEW_BUFFER=""
         CMD="${TOKENS[1]}"
-        BUFFER="$(lookup "$CMD")"
+        NEW_BUFFER="$(lookup "$CMD")"
         ARGS=($(echo "${TOKENS[2,-1]}"))
         for ARG in $ARGS; do
-            BUFFER+=" $(lookup -g "$ARG")"
+            NEW_BUFFER+=" $(lookup -g "$ARG")"
         done
-        if [[ "$BUFFER" == *" !" ]]; then
-            BUFFER="sudo ${BUFFER% !}"
+        if [[ "$NEW_BUFFER" == *" !" ]]; then
+            NEW_BUFFER="sudo ${NEW_BUFFER% !}"
         fi
     fi
+    if [ -n "$DEBUG_EXPAND" ]; then
+        echo "$BUFFER -> $NEW_BUFFER"
+    fi
+    BUFFER="$NEW_BUFFER"
     zle .accept-line
 }
 
