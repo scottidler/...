@@ -13,11 +13,11 @@ lookup() {
     if [[ "$1" != "-"* ]]; then
         EXP=$(alias "$OPT" "$1" | sed -re 's/([^=]+)=(.*)/\2/' | sed -re "s/^'(.*)'$/\1/")
         if [[ -n "$EXP" ]]; then
-            echo "$EXP"
-            printf '%s\n' "$EXP"
+            printf '%s' "$EXP"
+            return
         fi
     fi
-    printf '%s\n' "$1"
+    printf '%s' "$1"
 }
 
 expand-alias-accept-line() {
@@ -27,7 +27,6 @@ expand-alias-accept-line() {
     fi
     if [[ -n "$BUFFER" ]] && [[ -n "$EXPAND_ALIASES" ]] && [[ "$BUFFER" != "alias"* ]] && [[ "$BUFFER" != "#"* ]]; then
         TOKENS=("${(@s/ /)BUFFER}")
-        NEW_BUFFER=""
         CMD="${TOKENS[1]}"
         NEW_BUFFER="$(lookup "$CMD")"
         ARGS=($(echo "${TOKENS[2,-1]}"))
@@ -38,8 +37,8 @@ expand-alias-accept-line() {
             NEW_BUFFER="sudo ${NEW_BUFFER% !}"
         fi
     fi
-    if [ -n "$DEBUG_EXPAND" ]; then
-        echo "$BUFFER -> $NEW_BUFFER"
+    if [ -f /var/tmp/expand-alias-accept-line.log ] && [[ "$BUFFER" != "$NEW_BUFFER" ]]; then
+        echo "|$BUFFER| -> |$NEW_BUFFER|" >> /var/tmp/expand-alias-accept-line.log
     fi
     BUFFER="$NEW_BUFFER"
     zle .accept-line
