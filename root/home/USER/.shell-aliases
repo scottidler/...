@@ -2,7 +2,6 @@
 
 # global aliases
 alias -g G="| grep -i"
-alias -g slack="-n slack"
 
 # regular alises
 alias udpate="update"
@@ -74,8 +73,9 @@ alias gsmui="gsm update --jobs=$((3 * $(nproc))) --init --recursive"
 alias reporoot="git rev-parse --show-toplevel"
 
 alias bashrc="vim ~/.bashrc; . ~/.bashrc"
-alias bash_aliases="vim ~/.bash_aliases; . ~/.bashrc"
-alias bash_functions="vim ~/.bash_functions; . ~/.bashrc"
+alias zshrc="vim ~/.zshrc; . ~/.zshrc"
+alias aliases="vim ~/.shell-aliases; . ~/.zshrc"
+alias functions="vim ~/.shell-functions; . ~/.zshrc"
 
 alias ureboot="update && reboot"
 alias ushutdown="update && shutdown"
