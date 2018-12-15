@@ -1,2 +1,5 @@
 #!/bin/bash
+if [[ "$1" == "-s" ]] || "$1" == "--stopped-containers" ]]; then
+    rm-stopped-containers
+fi
 docker rmi `docker images -q --filter "dangling=true"`
