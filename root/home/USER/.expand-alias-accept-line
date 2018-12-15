@@ -14,7 +14,7 @@ lookup() {
         EXP=$(alias "$OPT" "$1" | sed -re 's/([^=]+)=(.*)/\2/' | sed -re "s/^'(.*)'$/\1/")
         if [[ -n "$EXP" ]]; then
             echo "$EXP"
-            return
+            printf '%s\n' "$EXP"
         fi
     fi
     printf '%s\n' "$1"

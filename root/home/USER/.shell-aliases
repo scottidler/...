@@ -2,6 +2,7 @@
 
 # global aliases
 alias -g G="| grep -i"
+alias -g slack="-n slack"
 
 # regular alises
 alias udpate="update"
