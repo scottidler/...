@@ -3,6 +3,7 @@
 	name = Scott Idler
 [core]
 	pager = diff-so-fancy | less --tabs=1,5 -R
+	editor = vim
 [branch]
 	autosetupmerge = true
 [diff]
