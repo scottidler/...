@@ -37,7 +37,7 @@ expand-alias-accept-line() {
             NEW_BUFFER="sudo ${NEW_BUFFER% !}"
         fi
     fi
-    if [ -f /var/tmp/expand-alias-accept-line.log ] && [[ "$BUFFER" != "$NEW_BUFFER" ]]; then
+    if [ -f /var/tmp/expand-alias-accept-line.log ] && [[ "${BUFFER%*( )}" != "${NEW_BUFFER%*( )}" ]]; then
         echo "|$BUFFER| -> |$NEW_BUFFER|" >> /var/tmp/expand-alias-accept-line.log
     fi
     BUFFER="$NEW_BUFFER"
