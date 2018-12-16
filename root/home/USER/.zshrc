@@ -125,9 +125,9 @@ if [ -f ~/.shell-exports ]; then
     . ~/.shell-exports
 fi
 
-if [ -f ~/.expand-alias-accept-line ]; then
-    . ~/.expand-alias-accept-line
-    export EXPAND_ALIASES=yes
+if [ -f ~/.expand-alias ]; then
+    . ~/.expand-alias
+    export EXPAND_ALIAS=yes
 fi
 
 # added by travis gem

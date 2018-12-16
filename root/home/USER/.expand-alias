@@ -1,0 +1,54 @@
+#!/bin/zsh
+
+. ~/.shell-aliases
+
+get-aliases() {
+    alias | grep "$1" | cut -d'=' -f1
+}
+
+expand-alias-space() {
+    if [ -n "$DEBUG_EXPAND_ALIAS" ]; then
+        PS4=':${LINENO}+'
+        set -x
+    fi
+    baliases=($(get-aliases "#!space"))
+    ialiases=($(get-aliases "#!expand"))
+    if [[ -n "$EXPAND_ALIAS" ]]; then
+        [[ $LBUFFER =~ "\<(${(j:|:)baliases})\$" ]]; blank=$?
+        if [[ ! $LBUFFER =~ "\<(${(j:|:)ialiases})\$" ]]; then
+            zle _expand_alias
+        fi
+        zle self-insert
+        if [[ "$blank" == "0" ]]; then
+            local WORDCHARS=' #!space'
+            zle backward-delete-word
+        fi
+    fi
+}
+
+zle -N expand-alias-space
+
+bindkey " " expand-alias-space
+bindkey -M isearch " " magic-space
+
+expand-alias-accept-line() {
+    if [ -n "$DEBUG_EXPAND" ]; then
+        PS4=':${LINENO}+'
+        set -x
+    fi
+    baliases=($(get-aliases "#!space"))
+    ialiases=($(get-aliases "#!expand"))
+    if [[ -n "$BUFFER" ]] && [[ -n "$EXPAND_ALIAS" ]] && [[ "$BUFFER" != "alias"* ]] && [[ "$BUFFER" != "#"* ]]; then
+        [[ $LBUFFER =~ "\<(${(j:|:)baliases})\$" ]]; blank=$?
+        if [[ ! $LBUFFER =~ "\<(${(j:|:)ialiases})\$" ]]; then
+            zle _expand_alias
+        fi
+        if [[ "$blank" == "0" ]]; then
+            local WORDCHARS=' #!space'
+            zle backward-delete-word
+        fi
+    fi
+    zle .accept-line
+}
+
+zle -N accept-line expand-alias-accept-line
