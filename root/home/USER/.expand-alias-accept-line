@@ -36,11 +36,11 @@ expand-alias-accept-line() {
         if [[ "$NEW_BUFFER" == *" !" ]]; then
             NEW_BUFFER="sudo ${NEW_BUFFER% !}"
         fi
+        if [ -f /var/tmp/expand-alias-accept-line.log ] && [[ "${BUFFER%*( )}" != "${NEW_BUFFER%*( )}" ]]; then
+            echo "|$BUFFER| -> |$NEW_BUFFER|" >> /var/tmp/expand-alias-accept-line.log
+        fi
+        BUFFER="$NEW_BUFFER"
     fi
-    if [ -f /var/tmp/expand-alias-accept-line.log ] && [[ "${BUFFER%*( )}" != "${NEW_BUFFER%*( )}" ]]; then
-        echo "|$BUFFER| -> |$NEW_BUFFER|" >> /var/tmp/expand-alias-accept-line.log
-    fi
-    BUFFER="$NEW_BUFFER"
     zle .accept-line
 }
 
