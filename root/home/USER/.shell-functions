@@ -12,7 +12,7 @@ function reponame() {
 function gpo() {
     REF=${1:-`git symbolic-ref --short -q HEAD`}
     if [ -z "$REF" ]; then
-        echo "REF=$REF; zero length string no allowed"
+        echo "REF=$REF; zero length string not allowed"
         exit 1
     fi
     git push -u origin "$REF"
