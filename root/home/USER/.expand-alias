@@ -39,9 +39,12 @@ expand-alias-accept-line() {
     baliases=($(get-aliases "#!space"))
     ialiases=($(get-aliases "#!expand"))
     if [[ -n "$BUFFER" ]] && [[ -n "$EXPAND_ALIAS" ]] && [[ "$BUFFER" != "alias"* ]] && [[ "$BUFFER" != "#"* ]]; then
-        [[ $LBUFFER =~ "\<(${(j:|:)baliases})\$" ]]; blank=$?
-        if [[ ! $LBUFFER =~ "\<(${(j:|:)ialiases})\$" ]]; then
+        [[ $BUFFER =~ "\<(${(j:|:)baliases})\$" ]]; blank=$?
+        if [[ ! $BUFFER =~ "\<(${(j:|:)ialiases})\$" ]]; then
             zle _expand_alias
+        fi
+        if [[ "$BUFFER" == *"!" ]]; then
+            BUFFER="sudo ${BUFFER% !}"
         fi
         if [[ "$blank" == "0" ]]; then
             local WORDCHARS=' #!space'
