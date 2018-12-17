@@ -214,16 +214,16 @@ templates:
         SCRIPT_FILE="$0"
         SCRIPT_NAME="$(basename "$SCRIPT_FILE")"
         SCRIPT_PATH="$(dirname "$SCRIPT_FILE")"
-        echo "SCRIPT_FILE=$SCRIPT_FILE"
-        echo "SCRIPT_NAME=$SCRIPT_NAME"
-        echo "SCRIPT_PATH=$SCRIPT_PATH"
+        [ -n "$VERBOSE" ] && echo "SCRIPT_FILE=$SCRIPT_FILE"
+        [ -n "$VERBOSE" ] && echo "SCRIPT_NAME=$SCRIPT_NAME"
+        [ -n "$VERBOSE" ] && echo "SCRIPT_PATH=$SCRIPT_PATH"
         if [ -L "$0" ]; then
             REAL_FILE="$(readlink "$0")"
             REAL_NAME="$(basename "$REAL_FILE")"
             REAL_PATH="$(dirname "$REAL_FILE")"
-            echo "REAL_FILE=$REAL_FILE"
-            echo "REAL_NAME=$REAL_NAME"
-            echo "REAL_PATH=$REAL_PATH"
+            [ -n "$VERBOSE" ] && echo "REAL_FILE=$REAL_FILE"
+            [ -n "$VERBOSE" ] && echo "REAL_NAME=$REAL_NAME"
+            [ -n "$VERBOSE" ] && echo "REAL_PATH=$REAL_PATH"
         fi
 
         echo "name: $0"
