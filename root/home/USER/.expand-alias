@@ -48,11 +48,11 @@ expand-alias-accept-line() {
         PS4=':${LINENO}+'
         set -x
     fi
-    baliases=($(get-aliases "#!space"))
-    ialiases=($(get-aliases "#!expand"))
-    if [[ -n "$BUFFER" ]] && [[ -n "$EXPAND_ALIAS" ]] && [[ "$BUFFER" != "alias"* ]] && [[ "$BUFFER" != "#"* ]]; then
-        [[ $BUFFER =~ "\<(${(j:|:)baliases})\$" ]]; blank=$?
-        if [[ ! $BUFFER =~ "\<(${(j:|:)ialiases})\$" ]]; then
+    no_spaces=($(get-aliases "#!space"))
+    ignores=($(get-aliases "#!expand"))
+    if [[ -n "$EXPAND_ALIAS" ]]; then
+        [[ $BUFFER =~ "\<(${(j:|:)no_spaces})\$" ]]; blank=$?
+        if [[ ! $BUFFER =~ "\<(${(j:|:)ignores})\$" ]]; then
             zle _expand_alias
         fi
         if [[ "$BUFFER" == *"!" ]]; then
