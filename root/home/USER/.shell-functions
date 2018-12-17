@@ -91,3 +91,29 @@ function cp-cd() {
 function mkdir-cd() {
     mkdir "$1" && cd "$1"
 }
+
+function repo() {
+    if [ -z "$1" ]; then
+        echo "repo requires a name of a repo to look for"
+        false
+        return
+    fi
+    reponames=($(ls-git-repos ~/repos/ | grep "$1"))
+    case "${#reponames[@]}" in
+        0)
+            echo "repo found no matches with term $1"
+            false
+        ;;
+        1)
+            cd ~/repos/${reponames[@]}
+            true
+        ;;
+        *)
+            echo "repo found too many matches for term $1:"
+            for reponame in "${reponames[@]}"; do
+                echo $reponame
+            done
+            false
+        ;;
+    esac
+}
