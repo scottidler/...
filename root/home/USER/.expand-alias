@@ -6,6 +6,19 @@ get-aliases() {
     alias | grep "$1" | cut -d'=' -f1
 }
 
+remove-comment() {
+    local WORDCHARS=' #!space'
+    zle backward-delete-word
+}
+
+sudoify() {
+    CMD="${BUFFER%% *}"
+    ARGS="${BUFFER#* }"
+    ABS="$(which "$CMD")"
+    [[ -n "$ABS" ]]; CMD="$ABS"
+    BUFFER="sudo -E $CMD ${ARGS% !}"
+}
+
 expand-alias-space() {
     if [ -n "$DEBUG_EXPAND_ALIAS" ]; then
         PS4=':${LINENO}+'
@@ -20,8 +33,7 @@ expand-alias-space() {
         fi
         zle self-insert
         if [[ "$blank" == "0" ]]; then
-            local WORDCHARS=' #!space'
-            zle backward-delete-word
+            remove-comment
         fi
     fi
 }
@@ -44,11 +56,10 @@ expand-alias-accept-line() {
             zle _expand_alias
         fi
         if [[ "$BUFFER" == *"!" ]]; then
-            BUFFER="sudo ${BUFFER% !}"
+            sudoify
         fi
         if [[ "$blank" == "0" ]]; then
-            local WORDCHARS=' #!space'
-            zle backward-delete-word
+            remove-comment
         fi
     fi
     zle .accept-line
