@@ -24,11 +24,11 @@ expand-alias-space() {
         PS4=':${LINENO}+'
         set -x
     fi
-    baliases=($(get-aliases "#!space"))
-    ialiases=($(get-aliases "#!expand"))
+    no_spaces=($(get-aliases "#!space"))
+    ignores=($(get-aliases "#!expand"))
     if [[ -n "$EXPAND_ALIAS" ]]; then
-        [[ $LBUFFER =~ "\<(${(j:|:)baliases})\$" ]]; blank=$?
-        if [[ ! $LBUFFER =~ "\<(${(j:|:)ialiases})\$" ]]; then
+        [[ $LBUFFER =~ "\<(${(j:|:)no_spaces})\$" ]]; blank=$?
+        if [[ ! $LBUFFER =~ "\<(${(j:|:)ignores})\$" ]]; then
             zle _expand_alias
         fi
         zle self-insert
