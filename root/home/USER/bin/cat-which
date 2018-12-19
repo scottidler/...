@@ -1,7 +1,11 @@
 #!/bin/bash
 
 args=( $@ )
-cmd=`which cat`
+if hash ccat 2>/dev/null; then
+    cmd=ccat
+else
+    cmd=cat
+fi
 for arg in "${args[@]}"; do
     which_arg=`which $arg`
     if [ -z "$which_arg" ]; then
