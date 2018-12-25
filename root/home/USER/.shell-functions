@@ -60,8 +60,12 @@ function upsearch() {
     return
 }
 
-DOIT="`which doit`"
+DOIT="`sudo which doit`"
 function doit() {
+#    if ! hash $DOIT 2>/dev/null; then
+#        echo "doit not found; not installed"
+#        return false
+#    fi
     (cd "`upsearch dodo.py`" && time "$DOIT" "$@")
 }
 
