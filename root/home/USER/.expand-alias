@@ -20,13 +20,13 @@ sudoify() {
 }
 
 expand-alias-space() {
-    if [ -n "$DEBUG_EXPAND_ALIAS" ]; then
+    if [ -n "$DEBUG_EXPAND" ]; then
         PS4=':${LINENO}+'
         set -x
     fi
-    no_spaces=($(get-aliases "#!space"))
-    ignores=($(get-aliases "#!expand"))
-    if [[ -n "$EXPAND_ALIAS" ]]; then
+    if [ -n "$EXPAND_ALIAS" ]; then
+        no_spaces=($(get-aliases "#!space"))
+        ignores=($(get-aliases "#!expand"))
         [[ $LBUFFER =~ "\<(${(j:|:)no_spaces})\$" ]]; blank=$?
         if [[ ! $LBUFFER =~ "\<(${(j:|:)ignores})\$" ]]; then
             zle _expand_alias
@@ -38,19 +38,14 @@ expand-alias-space() {
     fi
 }
 
-zle -N expand-alias-space
-
-bindkey " " expand-alias-space
-bindkey -M isearch " " magic-space
-
 expand-alias-accept-line() {
     if [ -n "$DEBUG_EXPAND" ]; then
         PS4=':${LINENO}+'
         set -x
     fi
-    no_spaces=($(get-aliases "#!space"))
-    ignores=($(get-aliases "#!expand"))
-    if [[ -n "$EXPAND_ALIAS" ]]; then
+    if [ -n "$EXPAND_ALIAS" ]; then
+        no_spaces=($(get-aliases "#!space"))
+        ignores=($(get-aliases "#!expand"))
         [[ $BUFFER =~ "\<(${(j:|:)no_spaces})\$" ]]; blank=$?
         if [[ ! $BUFFER =~ "\<(${(j:|:)ignores})\$" ]]; then
             zle _expand_alias
@@ -65,4 +60,10 @@ expand-alias-accept-line() {
     zle .accept-line
 }
 
-zle -N accept-line expand-alias-accept-line
+if [ -n "$EXPAND_ALIAS" ]; then
+    zle -N expand-alias-space
+    zle -N accept-line expand-alias-accept-line
+
+    bindkey " " expand-alias-space
+    bindkey -M isearch " " magic-space
+fi
