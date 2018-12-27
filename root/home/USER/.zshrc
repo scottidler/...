@@ -126,8 +126,8 @@ if [ -f ~/.shell-exports ]; then
 fi
 
 if [ -f ~/.expand-alias ]; then
-    . ~/.expand-alias
     export EXPAND_ALIAS=yes
+    . ~/.expand-alias
 fi
 
 # added by travis gem
