@@ -226,6 +226,12 @@ templates:
             [ -n "$VERBOSE" ] && echo "REAL_PATH=$REAL_PATH"
         fi
 
+        # split string based on delimiter in shell https://stackoverflow.com/a/15988793
+        # ${VAR#*SUB}  # will drop begin of string up to first occur of `SUB`
+        # ${VAR##*SUB} # will drop begin of string up to last occur of `SUB`
+        # ${VAR%SUB*}  # will drop part of string from last occur of `SUB` to the end
+        # ${VAR%%SUB*} # will drop part of string from first occur of `SUB` to the end
+
         echo "name: $0"
         echo "args: $@"
 
