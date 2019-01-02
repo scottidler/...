@@ -316,6 +316,12 @@ augroup vimrc-make-cmake
   autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
 augroup END
 
+"" kill trailing whitespace
+augroup vimrc-kill-whitespace
+  autocmd!
+  autocmd BufWritePre * :%s/\s\+$//e
+augroup END
+
 set autoread
 
 "*****************************************************************************
@@ -392,6 +398,8 @@ let g:syntastic_style_error_symbol = '✗'
 let g:syntastic_style_warning_symbol = '⚠'
 let g:syntastic_auto_loc_list=1
 let g:syntastic_aggregate_errors = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
 
 " Tagbar
 nmap <silent> <F4> :TagbarToggle<CR>
