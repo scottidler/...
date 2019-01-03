@@ -130,5 +130,7 @@ if [ -f ~/.expand-alias ]; then
     . ~/.expand-alias
 fi
 
+PROMPT_EOL_MARK=''
+
 # added by travis gem
 [ -f /home/sidler/.travis/travis.sh ] && . /home/sidler/.travis/travis.sh
