@@ -2,6 +2,10 @@
 
 # global aliases
 alias -g G="| grep -i"
+alias -g ns-cw="--namespace cw"
+alias -g b64="| base64"
+alias -g b64d="| base64 -d"
+alias -g voyager="ingress.voyager.appscode.com"
 
 alias clh="curl localhost: #!space"
 
@@ -42,8 +46,6 @@ alias kdp="kubectl describe pod"
 alias kds="kubectl describe svc"
 alias kdd="kubectl describe deployment"
 alias kdv="kubectl describe ingress.voyager.appscode.com"
-
-alias ns="--namespace=slack"
 
 alias g="git"
 alias ga="git add"
