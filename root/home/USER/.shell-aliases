@@ -6,7 +6,7 @@ alias -g ns-cw="--namespace cw"
 alias -g b64="| base64"
 alias -g b64d="| base64 -d"
 alias -g voyager="ingress.voyager.appscode.com"
-alias -g header-sort="| (read -r; printf "%s\n" "$REPLY"; sort)"
+alias -g header-sort="| (read -r; printf \"%s\n\" \"\$REPLY\"; sort)"
 
 alias clh="curl localhost: #!space"
 
@@ -28,7 +28,7 @@ alias ipy3="sudo -E ipython3"
 
 alias d="docker"
 alias dc="docker-compose"
-alias di="docker images | (read -r; printf "%s\n" "$REPLY"; sort)"
+alias di="docker images | (read -r; printf \"%s\n\" \"\$REPLY\"; sort)"
 alias dps="docker ps"
 alias dpsa="docker ps -a"
 alias dpsaq="docker ps -aq"
