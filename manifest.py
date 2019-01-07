@@ -9,8 +9,6 @@ sys.dont_write_bytecode = True
 from copy import deepcopy
 from ruamel import yaml
 
-from utils.dbg import dbg
-
 SCRIPT_FILE = os.path.abspath(__file__)
 SCRIPT_NAME = os.path.basename(SCRIPT_FILE)
 SCRIPT_PATH = os.path.dirname(SCRIPT_FILE)
@@ -189,6 +187,7 @@ def main(args):
     ns = parser.parse_args()
     print(ns)
     manifest = load_manifest(ns.config, ns.sections)
+    print(manifest)
     manifest.render(ns.path)
 
 if __name__ == '__main__':
