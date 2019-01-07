@@ -9,6 +9,8 @@ sys.dont_write_bytecode = True
 from copy import deepcopy
 from ruamel import yaml
 
+from utils.dbg import dbg
+
 SCRIPT_FILE = os.path.abspath(__file__)
 SCRIPT_NAME = os.path.basename(SCRIPT_FILE)
 SCRIPT_PATH = os.path.dirname(SCRIPT_FILE)
@@ -51,117 +53,6 @@ def get_pkgmgr():
         return 'brew'
     raise UnknownPkgmgrError
 
-#class LNK():
-#    @classmethod
-#    def create(cls, path, name, body):
-#        cls.path = path
-#        recursive = body.pop('recursive', False)
-#        return [LNK(src, dst, recursive=recursive) for src, dst in body.items()]
-#
-#    def __init__(self, src, dst, recursive=False):
-#        self.src = src
-#        self.dst = dst
-#        self.recursive = recursive
-#
-#    def __repr__(self):
-#        return f'{type(self).__name__}(src={self.src}, dst={self.dst}, recursive={self.recursive})'
-#
-#    __str__ = __repr__
-#
-#class PPA():
-#    @classmethod
-#    def create(cls, path, name, body):
-#        cls.path = path
-#        return [PPA(ppa) for ppa in body]
-#
-#    def __init__(self, ppa):
-#        self.ppa = ppa
-#
-#    def __repr__(self):
-#        return f'{type(self).__name__}(ppa = {self.ppa})'
-#
-#class PKG():
-#    @classmethod
-#    def create(cls, path, name, body):
-#        cls.path = path
-#        mgr = {
-#            'pkg': get_pkgmgr,
-#            'apt': lambda: 'deb',
-#            'dnf': lambda: 'rpm',
-#        }[name]()
-#        return [PKG(mgr, pkg) for pkg in body]
-#
-#    def __init__(self, mgr, pkg):
-#        self.mgr = mgr
-#        self.pkg = pkg
-#
-#    def __repr__(self):
-#        return f'{type(self).__name__}(mgr = {self.mgr}, pkg = {self.pkg})'
-#
-#    __str__ = __repr__
-#
-#class NPM():
-#    @classmethod
-#    def create(cls, path, name, body):
-#        cls.path = path
-#        return [NPM(pkg) for pkg in body]
-#
-#    def __init__(self, pkg):
-#        self.pkg = pkg
-#
-#    def __repr__(self):
-#        return f'{type(self).__name__}(pkg = {self.pkg})'
-#
-#    __str__ = __repr__
-#
-#class PIP3():
-#    @classmethod
-#    def create(cls, path, name, body):
-#        cls.path = path
-#        return [PIP3(pkg) for pkg in body]
-#
-#    def __init__(self, pkg):
-#        self.pkg = pkg
-#
-#    def __repr__(self):
-#        return f'{type(self).__name__}(pkg = {self.pkg})'
-#
-#    __str__ = __repr__
-#
-#class Github():
-#    @classmethod
-#    def create(cls, path, name, body):
-#        cls.path = path
-#        githubs = []
-#        for reponame, repobody in body.items():
-#            recursive = repobody.pop('recursive', False)
-#            links = repobody.pop('links', [])
-#            links = [LNK(src, dst, recursive=recursive) for src, dst in links.items()]
-#            githubs += [Github(reponame, links)]
-#        return githubs
-#
-#    def __init__(self, reponame, items):
-#        self.reponame = reponame
-#        self.items = items
-#
-#    def __repr__(self):
-#        return f'{type(self).__name__}(reponame = {self.reponame}, items = {self.items})'
-#
-#def factory(path, name, body):
-#    return {
-#        'links': LNK.create,
-#        'ppa': PPA.create,
-#        'pkg': PKG.create,
-#        'apt': PKG.create,
-#        'dnf': PKG.create,
-#        'npm': NPM.create,
-#        'pip3': PIP3.create,
-#        'github': Github.create,
-#    }[name](path, name, body)
-#    return {
-#        'links': LNK(path, body)
-#    }
-#
 class ManifestType():
     def __repr__(self):
         return f'{type(self).__name__}(items = {self.items})'
@@ -171,35 +62,46 @@ class ManifestType():
 class Links(ManifestType):
     def __init__(self, links_spec):
         self.recursive = links_spec.pop('recursive', False)
-        self.items = [(key,val) for key,val in links_spec.items()]
+        if self.recursive:
+            raise NotImplementedError
+        else:
+            self.items = [(key,val) for key,val in links_spec.items()]
 
     def __repr__(self):
         return f'{type(self).__name__}(recursive={self.recursive}, items={self.items})'
 
     __str__ = __repr__
 
+    def render(self, path):
+        print(f'Links: path={path}, items={self.items}')
+
 class PPAS(ManifestType):
     def __init__(self, ppas_spec):
         self.items = ppas_spec
 
+    def render(self, path):
+        print(f'PPAS: path={path}, items={self.items}')
+
 class PKGS(ManifestType):
-    def __init__(self, pkgs, apts, dnfs):
-        self.pkgs = pkgs
-        self.apts = apts
-        self.dnfs = dnfs
+    def __init__(self, pkgs_spec):
+        self.items = pkgs_spec
 
-    def __repr__(self):
-        return f'{type(self).__name__}(pkgs={self.pkgs}, apts={self.apts}, dnfs={self.dnfs})'
-
-    __str__ = __repr__
+    def render(self, path):
+        print(f'PKGS: path={path}, items={self.items}')
 
 class NPMS(ManifestType):
     def __init__(self, npms_spec):
         self.items = npms_spec
 
+    def render(self, path):
+        print(f'NPMS: path={path}, items={self.items}')
+
 class PIP3S(ManifestType):
     def __init__(self, pip3s_spec):
         self.items = pip3s_spec
+
+    def render(self, path):
+        print(f'PIP3S: path={path}, items={self.items}')
 
 class Repo():
     def __init__(self, reponame, repo_spec):
@@ -211,6 +113,10 @@ class Repo():
 
     __str__ = __repr__
 
+    def render(self, path):
+        print(f'Repo: path={path}, reponame={self.reponame}')
+        self.links.render(path)
+
 class Github(ManifestType):
     def __init__(self, github_spec):
         self.repos = [Repo(reponame, repospec) for reponame, repospec in github_spec.items()]
@@ -220,47 +126,54 @@ class Github(ManifestType):
 
     __str__ = __repr__
 
+    def render(self, path):
+        print(f'Github: path={path}')
+        for repo in self.repos:
+            repo.render(path)
+
 class Manifest():
-    def __init__(self, path, sections, spec):
-        self.path = path
+    def __init__(self, sections, spec, pkgmgr):
         self.verbose = spec.pop('verbose', False)
         self.errors = spec.pop('errors', False)
-        self.links = Links(spec.get('links', None)) if 'links' in sections else None
-        self.ppas = PPAS(spec.get('ppa', None)) if 'ppa' in sections else None
-        self.pkgs = PKGS(
-            spec.get('pkg', None) if 'pkg' in sections else None,
-            spec.get('apt', None) if 'apt' in sections else None,
-            spec.get('dnf', None) if 'dnf' in sections else None
-        )
-        self.npms = NPMS(spec.get('npm', None)) if 'npm' in sections else None
-        self.pip3s = PIP3S(spec.get('pip3', None)) if 'pip3' in sections else None
-        self.github = Github(spec.get('github', None)) if 'github' in sections else None
+        self.sections = []
+        if 'links' in sections:
+            self.sections += [Links(spec['links'])]
+        if 'ppa' in sections:
+            self.sections += [PPAS(spec['ppa'])]
+        pkgs = spec.get('pkg', []) if 'pkg' in sections else []
+        apts = pkgs + (spec.get('apt', []) if 'apt' in sections else [])
+        dnfs = pkgs + (spec.get('dnf', []) if 'dnf' in sections else [])
+        if pkgmgr == 'deb' and apts:
+            self.sections += [PKGS(apts)]
+        elif pkgmgr == 'rpm' and dnfs:
+            self.sections += [PKGS(dnfs)]
+        if 'npm' in sections:
+            self.sections += [NPMS(spec['npm'])]
+        if 'pip3' in sections:
+            self.sections += [PIP3S(spec['pip3'])]
+        if 'github' in sections:
+            self.sections += [Github(spec['github'])]
 
     def __repr__(self):
-        return f'{type(self).__name__}(path={self.path}, verbose={self.verbose}, errors={self.errors}, links={self.links}, ppas={self.ppas}, pkgs={self.pkgs}, npms={self.npms}, pip3s={self.pip3s}, github={self.github})'
+        return f'{type(self).__name__}(verbose={self.verbose}, errors={self.errors}, sections={self.sections})'
+
+    def render(self, path):
+        print(f'Manifest: path={path}')
+        for section in self.sections:
+            section.render(path)
 
     __str__ = __repr__
 
-def load_manifest(path, config, sections):
+def load_manifest(config, sections):
     spec = yaml.safe_load(open(config))
-    manifest = Manifest(path, sections, spec)
+    manifest = Manifest(sections, spec, get_pkgmgr())
     return manifest
-#    verbose = yml.pop('verbose', False)
-#    allow_errors = yml.pop('allow_errors', True)
-#    manifest = []
-#    for name, body in yml.items():
-#        if name in sections:
-#            manifest += factory(path, name, body)
-#    return manifest
 
 def main(args):
     parser = ArgumentParser()
     parser.add_argument(
         '-C', '--config',
-        default=[
-            '~/.config/'+SCRIPT_NAME+'/'+SCRIPT_NAME+'.yml',
-            SCRIPT_PATH+'/'+SCRIPT_NAME+'.yml',
-        ],
+        default=f'{SCRIPT_PATH}/manifest.yml',
         help='default=%(default)s; specify the config path')
     parser.add_argument(
         '-p', '--path',
@@ -275,9 +188,8 @@ def main(args):
         help=f'choices={SECTIONS}; choose which sections to run')
     ns = parser.parse_args()
     print(ns)
-    manifest = load_manifest(ns.path, ns.config, ns.sections)
-    from pprint import pprint
-    pprint(manifest)
+    manifest = load_manifest(ns.config, ns.sections)
+    manifest.render(ns.path)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

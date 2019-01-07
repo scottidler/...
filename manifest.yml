@@ -5,6 +5,18 @@ links:
   recursive: True
   root: /
 
+ppa:
+- git-core/ppa
+- mkusb/ppa
+- noobslab/themes
+- pipelight/stable
+- webupd8team/atom
+- mjblenner/ppa-hal
+- graphics-drivers/ppa
+- flexiondotorg/hal-flash
+- otto-kesselgulasch/gimp
+- ubuntu-mozilla-daily
+
 pkg:
 - jq
 - vim
@@ -32,18 +44,6 @@ pkg:
 - python-pip
 - python3-pip
 - anki
-
-ppa:
-- git-core/ppa
-- mkusb/ppa
-- noobslab/themes
-- pipelight/stable
-- webupd8team/atom
-- mjblenner/ppa-hal
-- graphics-drivers/ppa
-- flexiondotorg/hal-flash
-- otto-kesselgulasch/gimp
-- ubuntu-mozilla-daily
 
 apt:
 - fonts-powerline
