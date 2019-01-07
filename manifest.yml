@@ -1,0 +1,153 @@
+verbose: True
+allow_errors: False
+
+links:
+  recursive: True
+  root: /
+
+pkg:
+- jq
+- vim
+- pass
+- tmux
+- tree
+- pwgen
+- whois
+- mpg123
+- autossh
+- xdotool
+- graphviz
+- shellcheck
+- ssh-askpass
+- openssh-server
+- npm
+- zsh
+- meld
+- rsync
+- xclip
+- python
+- ansible
+- dconf-cli
+- terminator
+- python-pip
+- python3-pip
+- anki
+
+ppa:
+- git-core/ppa
+- mkusb/ppa
+- noobslab/themes
+- pipelight/stable
+- webupd8team/atom
+- mjblenner/ppa-hal
+- graphics-drivers/ppa
+- flexiondotorg/hal-flash
+- otto-kesselgulasch/gimp
+- ubuntu-mozilla-daily
+
+apt:
+- fonts-powerline
+- libsmbclient-dev
+- silversearch-ag
+- httpie
+- pianobar
+- python-dev
+- python3-dev
+- libffi-dev
+- libicu-dev
+- libssl-dev
+- libffi-dev
+- build-essential
+- portaudio19-dev
+- openvpn
+- network-manager-openvpn
+- network-manager-openvpn-gnome
+- firefox-trunk
+- libcurl4-openssl-dev
+- librsync-dev
+- libglib2.0-dev
+- python-gobject-dev
+- libgirepository1.0-dev
+- libcairo2-dev
+- libjpeg-dev
+- libgif-dev
+- python3-cairo-dev
+- libxml2-dev
+- libxmlsec1-dev
+
+dnf:
+- the_silver_searcher
+- gcc
+- libffi-devel
+- python-devel
+- openssl-devel
+- python3-devel
+
+pip3:
+- wheel
+- aoihttp
+- attrdict
+- requests
+- ruamel.yaml
+- mypy
+- numpy
+- pipenv
+- ipython
+- virtualenv
+- doit
+- awscli
+- mps-youtube
+- cryptography
+- asciinema
+
+npm:
+- diff-so-fancy
+
+github:
+  scottidler/git:
+    links:
+      bin/clone: ~/bin/clone
+      cfg/clone.cfg: ~/.clone/clone/clone.cfg
+  scottidler/dock:
+    links:
+      dock: ~/bin/dock
+  scottidler/pimp:
+    links:
+      pimp: ~/bin/pimp
+  scottidler/rmrf:
+    links:
+      rmrf: ~/bin/rmrf
+      bkup: ~/bin/bkup
+      bkup-rmrf: ~/bin/bkup-rmrf
+      ls-rmrf: ~/bin/ls-rmrf
+      ls-bkup: ~/bin/ls-bkup
+  scottidler/ls-stat:
+    links:
+      ls-stat: ~/bin/ls-stat
+  scottidler/ssh-ident:
+    links:
+      ssh-ident: ~/bin/ssh
+  mozilla-it/cert-tools:
+    links:
+      findcert: ~/bin/findcert
+      modcert: ~/bin/modcert
+      ssl-compare: ~/bin/ssl-compare
+      ssl-inspect: ~/bin/ssl-inspect
+      ssl-sans: ~/bin/ssl-sans
+      ssl-validity: ~/bin/ssl-validity
+  mozilla-it/vulns2ansible:
+    links:
+      v2a: ~/bin/v2a
+  sahsanu/lectl:
+    links:
+      lectl: ~/bin/lectl
+  esc/git-big-picture:
+    links:
+      git-big-picture: ~/bin/gbp
+  robbyrussell/oh-my-zsh:
+    links:
+      oh-my-zsh: ~/.oh-my-zsh
+  awslabs/awscli-aliases:
+    links:
+      alias: ~/.awscli-aliases
+
