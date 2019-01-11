@@ -143,16 +143,16 @@ if [ -f /home/sidler/.acme.sh/acme.sh.env ]; then
     source /home/sidler/.acme.sh/acme.sh.env
 fi
 
-if [ -f ~/.shell_aliases ]; then
-    source ~/.shell_aliases
+if [ -f ~/.shell-aliases ]; then
+    source ~/.shell-aliases
 fi
 
-if [ -f ~/.shell_functions ]; then
-    source ~/.shell_functions
+if [ -f ~/.shell-functions ]; then
+    source ~/.shell-functions
 fi
 
-if [ -f ~/.shell_exports ]; then
-    source ~/.shell_exports
+if [ -f ~/.shell-exports ]; then
+    source ~/.shell-exports
 fi
 
 # added by travis gem
