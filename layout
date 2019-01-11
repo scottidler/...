@@ -1,0 +1,224 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import os
+import re
+import sys
+sys.dont_write_bytecode = True
+
+from attrdict import AttrDict
+from subprocess import Popen, PIPE, CalledProcessError
+from fractions import Fraction
+from fnmatch import fnmatch
+from functools import partial
+from ruamel import yaml
+from argparse import ArgumentParser, RawDescriptionHelpFormatter, Action
+
+
+SCRIPT_FILE = os.path.abspath(__file__)
+SCRIPT_NAME = os.path.basename(SCRIPT_FILE)
+SCRIPT_PATH = os.path.dirname(SCRIPT_FILE)
+if os.path.islink(__file__):
+    REAL_FILE = os.path.abspath(os.readlink(__file__))
+    REAL_NAME = os.path.basename(REAL_FILE)
+    REAL_PATH = os.path.dirname(REAL_FILE)
+
+NAME, EXT = os.path.splitext(SCRIPT_NAME)
+ADDRESS_PN = '0x[a-f0-9]+'
+INTEGER_PN = '[0-9]+'
+INT_OR_FRAC_PN = '[0-9]+(/[0-9]+)?'
+NAME_PN = '[A-Za-z0-9\\-_.*]+'
+ANY_PN = '.*'
+
+class FailedMatchError(Exception):
+    def __init__(self, pattern):
+        msg = f'failed match for pattern="{pattern}"'
+        super(FailedMatchError, self).__init__(msg)
+
+class AmbiguousMatchError(Exception):
+    def __init__(self, pattern, matches):
+        msg = f'ambiguous match for pattern="{pattern}" returned matches={matches}'
+        super(AmbiguousMatchError, self).__init__(msg)
+
+class MvargParseError(Exception):
+    def __init__(self, expression):
+        msg = f'MVARG parse error with expression={expression}; should be g,x,y,w,h'
+        super(MvargParseError, self).__init__(msg)
+
+def call(cmd, stdout=PIPE, stderr=PIPE, shell=True, nerf=False, throw=True, verbose=False):
+    if verbose or nerf:
+        print(cmd)
+    if nerf:
+        return (None, 'nerfed', 'nerfed')
+    process = Popen(cmd, stdout=stdout, stderr=stderr, shell=shell)
+    _stdout, _stderr = [stream.decode('utf-8') for stream in process.communicate()]
+    exitcode = process.poll()
+    if verbose:
+        if _stdout:
+            print(_stdout)
+        if _stderr:
+            print(_stderr)
+    if throw and exitcode:
+        raise CalledProcessError(exitcode, f'cmd=%(cmd)s; stdout=%(_stdout)s; stderr=%(_stderr)s'
+    return exitcode, _stdout, _stderr
+
+def key(d):
+    return d.get('window_class')
+
+def value(d):
+    d.pop('window_class')
+    return d
+
+def classify(string):
+    try:
+        return Fraction(string)
+    except:
+        pass
+    return string
+
+def _load_window_data():
+    regex = re.compile(' +'.join([
+        f'(?P<window_id>{ADDRESS_PN})',
+        f'(?P<desktop_id>-?{INTEGER_PN})',
+        f'(?P<pid>{INTEGER_PN})',
+        f'(?P<xpos>{INTEGER_PN})',
+        f'(?P<ypos>{INTEGER_PN})',
+        f'(?P<width>{INTEGER_PN})',
+        f'(?P<height>{INTEGER_PN})',
+        f'(?P<window_class>{NAME_PN})',
+        f'(?P<window_name>{ANY_PN})',
+    ]))
+    text = call('wmctrl -lxpG')[1]
+    groups = [AttrDict(match.groupdict()) for match in regex.finditer(text)]
+    windows = AttrDict()
+    for group in groups:
+        if group.desktop_id == '-1':
+            width = int(group.width)
+            height = int(group.height)
+        else:
+            window_class = group.pop('window_class')
+            windows[window_class] = {k:classify(v) for k,v in group.items()}
+    return width, height, windows
+
+class Layout(object):
+    def __init__(self):
+        regex = re.compile(' +'.join([
+            f'(?P<window_id>{ADDRESS_PN})',
+            f'(?P<desktop_id>-?{INTEGER_PN})',
+            f'(?P<pid>{INTEGER_PN})',
+            f'(?P<xpos>{INTEGER_PN})',
+            f'(?P<ypos>{INTEGER_PN})',
+            f'(?P<width>{INTEGER_PN})',
+            f'(?P<height>{INTEGER_PN})',
+            f'(?P<window_class>{NAME_PN})',
+            f'(?P<window_name>{ANY_PN})',
+        ]))
+        text = call('wmctrl -lxpG')[1]
+        groups = [AttrDict(match.groupdict()) for match in regex.finditer(text)]
+        self.windows = AttrDict()
+        for group in groups:
+            if group.desktop_id == '-1':
+                self.width = int(group.width)
+                self.height = int(group.height)
+            else:
+                window_class = group.pop('window_class')
+                self.windows[window_class] = {k:classify(v) for k,v in group.items()}
+
+    def _divine_window_class(self, window_class_pn):
+        def gen_fuzzy_funcs():
+            return [
+                lambda item: fnmatch(item, window_class_pn + '*'),
+                lambda item: fnmatch(item, '*' + window_class_pn + '*'),
+                lambda item: fnmatch(item.lower(), window_class_pn.lower()),
+                lambda item: fnmatch(item.lower(), window_class_pn.lower() + '*'),
+                lambda item: fnmatch(item.lower(), '*' + window_class_pn.lower() + '*'),
+            ]
+        matches = [tuple(item for item in self.windows.keys() if fnmatch(item, window_class_pn))]
+        if len(matches[0]) == 1:
+            return matches[0][0]
+        else:
+            for func in gen_fuzzy_funcs():
+                matches += [tuple(item for item in self.windows.keys() if func(item))]
+            if len(matches[-1]) == 1:
+                return matches[-1][0]
+        unique = list(set(matches))
+        if len(unique) == 2:
+            raise AmbiguousMatchError(window_class_pn, unique[-1])
+        raise FailedMatchError(window_class_pn)
+
+    def _calculate_mvarg(self, mvarg):
+        regex = re.compile(','.join([
+            f'(?P<gravity>{INTEGER_PN})',
+            f'(?P<xpos>{INT_OR_FRAC_PN})',
+            f'(?P<ypos>{INT_OR_FRAC_PN})',
+            f'(?P<width>{INT_OR_FRAC_PN})',
+            f'(?P<height>{INT_OR_FRAC_PN})',
+        ]))
+        match = regex.match(mvarg)
+        if not match:
+            raise MvargParseError(mvarg)
+        mvarg = AttrDict({k:classify(v) for k,v in match.groupdict().items()})
+        if mvarg.xpos.denominator != 1:
+            mvarg.xpos = self.width * mvarg.xpos
+        if mvarg.ypos.denominator != 1:
+            mvarg.ypos = self.height * mvarg.ypos
+        if mvarg.width.denominator != 1:
+            mvarg.width = self.width * mvarg.width
+        if mvarg.height.denominator != 1:
+            mvarg.height = self.height * mvarg.height
+        return f'{mvarg.gravity},{mvarg.xpos},{mvarg.ypos},{mvarg.width},{mvarg.height}'
+
+    @property
+    def window_classes(self):
+        return tuple(self.windows.keys())
+
+    def move(self, window_class_pn, mvarg, verbose=False):
+        window_class = self._divine_window_class(window_class_pn)
+        window_id = self.windows[window_class]['window_id']
+        mvarg = self._calculate_mvarg(mvarg)
+        exitcode, stdout, stderr = call(f'wmctrl -ir {window_id} -e {mvarg}'), verbose=verbose, throw=True)
+
+    def moves(self, pairs):
+        for window_class_pn, mvarg in pairs:
+            self.move(window_class_pn, mvarg)
+
+    def list(self):
+        from pprint import pprint
+        pprint(self.windows)
+
+def main(args=None):
+    layout = Layout()
+    parser = ArgumentParser(
+        description=__doc__,
+        formatter_class=RawDescriptionHelpFormatter,
+        add_help=False)
+    parser.add_argument(
+        '--config',
+        metavar='FILEPATH',
+        default='~/.config/%(NAME)s/%(NAME)s.yml' % globals(),
+        help='default="%(default)s"; config filepath')
+    ns, rem = parser.parse_known_args(args)
+    try:
+        config = yaml.safe_load(open(ns.config))
+    except FileNotFoundError as er:
+        config = dict()
+    parser = ArgumentParser(
+        parents=[parser])
+    parser.set_defaults(**config)
+    parser.add_argument(
+        '-w', '--window-class-pn',
+        metavar='CLASS',
+        help='window-classes="{classes}"; window class pattern matching one of the choices'.format(classes=layout.window_classes))
+    parser.add_argument(
+        '-e', '--mvarg',
+        help='mv expression [5 ints separated by commas]; <gravity>,<xpos>,<ypos>,<width>,<height>')
+    parser.add_argument(
+        '-v', '--verbose',
+        action='store_true',
+        help='toggle verbosity')
+    ns = parser.parse_args(rem)
+    layout.move(ns.window_class_pn, ns.mvarg, verbose=ns.verbose)
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
+
