@@ -226,6 +226,7 @@ class PIP3(PKG):
     def render_header(self):
         return f'''
 {PKG.render_header.fget(self)}
+sudo apt-get install -y python3-dev
 sudo -H pip3 install --upgrade pip setuptools
         '''.strip()
 
