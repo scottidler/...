@@ -6,102 +6,108 @@ links:
   root: /
 
 ppa:
-- git-core/ppa
-- mkusb/ppa
-- noobslab/themes
-- pipelight/stable
-- webupd8team/atom
-- mjblenner/ppa-hal
-- graphics-drivers/ppa
-- flexiondotorg/hal-flash
-- otto-kesselgulasch/gimp
-- ubuntu-mozilla-daily
+  items:
+  - git-core/ppa
+  - mkusb/ppa
+  - noobslab/themes
+  - pipelight/stable
+  - webupd8team/atom
+  - mjblenner/ppa-hal
+  - graphics-drivers/ppa
+  - flexiondotorg/hal-flash
+  - otto-kesselgulasch/gimp
+  - ubuntu-mozilla-daily
 
 pkg:
-- jq
-- vim
-- pass
-- tmux
-- tree
-- pwgen
-- whois
-- mpg123
-- autossh
-- xdotool
-- graphviz
-- shellcheck
-- ssh-askpass
-- openssh-server
-- npm
-- zsh
-- meld
-- rsync
-- xclip
-- python
-- ansible
-- dconf-cli
-- terminator
-- python-pip
-- python3-pip
-- anki
+  items:
+  - jq
+  - vim
+  - pass
+  - tmux
+  - tree
+  - pwgen
+  - whois
+  - mpg123
+  - autossh
+  - xdotool
+  - graphviz
+  - shellcheck
+  - ssh-askpass
+  - openssh-server
+  - npm
+  - zsh
+  - meld
+  - rsync
+  - xclip
+  - python
+  - ansible
+  - dconf-cli
+  - terminator
+  - python-pip
+  - python3-pip
+  - anki
 
 apt:
-- fonts-powerline
-- libsmbclient-dev
-- silversearch-ag
-- httpie
-- pianobar
-- python-dev
-- python3-dev
-- libffi-dev
-- libicu-dev
-- libssl-dev
-- libffi-dev
-- build-essential
-- portaudio19-dev
-- openvpn
-- network-manager-openvpn
-- network-manager-openvpn-gnome
-- firefox-trunk
-- libcurl4-openssl-dev
-- librsync-dev
-- libglib2.0-dev
-- python-gobject-dev
-- libgirepository1.0-dev
-- libcairo2-dev
-- libjpeg-dev
-- libgif-dev
-- python3-cairo-dev
-- libxml2-dev
-- libxmlsec1-dev
+  items:
+  - fonts-powerline
+  - libsmbclient-dev
+  - silversearch-ag
+  - httpie
+  - pianobar
+  - python-dev
+  - python3-dev
+  - libffi-dev
+  - libicu-dev
+  - libssl-dev
+  - libffi-dev
+  - build-essential
+  - portaudio19-dev
+  - openvpn
+  - network-manager-openvpn
+  - network-manager-openvpn-gnome
+  - firefox-trunk
+  - libcurl4-openssl-dev
+  - librsync-dev
+  - libglib2.0-dev
+  - python-gobject-dev
+  - libgirepository1.0-dev
+  - libcairo2-dev
+  - libjpeg-dev
+  - libgif-dev
+  - python3-cairo-dev
+  - libxml2-dev
+  - libxmlsec1-dev
 
 dnf:
-- the_silver_searcher
-- gcc
-- libffi-devel
-- python-devel
-- openssl-devel
-- python3-devel
+  items:
+  - the_silver_searcher
+  - gcc
+  - libffi-devel
+  - python-devel
+  - openssl-devel
+  - python3-devel
 
 pip3:
-- wheel
-- aoihttp
-- attrdict
-- requests
-- ruamel.yaml
-- mypy
-- numpy
-- pipenv
-- ipython
-- virtualenv
-- doit
-- awscli
-- mps-youtube
-- cryptography
-- asciinema
+  items:
+  - wheel
+  - aoihttp
+  - attrdict
+  - requests
+  - ruamel.yaml
+  - mypy
+  - numpy
+  - pipenv
+  - ipython
+  - virtualenv
+  - doit
+  - awscli
+  - mps-youtube
+  - cryptography
+  - asciinema
 
 npm:
-- diff-so-fancy
+  items:
+  - diff-so-fancy
 
 github:
   scottidler/git:
