@@ -147,116 +147,93 @@ done<<EOM
 EOM
         '''.strip()
 
-class PKGS(ManifestType):
-    def __init__(self, pkgs_spec, **kwargs):
-        self.items = pkgs_spec
+class PKG(ManifestType):
+    def __init__(self, spec, **kwargs):
+        self.items = spec.get('items', None)
+
+    def __repr__(self):
+        return f'{type(self).__name__}(items={self.items})'
+
+    __str__ = __repr__
 
     @property
     def render_items(self):
         return '\n'.join(self.items)
 
-    def render(self):
-        pass
+    @property
+    def render_header(self):
+        return f'''
+{type(self).__name__.lower()}:
+        '''.strip()
 
-class APTS(PKGS):
-    def __init__(self, spec, **kwargs):
-        self.items = spec.get('items', None)
-
-    def __repr__(self):
-        return f'{type(self).__name__}(items={self.items})'
-
-    __str__ = __repr__
+    @property
+    def render_block(self):
+        raise NotImplementedError
 
     def render(self):
         return f'''
-echo "apts:"
-sudo apt-get update && sudo apt-get upgrade -y
-sudo apt-get install -y software-properties-common
+{self.render_header}
 while read pkg; do
-    sudo apt-get install $pkg
+{self.render_block}
 done<<EOM
 {self.render_items}
 EOM
         '''.strip()
 
-class DNFS(ManifestType):
-    def __init__(self, spec, **kwargs):
-        self.items = spec.get('items', None)
+class APT(PKG):
+    @property
+    def render_header(self):
+        return f'''
+{PKG.render_header.fget(self)}
+sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get install -y software-properties-common
+        '''.strip()
 
-    def __repr__(self):
-        return f'{type(self).__name__}(items={self.items})'
+    @property
+    def render_block(self):
+        return '''
+    sudo apt-get install -y $pkg
+        '''.lstrip('\n').rstrip()
 
-    __str__ = __repr__
+class DNF(PKG):
+    @property
+    def render_block(self):
+        return '''
+    sudo dnf install -y $pkg
+        '''.lstrip('\n').rstrip()
 
-    def render(self):
-        raise NotImplementedError
-
-class PPAS(PKGS):
-    def __init__(self, ppas_spec, **kwargs):
-        self.items = ppas_spec.get('items', [])
-
-    def __repr__(self):
-        return f'{type(self).__name__}(items={self.items})'
-
-    __str__ = __repr__
-
-    def render(self):
+class PPAS(PKG):
+    @property
+    def render_block(self):
         if not self.items:
             return ''
         return f'''
-echo "ppas:"
-while read ppa; do
     ppas=`find /etc/apt/ -name *.list | xargs cat | grep ^[[:space:]]*deb | grep -v deb-src`
     if [[ $ppas != *"$ppa"* ]]; then
         sudo add-apt-repository -y "ppa:$ppa"
     fi
-done<<EOM
-{self.render_items}
-EOM
-        '''.strip()
+        '''.lstrip('\n').rstrip()
 
-class NPMS(ManifestType):
-    def __init__(self, spec, **kwargs):
-        self.items = spec.get('items', None)
-
-    def __repr__(self):
-        return f'{type(self).__name__}(items={self.items})'
-
-    __str__ = __repr__
-
-    def render(self):
-        if not self.items:
-            return ''
+class NPM(PKG):
+    @property
+    def render_block(self):
         return f'''
-echo "npms:"
-while read pkg; do
     sudo npm install -g $pkg
-done<<EOM
-{self.render_items}
-EOM
-        '''.strip()
+        '''.lstrip('\n').rstrip()
 
-class PIP3S(ManifestType):
-    def __init__(self, spec, **kwargs):
-        self.items = spec.get('items', None)
-
-    def __repr__(self):
-        return f'{type(self).__name__}(items={self.items})'
-
-    __str__ = __repr__
-
-    def render(self):
-        if not self.items:
-            return ''
+class PIP3(PKG):
+    @property
+    def render_header(self):
         return f'''
-echo "npms:"
+{PKG.render_header.fget(self)}
 sudo -H pip3 install --upgrade pip setuptools
-while read pkg; do
-    sudo -H pip3 install --upgrade $pkg
-done<<EOM
-{self.render_items}
-EOM
         '''.strip()
+
+    @property
+    def render_block(self):
+        return f'''
+    sudo -H pip3 install --upgrade $pkg
+        '''.lstrip('\n').rstrip()
 
 class Repo():
     def __init__(self, baseurl, reponame, spec, repopath, **kwargs):
@@ -300,17 +277,17 @@ class Manifest():
             self.sections += [Links(spec['links'], **kwargs)]
         if 'ppa' in sections:
             self.sections += [PPAS(spec['ppa'], **kwargs)]
-        pkgs = spec.get('pkg', {}).get('items', []) if 'pkg' in sections else []
-        apts = pkgs + spec.get('apt', {}).get('items', []) if 'apt' in sections else []
-        dnfs = pkgs + spec.get('dnf', {}).get('items', []) if 'dnf' in sections else []
+        apts = dnfs = spec.get('pkg', {}).get('items', []) if 'pkg' in sections else []
+        apts += spec.get('apt', {}).get('items', []) if 'apt' in sections else []
+        dnfs += spec.get('dnf', {}).get('items', []) if 'dnf' in sections else []
         if pkgmgr == 'deb' and apts:
-            self.sections += [APTS(dict(items=apts), **kwargs)]
+            self.sections += [APT(dict(items=apts), **kwargs)]
         elif pkgmgr == 'rpm' and dnfs:
-            self.sections += [DNFS(dict(items=dnfs), **kwargs)]
+            self.sections += [DNF(dict(items=dnfs), **kwargs)]
         if 'npm' in sections:
-            self.sections += [NPMS(spec['npm'], **kargs)]
+            self.sections += [NPM(spec['npm'], **kwargs)]
         if 'pip3' in sections:
-            self.sections += [PIP3S(spec['pip3'], **kwargs)]
+            self.sections += [PIP3(spec['pip3'], **kwargs)]
         if 'github' in sections:
             self.sections += [Github(spec['github'], **kwargs)]
 
