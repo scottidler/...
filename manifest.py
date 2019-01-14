@@ -163,7 +163,7 @@ class PKG(ManifestType):
     @property
     def render_header(self):
         return f'''
-{type(self).__name__.lower()}:
+echo "{type(self).__name__.lower()}:"
         '''.strip()
 
     @property
