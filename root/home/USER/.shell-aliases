@@ -89,6 +89,7 @@ alias gfbn="git fetch origin +refs/notes/buildno/:refs/notes/buildno"
 alias gfofu="git fetch origin -f -u +refs/heads/*:refs/heads/*"
 alias tags="git tag -l"
 alias gl="git log"
+alias ls-not-git="git ls-files . --ignored --exclude-standard --others"
 
 alias gbp="git-big-picture"
 
