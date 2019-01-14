@@ -240,7 +240,7 @@ class Repo():
         self.baseurl = baseurl
         self.reponame = reponame
         self.repopath = repopath
-        self.links = Links(spec.get('links', None))
+        self.links = Links(spec.get('links', None), **kwargs)
 
     def __repr__(self):
         return f'{type(self).__name__}(baseurl={self.baseurl}, reponame={self.reponame}, repopath={self.repopath}, links={self.links})'
@@ -258,7 +258,7 @@ git clone --recursive {self.baseurl}/{self.reponame} {self.repopath}/{self.repon
 class Github(ManifestType):
     def __init__(self, spec, **kwargs):
         repopath = spec.pop('repopath', 'repos')
-        self.repos = [Repo('https://github.com', reponame, repospec, repopath) for reponame, repospec in spec.items()]
+        self.repos = [Repo('https://github.com', reponame, repospec, repopath, **kwargs) for reponame, repospec in spec.items()]
 
     def __repr__(self):
         return f'{type(self).__name__}(repos={self.repos})'
@@ -266,7 +266,9 @@ class Github(ManifestType):
     __str__ = __repr__
 
     def render(self):
-        return 'github:\n ' + '\n'.join([repo.render() for repo in self.repos])
+        if not self.repos:
+            return ''
+        return 'echo "github:"\n' + '\n\n'.join([repo.render() for repo in self.repos])
 
 class Manifest():
     def __init__(self, sections=None, spec=None, pkgmgr=None, **kwargs):
