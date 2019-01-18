@@ -77,6 +77,7 @@ apt:
   - python3-cairo-dev
   - libxml2-dev
   - libxmlsec1-dev
+  - rlwrap
 
 dnf:
   items:
@@ -157,3 +158,8 @@ github:
     links:
       alias: ~/.awscli-aliases
 
+after:
+  - bash: |
+    #!/bin/bash
+    curl https://cht.sh/:cht.sh > ~/bin/cheat
+    chmod +x ~/bin/cheat
