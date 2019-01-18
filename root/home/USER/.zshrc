@@ -86,6 +86,9 @@ plugins=(git)
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+setopt clobber
+unsetopt nomatch
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f /home/saidler/google-cloud-sdk/path.bash.inc ]; then
     . /home/saidler/google-cloud-sdk/path.bash.inc
