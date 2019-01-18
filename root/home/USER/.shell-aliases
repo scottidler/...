@@ -1,6 +1,7 @@
 # vim: filetype=sh
 
-HEADER_SORT='(read -r; printf "%s\n" "$REPLY"; sort)'
+HEADER_SORT1='(read -r; printf "%s\n" "$REPLY"; sort)'
+HEADER_SORT2='(read -r; printf "%s\n" "$REPLY"; sort -k2)'
 
 # global aliases
 alias -g G="| grep -i"
@@ -9,7 +10,7 @@ alias -g b64="| base64"
 alias -g b64d="| base64 -d"
 alias -g voy-ing="ingress.voyager.appscode.com"
 alias -g voy-crt="certificate.voyager.appscode.com"
-alias -g header-sort="| $HEADER_SORT"
+alias -g header-sort="| $HEADER_SORT1"
 alias -g pb="props-bot"
 alias -g nb="newbie-bot"
 alias -g ac="autocert"
@@ -37,13 +38,14 @@ alias ipy3="sudo -E ipython3"
 
 alias d="docker"
 alias dc="docker-compose"
-alias di="docker images | $HEADER_SORT"
-alias dps="docker ps | $HEADER_SORT"
-alias dpsa="docker ps -a | $HEADER_SORT"
+alias di="docker images | $HEADER_SORT1"
+alias dps="docker ps | $HEADER_SORT2"
+alias dpsa="docker ps -a | $HEADER_SORT2"
 alias dpsaq="docker ps -aq"
 alias drm="docker rm"
 alias drmi="docker rmi"
 alias drit="docker run -it"
+alias deit="docker exec -it"
 
 alias pbcopy="xclip -selection clipboard"
 alias pbpaste="xclip -selection clipboard -o"
