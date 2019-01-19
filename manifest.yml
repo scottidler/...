@@ -158,8 +158,18 @@ github:
     links:
       alias: ~/.awscli-aliases
 
-after:
-  - bash: |
+scripts:
+  cheat: |
     #!/bin/bash
     curl https://cht.sh/:cht.sh > ~/bin/cheat
     chmod +x ~/bin/cheat
+  ngrok: |
+    #!/bin/bash
+    curl https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip ngrok.zip
+    unzip ngrok.zip
+    mv ngrok/ngrok ~/bin/
+  ccat: |
+    #!/bin/bash
+    curl https://github.com/jingweno/ccat/releases/latest > ccat.tar.gz
+    tar xvf ccat.tar.gz
+    mv ccat/ccat ~/bin/
