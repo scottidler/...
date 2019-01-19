@@ -34,6 +34,7 @@ SECTIONS = [
     'npm',
     'pip3',
     'github',
+    'scripts',
 ]
 
 UID = os.getuid()
@@ -92,6 +93,12 @@ class ManifestType():
 
     __str__ = __repr__
 
+    def functions(self):
+        return ''
+
+    def render(self):
+        raise NotImplementedError
+
 class Links(ManifestType):
     def __init__(self, spec, cwd=None, user=None, **kwargs):
         self.cwd = cwd
@@ -118,15 +125,11 @@ class Links(ManifestType):
 
     __str__ = __repr__
 
-    @property
-    def render_links(self):
-        return '\n'.join([f'{src} {dst}' for src, dst in self.items])
-
-    def render(self):
-        return f'''
-echo "links:"
-cd {self.cwd}
-while read -r file link; do
+    def functions(self):
+        return '''
+linker() {
+    file="$1"
+    link="$2"
     file=$(realpath $file)
     if [ -f "$link" ] && [ "$file" != "$(readlink $link)" ]; then
         orig="$link.orig"
@@ -142,8 +145,20 @@ while read -r file link; do
         echo "[create] $link -> $file"
         mkdir -p $(dirname $link); ln -s $file $link
     fi
+}
+'''.lstrip('\n').rstrip()
+
+    def render_items(self):
+        return '\n'.join([f'{src} {dst}' for src, dst in self.items])
+
+    def render(self):
+        return f'''
+echo "links:"
+cd {self.cwd}
+while read -r file link; do
+    linker $file $link
 done<<EOM
-{self.render_links}
+{self.render_items()}
 EOM
         '''.strip()
 
@@ -156,54 +171,47 @@ class PKG(ManifestType):
 
     __str__ = __repr__
 
-    @property
     def render_items(self):
         return '\n'.join(self.items)
 
-    @property
     def render_header(self):
         return f'''
 echo "{type(self).__name__.lower()}:"
         '''.strip()
 
-    @property
     def render_block(self):
         raise NotImplementedError
 
     def render(self):
         return f'''
-{self.render_header}
+{self.render_header()}
 while read pkg; do
-{self.render_block}
+{self.render_block()}
 done<<EOM
-{self.render_items}
+{self.render_items()}
 EOM
         '''.strip()
 
 class APT(PKG):
-    @property
     def render_header(self):
         return f'''
-{PKG.render_header.fget(self)}
+{PKG.render_header(self)}
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install -y software-properties-common
-        '''.strip()
+        '''.lstrip('\n').rstrip()
 
-    @property
     def render_block(self):
         return '''
     sudo apt-get install -y $pkg
         '''.lstrip('\n').rstrip()
 
 class DNF(PKG):
-    @property
     def render_block(self):
         return '''
     sudo dnf install -y $pkg
         '''.lstrip('\n').rstrip()
 
 class PPAS(PKG):
-    @property
     def render_block(self):
         if not self.items:
             return ''
@@ -215,22 +223,19 @@ class PPAS(PKG):
         '''.lstrip('\n').rstrip()
 
 class NPM(PKG):
-    @property
     def render_block(self):
         return f'''
     sudo npm install -g $pkg
         '''.lstrip('\n').rstrip()
 
 class PIP3(PKG):
-    @property
     def render_header(self):
         return f'''
-{PKG.render_header.fget(self)}
+{PKG.render_header(self)}
 sudo apt-get install -y python3-dev
 sudo -H pip3 install --upgrade pip setuptools
-        '''.strip()
+        '''.lstrip('\n').rstrip()
 
-    @property
     def render_block(self):
         return f'''
     sudo -H pip3 install --upgrade $pkg
@@ -271,6 +276,25 @@ class Github(ManifestType):
             return ''
         return 'echo "github:"\n' + '\n\n'.join([repo.render() for repo in self.repos])
 
+class Scripts(ManifestType):
+    def __init__(self, spec, **kwargs):
+        self.items = spec
+
+    def __repr__(self):
+        return f'{type(self).__name__}(items={self.items})'
+
+    __str__ = __repr__
+
+    def render(self):
+        if not self.items:
+            return ''
+        def render_script(script):
+            return f'''
+bash << 'EOM'
+{script}
+EOM'''.lstrip('\n').rstrip()
+        return 'echo "scripts:"\n' +  '\n\n'.join([render_script(script.strip()) for _, script in self.items.items()])
+
 class Manifest():
     def __init__(self, sections=None, spec=None, pkgmgr=None, **kwargs):
         self.verbose = spec.pop('verbose', False)
@@ -293,6 +317,8 @@ class Manifest():
             self.sections += [PIP3(spec['pip3'], **kwargs)]
         if 'github' in sections:
             self.sections += [Github(spec['github'], **kwargs)]
+        if 'scripts' in sections:
+            self.sections += [Scripts(spec['scripts'], **kwargs)]
 
     def __repr__(self):
         return f'{type(self).__name__}(verbose={self.verbose}, errors={self.errors}, sections={self.sections})'
@@ -300,13 +326,17 @@ class Manifest():
     def render(self):
         if not self.sections:
             return ''
-        body = '\n\n'.join([section.render() for section in self.sections])
-        return '''
+        functions = '\n\n'.join([section.functions() for section in self.sections]).lstrip('\n').rstrip()
+        body = '\n\n'.join([section.render() for section in self.sections]).lstrip('\n').rstrip()
+        return f'''
 #!/bin/bash
-# manfest.py generated file
+# generated file by manifest.py
+# src: https://github.com/scottidler/.../blob/master/manifest.py
+
+{functions}
 
 {body}
-        '''.format(body=body).strip()
+        '''.lstrip('\n').rstrip()
 
     __str__ = __repr__
 
