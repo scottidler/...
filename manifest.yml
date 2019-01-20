@@ -159,6 +159,13 @@ github:
       alias: ~/.awscli-aliases
 
 scripts:
+  vim+git: |
+    #!/bin/bash
+    sudo apt-get install -y vim git
+    sudo update-alternatives --set editor /usr/bin/vim.basic
+  sudoers: |
+    #!/bin/bash
+    sudo echo "${USER}  ALL=NOPASSWD: ALL" > /etc/sudoers.d/${USER}
   cheat: |
     #!/bin/bash
     curl https://cht.sh/:cht.sh > ~/bin/cheat
@@ -173,3 +180,9 @@ scripts:
     curl https://github.com/jingweno/ccat/releases/latest > ccat.tar.gz
     tar xvf ccat.tar.gz
     mv ccat/ccat ~/bin/
+  kubectl: |
+    #!/bin/bash
+    KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/$KUBECTL_VERSION/bin/linux/amd64/kubectl
+    chmod +x ./kubectl
+    mv kubectl ~/bin/
