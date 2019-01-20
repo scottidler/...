@@ -185,6 +185,7 @@ echo "{type(self).__name__.lower()}:"
     def render(self):
         return f'''
 {self.render_header()}
+
 while read pkg; do
 {self.render_block()}
 done<<EOM
@@ -196,6 +197,7 @@ class APT(PKG):
     def render_header(self):
         return f'''
 {PKG.render_header(self)}
+
 sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install -y software-properties-common
         '''.lstrip('\n').rstrip()
@@ -220,26 +222,27 @@ class PPAS(PKG):
     if [[ $ppas != *"$ppa"* ]]; then
         sudo add-apt-repository -y "ppa:$ppa"
     fi
-        '''.lstrip('\n').rstrip()
+'''.lstrip('\n').rstrip()
 
 class NPM(PKG):
     def render_block(self):
         return f'''
     sudo npm install -g $pkg
-        '''.lstrip('\n').rstrip()
+'''.lstrip('\n').rstrip()
 
 class PIP3(PKG):
     def render_header(self):
         return f'''
 {PKG.render_header(self)}
+
 sudo apt-get install -y python3-dev
 sudo -H pip3 install --upgrade pip setuptools
-        '''.lstrip('\n').rstrip()
+'''.lstrip('\n').rstrip()
 
     def render_block(self):
         return f'''
     sudo -H pip3 install --upgrade $pkg
-        '''.lstrip('\n').rstrip()
+'''.lstrip('\n').rstrip()
 
 class Repo():
     def __init__(self, baseurl, reponame, spec, repopath, **kwargs):
@@ -274,7 +277,7 @@ class Github(ManifestType):
     def render(self):
         if not self.repos:
             return ''
-        return 'echo "github:"\n' + '\n\n'.join([repo.render() for repo in self.repos])
+        return 'echo "github:"\n\n' + '\n\n'.join([repo.render() for repo in self.repos])
 
 class Scripts(ManifestType):
     def __init__(self, spec, **kwargs):
@@ -293,7 +296,7 @@ class Scripts(ManifestType):
 bash << 'EOM'
 {script}
 EOM'''.lstrip('\n').rstrip()
-        return 'echo "scripts:"\n' +  '\n\n'.join([render_script(script.strip()) for _, script in self.items.items()])
+        return 'echo "scripts:"\n\n' +  '\n\n'.join([render_script(script.strip()) for _, script in self.items.items()])
 
 class Manifest():
     def __init__(self, sections=None, spec=None, pkgmgr=None, **kwargs):
