@@ -281,7 +281,7 @@ class Github(ManifestType):
 
 class Scripts(ManifestType):
     def __init__(self, spec, **kwargs):
-        self.items = spec
+        self.items = {name:script.strip() for name, script in spec.items()}
 
     def __repr__(self):
         return f'{type(self).__name__}(items={self.items})'
@@ -291,12 +291,7 @@ class Scripts(ManifestType):
     def render(self):
         if not self.items:
             return ''
-        def render_script(script):
-            return f'''
-bash << 'EOM'
-{script}
-EOM'''.lstrip('\n').rstrip()
-        return 'echo "scripts:"\n\n' +  '\n\n'.join([render_script(script.strip()) for _, script in self.items.items()])
+        return 'echo "scripts:"\n\n' +  '\n\n'.join([f"bash << 'EOM'\n{script}\nEOM" for _, script in self.items.items()])
 
 class Manifest():
     def __init__(self, sections=None, spec=None, pkgmgr=None, **kwargs):
@@ -388,4 +383,3 @@ def main(args):
 
 if __name__ == '__main__':
     main(sys.argv[1:])
-
