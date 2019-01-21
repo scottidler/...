@@ -13,6 +13,7 @@ from pathlib import Path
 
 from argparse import ArgumentParser, Action
 from contextlib import contextmanager
+from fnmatch import fnmatch
 
 sys.path.insert(0, os.path.expanduser('~/repos/scottidler'))
 from utils.dbg import dbg
@@ -26,14 +27,14 @@ if os.path.islink(__file__):
     REAL_PATH = os.path.dirname(REAL_FILE)
 
 SECTIONS = [
-    'link',
-    'ppa',
-    'apt',
-    'dnf',
-    'npm',
-    'pip3',
-    'github',
-    'script',
+    'link_pns',
+    'ppa_pns',
+    'apt_pns',
+    'dnf_pns',
+    'npm_pns',
+    'pip3_pns',
+    'github_pns',
+    'script_pns',
 ]
 
 UID = os.getuid()
@@ -161,9 +162,16 @@ done<<EOM
 EOM
         '''.strip()
 
+def sift(items, includes=None):
+    if None in (items, includes) or '*' in includes:
+        return items
+    def match(item, includes):
+        return any([fnmatch(item, include) for include in includes])
+    return [item for item in items if match(item, includes)]
+
 class PKG(ManifestType):
     def __init__(self, spec, patterns, **kwargs):
-        self.items = spec.get('items', None)
+        self.items = sift(spec.get('items', None), patterns)
 
     def __repr__(self):
         return f'{type(self).__name__}(items={self.items})'
@@ -266,7 +274,7 @@ git clone --recursive {self.baseurl}/{self.reponame} {self.repopath}/{self.repon
 class Github(ManifestType):
     def __init__(self, spec, patterns, **kwargs):
         repopath = spec.pop('repopath', 'repos')
-        self.repos = [Repo('https://github.com', reponame, repospec, repopath, **kwargs) for reponame, repospec in spec.items()]
+        self.repos = [Repo('https://github.com', reponame, spec[reponame], repopath, **kwargs) for reponame in sift(spec.keys(), patterns)]
 
     def __repr__(self):
         return f'{type(self).__name__}(repos={self.repos})'
@@ -280,7 +288,7 @@ class Github(ManifestType):
 
 class Script(ManifestType):
     def __init__(self, spec, patterns, **kwargs):
-        self.items = {name:script.strip() for name, script in spec.items()}
+        self.items = {name: spec[name].strip() for name in sift(spec.keys(), patterns)}
 
     def __repr__(self):
         return f'{type(self).__name__}(items={self.items})'
@@ -290,7 +298,7 @@ class Script(ManifestType):
     def render(self):
         if not self.items:
             return ''
-        return 'echo "script:"\n\n' +  '\n\n'.join([f"bash << 'EOM'\n{script}\nEOM" for _, script in self.items.items()])
+        return 'echo "script:"\n\n' +  '\n\n'.join([f"echo \"{name}:\"\nbash << 'EOM'\n{script}\nEOM" for name, script in self.items.items()])
 
 class Manifest():
     def __init__(
@@ -298,37 +306,37 @@ class Manifest():
             spec=None,
             complete=True,
             pkgmgr=None,
-            link=None,
-            ppa=None,
-            apt=None,
-            dnf=None,
-            npm=None,
-            pip3=None,
-            github=None,
-            script=None,
+            link_pns=None,
+            ppa_pns=None,
+            apt_pns=None,
+            dnf_pns=None,
+            npm_pns=None,
+            pip3_pns=None,
+            github_pns=None,
+            script_pns=None,
             **kwargs):
         self.verbose = spec.pop('verbose', False)
         self.errors = spec.pop('errors', False)
         self.sections = []
-        if complete or link != None:
-            self.sections += [Link(spec['link'], link, **kwargs)]
-        if complete or ppa != None:
-            self.sections += [PPA(spec['ppa'], ppa, **kwargs)]
+        if complete or link_pns != None:
+            self.sections += [Link(spec['link'], link_pns, **kwargs)]
+        if complete or ppa_pns != None:
+            self.sections += [PPA(spec['ppa'], ppa_pns, **kwargs)]
         pkgs = spec.get('pkg', {}).get('items', [])
-        apts = pkgs + spec.get('apt', {}).get('items', []) if complete or apt != None else []
-        dnfs = pkgs + spec.get('dnf', {}).get('items', []) if complete or dnf != None else []
+        apts = pkgs + spec.get('apt', {}).get('items', []) if complete or apt_pns != None else []
+        dnfs = pkgs + spec.get('dnf', {}).get('items', []) if complete or dnf_pns != None else []
         if pkgmgr == 'deb' and apts:
-            self.sections += [APT(dict(items=apts), apt, **kwargs)]
+            self.sections += [APT(dict(items=apts), apt_pns, **kwargs)]
         elif pkgmgr == 'rpm' and dnfs:
-            self.sections += [DNF(dict(items=dnfs), dnf, **kwargs)]
-        if complete or npm != None:
-            self.sections += [NPM(spec['npm'], npm, **kwargs)]
-        if complete or pip3 != None:
-            self.sections += [PIP3(spec['pip3'], pip3, **kwargs)]
-        if complete or github != None:
-            self.sections += [Github(spec['github'], github, **kwargs)]
-        if complete or script != None:
-            self.sections += [Script(spec['script'], script, **kwargs)]
+            self.sections += [DNF(dict(items=dnfs), dnf_pns, **kwargs)]
+        if complete or npm_pns != None:
+            self.sections += [NPM(spec['npm'], npm_pns, **kwargs)]
+        if complete or pip3_pns != None:
+            self.sections += [PIP3(spec['pip3'], pip3_pns, **kwargs)]
+        if complete or github_pns != None:
+            self.sections += [Github(spec['github'], github_pns, **kwargs)]
+        if complete or script_pns != None:
+            self.sections += [Script(spec['script'], script_pns, **kwargs)]
 
     def __repr__(self):
         return f'{type(self).__name__}(verbose={self.verbose}, errors={self.errors}, sections={self.sections})'
@@ -382,42 +390,50 @@ def main(args):
         help=f'default=%(default)s; override pkgmgr')
     parser.add_argument(
         '-l', '--link',
+        dest='link_pns',
         metavar='LINK',
 	action=ManifestAction,
         nargs='*',
         help='link')
     parser.add_argument(
         '-p', '--ppa',
+        dest='ppa_pns',
 	action=ManifestAction,
         nargs='*',
         help='ppa')
     parser.add_argument(
         '-a', '--apt',
+        dest='apt_pns',
 	action=ManifestAction,
         nargs='*',
         help='apt')
     parser.add_argument(
         '-d', '--dnf',
+        dest='dnf_pns',
 	action=ManifestAction,
         nargs='*',
         help='dnf')
     parser.add_argument(
         '-n', '--npm',
+        dest='npm_pns',
 	action=ManifestAction,
         nargs='*',
         help='npm')
     parser.add_argument(
         '-P', '--pip3',
+        dest='pip3_pns',
 	action=ManifestAction,
         nargs='*',
         help='pip3')
     parser.add_argument(
         '-g', '--github',
+        dest='github_pns',
 	action=ManifestAction,
         nargs='*',
         help='github')
     parser.add_argument(
         '-s', '--script',
+        dest='script_pns',
         metavar='SCRIPT',
 	action=ManifestAction,
         nargs='*',
