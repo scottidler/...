@@ -11,7 +11,7 @@ from copy import deepcopy
 from ruamel import yaml
 from pathlib import Path
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Action
 from contextlib import contextmanager
 
 sys.path.insert(0, os.path.expanduser('~/repos/scottidler'))
@@ -28,7 +28,6 @@ if os.path.islink(__file__):
 SECTIONS = [
     'links',
     'ppa',
-    'pkg',
     'apt',
     'dnf',
     'npm',
@@ -294,28 +293,41 @@ class Scripts(ManifestType):
         return 'echo "scripts:"\n\n' +  '\n\n'.join([f"bash << 'EOM'\n{script}\nEOM" for _, script in self.items.items()])
 
 class Manifest():
-    def __init__(self, sections=None, spec=None, pkgmgr=None, **kwargs):
+    def __init__(
+            self,
+            spec=None,
+            complete=True,
+            pkgmgr=None,
+            links=None,
+            ppa=None,
+            apt=None,
+            dnf=None,
+            npm=None,
+            pip3=None,
+            github=None,
+            scripts=None,
+            **kwargs):
         self.verbose = spec.pop('verbose', False)
         self.errors = spec.pop('errors', False)
         self.sections = []
-        if 'links' in sections:
+        if complete or links:
             self.sections += [Links(spec['links'], **kwargs)]
-        if 'ppa' in sections:
+        if complete or ppa:
             self.sections += [PPAS(spec['ppa'], **kwargs)]
-        apts = dnfs = spec.get('pkg', {}).get('items', []) if 'pkg' in sections else []
-        apts += spec.get('apt', {}).get('items', []) if 'apt' in sections else []
-        dnfs += spec.get('dnf', {}).get('items', []) if 'dnf' in sections else []
+        pkgs = spec.get('pkg', {}).get('items', [])
+        apts = pkgs + spec.get('apt', {}).get('items', []) if complete or apt else []
+        dnfs = pkgs + spec.get('dnf', {}).get('items', []) if complete or dnf else []
         if pkgmgr == 'deb' and apts:
             self.sections += [APT(dict(items=apts), **kwargs)]
         elif pkgmgr == 'rpm' and dnfs:
             self.sections += [DNF(dict(items=dnfs), **kwargs)]
-        if 'npm' in sections:
+        if complete or npm:
             self.sections += [NPM(spec['npm'], **kwargs)]
-        if 'pip3' in sections:
+        if complete or pip3:
             self.sections += [PIP3(spec['pip3'], **kwargs)]
-        if 'github' in sections:
+        if complete or github:
             self.sections += [Github(spec['github'], **kwargs)]
-        if 'scripts' in sections:
+        if complete or scripts:
             self.sections += [Scripts(spec['scripts'], **kwargs)]
 
     def __repr__(self):
@@ -338,10 +350,17 @@ class Manifest():
 
     __str__ = __repr__
 
-def load_manifest(config=None, **kwargs):
+def load_manifest(complete=True, config=None, **kwargs):
     spec = yaml.safe_load(open(config))
-    manifest = Manifest(spec=spec, **kwargs)
+    manifest = Manifest(spec=spec, complete=complete, **kwargs)
     return manifest
+
+def complete(ns):
+    return not any([getattr(ns, sec) for sec in SECTIONS])
+
+class ManifestAction(Action):
+    def __call__(self, parser, namespace, values, option_strings=None):
+        setattr(namespace, self.dest, values if values else [True])
 
 def main(args):
     parser = ArgumentParser()
@@ -350,26 +369,61 @@ def main(args):
         default=f'{SCRIPT_PATH}/manifest.yml',
         help='default=%(default)s; specify the config path')
     parser.add_argument(
-        '-d', '--cwd',
+        '-D', '--cwd',
         default=os.getcwd(),
         help='default=%(default)s; set the cwd')
     parser.add_argument(
-        '-u', '--user',
+        '-U', '--user',
         default=USER,
         help='default=%(default)s; specify user if not current')
     parser.add_argument(
-        '-p', '--pkgmgr',
+        '-M', '--pkgmgr',
         default=get_pkgmgr(),
         help=f'default=%(default)s; override pkgmgr')
     parser.add_argument(
-        '-s', '--sections',
-        metavar='SEC',
-        nargs='+',
-        choices=SECTIONS,
-        default=SECTIONS,
-        help=f'choices={SECTIONS}; choose which sections to run')
+        '-l', '--links',
+        metavar='LINK',
+        action=ManifestAction,
+        nargs='*',
+        help='links')
+    parser.add_argument(
+        '-p', '--ppa',
+        action=ManifestAction,
+        nargs='*',
+        help='ppa')
+    parser.add_argument(
+        '-a', '--apt',
+        action=ManifestAction,
+        nargs='*',
+        help='apt')
+    parser.add_argument(
+        '-d', '--dnf',
+        action=ManifestAction,
+        nargs='*',
+        help='dnf')
+    parser.add_argument(
+        '-n', '--npm',
+        action=ManifestAction,
+        nargs='*',
+        help='npm')
+    parser.add_argument(
+        '-P', '--pip3',
+        action=ManifestAction,
+        nargs='*',
+        help='pip3')
+    parser.add_argument(
+        '-g', '--github',
+        action=ManifestAction,
+        nargs='*',
+        help='github')
+    parser.add_argument(
+        '-s', '--scripts',
+        metavar='SCRIPT',
+        action=ManifestAction,
+        nargs='*',
+        help='scripts')
     ns = parser.parse_args()
-    manifest = load_manifest(**ns.__dict__)
+    manifest = load_manifest(complete=complete(ns), **ns.__dict__)
     try:
         print(manifest.render())
         sys.stdout.flush()
