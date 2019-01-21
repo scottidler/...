@@ -310,24 +310,24 @@ class Manifest():
         self.verbose = spec.pop('verbose', False)
         self.errors = spec.pop('errors', False)
         self.sections = []
-        if complete or links:
+        if complete or links != None:
             self.sections += [Links(spec['links'], **kwargs)]
-        if complete or ppa:
+        if complete or ppa != None:
             self.sections += [PPAS(spec['ppa'], **kwargs)]
         pkgs = spec.get('pkg', {}).get('items', [])
-        apts = pkgs + spec.get('apt', {}).get('items', []) if complete or apt else []
-        dnfs = pkgs + spec.get('dnf', {}).get('items', []) if complete or dnf else []
+        apts = pkgs + spec.get('apt', {}).get('items', []) if complete or apt != None else []
+        dnfs = pkgs + spec.get('dnf', {}).get('items', []) if complete or dnf != None else []
         if pkgmgr == 'deb' and apts:
             self.sections += [APT(dict(items=apts), **kwargs)]
         elif pkgmgr == 'rpm' and dnfs:
             self.sections += [DNF(dict(items=dnfs), **kwargs)]
-        if complete or npm:
+        if complete or npm != None:
             self.sections += [NPM(spec['npm'], **kwargs)]
-        if complete or pip3:
+        if complete or pip3 != None:
             self.sections += [PIP3(spec['pip3'], **kwargs)]
-        if complete or github:
+        if complete or github != None:
             self.sections += [Github(spec['github'], **kwargs)]
-        if complete or scripts:
+        if complete or scripts != None:
             self.sections += [Scripts(spec['scripts'], **kwargs)]
 
     def __repr__(self):
@@ -356,11 +356,7 @@ def load_manifest(complete=True, config=None, **kwargs):
     return manifest
 
 def complete(ns):
-    return not any([getattr(ns, sec) for sec in SECTIONS])
-
-class ManifestAction(Action):
-    def __call__(self, parser, namespace, values, option_strings=None):
-        setattr(namespace, self.dest, values if values else [True])
+    return not any([getattr(ns, sec) == [] for sec in SECTIONS])
 
 def main(args):
     parser = ArgumentParser()
@@ -383,43 +379,35 @@ def main(args):
     parser.add_argument(
         '-l', '--links',
         metavar='LINK',
-        action=ManifestAction,
         nargs='*',
         help='links')
     parser.add_argument(
         '-p', '--ppa',
-        action=ManifestAction,
         nargs='*',
         help='ppa')
     parser.add_argument(
         '-a', '--apt',
-        action=ManifestAction,
         nargs='*',
         help='apt')
     parser.add_argument(
         '-d', '--dnf',
-        action=ManifestAction,
         nargs='*',
         help='dnf')
     parser.add_argument(
         '-n', '--npm',
-        action=ManifestAction,
         nargs='*',
         help='npm')
     parser.add_argument(
         '-P', '--pip3',
-        action=ManifestAction,
         nargs='*',
         help='pip3')
     parser.add_argument(
         '-g', '--github',
-        action=ManifestAction,
         nargs='*',
         help='github')
     parser.add_argument(
         '-s', '--scripts',
         metavar='SCRIPT',
-        action=ManifestAction,
         nargs='*',
         help='scripts')
     ns = parser.parse_args()
