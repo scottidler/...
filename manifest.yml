@@ -1,7 +1,7 @@
 verbose: True
 allow_errors: False
 
-links:
+link:
   recursive: True
   root: /
 
@@ -112,30 +112,30 @@ npm:
 
 github:
   scottidler/git:
-    links:
+    link:
       bin/clone: ~/bin/clone
       cfg/clone.cfg: ~/.clone/clone/clone.cfg
   scottidler/dock:
-    links:
+    link:
       dock: ~/bin/dock
   scottidler/pimp:
-    links:
+    link:
       pimp: ~/bin/pimp
   scottidler/rmrf:
-    links:
+    link:
       rmrf: ~/bin/rmrf
       bkup: ~/bin/bkup
       bkup-rmrf: ~/bin/bkup-rmrf
       ls-rmrf: ~/bin/ls-rmrf
       ls-bkup: ~/bin/ls-bkup
   scottidler/ls-stat:
-    links:
+    link:
       ls-stat: ~/bin/ls-stat
   scottidler/ssh-ident:
-    links:
+    link:
       ssh-ident: ~/bin/ssh
   mozilla-it/cert-tools:
-    links:
+    link:
       findcert: ~/bin/findcert
       modcert: ~/bin/modcert
       ssl-compare: ~/bin/ssl-compare
@@ -143,22 +143,22 @@ github:
       ssl-sans: ~/bin/ssl-sans
       ssl-validity: ~/bin/ssl-validity
   mozilla-it/vulns2ansible:
-    links:
+    link:
       v2a: ~/bin/v2a
   sahsanu/lectl:
-    links:
+    link:
       lectl: ~/bin/lectl
   esc/git-big-picture:
-    links:
+    link:
       git-big-picture: ~/bin/gbp
   robbyrussell/oh-my-zsh:
-    links:
+    link:
       oh-my-zsh: ~/.oh-my-zsh
   awslabs/awscli-aliases:
-    links:
+    link:
       alias: ~/.awscli-aliases
 
-scripts:
+script:
   vim+git: |
     #!/bin/bash
     sudo apt-get install -y vim git
