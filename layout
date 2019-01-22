@@ -59,7 +59,7 @@ def call(cmd, stdout=PIPE, stderr=PIPE, shell=True, nerf=False, throw=True, verb
         if _stderr:
             print(_stderr)
     if throw and exitcode:
-        raise CalledProcessError(exitcode, f'cmd=%(cmd)s; stdout=%(_stdout)s; stderr=%(_stderr)s'
+        raise CalledProcessError(exitcode, f'cmd={cmd}; stdout={_stdout}; stderr={_stderr}')
     return exitcode, _stdout, _stderr
 
 def key(d):
@@ -176,7 +176,7 @@ class Layout(object):
         window_class = self._divine_window_class(window_class_pn)
         window_id = self.windows[window_class]['window_id']
         mvarg = self._calculate_mvarg(mvarg)
-        exitcode, stdout, stderr = call(f'wmctrl -ir {window_id} -e {mvarg}'), verbose=verbose, throw=True)
+        exitcode, stdout, stderr = call(f'wmctrl -ir {window_id} -e {mvarg}', verbose=verbose, throw=True)
 
     def moves(self, pairs):
         for window_class_pn, mvarg in pairs:
