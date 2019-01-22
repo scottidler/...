@@ -376,19 +376,19 @@ def main(args):
     parser.add_argument(
         '-C', '--config',
         default=f'{SCRIPT_PATH}/manifest.yml',
-        help='default=%(default)s; specify the config path')
+        help='default="%(default)s"; specify the config path')
     parser.add_argument(
         '-D', '--cwd',
         default=os.getcwd(),
-        help='default=%(default)s; set the cwd')
+        help='default="%(default)s"; set the cwd')
     parser.add_argument(
         '-U', '--user',
         default=USER,
-        help='default=%(default)s; specify user if not current')
+        help='default="%(default)s"; specify user if not current')
     parser.add_argument(
         '-M', '--pkgmgr',
         default=get_pkgmgr(),
-        help=f'default=%(default)s; override pkgmgr')
+        help=f'default="%(default)s"; override pkgmgr')
     parser.add_argument(
         '-l', '--link',
         dest='link_pns',
