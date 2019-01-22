@@ -38,6 +38,28 @@ UID = os.getuid()
 GID = pwd.getpwuid(UID).pw_gid
 USER = pwd.getpwuid(UID).pw_name
 
+LINKER = '''
+linker() {
+    file="$1"
+    link="$2"
+    file=$(realpath $file)
+    if [ -f "$link" ] && [ "$file" != "$(readlink $link)" ]; then
+        orig="$link.orig"
+        $VERBOSE && echo "backing up $orig"
+        mv $link $orig
+    elif [ ! -f "$link" ] && [ -L "$link" ]; then
+        $VERBOSE && echo "removing broken link $link"
+        unlink $link
+    fi
+    if [ -f "$link" ]; then
+        echo "[exists] $link"
+    else
+        echo "[create] $link -> $file"
+        mkdir -p $(dirname $link); ln -s $file $link
+    fi
+}
+'''.lstrip('\n').rstrip()
+
 class UnknownPkgmgrError(Exception):
     def __init__(self):
         super(UnknownPkgmgrError, self).__init__('unknown pkgmgr!')
@@ -123,27 +145,7 @@ class Link(ManifestType):
     __str__ = __repr__
 
     def functions(self):
-        return '''
-linker() {
-    file="$1"
-    link="$2"
-    file=$(realpath $file)
-    if [ -f "$link" ] && [ "$file" != "$(readlink $link)" ]; then
-        orig="$link.orig"
-        $VERBOSE && echo "backing up $orig"
-        mv $link $orig
-    elif [ ! -f "$link" ] && [ -L "$link" ]; then
-        $VERBOSE && echo "removing broken link $link"
-        unlink $link
-    fi
-    if [ -f "$link" ]; then
-        echo "[exists] $link"
-    else
-        echo "[create] $link -> $file"
-        mkdir -p $(dirname $link); ln -s $file $link
-    fi
-}
-'''.lstrip('\n').rstrip()
+        return LINKER
 
     def render_items(self):
         return '\n'.join([f'{src} {dst}' for src, dst in self.items])
@@ -278,6 +280,9 @@ class Github(ManifestType):
 
     __str__ = __repr__
 
+    def functions(self):
+        return LINKER
+
     def render(self):
         if not self.repos:
             return ''
@@ -341,7 +346,7 @@ class Manifest():
     def render(self):
         if not self.sections:
             return ''
-        functions = '\n\n'.join([section.functions() for section in self.sections]).lstrip('\n').rstrip()
+        functions = '\n\n'.join(set([section.functions() for section in self.sections])).lstrip('\n').rstrip()
         body = '\n\n'.join([section.render() for section in self.sections]).lstrip('\n').rstrip()
         return f'''
 #!/bin/bash
