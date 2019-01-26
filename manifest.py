@@ -24,14 +24,14 @@ if os.path.islink(__file__):
     REAL_PATH = os.path.dirname(REAL_FILE)
 
 SECTIONS = [
-    'link_pns',
-    'ppa_pns',
-    'apt_pns',
-    'dnf_pns',
-    'npm_pns',
-    'pip3_pns',
-    'github_pns',
-    'script_pns',
+    'link',
+    'ppa',
+    'apt',
+    'dnf',
+    'npm',
+    'pip3',
+    'github',
+    'script',
 ]
 
 UID = os.getuid()
@@ -391,54 +391,46 @@ def main(args):
         help=f'default="%(default)s"; override pkgmgr')
     parser.add_argument(
         '-l', '--link',
-        dest='link_pns',
         metavar='LINK',
 	action=ManifestAction,
         nargs='*',
-        help='link')
+        help='specify list of glob patterns to match links')
     parser.add_argument(
         '-p', '--ppa',
-        dest='ppa_pns',
 	action=ManifestAction,
         nargs='*',
-        help='ppa')
+        help='specify list of glob patterns to match ppa items')
     parser.add_argument(
         '-a', '--apt',
-        dest='apt_pns',
 	action=ManifestAction,
         nargs='*',
-        help='apt')
+        help='specify list of glob patterns to match apt items')
     parser.add_argument(
         '-d', '--dnf',
-        dest='dnf_pns',
 	action=ManifestAction,
         nargs='*',
-        help='dnf')
+        help='specify list of glob patterns to match dnf items')
     parser.add_argument(
         '-n', '--npm',
-        dest='npm_pns',
 	action=ManifestAction,
         nargs='*',
-        help='npm')
+        help='specify list of glob patterns to match npm items')
     parser.add_argument(
         '-P', '--pip3',
-        dest='pip3_pns',
 	action=ManifestAction,
         nargs='*',
-        help='pip3')
+        help='specify list of glob patterns to match pip3 items')
     parser.add_argument(
         '-g', '--github',
-        dest='github_pns',
 	action=ManifestAction,
         nargs='*',
-        help='github')
+        help='specify list of glob patterns to match github repos')
     parser.add_argument(
         '-s', '--script',
-        dest='script_pns',
         metavar='SCRIPT',
 	action=ManifestAction,
         nargs='*',
-        help='script')
+        help='specify list of glob patterns to match script names')
     ns = parser.parse_args()
     manifest = load_manifest(complete=complete(ns), **ns.__dict__)
     try:
