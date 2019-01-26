@@ -15,6 +15,9 @@ from argparse import ArgumentParser, Action
 from contextlib import contextmanager
 from fnmatch import fnmatch
 
+sys.path.insert(0, '/home/sidler/repos/scottidler/')
+from utils.dbg import dbg
+
 SCRIPT_FILE = os.path.abspath(__file__)
 SCRIPT_NAME = os.path.basename(SCRIPT_FILE)
 SCRIPT_PATH = os.path.dirname(SCRIPT_FILE)
@@ -307,37 +310,38 @@ class Manifest():
             spec=None,
             complete=True,
             pkgmgr=None,
-            link_pns=None,
-            ppa_pns=None,
-            apt_pns=None,
-            dnf_pns=None,
-            npm_pns=None,
-            pip3_pns=None,
-            github_pns=None,
-            script_pns=None,
+            link=None,
+            ppa=None,
+            apt=None,
+            dnf=None,
+            npm=None,
+            pip3=None,
+            github=None,
+            script=None,
             **kwargs):
         self.verbose = spec.pop('verbose', False)
         self.errors = spec.pop('errors', False)
         self.sections = []
-        if complete or link_pns != None:
-            self.sections += [Link(spec['link'], link_pns, **kwargs)]
-        if complete or ppa_pns != None:
-            self.sections += [PPA(spec['ppa'], ppa_pns, **kwargs)]
+        dbg()
+        if complete or link != None:
+            self.sections += [Link(spec['link'], link, **kwargs)]
+        if complete or ppa != None:
+            self.sections += [PPA(spec['ppa'], ppa, **kwargs)]
         pkgs = spec.get('pkg', {}).get('items', [])
-        apts = pkgs + spec.get('apt', {}).get('items', []) if complete or apt_pns != None else []
-        dnfs = pkgs + spec.get('dnf', {}).get('items', []) if complete or dnf_pns != None else []
+        apts = pkgs + spec.get('apt', {}).get('items', []) if complete or apt != None else []
+        dnfs = pkgs + spec.get('dnf', {}).get('items', []) if complete or dnf != None else []
         if pkgmgr == 'deb' and apts:
-            self.sections += [APT(dict(items=apts), apt_pns, **kwargs)]
+            self.sections += [APT(dict(items=apts), apt, **kwargs)]
         elif pkgmgr == 'rpm' and dnfs:
-            self.sections += [DNF(dict(items=dnfs), dnf_pns, **kwargs)]
-        if complete or npm_pns != None:
-            self.sections += [NPM(spec['npm'], npm_pns, **kwargs)]
-        if complete or pip3_pns != None:
-            self.sections += [PIP3(spec['pip3'], pip3_pns, **kwargs)]
-        if complete or github_pns != None:
-            self.sections += [Github(spec['github'], github_pns, **kwargs)]
-        if complete or script_pns != None:
-            self.sections += [Script(spec['script'], script_pns, **kwargs)]
+            self.sections += [DNF(dict(items=dnfs), dnf, **kwargs)]
+        if complete or npm != None:
+            self.sections += [NPM(spec['npm'], npm, **kwargs)]
+        if complete or pip3 != None:
+            self.sections += [PIP3(spec['pip3'], pip3, **kwargs)]
+        if complete or github != None:
+            self.sections += [Github(spec['github'], github, **kwargs)]
+        if complete or script != None:
+            self.sections += [Script(spec['script'], script, **kwargs)]
 
     def __repr__(self):
         return f'{type(self).__name__}(verbose={self.verbose}, errors={self.errors}, sections={self.sections})'
