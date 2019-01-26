@@ -154,7 +154,7 @@ class Link(ManifestType):
 
     def render(self):
         return f'''
-echo "link:"
+echo "links:"
 cd {self.cwd}
 while read -r file link; do
     linker $file $link
@@ -184,7 +184,7 @@ class PKG(ManifestType):
 
     def render_header(self):
         return f'''
-echo "{type(self).__name__.lower()}:"
+echo "{type(self).__name__.lower()}s:"
         '''.strip()
 
     def render_block(self):
@@ -226,7 +226,7 @@ class PPA(PKG):
         if not self.items:
             return ''
         return f'''
-    ppas=`find /etc/apt/ -name *.list | xargs cat | grep ^[[:space:]]*deb | grep -v deb-src`
+    ppas=$(find /etc/apt/ -name *.list | xargs cat | grep ^[[:space:]]*deb | grep -v deb-src)
     if [[ $ppas != *"$ppa"* ]]; then
         sudo add-apt-repository -y "ppa:$ppa"
     fi
@@ -266,6 +266,7 @@ class Repo():
 
     def render(self):
         return f'''
+echo "{self.reponame}:"
 git clone --recursive {self.baseurl}/{self.reponame} {self.repopath}/{self.reponame}
 (cd {self.repopath}/{self.reponame} && pwd && git pull && git checkout HEAD)
 
@@ -288,7 +289,7 @@ class Github(ManifestType):
     def render(self):
         if not self.repos:
             return ''
-        return 'echo "github:"\n\n' + '\n\n'.join([repo.render() for repo in self.repos])
+        return 'echo "github repos:"\n\n' + '\n\n'.join([repo.render() for repo in self.repos])
 
 class Script(ManifestType):
     def __init__(self, spec, patterns, **kwargs):
@@ -302,7 +303,7 @@ class Script(ManifestType):
     def render(self):
         if not self.items:
             return ''
-        return 'echo "script:"\n\n' +  '\n\n'.join([f"echo \"{name}:\"\nbash << 'EOM'\n{script}\nEOM" for name, script in self.items.items()])
+        return 'echo "scripts:"\n\n' +  '\n\n'.join([f"echo \"{name}:\"\nbash << 'EOM'\n{script}\nEOM" for name, script in self.items.items()])
 
 class Manifest():
     def __init__(
@@ -322,7 +323,6 @@ class Manifest():
         self.verbose = spec.pop('verbose', False)
         self.errors = spec.pop('errors', False)
         self.sections = []
-        dbg()
         if complete or link != None:
             self.sections += [Link(spec['link'], link, **kwargs)]
         if complete or ppa != None:
