@@ -15,9 +15,6 @@ from argparse import ArgumentParser, Action
 from contextlib import contextmanager
 from fnmatch import fnmatch
 
-sys.path.insert(0, '/home/sidler/repos/scottidler/')
-from utils.dbg import dbg
-
 SCRIPT_FILE = os.path.abspath(__file__)
 SCRIPT_NAME = os.path.basename(SCRIPT_FILE)
 SCRIPT_PATH = os.path.dirname(SCRIPT_FILE)
