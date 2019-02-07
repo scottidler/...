@@ -157,6 +157,10 @@ github:
   awslabs/awscli-aliases:
     link:
       alias: ~/.awscli-aliases
+  powerline/powerline:
+    link:
+      font/10-powerline-symbols.conf: ~/.config/fontconfig/conf.d/10-powerline-symbols.conf
+      font/PowerlineSymbols.otf: ~/.fonts/PowerlineSymbols.otf
 
 script:
   vim+git: |
