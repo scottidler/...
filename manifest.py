@@ -41,7 +41,7 @@ USER = pwd.getpwuid(UID).pw_name
 LINKER = '''
 linker() {
     file=$(realpath "$1")
-    link=$(realpath "$2")
+    link="$2"
     if [ -f "$link" ] && [ "$file" != "$(readlink $link)" ]; then
         orig="$link.orig"
         $VERBOSE && echo "backing up $orig"
