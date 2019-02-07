@@ -4,6 +4,7 @@ RUN mkdir -p /home/manifest/.../
 WORKDIR /home/manifest/.../
 
 RUN apt-get update && apt-get install -y \
+    git \
     vim \
     curl \
     tree \
