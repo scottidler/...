@@ -34,6 +34,9 @@ pkg:
   - shellcheck
   - ssh-askpass
   - openssh-server
+  - nodejs-dev
+  - node-gyp
+  - libssl1.0-dev
   - npm
   - zsh
   - meld
@@ -161,6 +164,10 @@ github:
     link:
       font/10-powerline-symbols.conf: ~/.config/fontconfig/conf.d/10-powerline-symbols.conf
       font/PowerlineSymbols.otf: ~/.fonts/PowerlineSymbols.otf
+  awslabs/git-secrets:
+    script: |
+      #!/bin/bash
+      PREFIX=~/bin make install
 
 script:
   vim+git: |
