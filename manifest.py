@@ -254,21 +254,24 @@ class Repo():
         self.baseurl = baseurl
         self.reponame = reponame
         self.repopath = repopath
-        self.link = Link(spec.get('link', None), None, **kwargs)
+        self.link = Link(spec.get('link'), None, **kwargs) if 'link' in spec else None
+        self.script = Script(dict(reponame=spec.get('script')), None, **kwargs) if 'script' in spec else None
 
     def __repr__(self):
-        return f'{type(self).__name__}(baseurl={self.baseurl}, reponame={self.reponame}, repopath={self.repopath}, link={self.link})'
+        return f'{type(self).__name__}(baseurl={self.baseurl}, reponame={self.reponame}, repopath={self.repopath}, link={self.link}, script={self.script})'
 
     __str__ = __repr__
 
     def render(self):
+        link = self.link.render() + '\n' if self.link else ''
+        script = self.script.render() + '\n' if self.script else ''
         return f'''
 echo "{self.reponame}:"
 git clone --recursive {self.baseurl}/{self.reponame} {self.repopath}/{self.reponame}
 (cd {self.repopath}/{self.reponame} && pwd && git pull && git checkout HEAD)
-
-{self.link.render()}
-    '''.strip()
+{link}
+{script}
+'''.lstrip('\n').rstrip()
 
 class Github(ManifestType):
     def __init__(self, spec, patterns, **kwargs):
@@ -286,7 +289,7 @@ class Github(ManifestType):
     def render(self):
         if not self.repos:
             return ''
-        return 'echo "github repos:"\n\n' + '\n\n'.join([repo.render() for repo in self.repos])
+        return 'echo "github repos:"\n\n' + '\n\n'.join([repo.render() for repo in self.repos]).strip()
 
 class Script(ManifestType):
     def __init__(self, spec, patterns, **kwargs):
