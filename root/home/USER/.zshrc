@@ -137,3 +137,13 @@ PROMPT_EOL_MARK=''
 
 # added by travis gem
 [ -f /home/sidler/.travis/travis.sh ] && . /home/sidler/.travis/travis.sh
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /home/sidler/tmp/subhub/node_modules/tabtab/.completions/serverless.zsh ]] && . /home/sidler/tmp/subhub/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /home/sidler/tmp/subhub/node_modules/tabtab/.completions/sls.zsh ]] && . /home/sidler/tmp/subhub/node_modules/tabtab/.completions/sls.zsh
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /home/sidler/tmp/subhub/node_modules/tabtab/.completions/slss.zsh ]] && . /home/sidler/tmp/subhub/node_modules/tabtab/.completions/slss.zsh
