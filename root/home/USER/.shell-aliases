@@ -1,5 +1,6 @@
 # vim: filetype=sh
-
+KS="kube-system"
+CW="CW"
 HEADER_SORT1='(read -r; printf "%s\n" "$REPLY"; sort)'
 HEADER_SORT2='(read -r; printf "%s\n" "$REPLY"; sort -k2)'
 
@@ -7,6 +8,7 @@ HEADER_SORT2='(read -r; printf "%s\n" "$REPLY"; sort -k2)'
 if [[ "$(basename $SHELL)" == "zsh" ]]; then
     alias -g G="| grep -i"
     alias -g ns-cw="--namespace cw"
+    alias -g ns-ks="--namespace kube-system"
     alias -g b64="| base64"
     alias -g b64d="| base64 -d"
     alias -g voy-ing="ingress.voyager.appscode.com"
@@ -41,6 +43,7 @@ alias ipy3="sudo -E ipython3"
 
 alias d="docker"
 alias dc="docker-compose"
+alias dI="docker inspect"
 alias di="docker images | $HEADER_SORT1"
 alias dps="docker ps | $HEADER_SORT2"
 alias dpsa="docker ps -a | $HEADER_SORT2"
@@ -57,6 +60,7 @@ alias k="kubectl"
 alias ka="kubectl apply -f"
 alias kg="kubectl get"
 alias kga="kubectl get all"
+alias kgC="kubectl get crd"
 alias kgp="kubectl get pod"
 alias kgs="kubectl get svc"
 alias kgS="kubectl get secret"
@@ -64,6 +68,7 @@ alias kgd="kubectl get deployment"
 alias kgc="kubectl get certificate"
 alias kgv="kubectl get ingress.voyager.appscode.com"
 alias kd="kubectl describe"
+alias kdC="kubectl describe crd"
 alias kdp="kubectl describe pod"
 alias kds="kubectl describe svc"
 alias kdS="kubectl describe secret"
@@ -71,11 +76,13 @@ alias kdd="kubectl describe deployment"
 alias kdc="kubectl describe certificate"
 alias kdv="kubectl describe ingress.voyager.appscode.com"
 alias kD="kubectl delete"
+alias kDC="kubectl delete crd"
 alias kDp="kubectl delete pod"
 alias kDs="kubectl delete svc"
 alias kDS="kubectl delete secret"
 alias kDd="kubectl delete deployment"
 alias kv="kubectl version"
+#alias kvv="kubectl exec -it $(kubectl get pods -n $CW -l app=voyager -o jsonpath={.items[0].metadata.name}) -n $CW voyager version"
 alias kl="kubectl logs"
 
 alias t="kubetpl"
