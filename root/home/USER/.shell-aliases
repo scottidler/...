@@ -3,6 +3,14 @@ KS="kube-system"
 CW="CW"
 HEADER_SORT1='(read -r; printf "%s\n" "$REPLY"; sort)'
 HEADER_SORT2='(read -r; printf "%s\n" "$REPLY"; sort -k2)'
+ETHDEV="ip route get 1.1.1.1 | grep -Po '(?<=dev\s)\w+' | cut -f1 -d ' '"
+REPO_TEST="git rev-parse"
+REPOROOT="git rev-parse --show-toplevel"
+REPONAME_PN="s;^(git|ssh|https)://([A-Za-z0-9\-\_]+@)?([A-Za-z0-9\.]+)/;;"
+BRANCH_NAME="git rev-parse --abbrev-ref HEAD"
+REMOTE_ORIGIN_URL="git config --get remote.origin.url"
+NEAREST_TAG="git describe --abbrev=0"
+
 
 # global aliases, zsh only
 if [[ "$(basename $SHELL)" == "zsh" ]]; then
@@ -26,6 +34,8 @@ alias clh="curl localhost: #!space"
 
 alias cat="ccat"
 
+alias ethdev="echo \$($ETHDEV)"
+
 # regular alises
 alias udpate="update"
 alias linode="ssh root@45.33.26.141"
@@ -40,6 +50,10 @@ alias myip='ip addr show |grep "inet " |grep -v 127.0.0. |head -1|cut -d" " -f6|
 alias ipy="sudo -E ipython3"
 alias ipy2="sudo -E ipython"
 alias ipy3="sudo -E ipython3"
+
+alias cdr="\$($REPO_TEST) && \$($REPOROOT)"
+alias cdpr="\$($REPO_TEST) && {cd ../; \$($REPOROOT)}"
+#alias cdp="\$($REPO_TEST) && {[[ \"\$($REPOROOT)\" == *\"\$($REPONAME)]" ]] && cd ${}}"
 
 alias d="docker"
 alias dc="docker-compose"
@@ -82,7 +96,7 @@ alias kDs="kubectl delete svc"
 alias kDS="kubectl delete secret"
 alias kDd="kubectl delete deployment"
 alias kv="kubectl version"
-#alias kvv="kubectl exec -it $(kubectl get pods -n $CW -l app=voyager -o jsonpath={.items[0].metadata.name}) -n $CW voyager version"
+alias kvv="kubectl exec -it \$(kubectl get pods -n $CW -l app=voyager -o jsonpath={.items[0].metadata.name}) -n $CW voyager version"
 alias kl="kubectl logs"
 
 alias t="kubetpl"
@@ -120,10 +134,13 @@ alias gl6="git --no-pager log -6"
 alias gl7="git --no-pager log -7"
 alias gl8="git --no-pager log -8"
 alias gl9="git --no-pager log -9"
-alias branch="git rev-parse --abbrev-ref HEAD"
+alias reporoot="$REPOROOT"
+alias branch="$BRANCH_NAME"
+alias reponame="echo \$($REMOTE_ORIGIN_URL | sed -E '$REPONAME_PN')"
 alias ls-not-git="git ls-files . --ignored --exclude-standard --others"
-alias ls-remote="git ls-remote \$(git config --get remote.origin.url)"
-alias ls-remote-branch="git ls-remote \$(git config --get remote.origin.url) | grep refs/heads/\$(git rev-parse --abbrev-ref HEAD)"
+alias ls-remote="git ls-remote \$($REMOTE_ORIGIN_URL)"
+alias ls-remote-branch="git ls-remote \$($REMOTE_ORIGIN_URL) | grep refs/heads/\$($BRANCH_NAME)"
+alias ls-remote-tag="git ls-remote \$($REMOTE_ORIGIN_URL) | grep refs/tags/\$($NEAREST_TAG)"
 
 alias gbp="git-big-picture"
 
@@ -131,7 +148,6 @@ alias gsm="git submodule"
 alias gsmu="gsm update"
 alias gsmur="gsm update --remote"
 alias gsmui="gsm update --jobs=$((3 * $(nproc))) --init --recursive"
-alias reporoot="git rev-parse --show-toplevel"
 
 alias bashrc="vim ~/.bashrc; . ~/.bashrc"
 alias zshrc="vim ~/.zshrc; . ~/.zshrc"
