@@ -20,15 +20,6 @@ function reponame() {
     echo "${REPONAME%.git}"
 }
 
-function gpo() {
-    REF=${1:-`git symbolic-ref --short -q HEAD`}
-    if [ -z "$REF" ]; then
-        echo "REF=$REF; zero length string not allowed"
-        exit 1
-    fi
-    git push -u origin "$REF"
-}
-
 function cdp() {
     if `git rev-parse`; then
         REPONAME=`reponame`
