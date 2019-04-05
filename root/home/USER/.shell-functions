@@ -1,9 +1,5 @@
 # vim: filetype=sh
 
-function int2ip() {
-    ifconfig ${1:-wlp2s0} | grep 'inet addr' | sed -e 's/:/ /' | awk '{print $3}'
-}
-
 function aws-exec() { #FIXME: gpg and unlock to be investigated
     /usr/bin/gpg -d $HOME/.unlock_gpg.asc 2>/dev/null && \
     aws-vault --debug exec $1 --assume-role-ttl=1h --session-ttl=12h -- /bin/zsh
@@ -13,11 +9,6 @@ function aws-exec() { #FIXME: gpg and unlock to be investigated
 function aws-login { #FIXME: gpg and unlock to be investigated
     /usr/bin/gpg -d $HOME/.unlock_gpg.asc 2>/dev/null && \
     aws-vault --debug login $1 -s --assume-role-ttl=1h --federation-token-ttl=12h
-}
-
-function reponame() {
-    REPONAME=`git config --get remote.origin.url | sed -E 's;^(git|ssh|https)://([A-Za-z0-9\-\_]+@)?([A-Za-z0-9\.]+)/;;'`
-    echo "${REPONAME%.git}"
 }
 
 function cdp() {
