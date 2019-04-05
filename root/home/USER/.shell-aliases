@@ -119,7 +119,10 @@ alias gl6="git --no-pager log -6"
 alias gl7="git --no-pager log -7"
 alias gl8="git --no-pager log -8"
 alias gl9="git --no-pager log -9"
+alias branch="git rev-parse --abbrev-ref HEAD"
 alias ls-not-git="git ls-files . --ignored --exclude-standard --others"
+alias ls-remote="git ls-remote `git config --get remote.origin.url`"
+alias ls-remote-branch="git ls-remote \$(git config --get remote.origin.url) | grep refs/heads/\$(git rev-parse --abbrev-ref HEAD)"
 
 alias gbp="git-big-picture"
 
