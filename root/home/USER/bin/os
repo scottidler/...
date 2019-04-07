@@ -1,2 +1,0 @@
-#!/bin/bash
-echo "`lsb_release -is`-`lsb_release -rs`_x`getconf LONG_BIT`"

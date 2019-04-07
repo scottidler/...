@@ -1,6 +1,0 @@
-#!/bin/bash
-
-SIZE="$1"
-CFG="$2"
-
-sed -i "s|\(discovery: \).*|\1`curl https://discovery.etcd.io/new?size=${SIZE:-1}` #SIZE=${SIZE:-1}|" $PWD/${CFG:-cloud-config.yaml}

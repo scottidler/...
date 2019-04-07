@@ -1,9 +1,0 @@
-#!/bin/bash
-
-pkill ssh-agent
-ssh-add -D
-if `ssh -f backdoor1.awbdev.org '[ "$(ssh-add -l)" != *"The agent has no identities"* ]'`; then
-    exit 0
-fi
-exit -1
-
