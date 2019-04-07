@@ -23,6 +23,14 @@ function aws-login { #FIXME: gpg and unlock to be investigated
 #        cd $PARENT
 #    fi
 #}
+function sls() {
+    SLS="$(which serverless)"
+    LOCAL="./node_modules/serverless/bin/servers"
+    if [ -f "$LOCAL" ]; then
+        SLS="$LOCAL"
+    fi
+    "$SLS" "$@"
+}
 
 function upsearch() {
     FILE="$1"
