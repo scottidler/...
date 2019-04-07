@@ -1,7 +1,48 @@
 #!/bin/bash
-IP="`curl -s ifconfig.co`"
-LOG=/var/log/speedtest.log
-CMD=`/usr/bin/which speedtest-cli`
-DATE="`date +'%Y-%m-%dT%H:%M:%SZ'`"
-[ -f "$LOG" ] && tail -1 $LOG
-echo "$DATE IP: $IP `$CMD --simple | xargs echo`" | sudo tee -a $LOG
+if ! hash speedtest-cli; then
+    echo "speedtest-cli not installed or in PATH"
+    exit 1
+fi
+
+if ! hash jq; then
+    echo "jq not installed or in PATH"
+    exit 1
+fi
+
+LOG=/var/log/speedtest/log
+LAST=/var/log/speedtest/last
+
+if [[ ! -f "$LOG" ]] || [[ ! -s "$LOG" ]]; then
+    echo "[]" > "$LOG"
+fi
+
+read -r -d '' FILTER <<'EOF'
+{
+  timestamp: .timestamp,
+  host: .server.host,
+  ip: .client.ip,
+  ping: .ping,
+  upload: (.upload/(1000*1024)),
+  download: (.download/(1000*1024))
+}
+EOF
+
+print() {
+    echo "$1:"
+    if [ -f "$LAST" ]; then
+        jq '.' "$LAST"
+        echo
+    fi
+}
+
+# print the last value
+print last
+
+# run speedtest-cli store in last
+speedtest-cli --json | jq "${FILTER//[[:space:]]/}" > "$LAST"
+
+# print the last value (just calculated)
+print now
+
+# append last data to running log
+jq -s '.[0] + [.[1]]' "$LOG" "$LAST" > "$LOG.new"; mv "$LOG.new" "$LOG"
