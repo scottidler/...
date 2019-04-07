@@ -36,6 +36,8 @@ alias cat="ccat"
 
 alias ethdev="echo \$($ETHDEV)"
 
+alias os="echo \"\$(lsb_release -is)-\$(lsb_release -rs)_x\$(getconf LONG_BIT)\""
+
 # regular alises
 alias udpate="update"
 alias linode="ssh root@45.33.26.141"
@@ -137,6 +139,7 @@ alias gl9="git --no-pager log -9"
 alias reporoot="$REPOROOT"
 alias branch="$BRANCH_NAME"
 alias reponame="echo \$($REMOTE_ORIGIN_URL | sed -E '$REPONAME_PN')"
+alias remote-origin-url="$REMOTE_ORIGIN_URL"
 alias ls-not-git="git ls-files . --ignored --exclude-standard --others"
 alias ls-remote="git ls-remote \$($REMOTE_ORIGIN_URL)"
 alias ls-remote-branch="git ls-remote \$($REMOTE_ORIGIN_URL) | grep refs/heads/\$($BRANCH_NAME)"
