@@ -29,10 +29,7 @@ EOF
 
 print() {
     echo "$1:"
-    if [ -f "$LAST" ]; then
-        jq '.' "$LAST"
-        echo
-    fi
+    [[ -f "$LAST" ]] && jq '.' "$LAST"
 }
 
 # print the last value
