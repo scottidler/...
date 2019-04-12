@@ -72,7 +72,7 @@ apt:
   - libcurl4-openssl-dev
   - librsync-dev
   - libglib2.0-dev
-  - python-gobject-dev
+  - python-gobject-2-dev
   - libgirepository1.0-dev
   - libcairo2-dev
   - libjpeg-dev
@@ -188,7 +188,7 @@ script:
     mv ngrok/ngrok ~/bin/
   ccat: |
     #!/bin/bash
-    curl https://github.com/jingweno/ccat/releases/latest > ccat.tar.gz
+    curl -L https://github.com/jingweno/ccat/releases/latest > ccat.tar.gz
     tar xvf ccat.tar.gz
     mv ccat/ccat ~/bin/
   kubectl: |
@@ -202,3 +202,12 @@ script:
     #!/bin/bash
     URL=https://github.com/shyiko/kubetpl/releases/download/0.9.0/kubetpl-0.9.0-linux-amd64
     curl -sSL $URL -o kubetpl && chmod a+x kubetpl && sudo mv kubetpl ~/bin/
+  spotify: |
+    # 1. Add the Spotify repository signing keys to be able to verify downloaded packages
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
+    # 2. Add the Spotify repository
+    echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
+    # 3. Update list of available packages
+    sudo apt-get update
+    # 4. Install Spotify
+    sudo apt-get install spotify-client
