@@ -41,7 +41,8 @@ USER = pwd.getpwuid(UID).pw_name
 LINKER = '''
 linker() {
     file=$(realpath "$1")
-    link="$2"
+    link="${2/#\~/$HOME}"
+    echo "$link -> $file"
     if [ -f "$link" ] && [ "$file" != "$(readlink $link)" ]; then
         orig="$link.orig"
         $VERBOSE && echo "backing up $orig"
@@ -127,16 +128,16 @@ class Link(ManifestType):
         def interpolate_user(filepath, user):
             return re.sub(f'USER', user, filepath)
         if self.recursive:
-            with cd(cwd):
-                self.items = []
-                for srcpath, dstpath in spec.items():
-                    for item in [item for item in Path(srcpath).rglob('*') if not item.is_dir()]:
-                        src = item.as_posix()
-                        dst = interpolate_rootpath(src, dstpath)
-                        dst = interpolate_user(dst, user)
-                        self.items += [(src, dst)]
+            print(f'cwd={cwd}')
+            self.items = []
+            for srcpath, dstpath in spec.items():
+                for item in [item for item in Path(srcpath).rglob('*') if not item.is_dir()]:
+                    src = os.path.join(cwd, item.as_posix())
+                    dst = interpolate_rootpath(src, dstpath)
+                    dst = interpolate_user(dst, user)
+                    self.items += [(src, dst)]
         else:
-            self.items = [(src, interpolate_user(dst, user)) for src, dst in spec.items()]
+            self.items = [(os.path.join(cwd, src), interpolate_user(dst, user)) for src, dst in spec.items()]
 
     def __repr__(self):
         return f'{type(self).__name__}(recursive={self.recursive}, items={self.items})'
@@ -152,7 +153,6 @@ class Link(ManifestType):
     def render(self):
         return f'''
 echo "links:"
-cd {self.cwd}
 while read -r file link; do
     linker $file $link
 done<<EOM
@@ -254,7 +254,7 @@ class Repo():
         self.baseurl = baseurl
         self.reponame = reponame
         self.repopath = repopath
-        self.link = Link(spec.get('link'), None, **kwargs) if 'link' in spec else None
+        self.link = Link(spec.get('link'), None, cwd=os.path.join(kwargs.pop('cwd'), repopath, reponame), **kwargs) if 'link' in spec else None
         self.script = Script(dict(reponame=spec.get('script')), None, **kwargs) if 'script' in spec else None
 
     def __repr__(self):
