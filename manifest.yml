@@ -154,9 +154,6 @@ github:
   esc/git-big-picture:
     link:
       git-big-picture: ~/bin/gbp
-  robbyrussell/oh-my-zsh:
-    link:
-      oh-my-zsh: ~/.oh-my-zsh
   awslabs/awscli-aliases:
     link:
       alias: ~/.awscli-aliases
@@ -164,6 +161,12 @@ github:
     link:
       font/10-powerline-symbols.conf: ~/.config/fontconfig/conf.d/10-powerline-symbols.conf
       font/PowerlineSymbols.otf: ~/.fonts/PowerlineSymbols.otf
+  joel-porquet/zsh-dircolors-solarized:
+    link:
+      zsh-dircolors-solarized.zsh: ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh
+  robbyrussell/oh-my-zsh:
+    link:
+      ./: ~/.oh-my-zsh
   awslabs/git-secrets:
     script: |
       #!/bin/bash
