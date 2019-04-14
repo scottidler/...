@@ -135,12 +135,12 @@ class PackageType(ManifestType):
     def render_header(self):
         return f'''
 echo "{type(self).__name__.lower()}s:"
-        '''.strip()
+        '''.lstrip('\n').rstrip()
 
     def render_block(self):
         raise NotImplementedError
 
-class HeredocType(PackageType):
+class HeredocPackageType(PackageType):
     def render_items(self):
         return '\n'.join([render_item(item) for item in self.items])
 
@@ -153,9 +153,9 @@ while read pkg; do
 done<<EOM
 {self.render_items()}
 EOM
-        '''.strip()
+        '''.lstrip('\n').rstrip()
 
-class ContinueLineType(PackageType):
+class ContinuePackageType(PackageType):
     def render_items(self):
         return ' \\\n    '.join([render_item(item) for item in self.items])
 
@@ -166,7 +166,7 @@ class ContinueLineType(PackageType):
 {self.render_block()} {self.render_items()}
         '''.lstrip('\n').rstrip()
 
-class Link(HeredocType):
+class Link(HeredocPackageType):
     def __init__(self, spec, patterns, cwd=None, user=None, **kwargs):
         self.cwd = cwd
         self.user = user
@@ -195,9 +195,6 @@ class Link(HeredocType):
     def functions(self):
         return LINKER
 
-#    def render_items(self):
-#        return '\n'.join([f'{src} {dst}' for src, dst in self.items])
-
     def render(self):
         return f'''
 echo "links:"
@@ -206,7 +203,7 @@ while read -r file link; do
 done<<EOM
 {self.render_items()}
 EOM
-        '''.strip()
+        '''.lstrip('\n').rstrip()
 
 def sift(items, includes=None):
     if None in (items, includes) or '*' in includes:
@@ -215,7 +212,7 @@ def sift(items, includes=None):
         return any([fnmatch(item, include) for include in includes])
     return [item for item in items if match(item, includes)]
 
-class APT(ContinueLineType):
+class APT(ContinuePackageType):
     def render_header(self):
         return f'''
 {PackageType.render_header(self)}
@@ -228,13 +225,13 @@ sudo apt update && sudo apt upgrade -y && sudo apt install -y software-propertie
 sudo apt install -y
         '''.lstrip('\n').rstrip()
 
-class DNF(ContinueLineType):
+class DNF(ContinuePackageType):
     def render_block(self):
         return '''
     sudo dnf install -y $pkg
         '''.lstrip('\n').rstrip()
 
-class PPA(HeredocType):
+class PPA(HeredocPackageType):
     def render_block(self):
         if not self.items:
             return ''
@@ -245,13 +242,13 @@ class PPA(HeredocType):
     fi
 '''.lstrip('\n').rstrip()
 
-class NPM(ContinueLineType):
+class NPM(ContinuePackageType):
     def render_block(self):
         return f'''
 sudo npm install -g
 '''.lstrip('\n').rstrip()
 
-class PIP3(ContinueLineType):
+class PIP3(ContinuePackageType):
     def render_header(self):
         return f'''
 {PackageType.render_header(self)}
