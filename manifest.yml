@@ -54,7 +54,7 @@ apt:
   items:
   - fonts-powerline
   - libsmbclient-dev
-  - silversearch-ag
+  - silversearcher-ag
   - httpie
   - pianobar
   - python-dev
