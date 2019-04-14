@@ -106,6 +106,11 @@ def get_pkgmgr():
         return 'brew'
     raise UnknownPkgmgrError
 
+def render_item(item):
+    if isinstance(item, tuple):
+        return ' '.join(item)
+    return str(item)
+
 class ManifestType():
     def __repr__(self):
         return f'{type(self).__name__}(items = {self.items})'
@@ -118,7 +123,50 @@ class ManifestType():
     def render(self):
         raise NotImplementedError
 
-class Link(ManifestType):
+class PackageType(ManifestType):
+    def __init__(self, spec, patterns, **kwargs):
+        self.items = sift(spec.get('items', None), patterns)
+
+    def __repr__(self):
+        return f'{type(self).__name__}(items={self.items})'
+
+    __str__ = __repr__
+
+    def render_header(self):
+        return f'''
+echo "{type(self).__name__.lower()}s:"
+        '''.strip()
+
+    def render_block(self):
+        raise NotImplementedError
+
+class HeredocType(PackageType):
+    def render_items(self):
+        return '\n'.join([render_item(item) for item in self.items])
+
+    def render(self):
+        return f'''
+{self.render_header()}
+
+while read pkg; do
+{self.render_block()}
+done<<EOM
+{self.render_items()}
+EOM
+        '''.strip()
+
+class ContinueLineType(PackageType):
+    def render_items(self):
+        return ' \\\n    '.join([render_item(item) for item in self.items])
+
+    def render(self):
+        return f'''
+{self.render_header()}
+
+{self.render_block()} {self.render_items()}
+        '''.lstrip('\n').rstrip()
+
+class Link(HeredocType):
     def __init__(self, spec, patterns, cwd=None, user=None, **kwargs):
         self.cwd = cwd
         self.user = user
@@ -147,8 +195,8 @@ class Link(ManifestType):
     def functions(self):
         return LINKER
 
-    def render_items(self):
-        return '\n'.join([f'{src} {dst}' for src, dst in self.items])
+#    def render_items(self):
+#        return '\n'.join([f'{src} {dst}' for src, dst in self.items])
 
     def render(self):
         return f'''
@@ -167,58 +215,26 @@ def sift(items, includes=None):
         return any([fnmatch(item, include) for include in includes])
     return [item for item in items if match(item, includes)]
 
-class PKG(ManifestType):
-    def __init__(self, spec, patterns, **kwargs):
-        self.items = sift(spec.get('items', None), patterns)
-
-    def __repr__(self):
-        return f'{type(self).__name__}(items={self.items})'
-
-    __str__ = __repr__
-
-    def render_items(self):
-        return '\n'.join(self.items)
-
+class APT(ContinueLineType):
     def render_header(self):
         return f'''
-echo "{type(self).__name__.lower()}s:"
-        '''.strip()
+{PackageType.render_header(self)}
 
-    def render_block(self):
-        raise NotImplementedError
-
-    def render(self):
-        return f'''
-{self.render_header()}
-
-while read pkg; do
-{self.render_block()}
-done<<EOM
-{self.render_items()}
-EOM
-        '''.strip()
-
-class APT(PKG):
-    def render_header(self):
-        return f'''
-{PKG.render_header(self)}
-
-sudo apt-get update && sudo apt-get upgrade -y
-sudo apt-get install -y software-properties-common
+sudo apt update && sudo apt upgrade -y && sudo apt install -y software-properties-common
         '''.lstrip('\n').rstrip()
 
     def render_block(self):
         return '''
-    sudo apt-get install -y $pkg
+sudo apt install -y
         '''.lstrip('\n').rstrip()
 
-class DNF(PKG):
+class DNF(ContinueLineType):
     def render_block(self):
         return '''
     sudo dnf install -y $pkg
         '''.lstrip('\n').rstrip()
 
-class PPA(PKG):
+class PPA(HeredocType):
     def render_block(self):
         if not self.items:
             return ''
@@ -229,16 +245,16 @@ class PPA(PKG):
     fi
 '''.lstrip('\n').rstrip()
 
-class NPM(PKG):
+class NPM(ContinueLineType):
     def render_block(self):
         return f'''
-    sudo npm install -g $pkg
+sudo npm install -g
 '''.lstrip('\n').rstrip()
 
-class PIP3(PKG):
+class PIP3(ContinueLineType):
     def render_header(self):
         return f'''
-{PKG.render_header(self)}
+{PackageType.render_header(self)}
 
 sudo apt-get install -y python3-dev
 sudo -H pip3 install --upgrade pip setuptools
@@ -246,7 +262,7 @@ sudo -H pip3 install --upgrade pip setuptools
 
     def render_block(self):
         return f'''
-    sudo -H pip3 install --upgrade $pkg
+sudo -H pip3 install --upgrade
 '''.lstrip('\n').rstrip()
 
 class Repo():
