@@ -25,7 +25,7 @@ function aws-login { #FIXME: gpg and unlock to be investigated
 #}
 function sls() {
     SLS="$(which serverless)"
-    LOCAL="./node_modules/serverless/bin/servers"
+    LOCAL="./node_modules/serverless/bin/serverless"
     if [ -f "$LOCAL" ]; then
         SLS="$LOCAL"
     fi
