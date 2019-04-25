@@ -39,6 +39,9 @@ alias ethdev="echo \$($ETHDEV)"
 alias os="echo \"\$(lsb_release -is)-\$(lsb_release -rs)_x\$(getconf LONG_BIT)\""
 
 alias login-subhub="aws-vault --debug exec mozilla-subhub-admin --"
+alias login-subhub-token="aws-vault --debug login mozilla-subhub-admin -s --assume-role-ttl=1h --federation-token-ttl=12h"
+
+alias T="tree -a -I .git"
 
 # regular alises
 alias udpate="update"
@@ -55,9 +58,9 @@ alias ipy="sudo -E ipython3"
 alias ipy2="sudo -E ipython"
 alias ipy3="sudo -E ipython3"
 
-alias cdr="\$($REPO_TEST) && \$($REPOROOT)"
+alias cdr="\$($REPO_TEST) && cd \$($REPOROOT)"
 alias cdpr="\$($REPO_TEST) && {cd ../; \$($REPOROOT)}"
-#alias cdp="\$($REPO_TEST) && {[[ \"\$($REPOROOT)\" == *\"\$($REPONAME)]" ]] && cd ${}}"
+alias cdp="\$($REPO_TEST) && cd \$($REPOROOT) && cd ../"
 
 alias d="docker"
 alias dc="docker-compose"
@@ -108,7 +111,7 @@ alias tr="kubetpl render"
 
 alias g="git"
 alias ga="git add"
-alias gb="git branch"
+alias gb="git --no-pager branch"
 alias gc="git commit -m\" #!space"
 alias gd="git --no-pager diff"
 alias gp="git pull"
@@ -117,6 +120,7 @@ alias gpo="git push -u origin \$(git symbolic-ref --short -q HEAD)"
 alias gs="git status --short"
 alias gbc="git branch --contains"
 alias gco="git checkout"
+alias gcob="git checkout -b"
 alias gcm="git checkout master"
 alias grp="git rev-parse"
 alias gsh="git show"
