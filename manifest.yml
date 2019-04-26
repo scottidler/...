@@ -117,6 +117,8 @@ github:
   scottidler/git:
     link:
       bin/clone: ~/bin/clone
+      bin/ls-git-repos: ~/bin/ls-git-repos
+      bin/ls-org-repos: ~/bin/ls-org-repos
       cfg/clone.cfg: ~/.clone/clone/clone.cfg
   scottidler/dock:
     link:
@@ -168,9 +170,8 @@ github:
     link:
       ./: ~/.oh-my-zsh
   awslabs/git-secrets:
-    script: |
-      #!/bin/bash
-      PREFIX=~/bin make install
+    link:
+      git-secrets: ~/bin/git-secrets
 
 script:
   vim+git: |
