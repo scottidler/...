@@ -41,6 +41,8 @@ alias os="echo \"\$(lsb_release -is)-\$(lsb_release -rs)_x\$(getconf LONG_BIT)\"
 alias login-subhub="aws-vault --debug exec mozilla-subhub-admin --"
 alias login-subhub-token="aws-vault --debug login mozilla-subhub-admin -s --assume-role-ttl=1h --federation-token-ttl=12h"
 
+alias aws-account-id="aws sts get-caller-identity | jq -r .Account"
+
 alias T="tree -a -I .git"
 
 # regular alises
@@ -150,6 +152,7 @@ alias ls-not-git="git ls-files . --ignored --exclude-standard --others"
 alias ls-remote="git ls-remote \$($REMOTE_ORIGIN_URL)"
 alias ls-remote-branch="git ls-remote \$($REMOTE_ORIGIN_URL) | grep refs/heads/\$($BRANCH_NAME)"
 alias ls-remote-tag="git ls-remote \$($REMOTE_ORIGIN_URL) | grep refs/tags/\$($NEAREST_TAG)"
+alias not-on-master="git --no-pager branch --no-merged master"
 
 alias gbp="git-big-picture"
 
