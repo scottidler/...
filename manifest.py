@@ -176,7 +176,6 @@ class Link(HeredocPackageType):
         def interpolate_user(filepath, user):
             return re.sub(f'USER', user, filepath)
         if self.recursive:
-            print(f'cwd={cwd}')
             self.items = []
             for srcpath, dstpath in spec.items():
                 for item in [item for item in Path(srcpath).rglob('*') if not item.is_dir()]:
@@ -359,20 +358,47 @@ class Manifest():
     def __repr__(self):
         return f'{type(self).__name__}(verbose={self.verbose}, errors={self.errors}, sections={self.sections})'
 
-    def render(self):
-        if not self.sections:
-            return ''
-        functions = '\n\n'.join(set([section.functions() for section in self.sections])).lstrip('\n').rstrip()
-        body = '\n\n'.join([section.render() for section in self.sections]).lstrip('\n').rstrip()
-        return f'''
+    def render_header(self):
+        return '''
 #!/bin/bash
 # generated file by manifest.py
 # src: https://github.com/scottidler/.../blob/master/manifest.py
 
-{functions}
+'''.lstrip('\n')
 
-{body}
-        '''.lstrip('\n').rstrip()
+
+    def render_functions(self, sep='\n\n', prefix=None, suffix='\n\n'):
+        if not self.sections:
+            return ''
+        result = sep.join(set([section.functions() for section in self.sections])).lstrip('\n').rstrip()
+        if result:
+            if prefix:
+                result = prefix + result
+            if suffix:
+                result += suffix
+        return result
+
+    def render_body(self, sep='\n\n', prefix=None, suffix='\n\n'):
+        if not self.sections:
+            return ''
+        result = sep.join([section.render() for section in self.sections]).lstrip('\n').rstrip()
+        if result:
+            if prefix:
+                result = prefix + result
+            if suffix:
+                result += suffix
+        return result
+
+    def render_footer(self):
+        return ''
+
+    def render(self):
+        return ''.join([
+            self.render_header(),
+            self.render_functions(),
+            self.render_body(),
+            self.render_footer(),
+        ])
 
     __str__ = __repr__
 
