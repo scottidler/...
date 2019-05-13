@@ -147,3 +147,5 @@ PROMPT_EOL_MARK=''
 # tabtab source for slss package
 # uninstall by removing these lines or running `tabtab uninstall slss`
 [[ -f /home/sidler/tmp/subhub/node_modules/tabtab/.completions/slss.zsh ]] && . /home/sidler/tmp/subhub/node_modules/tabtab/.completions/slss.zsh
+# added by travis gem
+[ -f /home/sidler/.travis/travis.sh ] && source /home/sidler/.travis/travis.sh
