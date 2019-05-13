@@ -37,7 +37,7 @@ alias cat="ccat"
 
 alias ethdev="echo \$($ETHDEV)"
 
-alias os="echo \"\$(lsb_release -is)-\$(lsb_release -rs)_x\$(getconf LONG_BIT)\""
+alias os="echo \"\$(lsb_release -is)-\$(lsb_release -rs)_x\$(getconf LONG_BIT)(\$(lsb_release -cs))\""
 
 alias login-subhub="aws-vault --debug exec mozilla-subhub-admin --"
 alias login-subhub-token="aws-vault --debug login mozilla-subhub-admin -s --assume-role-ttl=1h --federation-token-ttl=12h"
