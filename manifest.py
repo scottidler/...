@@ -38,6 +38,13 @@ UID = os.getuid()
 GID = pwd.getpwuid(UID).pw_gid
 USER = pwd.getpwuid(UID).pw_name
 
+DEBUG = '''
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
+'''.lstrip('\n').rstrip()
+
 LINKER = '''
 linker() {
     file=$(realpath "$1")
@@ -236,8 +243,8 @@ class PPA(HeredocPackageType):
             return ''
         return f'''
     ppas=$(find /etc/apt/ -name *.list | xargs cat | grep ^[[:space:]]*deb | grep -v deb-src)
-    if [[ $ppas != *"$ppa"* ]]; then
-        sudo add-apt-repository -y "ppa:$ppa"
+    if [[ $ppas != *"$pkg"* ]]; then
+        sudo add-apt-repository -y "ppa:$pkg"
     fi
 '''.lstrip('\n').rstrip()
 
@@ -359,10 +366,12 @@ class Manifest():
         return f'{type(self).__name__}(verbose={self.verbose}, errors={self.errors}, sections={self.sections})'
 
     def render_header(self):
-        return '''
+        return f'''
 #!/bin/bash
 # generated file by manifest.py
 # src: https://github.com/scottidler/.../blob/master/manifest.py
+
+{DEBUG}
 
 '''.lstrip('\n')
 
