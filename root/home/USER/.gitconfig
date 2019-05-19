@@ -2,7 +2,7 @@
 	email = scott.a.idler@gmail.com
 	name = Scott Idler
 [core]
-	pager = diff-so-fancy | less --tabs=1,5 -R
+	pager = less -F -X
 	editor = vim
 [branch]
 	autosetupmerge = true
