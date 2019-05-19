@@ -17,6 +17,7 @@ ppa:
   - flexiondotorg/hal-flash
   - otto-kesselgulasch/gimp
   - ubuntu-mozilla-daily
+  - qbittorrent-team/qbittorrent-stable
 
 pkg:
   items:
@@ -81,6 +82,7 @@ apt:
   - libxml2-dev
   - libxmlsec1-dev
   - rlwrap
+  - qbittorrent
 
 dnf:
   items:
