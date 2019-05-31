@@ -49,7 +49,7 @@ alias login-subhub-token="aws-vault --debug login mozilla-subhub-admin -s --assu
 
 alias aws-account-id="aws sts get-caller-identity | jq -r .Account"
 
-alias T="tree -a -I .git"
+alias T="tree -a -I '.git'"
 
 # regular alises
 alias udpate="update"
@@ -67,7 +67,7 @@ alias ipy2="sudo -E ipython"
 alias ipy3="sudo -E ipython3"
 
 alias cdr="\$($REPO_TEST) && cd \$($REPOROOT)"
-alias cdpr="\$($REPO_TEST) && {cd ../; \$($REPOROOT)}"
+alias cdpr="\$($REPO_TEST) && {cd ../; cd \$($REPOROOT)}"
 alias cdp="\$($REPO_TEST) && cd \$($REPOROOT) && cd ../"
 
 alias d="docker"
