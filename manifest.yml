@@ -47,7 +47,6 @@ pkg:
   - python
   - ansible
   - dconf-cli
-  - terminator
   - python-pip
   - python3-pip
   - anki
