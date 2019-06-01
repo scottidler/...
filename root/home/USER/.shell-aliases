@@ -60,8 +60,8 @@ alias pe="pipenv"
 
 alias repos="cd ~/repos"
 
-alias myip='ip addr show |grep "inet " |grep -v 127.0.0. |head -1|cut -d" " -f6|cut -d/ -f1 #!expand'
-alias pubip="curl https://ifconfig.co"
+alias ip-lan='ip addr show |grep "inet " |grep -v 127.0.0. |head -1|cut -d" " -f6|cut -d/ -f1 #!expand'
+alias ip-pub="curl https://ifconfig.co"
 
 alias ipy="sudo -E ipython3"
 alias ipy2="sudo -E ipython"
