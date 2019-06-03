@@ -142,6 +142,9 @@ github:
   scottidler/ssh-ident:
     link:
       ssh-ident: ~/bin/ssh
+  mozilla-it/repo:
+    link:
+      bin/repo: ~/bin/repo
   mozilla-it/cert-tools:
     link:
       findcert: ~/bin/findcert
