@@ -11,18 +11,6 @@ function aws-login { #FIXME: gpg and unlock to be investigated
     aws-vault --debug login $1 -s --assume-role-ttl=1h --federation-token-ttl=12h
 }
 
-#function cdp() {
-#    if `git rev-parse`; then
-#        REPONAME=`reponame`
-#        REPOROOT=`git rev-parse --show-toplevel`
-#        if [[ "$REPOROOT" == *"$REPONAME" ]]; then
-#            PARENT="${REPOROOT%$REPONAME}"
-#        else
-#            PARENT=`dirname $REPOROOT`
-#        fi
-#        cd $PARENT
-#    fi
-#}
 function sls() {
     SLS="$(which serverless)"
     LOCAL="./node_modules/serverless/bin/serverless"
@@ -89,30 +77,4 @@ function delete-branch() {
         git push origin :"$branch"
         git branch -D "$branch"
     done
-}
-
-function repo() {
-    if [ -z "$1" ]; then
-        echo "repo requires a name of a repo to look for"
-        false
-        return
-    fi
-    reponames=($(ls-git-repos ~/repos/ | grep "$1"))
-    case "${#reponames[@]}" in
-        0)
-            echo "repo found no matches with term $1"
-            false
-        ;;
-        1)
-            cd ~/repos/${reponames[@]}
-            true
-        ;;
-        *)
-            echo "repo found too many matches for term $1:"
-            for reponame in "${reponames[@]}"; do
-                echo $reponame
-            done
-            false
-        ;;
-    esac
 }
