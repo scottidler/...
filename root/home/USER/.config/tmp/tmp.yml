@@ -211,19 +211,23 @@ templates:
         name: Ripley
         age: 43
     shell-common: |
-        SCRIPT_FILE="$0"
-        SCRIPT_NAME="$(basename "$SCRIPT_FILE")"
-        SCRIPT_PATH="$(dirname "$SCRIPT_FILE")"
-        [ -n "$VERBOSE" ] && echo "SCRIPT_FILE=$SCRIPT_FILE"
-        [ -n "$VERBOSE" ] && echo "SCRIPT_NAME=$SCRIPT_NAME"
-        [ -n "$VERBOSE" ] && echo "SCRIPT_PATH=$SCRIPT_PATH"
+        REAL_FILE="$0"
+        REAL_NAME="$(basename "$REAL_FILE")"
+        REAL_PATH="$(dirname "$REAL_FILE")"
         if [ -L "$0" ]; then
-            REAL_FILE="$(readlink "$0")"
-            REAL_NAME="$(basename "$REAL_FILE")"
-            REAL_PATH="$(dirname "$REAL_FILE")"
-            [ -n "$VERBOSE" ] && echo "REAL_FILE=$REAL_FILE"
-            [ -n "$VERBOSE" ] && echo "REAL_NAME=$REAL_NAME"
-            [ -n "$VERBOSE" ] && echo "REAL_PATH=$REAL_PATH"
+            LINK_FILE=$REAL_FILE; REAL_FILE="$(readlink "$0")"
+            LINK_NAME=$REAL_NAME; REAL_NAME="$(basename "$REAL_FILE")"
+            LINK_PATH=$REAL_PATH; REAL_PATH="$(dirname "$REAL_FILE")"
+        fi
+        if [ -n "$VERBOSE" ]; then
+            echo "REAL_FILE=$REAL_FILE"
+            echo "REAL_NAME=$REAL_NAME"
+            echo "REAL_PATH=$REAL_PATH"
+            if [ -L "$0" ]; then
+                echo "LINK_FILE=$LINK_FILE"
+                echo "LINK_NAME=$LINK_NAME"
+                echo "LINK_PATH=$LINK_PATH"
+            fi
         fi
 
         # split string based on delimiter in shell https://stackoverflow.com/a/15988793
@@ -241,13 +245,13 @@ templates:
         import sys
         sys.dont_write_bytecode = True
 
-        SCRIPT_FILE = os.path.abspath(__file__)
-        SCRIPT_NAME = os.path.basename(SCRIPT_FILE)
-        SCRIPT_PATH = os.path.dirname(SCRIPT_FILE)
+        REAL_FILE = os.path.abspath(__file__)
+        REAL_NAME = os.path.basename(REAL_FILE)
+        REAL_PATH = os.path.dirname(REAL_FILE)
         if os.path.islink(__file__):
-            REAL_FILE = os.path.abspath(os.readlink(__file__))
-            REAL_NAME = os.path.basename(REAL_FILE)
-            REAL_PATH = os.path.dirname(REAL_FILE)
+            LINK_FILE = REAL_FILE; REAL_FILE = os.path.abspath(os.readlink(__file__))
+            LINK_NAME = REAL_NAME; REAL_NAME = os.path.basename(REAL_FILE)
+            LINK_PATH = REAL_PATH; REAL_PATH = os.path.dirname(REAL_FILE)
 
         print('name: ', __file__)
         print('args: ', ' '.join(sys.argv[1:]))
