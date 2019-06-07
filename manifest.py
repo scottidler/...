@@ -173,13 +173,15 @@ class ContinuePackageType(PackageType):
 {self.render_block()} {self.render_items()}
         '''.lstrip('\n').rstrip()
 
+
 class Link(HeredocPackageType):
     def __init__(self, spec, patterns, cwd=None, user=None, **kwargs):
         self.cwd = cwd
         self.user = user
         self.recursive = spec.pop('recursive', False)
         def interpolate_rootpath(filepath, rootpath):
-            return os.path.realpath(re.sub(f'^{srcpath}', rootpath, filepath))
+            dst = re.sub(srcpath, rootpath, filepath)
+            return os.path.realpath(dst)
         def interpolate_user(filepath, user):
             return re.sub(f'USER', user, filepath)
         if self.recursive:
@@ -187,7 +189,7 @@ class Link(HeredocPackageType):
             for srcpath, dstpath in spec.items():
                 for item in [item for item in Path(srcpath).rglob('*') if not item.is_dir()]:
                     src = os.path.join(cwd, item.as_posix())
-                    dst = interpolate_rootpath(src, dstpath)
+                    dst = interpolate_rootpath(item.as_posix(), dstpath)
                     dst = interpolate_user(dst, user)
                     self.items += [(src, dst)]
         else:
