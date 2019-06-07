@@ -11,9 +11,23 @@ BRANCH_NAME="git rev-parse --abbrev-ref HEAD"
 REMOTE_ORIGIN_URL="git config --get remote.origin.url"
 NEAREST_TAG="git describe --abbrev=0"
 
-
 # global aliases, zsh only
 if [[ "$(basename $SHELL)" == "zsh" ]]; then
+    # disable annoying oh-my-zsh aliases
+    disable -a \...
+    disable -a \....
+    disable -a \.....
+    disable -a \......
+    disable -a \1
+    disable -a \2
+    disable -a \3
+    disable -a \4
+    disable -a \5
+    disable -a \6
+    disable -a \7
+    disable -a \8
+    disable -a \9
+
     alias -g G="| grep -i"
     alias -g L="| less -r"
     alias -g H10="| head -10"
