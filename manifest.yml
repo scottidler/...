@@ -51,6 +51,8 @@ pkg:
   - python-pip
   - python3-pip
   - anki
+  - flatpak
+  - gnome-software-plugin-flatpak
 
 apt:
   items:
