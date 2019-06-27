@@ -11,3 +11,5 @@ echo
 $DIR/piu2
 echo
 $DIR/piu3
+echo
+$DIR/piu3.7
