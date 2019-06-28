@@ -8,5 +8,5 @@ fi
 if hash pip2 2> /dev/null; then
     echo "updating pip2 packages..."
     PKGS="`pip2 list | tail -n +3 | cut -d' ' -f1 | xargs echo -n`"
-    sudo -H python2 -m pip2 install --upgrade $PKGS
+    sudo -H python2 -m pip install --upgrade $PKGS
 fi
