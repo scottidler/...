@@ -63,6 +63,12 @@ function mv-cd() {
     mv "$1" "$2" && cd "$(toplevel "$2")"
 }
 
+function mv-replace() {
+    FILE=$1
+    REPL=${2:-'-'}
+    mv $FILE ${FILE// /$REPL}
+}
+
 function cp-cd() {
     cp "$1" "$2" && cd "$(toplevel "$2")"
 }
