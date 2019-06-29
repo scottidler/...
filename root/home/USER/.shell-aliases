@@ -219,8 +219,11 @@ alias fog="ssh saidler@fog.linode"
 alias pip2="sudo -H python2 -m pip"
 alias pip2.7="sudo -H python2.7 -m pip"
 alias pip3="sudo -H python3 -m pip"
+alias pip3-ii="sudo -H python3 -m pip install -U --ignore-installed"
 alias pip3.6="sudo -H python3.6 -m pip"
+alias pip3.6-ii="sudo -H python3.6 -m pip install -U --ignore-installed"
 alias pip3.7="sudo -H python3.7 -m pip"
+alias pip3.7-ii="sudo -H python3.7 -m pip install -U --ignore-installed"
 
 alias xdo="xdotool"
 
