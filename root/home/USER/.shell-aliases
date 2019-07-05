@@ -50,6 +50,7 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
     alias -g ac="autocert"
     alias -g oj="-o json"
     alias -g oy="-o yaml"
+    alias -g after---="awk 'f;/---/{f=1}'"
     alias -g tee2files="> >(tee -a stdout.log) 2> >(tee -a stderr.log >&2)"
     alias -g h-json="-H 'Accept: application/json'"
 fi
