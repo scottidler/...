@@ -37,11 +37,15 @@ function upsearch() {
 
 DOIT="`sudo which doit`"
 function doit() {
-#    if ! hash $DOIT 2>/dev/null; then
-#        echo "doit not found; not installed"
-#        return false
-#    fi
-    (cd "`upsearch dodo.py`" && time "$DOIT" "$@")
+    if [[ "$1" =~ ^(auto|clean|dumpdb|forget|help|ignore|info|list|reset-dep|run|strace|tabcompletion)$ ]]; then
+        CMD=( $DOIT $@ )
+    else
+        NPROC=$(nproc)
+        ONE_AND_A_HALF=$(($NPROC + $NPROC/2))
+        DOIT_NUM_PROCESS=${DOIT_NUM_PROCESS:-$ONE_AND_A_HALF}
+        CMD=( time -p $DOIT -n $DOIT_NUM_PROCESS $@ )
+    fi
+    (cd "`upsearch dodo.py`" && "${CMD[@]}")
 }
 
 function dots() {
