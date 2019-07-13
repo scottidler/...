@@ -186,6 +186,7 @@ alias ls-remote-branch="git ls-remote \$($REMOTE_ORIGIN_URL) | grep refs/heads/\
 alias ls-remote-tag="git ls-remote \$($REMOTE_ORIGIN_URL) | grep refs/tags/\$($NEAREST_TAG)"
 alias not-on-master="git branch --no-merged master"
 alias set-upstream="git branch --set-upstream-to=origin/\$(git rev-parse --abbrev-ref HEAD) \$(git rev-parse --abbrev-ref HEAD)"
+alias prune="git remote prune origin"
 alias unstage="git reset HEAD"
 alias clean="git clean -xfd"
 
