@@ -255,3 +255,15 @@ script:
     sudo apt-get install -f
     rm -rf keybase_amd64.deb
     run_keybase
+  ripgrep: |
+    #!/bin/bash
+    # src: https://github.com/BurntSushi/ripgrep/releases
+    # ref: https://starkandwayne.com/blog/how-to-download-the-latest-release-from-github
+    ARCH="amd64"
+    DEB="ripgrep-latest.deb"
+    LATEST="https://api.github.com/repos/BurntSushi/ripgrep/releases/latest"
+    URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"$ARCH\")) | .browser_download_url")
+    echo "$URL"
+    curl -sL "$URL" > "$DEB"
+    sudo dpkg -i "$DEB"
+    rm -rf "$DEB"
