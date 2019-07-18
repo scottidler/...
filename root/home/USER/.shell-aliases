@@ -28,6 +28,7 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
     disable -a \8
     disable -a \9
 
+    alias -g ST="SKIP_TESTS=yes"
     alias -g G="| grep -i"
     alias -g L="| less -r"
     alias -g H10="| head -10"
@@ -54,6 +55,8 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
     alias -g tee2files="> >(tee -a stdout.log) 2> >(tee -a stderr.log >&2)"
     alias -g h-json="-H 'Accept: application/json'"
 fi
+
+alias /="rg"
 
 alias clh="curl localhost: #!space"
 
@@ -249,8 +252,6 @@ fi
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-alias less="less -r #!expand"
 
 # some more ls aliases
 alias lah="ls-stat -lah --color=always"

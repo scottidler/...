@@ -3,6 +3,8 @@
 # make sure ~/bin is first in the path
 PATH=/home/$USER/bin:/home/$USER/go/bin:$(echo -n $PATH | sed -e "s|:/home/$USER/bin:|:|g")
 
+export LESS=-Xr
+
 export AWS_VAULT_BACKEND=secret-service
 export ANSIBLE_NOCOWS=1
 export GOPATH=~/go #FIXME: this won't allways be the case
