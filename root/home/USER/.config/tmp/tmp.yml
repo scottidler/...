@@ -23,6 +23,13 @@ kinds:
         content: |
             {py3-header}
 
+    py3-mpl2:
+        chmod: 664
+        suffix: py
+        content: |
+            {py3-header}
+            {mpl2-header}
+
     py:
         chmod: 775
         suffix: py
@@ -183,6 +190,10 @@ kinds:
             {py-footer}
 
 templates:
+    mpl2-header: |
+        # This Source Code Form is subject to the terms of the Mozilla Public
+        # License, v. 2.0. If a copy of the MPL was not distributed with this
+        # file, You can obtain one at https://mozilla.org/MPL/2.0/.
     py2-header: |
         #!/usr/bin/env python2
         # -*- coding: utf-8 -*-
