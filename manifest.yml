@@ -267,3 +267,6 @@ script:
     curl -sL "$URL" > "$DEB"
     sudo dpkg -i "$DEB"
     rm -rf "$DEB"
+  papertrail: |
+    #!/bin/bash
+    sudo gem install papertrail
