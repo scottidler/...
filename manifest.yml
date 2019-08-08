@@ -9,10 +9,6 @@ ppa:
   items:
   - git-core/ppa
   - mkusb/ppa
-  - noobslab/themes
-  - pipelight/stable
-  - webupd8team/atom
-  - mjblenner/ppa-hal
   - graphics-drivers/ppa
   - flexiondotorg/hal-flash
   - otto-kesselgulasch/gimp
@@ -37,9 +33,9 @@ pkg:
   - shellcheck
   - ssh-askpass
   - openssh-server
-  - nodejs-dev
+#  - nodejs-dev
   - node-gyp
-  - libssl1.0-dev
+#  - libssl1.0-dev
   - npm
   - zsh
   - meld
@@ -91,6 +87,9 @@ apt:
   - libxmlsec1-dev
   - rlwrap
   - qbittorrent
+  - libcups2-dev #ref: https://ubuntuforums.org/showthread.php?t=1269926
+  - libkrb5-dev #ref: https://github.com/mongodb-js/kerberos/issues/45
+  - wmctrl #for ./layout script
 
 dnf:
   items:
@@ -104,7 +103,7 @@ dnf:
 pip3:
   items:
   - wheel
-  - aoihttp
+  - aiohttp
   - attrdict
   - requests
   - ruamel.yaml
@@ -161,9 +160,6 @@ github:
       ssl-inspect: ~/bin/ssl-inspect
       ssl-sans: ~/bin/ssl-sans
       ssl-validity: ~/bin/ssl-validity
-  mozilla-it/vulns2ansible:
-    link:
-      v2a: ~/bin/v2a
   sahsanu/lectl:
     link:
       lectl: ~/bin/lectl
@@ -270,3 +266,11 @@ script:
   papertrail: |
     #!/bin/bash
     sudo gem install papertrail
+  nordvpn: |
+    #!/bin/bash
+    # ref: https://nordvpn.com/download/linux/
+    URL=https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb
+    curl -sL $URL > nordvpn.deb
+    sudo apt install ./nordvpn.deb
+    sudo apt update
+    sudo apt install nordvpn

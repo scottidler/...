@@ -28,6 +28,10 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
     disable -a \8
     disable -a \9
 
+    alias /="rg"
+    alias cd..="cd .."
+    alias cd../=cd../""
+
     alias -g ST="SKIP_TESTS=yes"
     alias -g PP="PYTHONPATH=."
     alias -g WC="| wc -l"
@@ -58,8 +62,6 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
     alias -g h-json="-H 'Accept: application/json'"
     alias -g xargs-bash="| xargs -I% bash -c 'echo %; tab2 "
 fi
-
-alias /="rg"
 
 alias clh="curl localhost: #!space"
 
@@ -98,9 +100,6 @@ alias ipy3="sudo -E ipython3"
 alias cdr="\$($REPO_TEST) && cd \$($REPOROOT)"
 alias cdpr="\$($REPO_TEST) && {cd ../; cd \$($REPOROOT)}"
 alias cdp="\$($REPO_TEST) && cd \$($REPOROOT) && cd ../"
-
-alias cd..="cd .."
-alias cd../=cd../""
 
 alias d="docker"
 alias dc="docker-compose"
