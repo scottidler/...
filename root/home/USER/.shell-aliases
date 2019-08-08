@@ -30,6 +30,7 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
 
     alias -g ST="SKIP_TESTS=yes"
     alias -g PP="PYTHONPATH=."
+    alias -g WC="| wc -l"
     alias -g G="| grep -i"
     alias -g L="| less -r"
     alias -g H10="| head -10"
@@ -55,6 +56,7 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
     alias -g after---="awk 'f;/---/{f=1}'"
     alias -g tee2files="> >(tee -a stdout.log) 2> >(tee -a stderr.log >&2)"
     alias -g h-json="-H 'Accept: application/json'"
+    alias -g xargs-bash="| xargs -I% bash -c 'echo %; tab2 "
 fi
 
 alias /="rg"
@@ -85,6 +87,9 @@ alias repos="cd ~/repos"
 
 alias ip-lan='ip addr show |grep "inet " |grep -v 127.0.0. |head -1|cut -d" " -f6|cut -d/ -f1 #!expand'
 alias ip-pub="curl https://ifconfig.co"
+
+alias pt="papertrail"
+alias ds="dig +short"
 
 alias ipy="sudo -E ipython3"
 alias ipy2="sudo -E ipython"
@@ -163,6 +168,8 @@ alias grp="git rev-parse"
 alias gsh="git show"
 alias gsn="git show --notes=*"
 alias gpP="gp && gP"
+alias gbmm="git branch --merged master"
+alias gbnmm="git branch --no-merged master"
 alias grh="git reset --hard"
 alias grhh="git reset --hard HEAD"
 alias grph="git rev-parse HEAD"
