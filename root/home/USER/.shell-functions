@@ -50,7 +50,7 @@ function doit() {
 
 function dots() {
     cd ~/...; pwd; git pull
-    for reponame in $(root/home/USER/bin/ls-git-repos repos); do
+    for reponame in $(~/bin/ls-git-repos repos); do
         (cd repos/$reponame && pwd && git pull)
     done
 }
