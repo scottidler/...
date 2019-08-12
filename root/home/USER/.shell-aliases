@@ -63,7 +63,7 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
     alias -g xargs-bash="| xargs -I% bash -c 'echo %; tab2 "
 fi
 
-alias clh="curl localhost: #!space"
+alias clh="curl localhost: #no-space"
 
 alias cat="ccat"
 
@@ -87,7 +87,7 @@ alias pe="pipenv"
 
 alias repos="cd ~/repos"
 
-alias ip-lan='ip addr show |grep "inet " |grep -v 127.0.0. |head -1|cut -d" " -f6|cut -d/ -f1 #!expand'
+alias ip-lan='ip addr show |grep "inet " |grep -v 127.0.0. |head -1|cut -d" " -f6|cut -d/ -f1 #no-expand'
 alias ip-pub="curl https://ifconfig.co"
 
 alias pt="papertrail"
@@ -151,7 +151,7 @@ alias tr="kubetpl render"
 alias g="git"
 alias ga="git add"
 alias gb="git branch"
-alias gc="git commit -m\" #!space"
+alias gc="git commit -m\" #no-space"
 alias gcf="git cat-file -p"
 alias gd="git diff"
 alias gdm="git diff master"
@@ -254,7 +254,7 @@ if [ -x /usr/bin/dircolors ]; then
     #alias dir="dir --color=auto"
     #alias vdir="vdir --color=auto"
 
-    alias ls='ls --color=auto #!expand'
+    #alias ls='ls --color=auto #no-expand'
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'

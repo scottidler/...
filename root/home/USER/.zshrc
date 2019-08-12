@@ -90,13 +90,13 @@ setopt clobber
 unsetopt nomatch
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f /home/saidler/google-cloud-sdk/path.bash.inc ]; then
-    . /home/saidler/google-cloud-sdk/path.bash.inc
+if [ -f ~/google-cloud-sdk/path.bash.inc ]; then
+    . ~/google-cloud-sdk/path.bash.inc
 fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f /home/saidler/google-cloud-sdk/completion.bash.inc ]; then
-    . /home/saidler/google-cloud-sdk/completion.bash.inc
+if [ -f ~/google-cloud-sdk/completion.bash.inc ]; then
+    . ~/google-cloud-sdk/completion.bash.inc
 fi
 
 # enables python3.5 on centos 7 boxes
@@ -112,8 +112,8 @@ if hash kubectl 2> /dev/null; then
     . <(kubectl completion zsh)
 fi
 
-if [ -f /home/sidler/.acme.sh/acme.sh.env ]; then
-    . /home/sidler/.acme.sh/acme.sh.env
+if [ -f ~/.acme.sh/acme.sh.env ]; then
+    . ~/.acme.sh/acme.sh.env
 fi
 
 if [ -f ~/.shell-aliases ]; then
@@ -136,16 +136,16 @@ fi
 PROMPT_EOL_MARK=''
 
 # added by travis gem
-[ -f /home/sidler/.travis/travis.sh ] && . /home/sidler/.travis/travis.sh
+[ -f ~/.travis/travis.sh ] && . ~/.travis/travis.sh
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /home/sidler/tmp/subhub/node_modules/tabtab/.completions/serverless.zsh ]] && . /home/sidler/tmp/subhub/node_modules/tabtab/.completions/serverless.zsh
+[[ -f ~/tmp/subhub/node_modules/tabtab/.completions/serverless.zsh ]] && . ~/tmp/subhub/node_modules/tabtab/.completions/serverless.zsh
 # tabtab source for sls package
 # uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /home/sidler/tmp/subhub/node_modules/tabtab/.completions/sls.zsh ]] && . /home/sidler/tmp/subhub/node_modules/tabtab/.completions/sls.zsh
+[[ -f ~/tmp/subhub/node_modules/tabtab/.completions/sls.zsh ]] && . ~/tmp/subhub/node_modules/tabtab/.completions/sls.zsh
 # tabtab source for slss package
 # uninstall by removing these lines or running `tabtab uninstall slss`
-[[ -f /home/sidler/tmp/subhub/node_modules/tabtab/.completions/slss.zsh ]] && . /home/sidler/tmp/subhub/node_modules/tabtab/.completions/slss.zsh
+[[ -f ~/tmp/subhub/node_modules/tabtab/.completions/slss.zsh ]] && . ~/tmp/subhub/node_modules/tabtab/.completions/slss.zsh
 # added by travis gem
-[ -f /home/sidler/.travis/travis.sh ] && source /home/sidler/.travis/travis.sh
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh

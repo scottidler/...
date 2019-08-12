@@ -7,7 +7,7 @@ get-aliases() {
 }
 
 remove-comment() {
-    local WORDCHARS=' #!space'
+    local WORDCHARS=' #no-space'
     zle backward-delete-word
 }
 
@@ -25,8 +25,8 @@ expand-alias-space() {
         set -x
     fi
     if [ -n "$EXPAND_ALIAS" ]; then
-        no_spaces=($(get-aliases "#!space"))
-        ignores=($(get-aliases "#!expand"))
+        no_spaces=($(get-aliases "#no-space"))
+        ignores=($(get-aliases "no-expand"))
         [[ $LBUFFER =~ "\<(${(j:|:)no_spaces})\$" ]]; blank=$?
         if [[ ! $LBUFFER =~ "\<(${(j:|:)ignores})\$" ]]; then
             zle _expand_alias
