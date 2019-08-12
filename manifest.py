@@ -10,10 +10,11 @@ sys.dont_write_bytecode = True
 from copy import deepcopy
 from ruamel import yaml
 from pathlib import Path
-
-from argparse import ArgumentParser, Action
-from contextlib import contextmanager
 from fnmatch import fnmatch
+from contextlib import contextmanager
+from argparse import ArgumentParser, Action
+
+from leatherman.fuzzy import fuzzy
 
 SCRIPT_FILE = os.path.abspath(__file__)
 SCRIPT_NAME = os.path.basename(SCRIPT_FILE)
@@ -132,7 +133,7 @@ class ManifestType():
 
 class PackageType(ManifestType):
     def __init__(self, spec, patterns, **kwargs):
-        self.items = sift(spec.get('items', None), patterns)
+        self.items = fuzzy(spec.get('items', {})).include(*patterns)
 
     def __repr__(self):
         return f'{type(self).__name__}(items={self.items})'
@@ -213,13 +214,6 @@ done<<EOM
 EOM
         '''.lstrip('\n').rstrip()
 
-def sift(items, includes=None):
-    if None in (items, includes) or '*' in includes:
-        return items
-    def match(item, includes):
-        return any([fnmatch(item, include) for include in includes])
-    return [item for item in items if match(item, includes)]
-
 class APT(ContinuePackageType):
     def render_header(self):
         return f'''
@@ -297,7 +291,10 @@ git clone --recursive {self.baseurl}/{self.reponame} {self.repopath}/{self.repon
 class Github(ManifestType):
     def __init__(self, spec, patterns, **kwargs):
         repopath = spec.pop('repopath', 'repos')
-        self.repos = [Repo('https://github.com', reponame, spec[reponame], repopath, **kwargs) for reponame in sift(spec.keys(), patterns)]
+        self.repos = [
+            Repo('https://github.com', reponame, repobody, repopath, **kwargs)
+            for reponame, repobody in fuzzy(spec).include(*patterns).items()
+        ]
 
     def __repr__(self):
         return f'{type(self).__name__}(repos={self.repos})'
@@ -314,7 +311,7 @@ class Github(ManifestType):
 
 class Script(ManifestType):
     def __init__(self, spec, patterns, **kwargs):
-        self.items = {name: spec[name].strip() for name in sift(spec.keys(), patterns)}
+        self.items = fuzzy(spec).include(*patterns)
 
     def __repr__(self):
         return f'{type(self).__name__}(items={self.items})'
