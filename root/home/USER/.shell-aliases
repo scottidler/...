@@ -87,8 +87,6 @@ alias fog="ssh -A saidler@45.33.26.141"
 alias cl="clear"
 alias pe="pipenv"
 
-alias repos="cd ~/repos"
-
 alias ip-lan='ip addr show |grep "inet " |grep -v 127.0.0. |head -1|cut -d" " -f6|cut -d/ -f1 #no-expand'
 alias ip-pub="curl https://ifconfig.co"
 
@@ -102,6 +100,12 @@ alias ipy3="sudo -E ipython3"
 alias cdr="\$($REPO_TEST) && cd \$($REPOROOT)"
 alias cdpr="\$($REPO_TEST) && {cd ../; cd \$($REPOROOT)}"
 alias cdp="\$($REPO_TEST) && cd \$($REPOROOT) && cd ../"
+
+# projects
+alias cd-repos="cd ~/repos"
+alias cd-subhub="cd ~/repos/mozilla/subhub"
+alias cd-autocert="cd ~/repos/mozilla-it/autocert"
+alias cd-redirects="cd ~/repos/mozilla-it/netlify-redirects"
 
 alias d="docker"
 alias dc="docker-compose"
