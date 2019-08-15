@@ -63,6 +63,8 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
     alias -g xargs-bash="| xargs -I% bash -c 'echo %; tab2 "
 fi
 
+alias tf="terraform"
+
 alias clh="curl localhost: #no-space"
 
 alias cat="ccat"
