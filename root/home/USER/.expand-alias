@@ -7,7 +7,7 @@ get-aliases() {
 }
 
 remove-comment() {
-    local WORDCHARS=' #no-space'
+    local WORDCHARS=" $1"
     zle backward-delete-word
 }
 
@@ -30,10 +30,12 @@ expand-alias-space() {
         [[ $LBUFFER =~ "\<(${(j:|:)no_spaces})\$" ]]; blank=$?
         if [[ ! $LBUFFER =~ "\<(${(j:|:)ignores})\$" ]]; then
             zle _expand_alias
+        else
+            alias ip-lan='ip addr show |grep "inet " |grep -v 127.0.0. |head -1|cut -d" " -f6|cut -d/ -f1'
         fi
         zle self-insert
         if [[ "$blank" == "0" ]]; then
-            remove-comment
+            remove-comment '#no-space'
         fi
     fi
 }
@@ -49,12 +51,14 @@ expand-alias-accept-line() {
         [[ $BUFFER =~ "\<(${(j:|:)no_spaces})\$" ]]; blank=$?
         if [[ ! $BUFFER =~ "\<(${(j:|:)ignores})\$" ]]; then
             zle _expand_alias
+        else
+            alias ip-lan='ip addr show |grep "inet " |grep -v 127.0.0. |head -1|cut -d" " -f6|cut -d/ -f1'
         fi
         if [[ "$BUFFER" == *"!" ]]; then
             sudoify
         fi
         if [[ "$blank" == "0" ]]; then
-            remove-comment
+            remove-comment '#no-space'
         fi
     fi
     zle .accept-line
