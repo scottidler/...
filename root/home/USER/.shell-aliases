@@ -99,7 +99,7 @@ alias ipy="sudo -E ipython3"
 alias ipy2="sudo -E ipython"
 alias ipy3="sudo -E ipython3"
 
-alias cdr="\$($REPO_TEST) && cd \$($REPOROOT)"
+alias cdr="\$($REPO_TEST) && cd \$($REPO_ROOT)"
 alias cdpr="\$($REPO_TEST) && {cd ../; cd \$($REPO_ROOT)}"
 alias cdp="\$($REPO_TEST) && cd \$($REPO_ROOT) && cd ../"
 
