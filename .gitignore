@@ -62,3 +62,6 @@ target/
 .ipynb_checkpoints
 
 repos/*
+
+*.deb
+*.tar.gz
