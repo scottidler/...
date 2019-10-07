@@ -32,6 +32,7 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
     alias cd..="cd .."
     alias cd../=cd../""
 
+    alias -g DE="DEPLOYED_ENV= #no-space"
     alias -g MB="\$(git merge-base master HEAD)"
     alias -g ST="SKIP_TESTS=yes"
     alias -g PP="PYTHONPATH=."
@@ -64,6 +65,8 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
     alias -g xargs-bash="| xargs -I% bash -c 'echo %; tab2 "
 fi
 
+alias fail="sudo journalctl -xe"
+
 alias R="rustc"
 alias tf="terraform"
 
@@ -80,6 +83,7 @@ alias login-subhub-token="aws-vault --debug login mozilla-subhub-admin -s --assu
 
 alias aws-account-id="aws sts get-caller-identity | jq -r .Account"
 
+alias untar="tar xvf"
 alias T="tree -a -I '.git'"
 
 # regular alises
