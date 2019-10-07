@@ -177,6 +177,10 @@ github:
   awslabs/git-secrets:
     link:
       git-secrets: ~/bin/git-secrets
+  tfutils/tfenv:
+    link:
+      bin/terraform: ~/bin/terraform
+      bin/tfenv: ~/bin/tfenv
 
 script:
   vim+git: |
