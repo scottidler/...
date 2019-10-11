@@ -29,6 +29,7 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
     disable -a \9
 
     alias /="rg"
+    alias //="rg --hidden"
     alias cd..="cd .."
     alias cd../=cd../""
 
