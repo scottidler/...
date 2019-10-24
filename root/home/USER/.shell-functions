@@ -94,3 +94,5 @@ function delete-branch() {
     done
     git prune
 }
+
+for f in ~/.shell-functions.d/*; do source $f; done
