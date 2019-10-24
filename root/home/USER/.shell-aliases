@@ -70,6 +70,7 @@ alias fail="sudo journalctl -xe"
 
 alias R="rustc"
 alias tf="terraform"
+alias n="netlify"
 
 alias clh="curl localhost: #no-space"
 
