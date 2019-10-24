@@ -144,6 +144,9 @@ github:
   scottidler/ssh-ident:
     link:
       ssh-ident: ~/bin/ssh
+  scottidler/vault:
+    link:
+      vault.sh: ~/.shell-functions.d/vault.sh
   mozilla-it/repo:
     link:
       bin/repo: ~/bin/repo
