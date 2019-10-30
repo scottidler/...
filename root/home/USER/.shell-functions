@@ -1,5 +1,10 @@
 # vim: filetype=sh
 
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
+
 function aws-exec() { #FIXME: gpg and unlock to be investigated
     /usr/bin/gpg -d $HOME/.unlock_gpg.asc 2>/dev/null && \
     aws-vault --debug exec $1 --assume-role-ttl=1h --session-ttl=12h -- /bin/zsh

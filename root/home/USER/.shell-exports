@@ -1,4 +1,9 @@
-#!/bin/sh
+# vim: filetype=sh
+
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
 
 # make sure ~/bin is first in the path
 PATH=/home/$USER/bin:/home/$USER/go/bin:$(echo -n $PATH | sed -e "s|:/home/$USER/bin:|:|g")

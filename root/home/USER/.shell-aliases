@@ -1,4 +1,10 @@
 # vim: filetype=sh
+
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
+
 KS="kube-system"
 CW="CW"
 HEADER_SORT1='(read -r; printf "%s\n" "$REPLY"; sort)'
@@ -10,9 +16,10 @@ REPONAME_PN="s;^(git|ssh|https)://([A-Za-z0-9\-\_]+@)?([A-Za-z0-9\.]+)/;;"
 BRANCH_NAME="git rev-parse --abbrev-ref HEAD"
 REMOTE_ORIGIN_URL="git config --get remote.origin.url"
 NEAREST_TAG="git describe --abbrev=0"
+CURRENT_SHELL="$(ps -o fname --no-headers $$)"
 
 # global aliases, zsh only
-if [[ "$(basename $SHELL)" == "zsh" ]]; then
+if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     # disable annoying oh-my-zsh aliases
     disable -a \...
     disable -a \....
@@ -64,6 +71,36 @@ if [[ "$(basename $SHELL)" == "zsh" ]]; then
     alias -g tee2files="> >(tee -a stdout.log) 2> >(tee -a stderr.log >&2)"
     alias -g h-json="-H 'Accept: application/json'"
     alias -g xargs-bash="| xargs -I% bash -c 'echo %; tab2 "
+
+    alias -g p-itsre=mozilla-itsre-admin
+    alias -g p-itsre-ro=mozilla-itsre-ro
+    alias -g p-sandbox=itsre-sandbox-admin
+    alias -g p-sandbox-ro=itsre-sandbox-ro
+    alias -g p-cdn=it-cdn-admin
+    alias -g p-cdn-ro=it-cdn-ro
+    alias -g p-cw=connected-workplace-admin
+    alias -g p-cw-ro=connected-workplace-ro
+    alias -g p-appsvcs-generic=appsvcs-generic-admin
+    alias -g p-appsvcs-generic-ro=appsvcs-generic-ro
+    alias -g p-atlassian=mozilla-atlassian-admin
+    alias -g p-atlassian-ro=mozilla-atlassian-ro
+    alias -g p-voice=appsvcs-voice-admin
+    alias -g p-voice-ro=appsvcs-voice-ro
+    alias -g p-sumo=mozilla-sumo-admin
+    alias -g p-sumo-ro=mozilla-sumo-ro
+    alias -g p-mdn=mozilla-mdn-admin
+    alias -g p-mdn-ro=mozilla-mdn-ro
+    alias -g p-infra=mozilla-infra-admin
+    alias -g p-infra-ro=mozilla-infra-ro
+    alias -g p-poc123=mozilla-poc123-admin
+    alias -g p-poc123-ro=mozilla-poc123-readonly
+    alias -g p-subhub=mozilla-subhub-admin
+    alias -g p-subhub-ro=mozilla-subhub-ro
+    alias -g p-netops=mozilla-netops-admin
+    alias -g p-netops-ro=mozilla-netops-ro
+    alias -g p-itsre-apps=itsre-apps-admin
+    alias -g p-istre-apps-ro=itsre-apps-ro
+
 fi
 
 alias fail="sudo journalctl -xe"
@@ -80,8 +117,9 @@ alias ethdev="echo \$($ETHDEV)"
 
 alias os="echo \"\$(lsb_release -is)-\$(lsb_release -rs)_x\$(getconf LONG_BIT)(\$(lsb_release -cs))\""
 
-alias login-subhub="aws-vault --debug exec mozilla-subhub-admin --"
-alias login-subhub-token="aws-vault --debug login mozilla-subhub-admin -s --assume-role-ttl=1h --federation-token-ttl=12h"
+alias v="vault"
+alias ve="vault exec"
+alias vl="vault login"
 
 alias aws-account-id="aws sts get-caller-identity | jq -r .Account"
 
