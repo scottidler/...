@@ -42,7 +42,7 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
 
     alias -g DE="DEPLOYED_ENV= #no-space"
     alias -g MB="\$(git merge-base master HEAD)"
-    alias -g ST="SKIP_TESTS=yes"
+    alias -g ST="SKIP_TEST=yes"
     alias -g PP="PYTHONPATH=."
     alias -g WC="| wc -l"
     alias -g G="| grep -i"
