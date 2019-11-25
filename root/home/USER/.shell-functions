@@ -100,6 +100,6 @@ function delete-branch() {
     git prune
 }
 
-if [ -f ~/.shell-functions.d/ ]; then
+if [ -d ~/.shell-functions.d/ ]; then
     for f in ~/.shell-functions.d/*; do . $f; done
 fi
