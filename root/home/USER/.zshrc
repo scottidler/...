@@ -136,16 +136,22 @@ fi
 PROMPT_EOL_MARK=''
 
 # added by travis gem
-[ -f ~/.travis/travis.sh ] && . ~/.travis/travis.sh
+if [ -f ~/.travis/travis.sh ]; then
+    . ~/.travis/travis.sh
+fi
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f ~/tmp/subhub/node_modules/tabtab/.completions/serverless.zsh ]] && . ~/tmp/subhub/node_modules/tabtab/.completions/serverless.zsh
+if [[ -f ~/tmp/subhub/node_modules/tabtab/.completions/serverless.zsh ]]; then
+    . ~/tmp/subhub/node_modules/tabtab/.completions/serverless.zsh
+fi
 # tabtab source for sls package
 # uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f ~/tmp/subhub/node_modules/tabtab/.completions/sls.zsh ]] && . ~/tmp/subhub/node_modules/tabtab/.completions/sls.zsh
+if [[ -f ~/tmp/subhub/node_modules/tabtab/.completions/sls.zsh ]]; then
+    . ~/tmp/subhub/node_modules/tabtab/.completions/sls.zsh
+fi
 # tabtab source for slss package
 # uninstall by removing these lines or running `tabtab uninstall slss`
-[[ -f ~/tmp/subhub/node_modules/tabtab/.completions/slss.zsh ]] && . ~/tmp/subhub/node_modules/tabtab/.completions/slss.zsh
-# added by travis gem
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+if [[ -f ~/tmp/subhub/node_modules/tabtab/.completions/slss.zsh ]]; then
+    . ~/tmp/subhub/node_modules/tabtab/.completions/slss.zsh
+fi
