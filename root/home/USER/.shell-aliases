@@ -165,6 +165,9 @@ alias drm="docker rm"
 alias drmi="docker rmi"
 alias drit="docker run -it"
 alias deit="docker exec -it"
+alias ls-dangling-images='docker images -q --filter "dangling=true"'
+alias rm-stopped-containers='docker rm $(docker ps -q -f "status=exited")'
+alias rm-dangling-images='docker rmi $(docker images -q --filter "dangling=true")file'
 
 alias pbcopy="xclip -selection clipboard"
 alias pbpaste="xclip -selection clipboard -o"
@@ -294,6 +297,8 @@ alias pip3.6-ii="sudo -H python3.6 -m pip install -U --ignore-installed"
 alias pip3.7="sudo -H python3.7 -m pip"
 alias pip3.7-ii="sudo -H python3.7 -m pip install -U --ignore-installed"
 
+alias rmpyc="find . -name "*.pyc" -print0 | xargs -0 /bin/rm"
+
 alias xdo="xdotool"
 
 alias clipboard="xclip -sel clip"
@@ -301,6 +306,8 @@ alias cb="clipboard"
 
 alias irc="irccloud-search"
 alias ap="ansible-playbook"
+
+alias fix-dns="sudo systemd-resolve --flush-caches"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
