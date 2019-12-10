@@ -147,6 +147,19 @@ github:
   scottidler/vault:
     link:
       vault.sh: ~/.shell-functions.d/vault.sh
+  scottidler/helpful:
+    link:
+      bin/cidr: ~/bin/cidr
+      bin/say: ~/bin/say
+      bin/scp: ~/bin/scp
+      bin/speedtest: ~/bin/speedtest
+      bin/tab: ~/bin/tab
+      bin/tab1: ~/bin/tab1
+      bin/tab2: ~/bin/tab2
+      bin/tab3: ~/bin/tab3
+      bin/tab4: ~/bin/tab4
+      bin/toggle: ~/bin/toggle
+      func/helpful.sh: ~/.shell-functions.d/helpful.sh
   mozilla-it/repo:
     link:
       bin/repo: ~/bin/repo
