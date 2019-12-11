@@ -49,10 +49,6 @@ function dots() {
     done
 }
 
-function clone() {
-    cd $(~/bin/clone $1)
-}
-
 function toplevel() {
     [ -d "$1" ] && echo "$1" || echo "$(dirname "$1")"
 }
