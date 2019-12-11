@@ -5,17 +5,6 @@ if [ -n "$DEBUG" ]; then
     set -x
 fi
 
-function aws-exec() { #FIXME: gpg and unlock to be investigated
-    /usr/bin/gpg -d $HOME/.unlock_gpg.asc 2>/dev/null && \
-    aws-vault --debug exec $1 --assume-role-ttl=1h --session-ttl=12h -- /bin/zsh
-}
-
-# aws-login <profile> -s
-function aws-login { #FIXME: gpg and unlock to be investigated
-    /usr/bin/gpg -d $HOME/.unlock_gpg.asc 2>/dev/null && \
-    aws-vault --debug login $1 -s --assume-role-ttl=1h --federation-token-ttl=12h
-}
-
 function sls() {
     SLS="$(which serverless)"
     LOCAL="./node_modules/serverless/bin/serverless"
