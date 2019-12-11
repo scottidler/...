@@ -5,84 +5,11 @@ if [ -n "$DEBUG" ]; then
     set -x
 fi
 
-function sls() {
-    SLS="$(which serverless)"
-    LOCAL="./node_modules/serverless/bin/serverless"
-    if [ -f "$LOCAL" ]; then
-        SLS="$LOCAL"
-    fi
-    "$SLS" "$@"
-}
-
-function upsearch() {
-    FILE="$1"
-    DIR="$PWD"
-    while [[ "$DIR" != '/' ]]; do
-        if [[ -e "$DIR/$FILE" ]]; then
-            echo "$DIR"
-            return
-        else
-            DIR=`dirname $DIR`
-        fi
-    done
-    echo "$PWD"
-    return
-}
-
-DOIT="`sudo which doit`"
-function doit() {
-    if [[ "$1" =~ ^(auto|clean|dumpdb|forget|help|ignore|info|list|reset-dep|run|strace|tabcompletion)$ ]]; then
-        CMD=( $DOIT $@ )
-    else
-        NPROC=$(nproc)
-        ONE_AND_A_HALF=$(($NPROC + $NPROC/2))
-        DOIT_NUM_PROCESS=${DOIT_NUM_PROCESS:-$ONE_AND_A_HALF}
-        CMD=( time -p $DOIT -n $DOIT_NUM_PROCESS $@ )
-    fi
-    (cd "`upsearch dodo.py`" && "${CMD[@]}")
-}
-
 function dots() {
     cd ~/...; pwd; git pull
     for reponame in $(~/bin/ls-git-repos repos); do
         (cd repos/$reponame && pwd && git pull)
     done
-}
-
-function toplevel() {
-    [ -d "$1" ] && echo "$1" || echo "$(dirname "$1")"
-}
-
-function mv-cd() {
-    mv "$1" "$2" && cd "$(toplevel "$2")"
-}
-
-function mv-replace() {
-    FILE=$1
-    REPL=${2:-'-'}
-    mv $FILE ${FILE// /$REPL}
-}
-
-function cp-cd() {
-    cp "$1" "$2" && cd "$(toplevel "$2")"
-}
-
-function jira() {
-    WORKITEM="$1"
-    echo "https://jira.mozilla.com/browse/$WORKITEM:u"
-}
-
-function mkdir-cd() {
-    mkdir "$1" && cd "$1"
-}
-
-function delete-branch() {
-    for branch in "$@"; do
-        echo "deleting $branch"
-        git push origin :"$branch"
-        git branch -D "$branch"
-    done
-    git prune
 }
 
 if [ -d ~/.shell-functions.d/ ]; then
