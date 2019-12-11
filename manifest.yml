@@ -124,8 +124,24 @@ github:
       bin/git-objects: ~/bin/git-objects
       bin/ls-git-repos: ~/bin/ls-git-repos
       bin/ls-org-repos: ~/bin/ls-org-repos
-      func/clone.sh: ~/.shell-functions.d/clone.sh
+      shell-functions.sh: ~/.shell-functions.d/clone.sh
       cfg/clone.cfg: ~/.clone/clone/clone.cfg
+  scottidler/vault:
+    link:
+      shell-functions.sh: ~/.shell-functions.d/vault.sh
+  scottidler/helpful:
+    link:
+      bin/cidr: ~/bin/cidr
+      bin/say: ~/bin/say
+      bin/scp: ~/bin/scp
+      bin/speedtest: ~/bin/speedtest
+      bin/tab: ~/bin/tab
+      bin/tab1: ~/bin/tab1
+      bin/tab2: ~/bin/tab2
+      bin/tab3: ~/bin/tab3
+      bin/tab4: ~/bin/tab4
+      bin/toggle: ~/bin/toggle
+      shell-functions.sh: ~/.shell-functions.d/helpful.sh
   scottidler/dock:
     link:
       dock: ~/bin/dock
@@ -145,22 +161,6 @@ github:
   scottidler/ssh-ident:
     link:
       ssh-ident: ~/bin/ssh
-  scottidler/vault:
-    link:
-      vault.sh: ~/.shell-functions.d/vault.sh
-  scottidler/helpful:
-    link:
-      bin/cidr: ~/bin/cidr
-      bin/say: ~/bin/say
-      bin/scp: ~/bin/scp
-      bin/speedtest: ~/bin/speedtest
-      bin/tab: ~/bin/tab
-      bin/tab1: ~/bin/tab1
-      bin/tab2: ~/bin/tab2
-      bin/tab3: ~/bin/tab3
-      bin/tab4: ~/bin/tab4
-      bin/toggle: ~/bin/toggle
-      func/helpful.sh: ~/.shell-functions.d/helpful.sh
   mozilla-it/repo:
     link:
       bin/repo: ~/bin/repo
