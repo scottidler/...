@@ -124,6 +124,7 @@ github:
       bin/git-objects: ~/bin/git-objects
       bin/ls-git-repos: ~/bin/ls-git-repos
       bin/ls-org-repos: ~/bin/ls-org-repos
+      func/clone.sh: ~/.shell-functions.d/clone.sh
       cfg/clone.cfg: ~/.clone/clone/clone.cfg
   scottidler/dock:
     link:
