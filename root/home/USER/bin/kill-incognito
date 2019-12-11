@@ -1,4 +1,0 @@
-#!/bin/bash
-
-PIDS=`ps aux | grep -v grep | grep disable-databases | awk '{print $2}'`
-echo "PIDS=$PIDS"

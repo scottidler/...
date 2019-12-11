@@ -1,7 +1,0 @@
-#!/bin/bash
-
-PIDS=`pidof firefox`
-if [ -n "$PIDS" ]; then
-    kill $PIDS
-    kill -s 0 $PIDS && kill -9 $PIDS
-fi

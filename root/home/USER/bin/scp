@@ -1,2 +1,0 @@
-#!/bin/bash
-exec env BINARY_SSH=/usr/bin/scp ~/bin/ssh "$@"

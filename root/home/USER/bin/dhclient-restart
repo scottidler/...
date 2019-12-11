@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [ -n "$DEBUG" ]; then
-    PS4=':${LINENO}+'
-    set -x
-fi
-
-ETHDEV=${1:-$(ip route get 1.1.1.1 | grep -Po '(?<=dev\s)\w+' | cut -f1 -d ' ')}
-sudo dhclient -r -v $ETHDEV && sudo rm /var/lib/dhcp/dhclient.*; sudo dhclient -v $ETHDEV
