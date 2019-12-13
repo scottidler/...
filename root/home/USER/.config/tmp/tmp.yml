@@ -196,11 +196,9 @@ templates:
         # file, You can obtain one at https://mozilla.org/MPL/2.0/.
     py2-header: |
         #!/usr/bin/env python2
-        # -*- coding: utf-8 -*-
 
     py3-header: |
         #!/usr/bin/env python3
-        # -*- coding: utf-8 -*-
 
     sh-header: |
         #!/bin/sh
