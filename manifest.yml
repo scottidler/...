@@ -129,6 +129,9 @@ github:
   scottidler/vault:
     link:
       shell-functions.sh: ~/.shell-functions.d/vault.sh
+  scottidler/tmp:
+    link:
+      bin/tmp: ~/bin/tmp
   scottidler/helpful:
     link:
       bin/cidr: ~/bin/cidr
