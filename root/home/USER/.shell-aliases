@@ -47,6 +47,8 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g WC="| wc -l"
     alias -g G="| grep -i"
     alias -g L="| less -r"
+    alias -g SU="| sort | uniq"
+    alias -g SU2="| sort | uniq -c | sort -nr"
     alias -g H10="| head -10"
     alias -g H20="| head -20"
     alias -g T10="| tail -10"
