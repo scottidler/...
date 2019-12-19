@@ -155,3 +155,8 @@ fi
 if [[ -f ~/tmp/subhub/node_modules/tabtab/.completions/slss.zsh ]]; then
     . ~/tmp/subhub/node_modules/tabtab/.completions/slss.zsh
 fi
+# tab complete for pyenv
+# https://github.com/pyenv/pyenv#installation
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi

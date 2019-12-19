@@ -164,6 +164,9 @@ github:
   scottidler/ssh-ident:
     link:
       ssh-ident: ~/bin/ssh
+  pyenv/pyenv:
+    link:
+      ./: ~/.pyenv
   mozilla-it/repo:
     link:
       bin/repo: ~/bin/repo
