@@ -97,6 +97,7 @@ dnf:
 
 pip3:
   items:
+  - pipx
   - wheel
   - aiohttp
   - attrdict
