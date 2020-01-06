@@ -7,6 +7,7 @@ fi
 
 export PYENV_ROOT=$HOME/.pyenv
 export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # make sure ~/bin is first in the path
 PATH=/home/$USER/bin:/home/$USER/go/bin:$(echo -n $PATH | sed -e "s|:/home/$USER/bin:|:|g")
