@@ -101,6 +101,7 @@ pip3:
   - wheel
   - addict
   - aiohttp
+  - ipython
   - requests
   - ruamel.yaml
   - cryptography
@@ -111,7 +112,6 @@ pipx:
   - mypy
   - awscli
   - pipenv
-  - ipython
   - asciinema
   - pipupgrade
   - virtualenv
