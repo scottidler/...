@@ -97,22 +97,26 @@ dnf:
 
 pip3:
   items:
-  - pipx
+  - numpy
   - wheel
+  - addict
   - aiohttp
-  - attrdict
   - requests
   - ruamel.yaml
+  - cryptography
+
+pipx:
+  items:
+  - doit
   - mypy
-  - numpy
+  - awscli
   - pipenv
   - ipython
-  - virtualenv
-  - doit
-  - awscli
-  - mps-youtube
-  - cryptography
   - asciinema
+  - pipupgrade
+  - virtualenv
+  - mps-youtube
+  - docker-compose
 
 npm:
   items:

@@ -31,6 +31,7 @@ SECTIONS = [
     'dnf',
     'npm',
     'pip3',
+    'pipx',
     'github',
     'script',
 ]
@@ -264,6 +265,14 @@ sudo -H pip3 install --upgrade pip setuptools
 sudo -H pip3 install --upgrade
 '''.lstrip('\n').rstrip()
 
+class PIPX(HeredocPackageType):
+    def render_block(self):
+        if not self.items:
+            return ''
+        return '''
+    pipx install $pkg
+'''.lstrip('\n').rstrip()
+
 class Repo():
     def __init__(self, baseurl, reponame, spec, repopath, **kwargs):
         self.baseurl = baseurl
@@ -335,6 +344,7 @@ class Manifest():
             dnf=None,
             npm=None,
             pip3=None,
+            pipx=None,
             github=None,
             script=None,
             **kwargs):
@@ -356,6 +366,8 @@ class Manifest():
             self.sections += [NPM(spec['npm'], npm, **kwargs)]
         if complete or pip3 != None:
             self.sections += [PIP3(spec['pip3'], pip3, **kwargs)]
+        if complete or pipx != None:
+            self.sections += [PIPX(spec['pipx'], pipx, **kwargs)]
         if complete or github != None:
             self.sections += [Github(spec['github'], github, **kwargs)]
         if complete or script != None:
@@ -471,6 +483,11 @@ def main(args):
 	action=ManifestAction,
         nargs='*',
         help='specify list of glob patterns to match pip3 items')
+    parser.add_argument(
+        '-X', '--pipx',
+	action=ManifestAction,
+        nargs='*',
+        help='specify list of glob patterns to match pipx items')
     parser.add_argument(
         '-g', '--github',
 	action=ManifestAction,
