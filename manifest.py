@@ -16,13 +16,13 @@ from argparse import ArgumentParser, Action
 
 from leatherman.fuzzy import fuzzy
 
-SCRIPT_FILE = os.path.abspath(__file__)
-SCRIPT_NAME = os.path.basename(SCRIPT_FILE)
-SCRIPT_PATH = os.path.dirname(SCRIPT_FILE)
+REAL_FILE = os.path.abspath(__file__)
+REAL_NAME = os.path.basename(REAL_FILE)
+REAL_PATH = os.path.dirname(REAL_FILE)
 if os.path.islink(__file__):
-    REAL_FILE = os.path.abspath(os.readlink(__file__))
-    REAL_NAME = os.path.basename(REAL_FILE)
-    REAL_PATH = os.path.dirname(REAL_FILE)
+    LINK_FILE = REAL_FILE; REAL_FILE = os.path.abspath(os.readlink(__file__))
+    LINK_NAME = REAL_NAME; REAL_NAME = os.path.basename(REAL_FILE)
+    LINK_PATH = REAL_PATH; REAL_PATH = os.path.dirname(REAL_FILE)
 
 SECTIONS = [
     'link',
@@ -438,7 +438,7 @@ def main(args):
     parser = ArgumentParser()
     parser.add_argument(
         '-C', '--config',
-        default=f'{SCRIPT_PATH}/manifest.yml',
+        default=f'{REAL_PATH}/manifest.yml',
         help='default="%(default)s"; specify the config path')
     parser.add_argument(
         '-D', '--cwd',
