@@ -10,6 +10,7 @@ function dots() {
     for reponame in $(~/bin/ls-git-repos repos); do
         (cd repos/$reponame && pwd && git pull)
     done
+    . ~/.zshrc
 }
 
 if [ -d ~/.shell-functions.d/ ]; then
