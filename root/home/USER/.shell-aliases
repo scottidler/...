@@ -300,8 +300,6 @@ alias pip3.6-ii="sudo -H python3.6 -m pip install -U --ignore-installed"
 alias pip3.7="sudo -H python3.7 -m pip"
 alias pip3.7-ii="sudo -H python3.7 -m pip install -U --ignore-installed"
 
-alias pu="sudo -H python3 -m pipupgrade -y"
-
 alias rmpyc="find . -name "*.pyc" -print0 | xargs -0 /bin/rm"
 
 alias xdo="xdotool"
