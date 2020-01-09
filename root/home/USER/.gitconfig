@@ -1,6 +1,8 @@
 [user]
 	email = scott.a.idler@gmail.com
 	name = Scott Idler
+[log]
+	date = local
 [core]
 	pager = less -F -X
 	editor = vim
