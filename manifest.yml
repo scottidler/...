@@ -149,6 +149,7 @@ github:
       bin/tab3: ~/bin/tab3
       bin/tab4: ~/bin/tab4
       bin/toggle: ~/bin/toggle
+      bin/toggle-remote-url: ~/bin/toggle-remote-url
       shell-functions.sh: ~/.shell-functions.d/helpful.sh
   scottidler/dock:
     link:
