@@ -262,6 +262,7 @@ alias set-upstream="git branch --set-upstream-to=origin/\$(git rev-parse --abbre
 alias prune="git remote prune origin"
 alias unstage="git reset HEAD"
 alias clean="git clean -xfd"
+alias describe='git describe --match "v*"'
 
 alias gbp="git-big-picture"
 
