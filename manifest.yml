@@ -213,39 +213,31 @@ github:
 
 script:
   vim+git: |
-    #!/bin/bash
     sudo apt-get install -y vim git
     sudo update-alternatives --set editor /usr/bin/vim.basic
   sudoers: |
-    #!/bin/bash
     sudo echo "${USER}  ALL=NOPASSWD: ALL" > /etc/sudoers.d/${USER}
   cheat: |
-    #!/bin/bash
     curl https://cht.sh/:cht.sh > ~/bin/cheat
     chmod +x ~/bin/cheat
   ngrok: |
-    #!/bin/bash
     curl https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip ngrok.zip
     unzip ngrok.zip
     mv ngrok/ngrok ~/bin/
   ccat: |
-    #!/bin/bash
     curl -L https://github.com/jingweno/ccat/releases/latest > ccat.tar.gz
     tar xvf ccat.tar.gz
     mv ccat/ccat ~/bin/
   kubectl: |
-    #!/bin/bash
     sudo apt-get update && sudo apt-get install -y apt-transport-https
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
     sudo apt-get update
     sudo apt-get install -y kubectl
   kubetpl: |
-    #!/bin/bash
     URL=https://github.com/shyiko/kubetpl/releases/download/0.9.0/kubetpl-0.9.0-linux-amd64
     curl -sSL $URL -o kubetpl && chmod a+x kubetpl && sudo mv kubetpl ~/bin/
   spotify: |
-    #!/bin/bash
     # 1. Add the Spotify repository signing keys to be able to verify downloaded packages
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
     # 2. Add the Spotify repository
@@ -255,29 +247,24 @@ script:
     # 4. Install Spotify
     sudo apt-get install spotify-client
   rust: |
-    #!/bin/bash
     curl https://sh.rustup.rs -sSf | sh
   virtualbox: |
-    #!/bin/bash
     wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
     wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
     sudo apt-get update
     sudo apt-get install virtualbox-6.0
   docker: |
-    #!/bin/bash
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     sudo apt-get update
     sudo apt-get install -y docker-ce
   keybase: |
-    #!/bin/bash
     # src: https://keybase.io/docs/the_app/install_linux
     curl --remote-name https://prerelease.keybase.io/keybase_amd64.deb
     sudo apt install ./keybase_amd64.deb
     rm -rf keybase_amd64.deb
     run_keybase
   ripgrep: |
-    #!/bin/bash
     # src: https://github.com/BurntSushi/ripgrep/releases
     # ref: https://starkandwayne.com/blog/how-to-download-the-latest-release-from-github
     ARCH="amd64"
@@ -289,13 +276,18 @@ script:
     sudo dpkg -i "$DEB"
     rm -rf "$DEB"
   papertrail: |
-    #!/bin/bash
     sudo gem install papertrail
   nordvpn: |
-    #!/bin/bash
     # ref: https://nordvpn.com/download/linux/
     URL=https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb
     curl -sL $URL > nordvpn.deb
     sudo apt install ./nordvpn.deb
     sudo apt update
     sudo apt install nordvpn
+  riot: |
+    sudo apt install -y lsb-release wget apt-transport-https
+    sudo wget -O /usr/share/keyrings/riot-im-archive-keyring.gpg https://packages.riot.im/debian/riot-im-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/riot-im-archive-keyring.gpg] https://packages.riot.im/debian/ $(lsb_release -cs) main" |
+      sudo tee /etc/apt/sources.list.d/riot-im.list
+    sudo apt update
+    sudo apt install riot-web
