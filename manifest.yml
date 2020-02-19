@@ -265,25 +265,21 @@ script:
     rm -rf keybase_amd64.deb
     run_keybase
   ripgrep: |
-    # src: https://github.com/BurntSushi/ripgrep/releases
-    # ref: https://starkandwayne.com/blog/how-to-download-the-latest-release-from-github
     ARCH="amd64"
     DEB="ripgrep-latest.deb"
     LATEST="https://api.github.com/repos/BurntSushi/ripgrep/releases/latest"
     URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"$ARCH\")) | .browser_download_url")
-    echo "$URL"
-    curl -sL "$URL" > "$DEB"
-    sudo dpkg -i "$DEB"
-    rm -rf "$DEB"
+    DEB=$(basename $URL)
+    wget $URL
+    sudo apt install ./$DEB && rm ./$DEB
   papertrail: |
     sudo gem install papertrail
   nordvpn: |
     # ref: https://nordvpn.com/download/linux/
     URL=https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn-release_1.0.0_all.deb
-    curl -sL $URL > nordvpn.deb
-    sudo apt install ./nordvpn.deb
-    sudo apt update
-    sudo apt install nordvpn
+    DEB=$(basename $URL)
+    wget $URL
+    sudo apt install ./$DEB && rm ./$DEB
   riot: |
     sudo apt install -y lsb-release wget apt-transport-https
     sudo wget -O /usr/share/keyrings/riot-im-archive-keyring.gpg https://packages.riot.im/debian/riot-im-archive-keyring.gpg
@@ -298,3 +294,9 @@ script:
     sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
     sudo apt update
     sudo apt install code
+  pulse: |
+    LATEST=https://api.github.com/repos/klinker-apps/pulse-sms-desktop/releases/latest
+    URL=$(curl -sL $LATEST | jq -r '.assets[] | select(.name | contains("deb")) | .browser_download_url')
+    DEB=$(basename $URL)
+    wget $URL
+    sudo apt install ./$DEB && rm ./$DEB
