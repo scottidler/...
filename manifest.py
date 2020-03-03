@@ -15,6 +15,7 @@ from contextlib import contextmanager
 from argparse import ArgumentParser, Action
 
 from leatherman.fuzzy import fuzzy
+from leatherman.repr import __repr__
 
 REAL_FILE = os.path.abspath(__file__)
 REAL_NAME = os.path.basename(REAL_FILE)
@@ -189,7 +190,7 @@ class Link(HeredocPackageType):
         if self.recursive:
             self.items = []
             for srcpath, dstpath in spec.items():
-                for item in [item for item in Path(srcpath).rglob('*') if not item.is_dir()]:
+                for item in [item for item in Path(os.path.join(self.cwd, srcpath)).rglob('*') if not item.is_dir()]:
                     src = os.path.join(cwd, item.as_posix())
                     dst = interpolate_rootpath(item.as_posix(), dstpath)
                     dst = interpolate_user(dst, user)
@@ -278,21 +279,23 @@ class Repo():
         self.baseurl = baseurl
         self.reponame = reponame
         self.repopath = repopath
-        self.link = Link(spec.get('link'), None, cwd=os.path.join(kwargs.pop('cwd'), repopath, reponame), **kwargs) if 'link' in spec else None
+        self.cwd = kwargs.get('cwd')
+        cwd = os.path.join(self.cwd, repopath, reponame)
+        self.link = Link(spec.get('link'), None, **kwargs) if 'link' in spec else None
         self.script = Script(dict(reponame=spec.get('script')), None, **kwargs) if 'script' in spec else None
 
-    def __repr__(self):
-        return f'{type(self).__name__}(baseurl={self.baseurl}, reponame={self.reponame}, repopath={self.repopath}, link={self.link}, script={self.script})'
+    __repr__ = __repr__
 
     __str__ = __repr__
 
     def render(self):
         link = self.link.render() + '\n' if self.link else ''
         script = self.script.render() + '\n' if self.script else ''
+        fullpath = os.path.join(self.cwd, self.repopath, self.reponame)
         return f'''
 echo "{self.reponame}:"
-git clone --recursive {self.baseurl}/{self.reponame} {self.repopath}/{self.reponame}
-(cd {self.repopath}/{self.reponame} && pwd && git pull && git checkout HEAD)
+git clone --recursive {self.baseurl}/{self.reponame} {fullpath}
+(cd {fullpath} && pwd && git pull && git checkout HEAD)
 {link}
 {script}
 '''.lstrip('\n').rstrip()
@@ -442,7 +445,7 @@ def main(args):
         help='default="%(default)s"; specify the config path')
     parser.add_argument(
         '-D', '--cwd',
-        default=os.getcwd(),
+        default=REAL_PATH,
         help='default="%(default)s"; set the cwd')
     parser.add_argument(
         '-U', '--user',
