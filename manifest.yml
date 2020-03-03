@@ -300,3 +300,8 @@ script:
     DEB=$(basename $URL)
     wget $URL
     sudo apt install ./$DEB && rm ./$DEB
+  steam: |
+    URL=http://media.steampowered.com/client/installer/steam.deb
+    DEB=$(basename $URL)
+    wget $URL
+    sudo apt install ./$DEB && rm ./$DEB
