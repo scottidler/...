@@ -129,8 +129,8 @@ kinds:
                 parser.add_argument(
                     '-C', '--config',
                     default=[
-                        '~/.config/'+SCRIPT_NAME+'/'+SCRIPT_NAME+'.cfg',
-                        SCRIPT_PATH+'/'+SCRIPT_NAME+'.cfg',
+                        '~/.config/'+REAL_NAME+'/'+REAL_NAME+'.cfg',
+                        REAL_PATH+'/'+REAL_NAME+'.cfg',
                     ],
                     help='default=%(default)s; specify the config path')
                 parser.add_argument(
@@ -152,7 +152,7 @@ kinds:
         content: |
             {py3-header}
             {py-common}
-            NAME, EXT = os.path.splitext(SCRIPT_NAME)
+            NAME, EXT = os.path.splitext(REAL_NAME)
 
             from ruamel import yaml
             from argparse import ArgumentParser, RawDescriptionHelpFormatter
