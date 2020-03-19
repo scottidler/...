@@ -14,6 +14,7 @@ from fnmatch import fnmatch
 from contextlib import contextmanager
 from argparse import ArgumentParser, Action
 
+from leatherman.dbg import dbg
 from leatherman.fuzzy import fuzzy
 from leatherman.repr import __repr__
 
@@ -279,9 +280,9 @@ class Repo():
         self.baseurl = baseurl
         self.reponame = reponame
         self.repopath = repopath
-        self.cwd = kwargs.get('cwd')
+        self.cwd = kwargs.pop('cwd')
         cwd = os.path.join(self.cwd, repopath, reponame)
-        self.link = Link(spec.get('link'), None, **kwargs) if 'link' in spec else None
+        self.link = Link(spec.get('link'), None, cwd=os.path.join(self.cwd, 'repos', self.reponame), **kwargs) if 'link' in spec else None
         self.script = Script(dict(reponame=spec.get('script')), None, **kwargs) if 'script' in spec else None
 
     __repr__ = __repr__
