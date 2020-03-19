@@ -170,6 +170,10 @@ github:
   scottidler/ssh-ident:
     link:
       ssh-ident: ~/bin/ssh
+  scottidler/y2j:
+    link:
+      bin/y2j: ~/bin/y2j
+      bin/j2y: ~/bin/j2y
   pyenv/pyenv:
     link:
       ./: ~/.pyenv
