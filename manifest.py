@@ -14,7 +14,6 @@ from fnmatch import fnmatch
 from contextlib import contextmanager
 from argparse import ArgumentParser, Action
 
-from leatherman.dbg import dbg
 from leatherman.fuzzy import fuzzy
 from leatherman.repr import __repr__
 
@@ -191,7 +190,12 @@ class Link(HeredocPackageType):
         if self.recursive:
             self.items = []
             for srcpath, dstpath in spec.items():
-                for item in [item for item in Path(os.path.join(self.cwd, srcpath)).rglob('*') if not item.is_dir()]:
+                items = [
+                    item.relative_to(self.cwd)
+                    for item in Path(os.path.join(self.cwd, srcpath)).rglob('*')
+                    if not item.is_dir()
+                ]
+                for item in items:
                     src = os.path.join(cwd, item.as_posix())
                     dst = interpolate_rootpath(item.as_posix(), dstpath)
                     dst = interpolate_user(dst, user)
@@ -282,8 +286,15 @@ class Repo():
         self.repopath = repopath
         self.cwd = kwargs.pop('cwd')
         cwd = os.path.join(self.cwd, repopath, reponame)
-        self.link = Link(spec.get('link'), None, cwd=os.path.join(self.cwd, 'repos', self.reponame), **kwargs) if 'link' in spec else None
-        self.script = Script(dict(reponame=spec.get('script')), None, **kwargs) if 'script' in spec else None
+        self.link = Link(
+            spec.get('link'),
+            None,
+            cwd=os.path.join(self.cwd, 'repos', self.reponame),
+            **kwargs) if 'link' in spec else None
+        self.script = Script(
+            dict(reponame=spec.get('script')),
+            None,
+            **kwargs) if 'script' in spec else None
 
     __repr__ = __repr__
 
@@ -356,7 +367,8 @@ class Manifest():
         self.errors = spec.pop('errors', False)
         self.sections = []
         if complete or link != None:
-            self.sections += [Link(spec['link'], link, **kwargs)]
+            cwd = kwargs.pop('cwd')
+            self.sections += [Link(spec['link'], link, cwd=REAL_PATH, **kwargs)]
         if complete or ppa != None:
             self.sections += [PPA(spec['ppa'], ppa, **kwargs)]
         pkgs = spec.get('pkg', {}).get('items', [])
