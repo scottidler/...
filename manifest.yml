@@ -134,6 +134,9 @@ github:
   scottidler/vault:
     link:
       shell-functions.sh: ~/.shell-functions.d/vault.sh
+  scottidler/mawsh:
+    link:
+      shell-functions.sh: ~/.shell-functions.d/mawsh.sh
   scottidler/tmp:
     link:
       bin/tmp: ~/bin/tmp
