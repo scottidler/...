@@ -1,8 +1,8 @@
 #...
 
 # Automation for setting up my os
-./manifest.yml is the main spec file
-./manifest.py is the script that drives it
+* [manifest.yml](./manifest.yml) is the main spec file
+* [manifest.py](./manifest.py) is the script that drives it
 
 # Symlink file under root/
 Note: USER will be substituted for the value of $USER
