@@ -110,7 +110,7 @@ EOM
 
 ```
 ### example 2
-Any option like github below, can be given patterns to match against. In this case `lib` matches against several packages.
+Any option like `--apt` below, can be given patterns to match against. In this case `lib` matches against several packages.
 ```
 $> ./manifest.py --apt lib
 #!/bin/bash
@@ -146,7 +146,7 @@ sudo apt install -y libsmbclient-dev \
 ```
 
 ### example 3
-Any option like github below, can be given patterns to match against. In this case `oh-my-zhs` matches against `robbyrussel/oh-my-zsh`.
+In this case `oh-my-zhs` matches against `robbyrussel/oh-my-zsh`.
 ```
 $> ./manifest.py --github oh-my-zsh
 #!/bin/bash
