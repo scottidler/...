@@ -1,6 +1,6 @@
 #... an automation repo that sits in $HOME right next to . and ..
 
-# Automation for setting up my os
+# Automation for setting up my OS
 * [manifest.yml](./manifest.yml) is the main spec file
 * [manifest.py](./manifest.py) is the script that drives it
 
