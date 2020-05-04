@@ -76,35 +76,6 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g h-json="-H 'Accept: application/json'"
     alias -g xargs-bash="| xargs -I% bash -c 'echo %; tab2 "
 
-    alias -g p-itsre=mozilla-itsre-admin
-    alias -g p-itsre-ro=mozilla-itsre-ro
-    alias -g p-sandbox=itsre-sandbox-admin
-    alias -g p-sandbox-ro=itsre-sandbox-ro
-    alias -g p-cdn=it-cdn-admin
-    alias -g p-cdn-ro=it-cdn-ro
-    alias -g p-cw=connected-workplace-admin
-    alias -g p-cw-ro=connected-workplace-ro
-    alias -g p-appsvcs-generic=appsvcs-generic-admin
-    alias -g p-appsvcs-generic-ro=appsvcs-generic-ro
-    alias -g p-atlassian=mozilla-atlassian-admin
-    alias -g p-atlassian-ro=mozilla-atlassian-ro
-    alias -g p-voice=appsvcs-voice-admin
-    alias -g p-voice-ro=appsvcs-voice-ro
-    alias -g p-sumo=mozilla-sumo-admin
-    alias -g p-sumo-ro=mozilla-sumo-ro
-    alias -g p-mdn=mozilla-mdn-admin
-    alias -g p-mdn-ro=mozilla-mdn-ro
-    alias -g p-infra=mozilla-infra-admin
-    alias -g p-infra-ro=mozilla-infra-ro
-    alias -g p-poc123=mozilla-poc123-admin
-    alias -g p-poc123-ro=mozilla-poc123-readonly
-    alias -g p-subhub=mozilla-subhub-admin
-    alias -g p-subhub-ro=mozilla-subhub-ro
-    alias -g p-netops=mozilla-netops-admin
-    alias -g p-netops-ro=mozilla-netops-ro
-    alias -g p-itsre-apps=itsre-apps-admin
-    alias -g p-istre-apps-ro=itsre-apps-ro
-
     alias -g k="kubectl"
     alias -g ka="kubectl apply -f"
     alias -g kg="kubectl get"
@@ -156,7 +127,7 @@ alias vl="vault login"
 alias aws-account-id="aws sts get-caller-identity | jq -r .Account"
 
 alias untar="tar xvf"
-alias T="tree -a -I 'tf|.git|__pycache__|.pytest_cache'"
+alias T="tree -a -I 'tf|.git|venv|__pycache__|.pytest_cache|target'"
 
 # regular alises
 alias udpate="update"
@@ -179,6 +150,8 @@ alias cdp="\$($REPO_TEST) && cd \$($REPO_ROOT) && cd ../"
 
 # projects
 alias cd-repos="cd ~/repos"
+alias cd-rusty="cd ~/tmp/rusty"
+alias cd-otto="cd ~/repos/scottidler/otto"
 alias cd-subhub="cd ~/repos/mozilla/subhub"
 alias cd-autocert="cd ~/repos/mozilla-it/autocert"
 alias cd-refractr="cd ~/repos/mozilla-it/refractr"
@@ -312,6 +285,14 @@ alias irc="irccloud-search"
 alias ap="ansible-playbook"
 
 alias fix-dns="sudo systemd-resolve --flush-caches"
+
+alias ci="cargo init"
+alias cf="cargo fmt"
+alias cc="cargo clippy"
+alias cb="cargo build"
+alias cr="cargo run --"
+alias crh="cargo run -- --help"
+alias rbt="RUST_BACKTRACE=1"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
