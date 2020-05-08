@@ -107,6 +107,10 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g kv="kubectl version"
     alias -g kvv="kubectl exec -it \$(kubectl get pods -n $CW -l app=voyager -o jsonpath={.items[0].metadata.name}) -n $CW voyager version"
     alias -g kl="kubectl logs"
+
+    alias -g e2o="2>&1"
+
+    alias -g split="2>&1 | tr ' ' '\n'"
 fi
 
 alias fail="sudo journalctl -xe"
@@ -183,7 +187,6 @@ alias pbcopy="xclip -sel clip"
 alias pbpaste="xclip -sel clip -o"
 
 alias t="kubetpl"
-alias tr="kubetpl render"
 
 alias g="git"
 alias ga="git add"
@@ -314,11 +317,15 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias lah="ls-stat -lah --color=always"
-alias ltr="ls-stat -ltr --color=always"
-alias ll="ls-stat -alF --color=always"
-alias la="ls-stat -A --color=always"
-alias l="ls-stat -CF --color=always"
+#alias lah="ls-stat -lah --color=always"
+#alias ltr="ls-stat -ltr --color=always"
+#alias ll="ls-stat -alF --color=always"
+#alias la="ls-stat -A --color=always"
+#alias l="ls-stat -CF --color=always"
+
+alias lah="exa -lah --git"
+alias ltr="exa -lr -sold"
+alias ll="exa -alF"
 
 alias json2yaml="curl -sF \"json=@-\" https://x2y.rocks/yaml"
 alias yaml2json="curl -sF \"yaml=@-\" https://x2y.rocks/json"
