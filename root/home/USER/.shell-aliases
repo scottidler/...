@@ -47,7 +47,8 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g PP="PYTHONPATH=."
     alias -g PB="| bash"
     alias -g WC="| wc -l"
-    alias -g G="| grep -i"
+    alias -g G="| grep"
+    alias -g Gi="| grep -i"
     alias -g L="| less -r"
     alias -g SU="| sort | uniq"
     alias -g SU2="| sort | uniq -c | sort -nr"
@@ -59,10 +60,6 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g F2="| cut -d' ' -f2"
     alias -g F3="| cut -d' ' -f3"
     alias -g X="| xargs -I%"
-    alias -g ns-cw="--namespace cw"
-    alias -g ns-ks="--namespace kube-system"
-    alias -g ns-rp="--namespace refractr-prod"
-    alias -g ns-rs="--namespace refractr-stage"
     alias -g b64="| base64"
     alias -g b64d="| base64 -d"
     alias -g voy-ing="ingress.voyager.appscode.com"
@@ -107,14 +104,24 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g kv="kubectl version"
     alias -g kvv="kubectl exec -it \$(kubectl get pods -n $CW -l app=voyager -o jsonpath={.items[0].metadata.name}) -n $CW voyager version"
     alias -g kl="kubectl logs"
+    alias -g ns-all="--all-namespaces"
+    alias -g ns-cw="--namespace cw"
+    alias -g ns-ks="--namespace kube-system"
+    alias -g ns-rp="--namespace refractr-prod"
+    alias -g ns-rs="--namespace refractr-stage"
 
     alias -g e2o="2>&1"
 
     alias -g split="2>&1 | tr ' ' '\n'"
+
+    alias -g RS="refractr.allizom.org"
+    alias -g LH="localhost"
+    alias -g LH80="localhost:80"
 fi
 
 alias fail="sudo journalctl -xe"
 
+alias r="refractr"
 alias R="rustc"
 alias tf="terraform"
 alias n="netlify"
@@ -146,6 +153,8 @@ alias pe="pipenv"
 alias ip-lan='ip addr show |grep "inet " |grep -v 127.0.0. |head -1|cut -d" " -f6|cut -d/ -f1 #no-expand'
 alias ip-pub="curl https://ifconfig.co"
 
+alias url-effective="curl -Ls -o /dev/null -w %{url_effective}"
+
 alias pt="papertrail"
 alias ds="dig +short"
 
@@ -162,7 +171,6 @@ alias cd-otto="cd ~/repos/scottidler/otto"
 alias cd-subhub="cd ~/repos/mozilla/subhub"
 alias cd-autocert="cd ~/repos/mozilla-it/autocert"
 alias cd-refractr="cd ~/repos/mozilla-it/refractr"
-alias cd-redirects="cd ~/repos/mozilla-it/netlify-redirects"
 alias cd-newbie-bot="cd ~/repos/mozilla-it/newbie-bot"
 alias cd-moz="cd ~/repos/mozilla/ #no-space"
 alias cd-mozit="cd ~/repos/mozilla-it/ #no-space"
