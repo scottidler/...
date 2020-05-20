@@ -52,6 +52,7 @@ pkg:
 
 apt:
   items:
+  - ldap-utils
   - fonts-powerline
   - libsmbclient-dev
   - silversearcher-ag
