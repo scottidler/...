@@ -238,6 +238,11 @@ script:
     curl -L https://github.com/jingweno/ccat/releases/latest > ccat.tar.gz
     tar xvf ccat.tar.gz
     mv ccat/ccat ~/bin/
+  fluxctl: |
+    FILENAME="fluxctl_linux_amd64"
+    LATEST="https://api.github.com/repos/fluxcd/flux/releases/latest"
+    URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"$FILENAME\")) | .browser_download_url")
+    curl -sSL $URL -o fluxctl && chmod a+x fluxctl && sudo mv fluxctl ~/bin/
   kubectl: |
     sudo apt-get update && sudo apt-get install -y apt-transport-https
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
