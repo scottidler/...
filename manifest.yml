@@ -52,6 +52,7 @@ pkg:
 
 apt:
   items:
+  - cloc
   - ldap-utils
   - fonts-powerline
   - libsmbclient-dev
