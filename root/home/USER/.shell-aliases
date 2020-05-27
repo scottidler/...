@@ -104,11 +104,12 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g kv="kubectl version"
     alias -g kvv="kubectl exec -it \$(kubectl get pods -n $CW -l app=voyager -o jsonpath={.items[0].metadata.name}) -n $CW voyager version"
     alias -g kl="kubectl logs"
-    alias -g ns-all="--all-namespaces"
+    alias -g ns="--namespace"
     alias -g ns-cw="--namespace cw"
     alias -g ns-ks="--namespace kube-system"
     alias -g ns-rp="--namespace refractr-prod"
     alias -g ns-rs="--namespace refractr-stage"
+    alias -g ns-all="--all-namespaces"
 
     alias -g e2o="2>&1"
 
