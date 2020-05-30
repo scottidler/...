@@ -126,6 +126,7 @@ alias r="refractr"
 alias R="rustc"
 alias tf="terraform"
 alias n="netlify"
+alias f="fluxctl"
 
 alias clh="curl localhost: #no-space"
 
@@ -335,6 +336,7 @@ fi
 alias lah="exa -lah --git"
 alias ltr="exa -lr -sold"
 alias ll="exa -alF"
+alias ls="exa"
 
 alias json2yaml="curl -sF \"json=@-\" https://x2y.rocks/yaml"
 alias yaml2json="curl -sF \"yaml=@-\" https://x2y.rocks/json"
