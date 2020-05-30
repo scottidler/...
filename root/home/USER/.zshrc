@@ -99,11 +99,6 @@ if [ -f ~/google-cloud-sdk/completion.bash.inc ]; then
     . ~/google-cloud-sdk/completion.bash.inc
 fi
 
-# enables python3.5 on centos 7 boxes
-if [ -f /opt/rh/rh-python35/enable ]; then
-    . /opt/rh/rh-python35/enable
-fi
-
 if [ -d /usr/local/go/bin ]; then
     export PATH=$PATH:/usr/local/go/bin
 fi
@@ -140,21 +135,6 @@ if [ -f ~/.travis/travis.sh ]; then
     . ~/.travis/travis.sh
 fi
 
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-if [[ -f ~/tmp/subhub/node_modules/tabtab/.completions/serverless.zsh ]]; then
-    . ~/tmp/subhub/node_modules/tabtab/.completions/serverless.zsh
-fi
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-if [[ -f ~/tmp/subhub/node_modules/tabtab/.completions/sls.zsh ]]; then
-    . ~/tmp/subhub/node_modules/tabtab/.completions/sls.zsh
-fi
-# tabtab source for slss package
-# uninstall by removing these lines or running `tabtab uninstall slss`
-if [[ -f ~/tmp/subhub/node_modules/tabtab/.completions/slss.zsh ]]; then
-    . ~/tmp/subhub/node_modules/tabtab/.completions/slss.zsh
-fi
 # tab complete for pyenv
 # https://github.com/pyenv/pyenv#installation
 if command -v pyenv 1>/dev/null 2>&1; then
