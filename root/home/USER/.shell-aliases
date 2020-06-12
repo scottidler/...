@@ -107,9 +107,11 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g ns="--namespace"
     alias -g ns-cw="--namespace cw"
     alias -g ns-ks="--namespace kube-system"
+    alias -g ns-fx="--namespace fluxcd"
     alias -g ns-rp="--namespace refractr-prod"
     alias -g ns-rs="--namespace refractr-stage"
     alias -g ns-all="--all-namespaces"
+    alias -g allofit="all,cert,order,secret,ingress,hr"
 
     alias -g e2o="2>&1"
 
@@ -176,6 +178,8 @@ alias cd-refractr="cd ~/repos/mozilla-it/refractr"
 alias cd-newbie-bot="cd ~/repos/mozilla-it/newbie-bot"
 alias cd-moz="cd ~/repos/mozilla/ #no-space"
 alias cd-mozit="cd ~/repos/mozilla-it/ #no-space"
+alias cd-redirects="cd ~/repos/sysadmins/puppet/modules/redirects/files/prod/etc-httpd-confd"
+alias cd-leatherman="cd ~/repos/scottidler/leatherman"
 
 alias d="docker"
 alias dc="docker-compose"
