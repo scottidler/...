@@ -297,6 +297,10 @@ script:
     wget -q $URL
     unzip $ZIP && rm $ZIP && mv exa-linux-x86_64 ~/bin/exa
     sudo mkdir -p $CMPLT_DIR && sudo wget -qO $CMPLT_DIR/_exa $CMPLT_URL
+  helm: |
+    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+    chmod 700 get_helm.sh
+    ./get_helm.sh; rm ./get_helm.sh
   papertrail: |
     sudo gem install papertrail
   nordvpn: |
