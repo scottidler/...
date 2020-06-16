@@ -147,7 +147,6 @@ github:
     link:
       bin/cidr: ~/bin/cidr
       bin/say: ~/bin/say
-      bin/scp: ~/bin/scp
       bin/speedtest: ~/bin/speedtest
       bin/tab: ~/bin/tab
       bin/tab1: ~/bin/tab1
@@ -173,9 +172,6 @@ github:
   scottidler/ls-stat:
     link:
       ls-stat: ~/bin/ls-stat
-  scottidler/ssh-ident:
-    link:
-      ssh-ident: ~/bin/ssh
   scottidler/y2j:
     link:
       bin/y2j: ~/bin/y2j
