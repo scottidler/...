@@ -340,6 +340,7 @@ fi
 alias lah="exa -lah --git"
 alias ltr="exa -lr -sold"
 alias ll="exa -alF"
+alias la="exa -la"
 alias ls="exa"
 
 alias json2yaml="curl -sF \"json=@-\" https://x2y.rocks/yaml"
