@@ -35,8 +35,7 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     disable -a \8
     disable -a \9
 
-    alias /="rg"
-    alias //="rg --hidden"
+    alias /="rg --hidden"
     alias cd..="cd .."
     alias cd../=cd../""
 
@@ -86,6 +85,7 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g kgd="kubectl get deployment"
     alias -g kgc="kubectl get certificate"
     alias -g kgh="kubectl get helmrelease"
+    alias -g kgn="kubectl get networkpolicy"
     alias -g kgv="kubectl get ingress.voyager.appscode.com"
     alias -g kd="kubectl describe"
     alias -g kdC="kubectl describe crd"
@@ -106,6 +106,7 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g kl="kubectl logs"
     alias -g ns="--namespace"
     alias -g ns-cw="--namespace cw"
+    alias -g ns-cm="--namespace cert-manager"
     alias -g ns-ks="--namespace kube-system"
     alias -g ns-fx="--namespace fluxcd"
     alias -g ns-rp="--namespace refractr-prod"
