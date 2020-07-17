@@ -248,6 +248,11 @@ script:
   kubetpl: |
     URL=https://github.com/shyiko/kubetpl/releases/download/0.9.0/kubetpl-0.9.0-linux-amd64
     curl -sSL $URL -o kubetpl && chmod a+x kubetpl && sudo mv kubetpl ~/bin/
+  kind: |
+    FILENAME="kind-linux-amd64"
+    LATEST="https://api.github.com/repos/kubernetes-sigs/kind/releases/latest"
+    URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"$FILENAME\")) | .browser_download_url")
+    curl -sSL $URL -o kind && chmod a+x kind && sudo mv kind ~/bin/
   spotify: |
     # 1. Add the Spotify repository signing keys to be able to verify downloaded packages
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
