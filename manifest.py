@@ -70,6 +70,16 @@ linker() {
 }
 '''.lstrip('\n').rstrip()
 
+LATEST = '''
+latest() {
+    FILENAME="$1"
+    LATEST="$2"
+    NAME="${3:-"$FILENAME"}"
+    URL="$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\\"$FILENAME\\")) | .browser_download_url")"
+    curl -sSL $URL -o "$NAME" && chmod a+x "$NAME" && mv "$NAME" ~/bin/
+}
+'''.lstrip('\n').rstrip()
+
 class UnknownPkgmgrError(Exception):
     def __init__(self):
         super(UnknownPkgmgrError, self).__init__('unknown pkgmgr!')
@@ -342,10 +352,14 @@ class Script(ManifestType):
 
     __str__ = __repr__
 
+    def functions(self):
+        return LATEST
+
     def render(self):
         if not self.items:
             return ''
-        return 'echo "scripts:"\n\n' +  '\n\n'.join([f"echo \"{name}:\"\nbash << 'EOM'\n{script}\nEOM" for name, script in self.items.items()])
+        #return 'echo "scripts:"\n\n' +  '\n\n'.join([f"echo \"{name}:\"\nbash << 'EOM'\n{script}\nEOM" for name, script in self.items.items()])
+        return 'echo "scripts:"\n\n' +  '\n\n'.join([f"echo \"{name}:\"\n{script}\n" for name, script in self.items.items()])
 
 class Manifest():
     def __init__(

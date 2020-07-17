@@ -234,25 +234,27 @@ script:
     curl -L https://github.com/jingweno/ccat/releases/latest > ccat.tar.gz
     tar xvf ccat.tar.gz
     mv ccat/ccat ~/bin/
-  fluxctl: |
-    FILENAME="fluxctl_linux_amd64"
-    LATEST="https://api.github.com/repos/fluxcd/flux/releases/latest"
-    URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"$FILENAME\")) | .browser_download_url")
-    curl -sSL $URL -o fluxctl && chmod a+x fluxctl && sudo mv fluxctl ~/bin/
   kubectl: |
     sudo apt-get update && sudo apt-get install -y apt-transport-https
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
     sudo apt-get update
     sudo apt-get install -y kubectl
+  fluxctl: |
+    latest \
+      "fluxctl_linux_amd64" \
+      "https://api.github.com/repos/fluxcd/flux/releases/latest" \
+      "fluxctl"
   kubetpl: |
-    URL=https://github.com/shyiko/kubetpl/releases/download/0.9.0/kubetpl-0.9.0-linux-amd64
-    curl -sSL $URL -o kubetpl && chmod a+x kubetpl && sudo mv kubetpl ~/bin/
+    latest \
+      "linux-amd64" \
+      "https://api.github.com/repos/shyiko/kubetpl/releases/latest" \
+      "kubetpl"
   kind: |
-    FILENAME="kind-linux-amd64"
-    LATEST="https://api.github.com/repos/kubernetes-sigs/kind/releases/latest"
-    URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"$FILENAME\")) | .browser_download_url")
-    curl -sSL $URL -o kind && chmod a+x kind && sudo mv kind ~/bin/
+    latest \
+      "kind-linux-amd64" \
+      "https://api.github.com/repos/kubernetes-sigs/kind/releases/latest" \
+      "kind"
   spotify: |
     # 1. Add the Spotify repository signing keys to be able to verify downloaded packages
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
