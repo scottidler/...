@@ -21,6 +21,7 @@ pkg:
   - pass
   - tmux
   - tree
+  - sshfs
   - cargo
   - pwgen
   - whois
