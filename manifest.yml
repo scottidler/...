@@ -89,6 +89,7 @@ apt:
   - libcups2-dev #ref: https://ubuntuforums.org/showthread.php?t=1269926
   - libkrb5-dev #ref: https://github.com/mongodb-js/kerberos/issues/45
   - wmctrl #for ./layout script
+  - install mozilla-aws-cli-mozilla # for MAWS
 
 dnf:
   items:
