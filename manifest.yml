@@ -37,10 +37,8 @@ pkg:
   - meld
   - rsync
   - xclip
-  - python
   - ansible
   - dconf-cli
-  - python-pip
   - python3-pip
   - anki
   - flatpak
@@ -60,7 +58,6 @@ apt:
   - silversearcher-ag
   - httpie
   - pianobar
-  - python-dev
   - python3-dev
   - libffi-dev
   - libicu-dev
@@ -72,7 +69,6 @@ apt:
   - openvpn
   - network-manager-openvpn
   - network-manager-openvpn-gnome
-  - firefox-trunk
   - libcurl4-openssl-dev
   - librsync-dev
   - libglib2.0-dev
@@ -89,14 +85,13 @@ apt:
   - libcups2-dev #ref: https://ubuntuforums.org/showthread.php?t=1269926
   - libkrb5-dev #ref: https://github.com/mongodb-js/kerberos/issues/45
   - wmctrl #for ./layout script
-  - install mozilla-aws-cli-mozilla # for MAWS
+    #- install mozilla-aws-cli-mozilla # for MAWS
 
 dnf:
   items:
   - the_silver_searcher
   - gcc
   - libffi-devel
-  - python-devel
   - openssl-devel
   - python3-devel
 
@@ -281,7 +276,7 @@ script:
   keybase: |
     # src: https://keybase.io/docs/the_app/install_linux
     curl --remote-name https://prerelease.keybase.io/keybase_amd64.deb
-    sudo apt install ./keybase_amd64.deb
+    sudo apt install -y ./keybase_amd64.deb
     rm -rf keybase_amd64.deb
     run_keybase
   ripgrep: |
