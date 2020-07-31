@@ -27,6 +27,7 @@ pkg:
   - whois
   - mpg123
   - autossh
+  - gettext
   - xdotool
   - graphviz
   - shellcheck
