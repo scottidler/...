@@ -1,6 +1,8 @@
 [user]
 	email = scott.a.idler@gmail.com
-	name = Scott Idler
+    name = Scott Idler
+[init]
+    templateDir = ~/.config/git/template/
 [log]
 	date = local
 [core]
