@@ -79,6 +79,7 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g ka="kubectl apply -f"
     alias -g kg="kubectl get"
     alias -g kga="kubectl get all"
+    alias -g kgA="kubectl get all,cert,order,secret,ingress,hr"
     alias -g kgC="kubectl get crd"
     alias -g kgp="kubectl get pod"
     alias -g kgs="kubectl get svc"
