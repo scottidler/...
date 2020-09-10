@@ -80,9 +80,7 @@ latest() {
     TMPDIR=$(mkdir -p /tmp/manifest && mktemp -d /tmp/manifest/XXX)
     pushd $TMPDIR
     curl -sSL $URL -o $FILENAME
-    if [[ $FILENAME =~ \.tar\.gz ]]; then
-        tar xvf $FILENAME
-    fi
+    [[ $FILENAME =~ \.tar\.gz ]] && tar xvf $FILENAME
     chmod a+x "$NAME" && cp "$NAME" ~/bin/
     popd
 }
