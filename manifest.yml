@@ -254,6 +254,11 @@ script:
       "kind-linux-amd64" \
       "https://api.github.com/repos/kubernetes-sigs/kind/releases/latest" \
       "kind"
+  k9s: |
+    latest \
+      "k9s_Linux_x86_64" \
+      "https://api.github.com/repos/derailed/k9s/releases/latest" \
+      "k9s"
   spotify: |
     # 1. Add the Spotify repository signing keys to be able to verify downloaded packages
     sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
