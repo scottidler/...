@@ -72,11 +72,19 @@ linker() {
 
 LATEST = '''
 latest() {
-    FILENAME="$1"
+    PATTERN="$1"
     LATEST="$2"
-    NAME="${3:-"$FILENAME"}"
-    URL="$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\\"$FILENAME\\")) | .browser_download_url")"
-    curl -sSL $URL -o "$NAME" && chmod a+x "$NAME" && mv "$NAME" ~/bin/
+    NAME="${3:-"$PATTERN"}"
+    URL="$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\\"$PATTERN\\")) | .browser_download_url")"
+    FILENAME=$(basename $URL)
+    TMPDIR=$(mkdir -p /tmp/manifest && mktemp -d /tmp/manifest/XXX)
+    pushd $TMPDIR
+    curl -sSL $URL -o $FILENAME
+    if [[ $FILENAME =~ \.tar\.gz ]]; then
+        tar xvf $FILENAME
+    fi
+    chmod a+x "$NAME" && cp "$NAME" ~/bin/
+    popd
 }
 '''.lstrip('\n').rstrip()
 
@@ -358,7 +366,6 @@ class Script(ManifestType):
     def render(self):
         if not self.items:
             return ''
-        #return 'echo "scripts:"\n\n' +  '\n\n'.join([f"echo \"{name}:\"\nbash << 'EOM'\n{script}\nEOM" for name, script in self.items.items()])
         return 'echo "scripts:"\n\n' +  '\n\n'.join([f"echo \"{name}:\"\n{script}\n" for name, script in self.items.items()])
 
 class Manifest():
