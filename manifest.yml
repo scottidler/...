@@ -214,6 +214,11 @@ github:
       bin/tfenv: ~/bin/tfenv
 
 script:
+  github-cli: |
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+    sudo apt-add-repository https://cli.github.com/packages
+    sudo apt update
+    sudo apt install gh
   vim+git: |
     sudo apt-get install -y vim git
     sudo update-alternatives --set editor /usr/bin/vim.basic
