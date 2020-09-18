@@ -133,9 +133,6 @@ github:
       bin/ls-org-repos: ~/bin/ls-org-repos
       shell-functions.sh: ~/.shell-functions.d/clone.sh
       cfg/clone.cfg: ~/.clone/clone/clone.cfg
-  scottidler/vault:
-    link:
-      shell-functions.sh: ~/.shell-functions.d/vault.sh
   scottidler/mawsh:
     link:
       shell-functions.sh: ~/.shell-functions.d/mawsh.sh
