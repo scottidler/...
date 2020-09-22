@@ -177,6 +177,7 @@ alias cdpr="\$($REPO_TEST) && {cd ../; cd \$($REPO_ROOT)}"
 alias cdp="\$($REPO_TEST) && cd \$($REPO_ROOT) && cd ../"
 
 # projects
+alias cd-tmp="cd ~/tmp"
 alias cd-repos="cd ~/repos"
 alias cd-rusty="cd ~/tmp/rusty"
 alias cd-otto="cd ~/repos/scottidler/otto"
