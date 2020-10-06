@@ -123,6 +123,8 @@ pipx:
 npm:
   items:
   - diff-so-fancy
+  - wt-cli
+
 
 github:
   scottidler/git:
