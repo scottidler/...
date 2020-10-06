@@ -120,6 +120,14 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g ns-all="--all-namespaces"
     alias -g allofit="all,cert,order,secret,ingress,hr"
 
+    alias -g ra="record:a"
+    alias -g rc="record:cname"
+    alias -g rh="record:host"
+    alias -g rt="record:txt"
+
+    alias -g p="Public"
+    alias -g P="Private"
+
     alias -g e2o="2>&1"
 
     alias -g split="2>&1 | tr ' ' '\n'"
@@ -132,6 +140,7 @@ fi
 alias fail="sudo journalctl -xe"
 
 alias r="refractr"
+alias fd="flip-dns"
 alias R="rustc"
 alias tf="terraform"
 alias tf-fmt="terraform fmt -write=true -diff=true"
@@ -190,6 +199,10 @@ alias cd-moz="cd ~/repos/mozilla/ #no-space"
 alias cd-mozit="cd ~/repos/mozilla-it/ #no-space"
 alias cd-redirects="cd ~/repos/sysadmins/puppet/modules/redirects/files/prod/etc-httpd-confd"
 alias cd-leatherman="cd ~/repos/scottidler/leatherman"
+
+alias bt="bloxtool"
+
+alias cf="curl-follow"
 
 alias d="docker"
 alias dc="docker-compose"
@@ -319,7 +332,7 @@ alias ap="ansible-playbook"
 alias fix-dns="sudo systemd-resolve --flush-caches"
 
 alias ci="cargo init"
-alias cf="cargo fmt"
+alias cF="cargo fmt"
 alias cc="cargo clippy"
 alias cb="cargo build"
 alias cr="cargo run --"
