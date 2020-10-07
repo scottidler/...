@@ -1,7 +1,9 @@
 [user]
 	email = scott.a.idler@gmail.com
 	name = Scott Idler
-	signingkey = 1637717AA84258312B7D4DA7883230927DBA8672
+    signingkey = 1637717AA84258312B7D4DA7883230927DBA8672
+[commit]
+    gpgsign = true
 [log]
 	date = local
 [core]
