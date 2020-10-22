@@ -199,6 +199,8 @@ alias cd-moz="cd ~/repos/mozilla/ #no-space"
 alias cd-mozit="cd ~/repos/mozilla-it/ #no-space"
 alias cd-redirects="cd ~/repos/sysadmins/puppet/modules/redirects/files/prod/etc-httpd-confd"
 alias cd-leatherman="cd ~/repos/scottidler/leatherman"
+alias cd-itse-apps-prod="cd ~/repos/mozilla-it/itse-apps-prod-1-infra"
+alias cd-itse-apps-stage="cd ~/repos/mozilla-it/itse-apps-stage-1-infra"
 
 alias bt="bloxtool"
 
