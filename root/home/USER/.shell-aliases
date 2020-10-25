@@ -143,7 +143,7 @@ alias r="refractr"
 alias fd="flip-dns"
 alias R="rustc"
 alias tf="terraform"
-alias tf-fmt="terraform fmt -write=true -diff=true"
+alias tf-fmt="terraform fmt -write=true -diff=true -recursive"
 alias n="netlify"
 alias f="fluxctl"
 
@@ -371,3 +371,7 @@ alias ls="exa"
 
 alias json2yaml="curl -sF \"json=@-\" https://x2y.rocks/yaml"
 alias yaml2json="curl -sF \"yaml=@-\" https://x2y.rocks/json"
+
+if [ -d ~/.shell-aliases.d/ ]; then
+    for f in ~/.shell-aliases.d/*; do . $f; done
+fi
