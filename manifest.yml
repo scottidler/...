@@ -156,7 +156,7 @@ github:
       shell-functions.sh: ~/.shell-functions.d/helpful.sh
   scottidler/person-api-helpers:
     link:
-      shell-functions.sh: ~/.shell-functions.d/helpful.sh
+      shell-functions.sh: ~/.shell-functions.d/person-api-helpers.sh
   scottidler/dock:
     link:
       dock: ~/bin/dock
@@ -356,3 +356,8 @@ script:
     # Update and install syncthing:
     sudo apt-get update
     sudo apt-get install syncthing
+  nightly: |
+    APP_DIR=~/.local/share/applications/
+    NIGHTLY_CFG=~/.config/nightly/nightly.desktop
+    desktop-file-validate $NIGHTLY_CFG
+    desktop-file-install --dir=$APP_DIR $NIGHTLY_CFG
