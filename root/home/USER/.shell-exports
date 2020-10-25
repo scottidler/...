@@ -24,3 +24,7 @@ export slack_pane=0,1792,1400,1024,700
 export spotify_pane=0,2816,1400,1024,700
 export home_pane=0,1792,0,1024,1400
 export work_pane=0,2816,0,1024,1400
+
+if [ -d ~/.shell-exports.d/ ]; then
+    for f in ~/.shell-exports.d/*; do . $f; done
+fi
