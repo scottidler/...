@@ -121,9 +121,10 @@ if [[ "$CURRENT_SHELL" == "zsh" ]]; then
     alias -g allofit="all,cert,order,secret,ingress,hr"
 
     alias -g ra="record:a"
-    alias -g rc="record:cname"
-    alias -g rh="record:host"
-    alias -g rt="record:txt"
+    alias -g rcaa="record:caa"
+    alias -g rcname="record:cname"
+    alias -g rhost="record:host"
+    alias -g rtxt="record:txt"
 
     alias -g p="Public"
     alias -g P="Private"
@@ -201,6 +202,7 @@ alias cd-redirects="cd ~/repos/sysadmins/puppet/modules/redirects/files/prod/etc
 alias cd-leatherman="cd ~/repos/scottidler/leatherman"
 alias cd-itse-apps-prod="cd ~/repos/mozilla-it/itse-apps-prod-1-infra"
 alias cd-itse-apps-stage="cd ~/repos/mozilla-it/itse-apps-stage-1-infra"
+alias cd-sso-dashboard="cd ~/repos/mozilla-iam/sso-dashboard-configuration"
 
 alias bt="bloxtool"
 
