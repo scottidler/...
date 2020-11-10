@@ -49,6 +49,7 @@ pkg:
   - curl
   - gnupg-agent
   - software-properties-common
+  - magic-wormhole
 
 apt:
   items:
@@ -66,6 +67,7 @@ apt:
   - libssl-dev
   - libffi-dev
   - libdbus-1-dev
+    libsnappy-dev
   - build-essential
   - portaudio19-dev
   - openvpn
