@@ -164,7 +164,7 @@ alias vl="vault login"
 alias aws-account-id="aws sts get-caller-identity | jq -r .Account"
 
 alias untar="tar xvf"
-alias T="tree -a -I 'tf|.git|venv|__pycache__|.pytest_cache|target'"
+alias T="tree -a -I '.*|__*|tf|venv|target'"
 
 # regular alises
 alias udpate="update"
@@ -196,6 +196,7 @@ alias cd-subhub="cd ~/repos/mozilla/subhub"
 alias cd-autocert="cd ~/repos/mozilla-it/autocert"
 alias cd-refractr="cd ~/repos/mozilla-it/refractr"
 alias cd-helm-charts="cd ~/repos/mozilla-it/helm-charts"
+alias cd-terraform-modules="cd ~/repos/mozilla-it/terraform-modules"
 alias cd-newbie-bot="cd ~/repos/mozilla-it/newbie-bot"
 alias cd-moz="cd ~/repos/mozilla/ #no-space"
 alias cd-mozit="cd ~/repos/mozilla-it/ #no-space"
