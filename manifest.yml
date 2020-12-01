@@ -342,8 +342,8 @@ script:
     sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
     sudo apt update
     sudo apt install code
-  pulse: |
-    LATEST=https://api.github.com/repos/klinker-apps/pulse-sms-desktop/releases/latest
+  pulse-sms: |
+    LATEST=https://api.github.com/repos/maplemedia/pulse-sms-desktop/releases/latest
     URL=$(curl -sL $LATEST | jq -r '.assets[] | select(.name | contains("deb")) | .browser_download_url')
     DEB=$(basename $URL)
     wget -q $URL
