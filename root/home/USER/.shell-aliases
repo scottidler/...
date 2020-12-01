@@ -149,6 +149,8 @@ alias tf-fmt="terraform fmt -write=true -diff=true -recursive"
 alias n="netlify"
 alias f="fluxctl"
 
+alias ct="cat Cargo.toml"
+
 alias clh="curl localhost: #no-space"
 
 alias cat="ccat"
