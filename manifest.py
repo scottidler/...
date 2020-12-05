@@ -40,6 +40,7 @@ SECTIONS = [
 UID = os.getuid()
 GID = pwd.getpwuid(UID).pw_gid
 USER = pwd.getpwuid(UID).pw_name
+HOME = pwd.getpwuid(UID).pw_dir
 
 DEBUG = '''
 if [ -n "$DEBUG" ]; then
@@ -192,17 +193,31 @@ class ContinuePackageType(PackageType):
 {self.render_block()} {self.render_items()}
         '''.lstrip('\n').rstrip()
 
+def path2str(func):
+    def wrapper(*args, **kwargs):
+        args = map(lambda p: p.as_posix() if isinstance(p, Path) else p, args)
+        return func(*args, **kwargs)
+    return wrapper
+
+@path2str
+def divine_src(filepath, cwd):
+    return os.path.join(cwd, filepath)
+@path2str
+def divine_dst(filepath, srcpath, dstpath):
+    return re.sub(srcpath, dstpath, filepath)
+@path2str
+def interpolate_home(filepath, home):
+    return re.sub('\$HOME', home, filepath)
+@path2str
+def interpolate_root(filepath, root='/'):
+    return re.sub('ROOT', root, filepath)
 
 class Link(HeredocPackageType):
-    def __init__(self, spec, patterns, cwd=None, user=None, **kwargs):
+    def __init__(self, spec, patterns, cwd=None, root='/', home=None, **kwargs):
         self.cwd = cwd
-        self.user = user
+        self.root = root
+        self.home = home
         self.recursive = spec.pop('recursive', False)
-        def interpolate_rootpath(filepath, rootpath):
-            dst = re.sub(srcpath, rootpath, filepath)
-            return os.path.realpath(dst)
-        def interpolate_user(filepath, user):
-            return re.sub(f'USER', user, filepath)
         if self.recursive:
             self.items = []
             for srcpath, dstpath in spec.items():
@@ -212,12 +227,13 @@ class Link(HeredocPackageType):
                     if not item.is_dir()
                 ]
                 for item in items:
-                    src = os.path.join(cwd, item.as_posix())
-                    dst = interpolate_rootpath(item.as_posix(), dstpath)
-                    dst = interpolate_user(dst, user)
+                    src = divine_src(item, cwd)
+                    dst = divine_dst(item, srcpath, dstpath)
+                    dst = interpolate_root(dst, root)
+                    dst = interpolate_home(dst, home)
                     self.items += [(src, dst)]
         else:
-            self.items = [(os.path.join(cwd, src), interpolate_user(dst, user)) for src, dst in spec.items()]
+            self.items = [(os.path.join(cwd, src), interpolate_home(dst, home)) for src, dst in spec.items()]
 
     def __repr__(self):
         return f'{type(self).__name__}(recursive={self.recursive}, items={self.items})'
@@ -480,9 +496,9 @@ def main(args):
         default=REAL_PATH,
         help='default="%(default)s"; set the cwd')
     parser.add_argument(
-        '-U', '--user',
-        default=USER,
-        help='default="%(default)s"; specify user if not current')
+        '-H', '--home',
+        default=HOME,
+        help='default="%(default)s"; specify HOME if not current')
     parser.add_argument(
         '-M', '--pkgmgr',
         default=get_pkgmgr(),
