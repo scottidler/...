@@ -166,7 +166,7 @@ alias vl="vault login"
 alias aws-account-id="aws sts get-caller-identity | jq -r .Account"
 
 alias untar="tar xvf"
-alias T="tree -a -I '.*|__*|tf|venv|target'"
+alias T="tree -a -I '.*|__*|tf|venv|target|incremental'"
 
 # regular alises
 alias udpate="update"
