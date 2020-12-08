@@ -16,7 +16,7 @@ REPONAME_PN="s;^(git|ssh|https)://([A-Za-z0-9\-\_]+@)?([A-Za-z0-9\.]+)/;;"
 BRANCH_NAME="git rev-parse --abbrev-ref HEAD"
 REMOTE_ORIGIN_URL="git config --get remote.origin.url"
 NEAREST_TAG="git describe --abbrev=0"
-CURRENT_SHELL="$(ps -o fname --no-headers $$)"
+CURRENT_SHELL="$(ps -o ucomm $$)"
 
 # global aliases, zsh only
 if [[ "$CURRENT_SHELL" == "zsh" ]]; then
