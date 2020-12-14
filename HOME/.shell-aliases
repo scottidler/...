@@ -61,12 +61,8 @@ if [[ "$SHELL" == *"zsh" ]]; then
     alias -g X="| xargs -I%"
     alias -g b64="| base64"
     alias -g b64d="| base64 -d"
-    alias -g voy-ing="ingress.voyager.appscode.com"
-    alias -g voy-crt="certificate.voyager.appscode.com"
     alias -g header-sort="| $HEADER_SORT1"
     alias -g pb="props-bot"
-    alias -g nb="newbie-bot"
-    alias -g ac="autocert"
     alias -g oj="-o json"
     alias -g oy="-o yaml"
     alias -g after---="awk 'f;/---/{f=1}'"
@@ -119,28 +115,16 @@ if [[ "$SHELL" == *"zsh" ]]; then
     alias -g ns-all="--all-namespaces"
     alias -g allofit="all,cert,order,secret,ingress,hr"
 
-    alias -g ra="record:a"
-    alias -g rcaa="record:caa"
-    alias -g rcname="record:cname"
-    alias -g rhost="record:host"
-    alias -g rtxt="record:txt"
-
-    alias -g p="Public"
-    alias -g P="Private"
-
     alias -g e2o="2>&1"
 
     alias -g split="2>&1 | tr ' ' '\n'"
 
-    alias -g RS="refractr.allizom.org"
     alias -g LH="localhost"
     alias -g LH80="localhost:80"
 fi
 
 alias fail="sudo journalctl -xe"
 
-alias r="refractr"
-alias fd="flip-dns"
 alias R="rustc"
 alias tf="terraform"
 alias mk="minikube"
@@ -193,21 +177,11 @@ alias cd-tmp="cd ~/tmp"
 alias cd-repos="cd ~/repos"
 alias cd-rusty="cd ~/tmp/rusty"
 alias cd-otto="cd ~/repos/scottidler/otto"
-alias cd-subhub="cd ~/repos/mozilla/subhub"
-alias cd-autocert="cd ~/repos/mozilla-it/autocert"
-alias cd-refractr="cd ~/repos/mozilla-it/refractr"
 alias cd-helm-charts="cd ~/repos/mozilla-it/helm-charts"
 alias cd-terraform-modules="cd ~/repos/mozilla-it/terraform-modules"
-alias cd-newbie-bot="cd ~/repos/mozilla-it/newbie-bot"
 alias cd-moz="cd ~/repos/mozilla/ #no-space"
 alias cd-mozit="cd ~/repos/mozilla-it/ #no-space"
-alias cd-redirects="cd ~/repos/sysadmins/puppet/modules/redirects/files/prod/etc-httpd-confd"
 alias cd-leatherman="cd ~/repos/scottidler/leatherman"
-alias cd-itse-apps-prod="cd ~/repos/mozilla-it/itse-apps-prod-1-infra"
-alias cd-itse-apps-stage="cd ~/repos/mozilla-it/itse-apps-stage-1-infra"
-alias cd-sso-dashboard="cd ~/repos/mozilla-iam/sso-dashboard-configuration"
-
-alias bt="bloxtool"
 
 alias cf="curl-follow"
 
@@ -314,14 +288,9 @@ alias pegrn="| egrn"
 alias psgrep="ps aux | grep -v grep | grep"
 alias awsenv="env | grep AWS_"
 
-alias moz="ssh sidler@moz.lan"
 alias xps="ssh saidler@xps.lan"
-alias mint="ssh saidler@mint.lan"
-alias pffw="ssh saidler@pffw.lan"
 alias fog="ssh saidler@fog.linode"
 
-alias pip2="sudo -H python2 -m pip"
-alias pip2.7="sudo -H python2.7 -m pip"
 alias pip3="sudo -H python3 -m pip"
 alias pip3-ii="sudo -H python3 -m pip install -U --ignore-installed"
 alias pip3.6="sudo -H python3.6 -m pip"
