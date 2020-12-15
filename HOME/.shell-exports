@@ -15,7 +15,7 @@ PATH=$HOME/bin:/home/$USER/go/bin:$(echo -n $PATH | sed -e "s|:/home/$USER/bin:|
 
 export LESS=-Xr
 
-export OS=$(uname -s)
+export OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 export ARCH=$(uname -m)
 
 export AWS_VAULT_BACKEND=secret-service
