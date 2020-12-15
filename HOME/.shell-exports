@@ -15,6 +15,9 @@ PATH=$HOME/bin:/home/$USER/go/bin:$(echo -n $PATH | sed -e "s|:/home/$USER/bin:|
 
 export LESS=-Xr
 
+export OS=$(uname -s)
+export ARCH=$(uname -m)
+
 export AWS_VAULT_BACKEND=secret-service
 export ANSIBLE_NOCOWS=1
 #export GOROOT=~/go
