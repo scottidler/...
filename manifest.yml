@@ -304,7 +304,6 @@ script:
     wget -q $URL
     sudo apt install ./$DEB && rm ./$DEB
   exa: |
-    ARCH="amd64"
     LATEST="https://api.github.com/repos/ogham/exa/releases/latest"
     CMPLT_DIR="/usr/local/share/zsh/site-functions"
     CMPLT_URL="https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh"
@@ -313,6 +312,12 @@ script:
     wget -q $URL
     unzip $ZIP && rm $ZIP && mv exa-linux-x86_64 ~/bin/exa
     sudo mkdir -p $CMPLT_DIR && sudo wget -qO $CMPLT_DIR/_exa $CMPLT_URL
+  exercism: |
+    LATEST="https://api.github.com/repos/exercism/cli/releases/latest"
+    URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"$OS-$ARCH\")) | .browser_download_url")
+    wget -q $URL
+    tar xvf $(basename $URL)
+    mv exercism ~/bin/ && rm $(basename $URL)
   helm: |
     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
     chmod 700 get_helm.sh
