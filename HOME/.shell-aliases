@@ -131,6 +131,7 @@ alias mk="minikube"
 alias tf-fmt="terraform fmt -write=true -diff=true -recursive"
 alias n="netlify"
 alias f="fluxctl"
+alias ex="exercism"
 
 alias ct="cat Cargo.toml"
 
