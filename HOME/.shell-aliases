@@ -133,8 +133,6 @@ alias n="netlify"
 alias f="fluxctl"
 alias ex="exercism"
 
-alias ct="cat Cargo.toml"
-
 alias clh="curl localhost: #no-space"
 
 alias cat="ccat"
@@ -313,6 +311,7 @@ alias cF="cargo fmt"
 alias cc="cargo clippy"
 alias cb="cargo build"
 alias cr="cargo run --"
+alias ct="cargo test"
 alias crh="cargo run -- --help"
 alias rbt="RUST_BACKTRACE=1"
 
