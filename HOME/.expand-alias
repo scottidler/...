@@ -26,8 +26,8 @@ expand-alias-space() {
     fi
     if [ -n "$EXPAND_ALIAS" ]; then
         no_spaces=($(get-aliases "#no-space"))
-        ignores=($(get-aliases "no-expand"))
-        [[ $LBUFFER =~ "\<(${(j:|:)no_spaces})\$" ]]; blank=$?
+        ignores=($(get-aliases "#no-expand"))
+        [[ $LBUFFER =~ "\<(${(j:|:)no_spaces})\$" ]] && blank=$?
         if [[ ! $LBUFFER =~ "\<(${(j:|:)ignores})\$" ]]; then
             zle _expand_alias
         else
@@ -46,9 +46,9 @@ expand-alias-accept-line() {
         set -x
     fi
     if [ -n "$EXPAND_ALIAS" ]; then
-        no_spaces=($(get-aliases "#!space"))
-        ignores=($(get-aliases "#!expand"))
-        [[ $BUFFER =~ "\<(${(j:|:)no_spaces})\$" ]]; blank=$?
+        no_spaces=($(get-aliases "#no-space"))
+        ignores=($(get-aliases "#no-expand"))
+        [[ $BUFFER =~ "\<(${(j:|:)no_spaces})\$" ]] && blank=$?
         if [[ ! $BUFFER =~ "\<(${(j:|:)ignores})\$" ]]; then
             zle _expand_alias
         else
