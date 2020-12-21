@@ -182,7 +182,7 @@ github:
   pyenv/pyenv:
     link:
       ./: ~/.pyenv
-  mozilla-it/repo:
+  scottidler/repo:
     link:
       bin/repo: ~/bin/repo
   mozilla-it/cert-tools:
