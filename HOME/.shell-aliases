@@ -133,6 +133,8 @@ alias n="netlify"
 alias f="fluxctl"
 alias ex="exercism"
 
+alias ct="cat Cargo.toml"
+
 alias clh="curl localhost: #no-space"
 
 alias cat="ccat"
@@ -177,9 +179,9 @@ alias cd-repos="cd ~/repos"
 alias cd-rusty="cd ~/tmp/rusty"
 alias cd-otto="cd ~/repos/scottidler/otto"
 alias cd-helm-charts="cd ~/repos/mozilla-it/helm-charts"
+alias cd-philo="cd ~/repos/tatari-tv/philo"
+alias cd-philo-fe="cd ~/repos/tatari-tv/philo-fe"
 alias cd-terraform-modules="cd ~/repos/mozilla-it/terraform-modules"
-alias cd-moz="cd ~/repos/mozilla/ #no-space"
-alias cd-mozit="cd ~/repos/mozilla-it/ #no-space"
 alias cd-leatherman="cd ~/repos/scottidler/leatherman"
 
 alias cf="curl-follow"
@@ -311,7 +313,6 @@ alias cF="cargo fmt"
 alias cc="cargo clippy"
 alias cb="cargo build"
 alias cr="cargo run --"
-alias ct="cargo test"
 alias crh="cargo run -- --help"
 alias rbt="RUST_BACKTRACE=1"
 
