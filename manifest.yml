@@ -156,9 +156,6 @@ github:
       bin/toggle: ~/bin/toggle
       bin/toggle-remote-url: ~/bin/toggle-remote-url
       shell-functions.sh: ~/.shell-functions.d/helpful.sh
-  scottidler/person-api-helpers:
-    link:
-      shell-functions.sh: ~/.shell-functions.d/person-api-helpers.sh
   scottidler/dock:
     link:
       dock: ~/bin/dock
