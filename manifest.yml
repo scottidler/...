@@ -176,9 +176,6 @@ github:
     link:
       bin/y2j: ~/bin/y2j
       bin/j2y: ~/bin/j2y
-  pyenv/pyenv:
-    link:
-      ./: ~/.pyenv
   scottidler/repo:
     link:
       bin/repo: ~/bin/repo
