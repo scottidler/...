@@ -147,6 +147,10 @@ alias v="vault"
 alias ve="vault exec"
 alias vl="vault login"
 
+alias printr="print -r -- = #no-space"
+
+alias pip-search="pip_search"
+
 alias aws-account-id="aws sts get-caller-identity | jq -r .Account"
 
 alias untar="tar xvf"
