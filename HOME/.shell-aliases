@@ -294,7 +294,6 @@ alias psgrep="ps aux | grep -v grep | grep"
 alias awsenv="env | grep AWS_"
 
 alias xps="ssh saidler@xps.lan"
-alias fog="ssh saidler@fog.linode"
 
 alias pip3="sudo -H python3 -m pip"
 alias pip3-ii="sudo -H python3 -m pip install -U --ignore-installed"
