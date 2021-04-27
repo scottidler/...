@@ -116,6 +116,27 @@ kinds:
 
             {py-footer}
 
+    argh:
+        chmod: 775
+        suffix: py
+        content: |
+          {py3-header}
+          {py-common}
+          import argh
+
+          def echo(text):
+              '''Returns given word as is.'''
+              return text
+
+          def greet(name, greeting='Hello'):
+              '''Greets the user with given name. The greeting is customizable.'''
+              return greeting + ', ' + name
+
+          parser = argh.ArghParser()
+          parser.add_commands([echo, greet])
+          if __name__ == '__main__':
+              parser.dispatch()
+
     ap:
         chmod: 775
         suffix: py

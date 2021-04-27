@@ -101,6 +101,7 @@ dnf:
 
 pip3:
   items:
+  - argh
   - numpy
   - wheel
   - addict
