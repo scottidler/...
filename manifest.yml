@@ -365,3 +365,7 @@ script:
     NIGHTLY_CFG=~/.config/nightly/nightly.desktop
     desktop-file-validate $NIGHTLY_CFG
     desktop-file-install --dir=$APP_DIR $NIGHTLY_CFG
+  drone: |
+    curl -L https://github.com/drone/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz | tar zx
+    sudo install -t ~/bin drone
+    rm -f ./drone
