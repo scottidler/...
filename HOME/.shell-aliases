@@ -181,6 +181,7 @@ alias cdp="\$($REPO_TEST) && cd \$($REPO_ROOT) && cd ../"
 alias cd-tmp="cd ~/tmp"
 alias cd-repos="cd ~/repos"
 alias cd-rusty="cd ~/tmp/rusty"
+alias cd-aka="cd ~/repos/scottidler/aka"
 alias cd-otto="cd ~/repos/scottidler/otto"
 alias cd-helm-charts="cd ~/repos/mozilla-it/helm-charts"
 alias cd-philo="cd ~/repos/tatari-tv/philo"
@@ -270,6 +271,7 @@ alias unstage="git reset HEAD"
 alias clean="git clean -xfd"
 alias describe='git describe --match "v*" --abbrev=7'
 
+alias authors="git shortlog -s -n --all --no-merges"
 alias gbp="git-big-picture"
 
 alias gsm="git submodule"
