@@ -43,3 +43,5 @@
     allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 [gpg]
 	program = gpg
+[init]
+	defaultBranch = main
