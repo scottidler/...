@@ -1,0 +1,279 @@
+aliases:
+
+  # ls
+  lah: exa -lah --git
+  ltr: exa -lr -sold
+  ll: exa -alF
+  la: exa -la
+  ls: exa
+
+  # one-offs
+  cat: ccat
+  e2o: '2>&1'
+  os: 'echo \"$(lsb_release -is)-$(lsb_release -rs)_x$(getconf LONG_BIT)($(lsb_release -cs))\"'
+
+  # curl
+  clh:
+    value: "curl localhost:"
+    space: false
+  url-effective: 'curl -Ls -o /dev/null -w %{url_effective}'
+
+  json2yaml: 'curl -sF \"json=@-\" https://x2y.rocks/yaml'
+  yaml2json: 'curl -sF \"yaml=@-\" https://x2y.rocks/json'
+
+  curl-follow: curl $1 -gkLs -o /dev/null -v 2>&1|grep -e '^< HTTP' -e '[L|l]ocation:'
+
+  # search (ripgrep)
+  '/':
+    value: rg
+    first: true
+  '//':
+    value: rg --hidden
+    first: true
+  'cd..': cd ..
+  'cd../': cd ..
+
+  # piping
+  '|b': '| bash'
+  '|g': '| grep'
+  '|wc': '| wc -l'
+  '|l': '| less -r'
+  '|h': head -10
+  '|t': tail -10
+  '|b64': '| base64'
+  '|b64d': '| base64 -d'
+  '|x': "| xargs -I% bash -c 'echo %; tab2 '"
+  tee2files: '> >(tee -a stdout.log) 2> >(tee -a stderr.log >&2)'
+
+  # cargo (rust)
+  ci: cargo init
+  cF: cargo fmt
+  cc: cargo clippy
+  cb: cargo build
+  cr: cargo run --
+  crh: cargo run -- --help
+  rbt: RUST_BACKTRACE=1
+  R:
+    value: rustc
+    first: true
+
+
+  # cd to common directories
+  cd-tmp: cd ~/tmp
+  cd-repos: cd ~/repos/
+  cd-aka: cd ~/repos/scottidler/aka
+  cd-otto: cd ~/repos/scottidler/otto/
+  cd-philo: cd ~/repos/scottidler/philo/
+  cd-philo-fe: cd ~/repos/scottidler/philo-fe/
+  cd-leatherman: cd ~/repos/scottidler/leatherman/
+  cd-rfc: cd ~/repos/tatari-tv/rfc
+  cd-philo: cd ~/repos/tatari-tv/philo
+  cd-philo-fe: cd ~/repos/tatari-tv/philo-fe
+
+  cdr: '$(git rev-parse) && cd $(git rev-parse --show-toplevel)'
+  cdpr: '$(git rev-parse) && {cd ../; cd $(git rev-parse --show-toplevel)}'
+  cdp: '$(git rev-parse) && cd $(git rev-parse --show-toplevel) && cd ../'
+
+  rm-tag: git tag -d $1; git push origin :$1
+  cp-cd: cp $1 $2 && cd $(toplevel $2)
+  mv-cd: mv $1 $2 && cd $(toplevel $2)
+  mkdir-cd: mkdir -p $1 && cd $1
+
+  # git
+  g:
+    value: git
+    first: true
+  ga: git add
+  gb: git branch
+  gc:
+    value: git commit -m
+    space: false
+  gcf: git cat-file -p
+  gd: git diff
+  gdm: git diff main
+  gp: git pull
+  gP: git push
+  gpo: 'git push -u origin \$(git symbolic-ref --short -q HEAD)'
+  gs: git status --short
+  gbc: git branch --contains
+  gco: git checkout
+  gcob: git checkout -b
+  gcd: git checkout develop
+  grp: git rev-parse
+  gsh: git show
+  gsn: 'git show --notes=*'
+  gpP: 'gp && gP'
+  gbmm: git branch --merged main
+  gbnmm: git branch --no-merged main
+  grh: git reset --hard
+  grhh: git reset --hard HEAD
+  grph: git rev-parse HEAD
+  gfbn: git fetch origin +refs/notes/buildno/:refs/notes/buildno
+  gfofu: git fetch origin -f -u +refs/heads/*:refs/heads/*
+  grloa: git rev-list --objects --all
+  grm: git rebase main
+  grim: git rebase -i main
+  tags: git tag -l
+  gl: git log
+  gl1: git log -1
+  gl2: git log -2
+  gl3: git log -3
+  gl4: git log -4
+  gl5: git log -5
+  gl6: git log -6
+  gl7: git log -7
+  gl8: git log -8
+  gl9: git log -9
+  repo-root: $REPO_ROOT
+  branch: $BRANCH_NAME
+  reponame: "echo $($REMOTE_ORIGIN_URL | sed -E '$REPONAME_PN')"
+  remote-origin-url: 'echo $($REMOTE_ORIGIN_URL)'
+  ls-not-git: git ls-files . --ignored --exclude-standard --others
+  ls-remote: git ls-remote
+  ls-remote-heads: git ls-remote | grep refs/heads/
+  ls-remote-branch: 'git ls-remote | grep refs/heads/$($BRANCH_NAME)'
+  ls-remote-tag: 'git ls-remote | grep refs/tags/$($NEAREST_TAG)'
+  ls-remote-tags: git ls-remote | grep refs/tags/
+  not-on-main: git branch --no-merged main
+  set-upstream: 'git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD) $(git rev-parse --abbrev-ref HEAD)'
+  prune: git remote prune origin
+  unstage: git reset HEAD
+  clean: git clean -xfd
+  describe: 'git describe --match "v*" --abbrev=7'
+  rm-tag: git tag -d $1; git push origin :$1
+
+  authors: git shortlog -s -n --all --no-merges
+  gbp: git-big-picture
+
+  gsm: git submodule
+  gsmu: gsm update
+  gsmur: gsm update --remote
+  gsmui: 'gsm update --jobs=$((3 * $(nproc))) --init --recursive'
+
+  # python
+  ipy: ipython
+  pip-search: pip_search
+  rmpyc: 'find . -name "*.pyc" -print0 | xargs -0 /bin/rm'
+
+  # pip
+  pip3: python3 -m pip
+  pip3-ii: python3 -m pip install -U --ignore-installed
+  spip3: sudo -H python3 -m pip
+  spip3-ii: sudo -H python3 -m pip install -U --ignore-installed
+
+  pip3.7: sudo -H python3.7 -m pip
+  pip3.7-ii: sudo -H python3.7 -m pip install -U --ignore-installed
+  pip3.8: sudo -H python3.8 -m pip
+  pip3.8-ii: sudo -H python3.8 -m pip install -U --ignore-installed
+
+  # docker
+  d: docker
+  dc: docker-compose
+  dI: docker inspect
+  di: 'docker images | (read -r; printf "%s\n" "$REPLY"; sort)'
+  dps: 'docker ps | (read -r; printf "%s\n" "$REPLY"; sort)'
+  dpsa: 'docker ps -a | (read -r; printf "%s\n" "$REPLY"; sort)'
+  dpsaq: docker ps -aq
+  drm: docker rm
+  drmi: docker rmi
+  drit: docker run -it
+  deit: docker exec -it
+  ls-dangling-images: docker images -q --filter "dangling=true"
+  rm-stopped-containers: 'docker rm $(docker ps -q -f "status=exited")'
+  rm-dangling-images: 'docker rmi $(docker images -q --filter "dangling=true")'
+
+  # kubectl (k8s)
+  k: kubectl
+  ka: kubectl apply -f
+  kg: kubectl get
+  kga: kubectl get all
+  kgA: kubectl get all,cert,order,secret,ingress,hr
+  kgC: kubectl get crd
+  kgp: kubectl get pod
+  kgs: kubectl get svc
+  kgS: kubectl get secret
+  kgd: kubectl get deployment
+  kgc: kubectl get certificate
+  kgh: kubectl get helmrelease
+  kgn: kubectl get namespace
+  kgN: kubectl get networkpolicy
+  kgv: kubectl get ingress.voyager.appscode.com
+  kd: kubectl describe
+  kdC: kubectl describe crd
+  kdp: kubectl describe pod
+  kds: kubectl describe svc
+  kdS: kubectl describe secret
+  kdd: kubectl describe deployment
+  kdc: kubectl describe certificate
+  kdv: kubectl describe ingress.voyager.appscode.com
+  kD: kubectl delete
+  kDC: kubectl delete crd
+  kDp: kubectl delete pod
+  kDs: kubectl delete svc
+  kDS: kubectl delete secret
+  kDd: kubectl delete deployment
+  kDn: kubectl delete namespace
+  kv: kubectl version
+  kl: kubectl logs
+  ns:
+    value: --namespace
+    first: false
+  oy:
+    value: -o -yaml
+    first: false
+
+  # terraform
+  tf: terraform
+  tfp: terraform plan
+  tfa: terraform apply
+  tf-fmt: terraform fmt -write=true -diff=true -recursive
+
+  # vault
+  v: vault
+  ve: vault exec
+  vl: vault login
+
+  # papertrail
+  pt: papertrail
+
+  # chown
+  mine: sudo chown -R $USER:$USER "$@"
+  yours: sudo chown -R root:root "$@"
+  ours: sudo chmod -R 777 "$@"
+
+  # clipboard
+  clipboard: xclip -sel clip
+  pb-copy: xclip -sel clip
+  pb-paste: xclip -sel clip -o
+
+  # edit, re-evals
+  bashrc: vim ~/.bashrc; . ~/.bashrc
+  zshrc: vim ~/.zshrc; . ~/.zshrc
+  aliases: vim ~/.shell-aliases; . ~/.zshrc
+  exports: vim ~/.shell-exports; . ~/.zshrc
+  functions: vim ~/.shell-functions; . ~/.zshrc
+
+  # update reboot|shutdown
+  ureboot: 'update && reboot'
+  ushutdown: 'update && shutdown'
+
+  printr:
+    value: print -r -- =
+    space: false
+
+  # aws
+  aws-id: 'aws sts get-caller-identity | jq -r .Account'
+
+  ds:
+    value: dig +short
+    first: true
+
+  psgrep: 'ps aux | grep -v grep | grep'
+  awsenv: 'env | grep AWS_'
+
+  xps: ssh saidler@xps.lan
+
+  xdo: xdotool
+
+  fix-dns: sudo systemd-resolve --flush-caches
+
