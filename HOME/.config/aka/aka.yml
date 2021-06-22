@@ -86,7 +86,7 @@ aliases:
   ga: git add
   gb: git branch
   gc:
-    value: git commit -m
+    value: 'git commit -m"'
     space: false
   gcf: git cat-file -p
   gd: git diff
