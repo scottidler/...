@@ -129,9 +129,9 @@ if [ -f ~/.shell-exports ]; then
     . ~/.shell-exports
 fi
 
-if [ -f ~/.expand-alias ]; then
-    export EXPAND_ALIAS=yes
-    . ~/.expand-alias
+if [ -f ~/.expand-aka ]; then
+    export EXPAND_AKA=yes
+    . ~/.expand-aka
 fi
 
 PROMPT_EOL_MARK=''
