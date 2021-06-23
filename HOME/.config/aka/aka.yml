@@ -5,7 +5,9 @@ aliases:
   ltr: exa -lr -sold
   ll: exa -alF
   la: exa -la
-  ls: exa
+  ls:
+    value: exa
+    first: true
 
   # one-offs
   cat: ccat
