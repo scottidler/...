@@ -7,12 +7,12 @@ expand-aka-space() {
         if [ $RC -ne 0 ]; then
             echo "RC=$RC"
         fi
-        BUFFER="$OUTPUT"
-        CURSOR=$(expr length "$BUFFER")
-        #if [ "$OUTPUT" != "$BUFFER" ]; then
-        #    echo "OUPUT=$OUTPUT"
-        #fi
-        #zle self-insert
+        if [ -n "$OUTPUT" ]; then
+            BUFFER="$OUTPUT"
+            CURSOR=$(expr length "$BUFFER")
+        else
+            zle self-insert
+        fi
     fi
 }
 
@@ -23,11 +23,10 @@ expand-aka-accept-line() {
         if [ $RC -ne 0 ]; then
             echo "RC=$RC"
         fi
-        BUFFER="$OUTPUT"
-        CURSOR=$(expr length "$BUFFER")
-        #if [ "$OUTPUT" != "$BUFFER" ]; then
-        #    echo "OUPUT=$OUTPUT"
-        #fi
+        if [ -n "$OUTPUT" ]; then
+            BUFFER="$OUTPUT"
+            CURSOR=$(expr length "$BUFFER")
+        fi
         zle .accept-line
     fi
 }
