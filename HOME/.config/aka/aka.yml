@@ -95,7 +95,7 @@ aliases:
   gdm: git diff main
   gp: git pull
   gP: git push
-  gpo: 'git push -u origin \$(git symbolic-ref --short -q HEAD)'
+  gpo: 'git push -u origin $(git symbolic-ref --short -q HEAD)'
   gs: git status --short
   gbc: git branch --contains
   gco: git checkout
