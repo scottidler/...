@@ -81,6 +81,10 @@ aliases:
   mv-cd: mv $1 $2 && cd $(toplevel $2)
   mkdir-cd: mkdir -p $1 && cd $1
 
+  T:
+    value: tree -a -I '.*|__*|tf|venv|target|incremental'
+    first: true
+
   # git
   g:
     value: git
