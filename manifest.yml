@@ -38,7 +38,7 @@ pkg:
   - meld
   - rsync
   - xclip
-  - ansible
+# - ansible
   - dconf-cli
   - python3-pip
   - anki
@@ -53,7 +53,7 @@ pkg:
 
 apt:
   items:
-  - diagrams # awesome diagramming (in python) tool
+# - diagrams # awesome diagramming (in python) tool
   - cloc
   - ldap-utils
   - fonts-powerline
@@ -89,7 +89,7 @@ apt:
   - libcups2-dev #ref: https://ubuntuforums.org/showthread.php?t=1269926
   - libkrb5-dev #ref: https://github.com/mongodb-js/kerberos/issues/45
   - wmctrl #for ./layout script
-    #- install mozilla-aws-cli-mozilla # for MAWS
+# - install mozilla-aws-cli-mozilla # for MAWS
 
 dnf:
   items:
@@ -234,9 +234,10 @@ script:
     unzip ngrok.zip
     mv ngrok/ngrok ~/bin/
   ccat: |
-    curl -L https://github.com/jingweno/ccat/releases/latest > ccat.tar.gz
-    tar xvf ccat.tar.gz
-    mv ccat/ccat ~/bin/
+    latest \
+      "linux-amd64" \
+      "https://github.com/jingweno/ccat/releases/latest" \
+      "ccat"
   kubectl: |
     sudo apt-get update && sudo apt-get install -y apt-transport-https
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
