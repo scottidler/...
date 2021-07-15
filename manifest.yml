@@ -236,7 +236,7 @@ script:
   ccat: |
     latest \
       "linux-amd64" \
-      "https://github.com/jingweno/ccat/releases/latest" \
+      "https://api.github.com/repos/owenthereal/ccat/releases/latest" \
       "ccat"
   kubectl: |
     sudo apt-get update && sudo apt-get install -y apt-transport-https
