@@ -12,6 +12,7 @@ ppa:
   - graphics-drivers/ppa
   - otto-kesselgulasch/gimp
   - ubuntu-mozilla-daily
+  - micahflee/ppa
   - qbittorrent-team/qbittorrent-stable
 
 pkg:
