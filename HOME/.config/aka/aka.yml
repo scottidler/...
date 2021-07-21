@@ -5,9 +5,7 @@ aliases:
   ltr: exa -lr -sold
   ll: exa -alF
   la: exa -la
-  ls:
-    value: exa
-    first: true
+  ls: exa
 
   # one-offs
   cat: ccat
@@ -26,26 +24,42 @@ aliases:
   curl-follow: curl $1 -gkLs -o /dev/null -v 2>&1|grep -e '^< HTTP' -e '[L|l]ocation:'
 
   # search (ripgrep)
-  '/':
-    value: rg
-    first: true
-  '//':
-    value: rg --hidden
-    first: true
+  '/': rg
+  '//': rg --hidden
   'cd..': cd ..
   'cd../': cd ..
 
   # piping
-  '|b': '| bash'
-  '|g': '| grep'
-  '|wc': '| wc -l'
-  '|l': '| less -r'
-  '|h': head -10
-  '|t': tail -10
-  '|b64': '| base64'
-  '|b64d': '| base64 -d'
-  '|x': "| xargs -I% bash -c 'echo %; tab2 '"
-  tee2files: '> >(tee -a stdout.log) 2> >(tee -a stderr.log >&2)'
+  '|b':
+    value: '| bash'
+    global: true
+  '|g':
+    value: '| grep'
+    global: true
+  '|wc':
+    value: '| wc -l'
+    global: true
+  '|l':
+    value: '| less -r'
+    global: true
+  '|h':
+    value: head -10
+    global: true
+  '|t':
+    value: tail -10
+    global: true
+  '|b64':
+    value: '| base64'
+    global: true
+  '|b64d':
+    value: '| base64 -d'
+    global: true
+  '|x':
+    value: "| xargs -I% bash -c 'echo %; tab2 '"
+    global: true
+  tee2files:
+    value: '> >(tee -a stdout.log) 2> >(tee -a stderr.log >&2)'
+    global: true
 
   # cargo (rust)
   ci: cargo init
@@ -55,10 +69,7 @@ aliases:
   cr: cargo run --
   crh: cargo run -- --help
   rbt: RUST_BACKTRACE=1
-  R:
-    value: rustc
-    first: true
-
+  R: rustc
 
   # cd to common directories
   cd-tmp: cd ~/tmp
@@ -81,14 +92,10 @@ aliases:
   mv-cd: mv $1 $2 && cd $(toplevel $2)
   mkdir-cd: mkdir -p $1 && cd $1
 
-  T:
-    value: tree -a -I '.*|__*|tf|venv|target|incremental'
-    first: true
+  T: tree -a -I '.*|__*|tf|venv|target|incremental'
 
   # git
-  g:
-    value: git
-    first: true
+  g: git
   ga: git add
   gb: git branch
   gc:
@@ -223,10 +230,10 @@ aliases:
   kl: kubectl logs
   ns:
     value: --namespace
-    first: false
+    global: true
   oy:
     value: -o -yaml
-    first: false
+    global: true
 
   # terraform
   tf: terraform
@@ -270,9 +277,7 @@ aliases:
   # aws
   aws-id: 'aws sts get-caller-identity | jq -r .Account'
 
-  ds:
-    value: dig +short
-    first: true
+  ds: dig +short
 
   psgrep: 'ps aux | grep -v grep | grep'
   awsenv: 'env | grep AWS_'
@@ -282,4 +287,3 @@ aliases:
   xdo: xdotool
 
   fix-dns: sudo systemd-resolve --flush-caches
-
