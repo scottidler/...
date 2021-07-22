@@ -66,6 +66,7 @@ aliases:
   cF: cargo fmt
   cc: cargo clippy
   cb: cargo build
+  cbr: cargo build --release
   cr: cargo run --
   crh: cargo run -- --help
   rbt: RUST_BACKTRACE=1
@@ -88,8 +89,8 @@ aliases:
   cdp: '$(git rev-parse) && cd $(git rev-parse --show-toplevel) && cd ../'
 
   rm-tag: git tag -d $1; git push origin :$1
-  cp-cd: cp $1 $2 && cd $(toplevel $2)
-  mv-cd: mv $1 $2 && cd $(toplevel $2)
+  cp-cd: mkdir -p $2 && cp $1 $2 && cd $(toplevel $2)
+  mv-cd: mkdir -p $2 && mv $1 $2 && cd $(toplevel $2)
   mkdir-cd: mkdir -p $1 && cd $1
 
   T: tree -a -I '.*|__*|tf|venv|target|incremental'
