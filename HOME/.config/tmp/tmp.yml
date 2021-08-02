@@ -275,6 +275,10 @@ templates:
         import sys
         sys.dont_write_bytecode = True
 
+        DIR = os.path.abspath(os.path.dirname(__file__))
+        CWD = os.path.abspath(os.getcwd())
+        REL = os.path.relpath(DIR, CWD)
+
         REAL_FILE = os.path.abspath(__file__)
         REAL_NAME = os.path.basename(REAL_FILE)
         REAL_PATH = os.path.dirname(REAL_FILE)
