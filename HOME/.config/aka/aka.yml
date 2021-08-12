@@ -140,15 +140,16 @@ aliases:
   gl7: git log -7
   gl8: git log -8
   gl9: git log -9
-  repo-root: $REPO_ROOT
-  branch: $BRANCH_NAME
-  reponame: "echo $($REMOTE_ORIGIN_URL | sed -E '$REPONAME_PN')"
-  remote-origin-url: 'echo $($REMOTE_ORIGIN_URL)'
+  reporoot: git rev-parse --show-toplevel
+  branch: git rev-parse --abbrev-ref HEAD
+  reponame: "git config --get remote.origin.url | sed -E 's;^(git|ssh|https)://([A-Za-z0-9._-]+@)?([A-Za-z0-9._-]+/);;'"
+  nearest-tag: git describe --abbrev=0
+  remote-origin-url: git config --get remote.origin.url
   ls-not-git: git ls-files . --ignored --exclude-standard --others
   ls-remote: git ls-remote
   ls-remote-heads: git ls-remote | grep refs/heads/
-  ls-remote-branch: 'git ls-remote | grep refs/heads/$($BRANCH_NAME)'
-  ls-remote-tag: 'git ls-remote | grep refs/tags/$($NEAREST_TAG)'
+  ls-remote-branch: 'git ls-remote | grep refs/heads/$(git rev-parse --abbrev-ref HEAD)'
+  ls-remote-tag: 'git ls-remote | grep refs/tags/$(git describe --abbrev=0)'
   ls-remote-tags: git ls-remote | grep refs/tags/
   not-on-main: git branch --no-merged main
   set-upstream: 'git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD) $(git rev-parse --abbrev-ref HEAD)'
