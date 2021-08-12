@@ -69,7 +69,9 @@ aliases:
   cbr: cargo build --release
   cr: cargo run --
   crh: cargo run -- --help
-  rbt: RUST_BACKTRACE=1
+  rbt:
+    value: RUST_BACKTRACE=1
+    global: true
   R: rustc
 
   # cd to common directories
