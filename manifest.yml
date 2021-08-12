@@ -104,6 +104,7 @@ pip3:
   items:
   - argh
   - numpy
+  - twine
   - wheel
   - addict
   - aiohttp
