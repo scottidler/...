@@ -120,22 +120,22 @@ kinds:
         chmod: 775
         suffix: py
         content: |
-          {py3-header}
-          {py-common}
-          import argh
+            {py3-header}
+            {py-common}
+            import argh
 
-          def echo(text):
-              '''Returns given word as is.'''
-              return text
+            def echo(text):
+                '''Returns given word as is.'''
+                return text
 
-          def greet(name, greeting='Hello'):
-              '''Greets the user with given name. The greeting is customizable.'''
-              return greeting + ', ' + name
+            def greet(name, greeting='Hello'):
+                '''Greets the user with given name. The greeting is customizable.'''
+                return greeting + ', ' + name
 
-          parser = argh.ArghParser()
-          parser.add_commands([echo, greet])
-          if __name__ == '__main__':
-              parser.dispatch()
+            parser = argh.ArghParser()
+            parser.add_commands([echo, greet])
+            if __name__ == '__main__':
+                parser.dispatch()
 
     ap:
         chmod: 775
@@ -190,23 +190,74 @@ kinds:
                     help='default="%(default)s"; config filepath')
                 ns, rem = parser.parse_known_args(args)
                 try:
-                    config = yaml.safe_load(open(ns.config))
+                    config = dict([
+                        (k.replace('-', '_'), v)
+                        for k, v
+                        in yaml.safe_load(open(ns.config)).items()
+                    ])
                 except FileNotFoundError as er:
                     config = dict()
                 parser = ArgumentParser(
                     parents=[parser])
                 parser.set_defaults(**config)
                 parser.add_argument(
-                    '--firstname',
+                    '--first-name',
                     help='default="%(default)s"; first name')
                 parser.add_argument(
-                    '--lastname',
+                    '--last-name',
                     help='default="%(default)s"; last name')
                 parser.add_argument(
                     '--age',
                     help='default="%(default)s"; age')
                 ns = parser.parse_args(rem)
                 print(ns)
+
+            {py-footer}
+
+    argh-yaml:
+        chmod: 775
+        suffix: py
+        content: |
+            {py3-header}
+            {py-common}
+            NAME, EXT = os.path.splitext(REAL_NAME)
+
+            from ruamel import yaml
+            from argh import ArghParser
+            from argparse import RawDescriptionHelpFormatter
+
+            def echo(text):
+                '''Returns given word as is.'''
+                return text
+
+            def greet(first_name, last_name, age, greeting='Hello'):
+                '''Greets the user with given name. The greeting is customizable.'''
+                return greeting + ', ' + first_name + ' ' + last_name + '. You are old, ' + age
+
+            def main(args=None):
+                parser = ArghParser(
+                    description=__doc__,
+                    formatter_class=RawDescriptionHelpFormatter,
+                    add_help=False)
+                parser.add_argument(
+                    '--config',
+                    metavar='FILEPATH',
+                    default='~/.config/%(NAME)s/%(NAME)s.yml' % globals(),
+                    help='default="%(default)s"; config filepath')
+                ns, rem = parser.parse_known_args(args)
+                try:
+                    config = dict([
+                        (k.replace('-', '_'), v)
+                        for k, v
+                        in yaml.safe_load(open(ns.config)).items()
+                    ])
+                except FileNotFoundError as er:
+                    config = dict()
+                parser = ArghParser(
+                    parents=[parser])
+                parser.set_defaults(**config)
+                parser.add_commands([echo, greet])
+                parser.dispatch()
 
             {py-footer}
 
