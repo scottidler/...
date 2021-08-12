@@ -2,7 +2,7 @@
 
 expand-aka-space() {
     if [ -n "$EXPAND_AKA" ]; then
-        OUTPUT=$(aka "$BUFFER")
+        OUTPUT=$(aka query "$BUFFER")
         RC=$?
         if [ $RC -ne 0 ]; then
             echo "RC=$RC"
@@ -18,7 +18,7 @@ expand-aka-space() {
 
 expand-aka-accept-line() {
     if [ -n "$EXPAND_AKA" ]; then
-        OUTPUT=$(aka "$BUFFER")
+        OUTPUT=$(aka query "$BUFFER")
         RC=$?
         if [ $RC -ne 0 ]; then
             echo "RC=$RC"
