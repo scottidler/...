@@ -21,6 +21,7 @@ aliases:
   json2yaml: 'curl -sF \"json=@-\" https://x2y.rocks/yaml'
   yaml2json: 'curl -sF \"yaml=@-\" https://x2y.rocks/json'
 
+  headers-only: curl -sSL -D - $1 -o /dev/null
   curl-follow: curl $1 -gkLs -o /dev/null -v 2>&1|grep -e '^< HTTP' -e '[L|l]ocation:'
 
   # search (ripgrep)
@@ -200,6 +201,12 @@ aliases:
   rm-dangling-images: 'docker rmi $(docker images -q --filter "dangling=true")'
 
   # kubectl (k8s)
+  context: kubectl config current-context
+  staging-context: aws eks --region us-west-2 update-kubeconfig --name staging --role-arn arn:aws:iam::878256633362:role/eks-staging-admin
+  prod-context: aws eks --region us-east-1 update-kubeconfig --name prod --role-arn arn:aws:iam::878256633362:role/eks-prod-admin
+  test-context: aws eks --region us-west-2 update-kubeconfig --name test --role-arn arn:aws:iam::878256633362:role/eks-test-admin
+  dev-context: aws eks --region us-west-2 update-kubeconfig --name dev --role-arn arn:aws:iam::878256633362:role/eks-dev-admin
+
   k: kubectl
   ka: kubectl apply -f
   kg: kubectl get
@@ -254,9 +261,9 @@ aliases:
   pt: papertrail
 
   # chown
-  mine: sudo chown -R $USER:$USER "$@"
-  yours: sudo chown -R root:root "$@"
-  ours: sudo chmod -R 777 "$@"
+  mine: sudo chown -R $USER:$USER
+  yours: sudo chown -R root:root
+  ours: sudo chmod -R 777
 
   # clipboard
   clipboard: xclip -sel clip
@@ -291,3 +298,4 @@ aliases:
   xdo: xdotool
 
   fix-dns: sudo systemd-resolve --flush-caches
+
