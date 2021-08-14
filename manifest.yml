@@ -39,7 +39,6 @@ pkg:
   - meld
   - rsync
   - xclip
-# - ansible
   - dconf-cli
   - python3-pip
   - anki
@@ -68,7 +67,7 @@ apt:
   - libssl-dev
   - libffi-dev
   - libdbus-1-dev
-    libsnappy-dev
+  - libsnappy-dev
   - build-essential
   - portaudio19-dev
   - openvpn
@@ -90,7 +89,6 @@ apt:
   - libcups2-dev #ref: https://ubuntuforums.org/showthread.php?t=1269926
   - libkrb5-dev #ref: https://github.com/mongodb-js/kerberos/issues/45
   - wmctrl #for ./layout script
-# - install mozilla-aws-cli-mozilla # for MAWS
 
 dnf:
   items:
@@ -140,9 +138,6 @@ github:
       bin/ls-github-repos: ~/bin/ls-github-repos
       shell-functions.sh: ~/.shell-functions.d/clone.sh
       cfg/clone.cfg: ~/.clone/clone/clone.cfg
-  scottidler/mawsh:
-    link:
-      shell-functions.sh: ~/.shell-functions.d/mawsh.sh
   scottidler/tmp:
     link:
       bin/tmp: ~/bin/tmp
