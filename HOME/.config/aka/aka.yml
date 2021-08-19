@@ -84,14 +84,11 @@ aliases:
   cd-philo-fe: cd ~/repos/scottidler/philo-fe/
   cd-leatherman: cd ~/repos/scottidler/leatherman/
   cd-rfc: cd ~/repos/tatari-tv/rfc
-  cd-philo: cd ~/repos/tatari-tv/philo
-  cd-philo-fe: cd ~/repos/tatari-tv/philo-fe
 
   cdr: '$(git rev-parse) && cd $(git rev-parse --show-toplevel)'
   cdpr: '$(git rev-parse) && {cd ../; cd $(git rev-parse --show-toplevel)}'
   cdp: '$(git rev-parse) && cd $(git rev-parse --show-toplevel) && cd ../'
 
-  rm-tag: git tag -d $1; git push origin :$1
   cp-cd: mkdir -p $2 && cp $1 $2 && cd $(toplevel $2)
   mv-cd: mkdir -p $2 && mv $1 $2 && cd $(toplevel $2)
   mkdir-cd: mkdir -p $1 && cd $1
@@ -299,3 +296,4 @@ aliases:
 
   fix-dns: sudo systemd-resolve --flush-caches
 
+  vim-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; vim "${WHICHD[@]}"'
