@@ -374,3 +374,5 @@ script:
     rm -f ./drone
   tokei: |
     cargo install tokei
+  procs: |
+    cargo install procs
