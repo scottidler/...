@@ -59,6 +59,7 @@ apt:
   - fonts-powerline
   - libsmbclient-dev
   - silversearcher-ag
+  - fd-find
   - httpie
   - pianobar
   - python3-dev
