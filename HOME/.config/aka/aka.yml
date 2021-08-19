@@ -298,3 +298,5 @@ aliases:
 
   cat-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; ccat "${WHICHD[@]}"'
   vim-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; vim "${WHICHD[@]}"'
+
+  voila: cp ~/tmp/Cargo.toml.hw ~/tmp/helloworld/Cargo.toml; cp ~/tmp/main.rs.hw ~/tmp/helloworld/src/main.rs
