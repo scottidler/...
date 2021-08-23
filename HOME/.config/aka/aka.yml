@@ -257,6 +257,16 @@ aliases:
   # papertrail
   pt: papertrail
 
+  # corrections
+  suod: sudo
+  soud: sudo
+  vmi: vim
+  emacs: vim
+
+  # ssh
+  desk: ssh desk.lan
+  work: ssh work.lan
+
   # chown
   mine: sudo chown -R $USER:$USER
   yours: sudo chown -R root:root
