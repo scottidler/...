@@ -296,10 +296,6 @@ aliases:
   ureboot: 'update && reboot'
   ushutdown: 'update && shutdown'
 
-  printr:
-    value: print -r -- =
-    space: false
-
   # aws
   aws-id: 'aws sts get-caller-identity | jq -r .Account'
 
@@ -313,3 +309,6 @@ aliases:
   #which combos
   cat-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; ccat "${WHICHD[@]}"'
   vim-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; vim "${WHICHD[@]}"'
+  printr:
+    value: print -r -- =
+    space: false
