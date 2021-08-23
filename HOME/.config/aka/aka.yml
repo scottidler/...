@@ -283,6 +283,7 @@ aliases:
   pb-paste: xclip -sel clip -o
 
   # edit, re-evals
+  akas: vim ~/.config/aka/aka.yml; . ~/.zshrc
   bashrc: vim ~/.bashrc; . ~/.bashrc
   zshrc: vim ~/.zshrc; . ~/.zshrc
   aliases: vim ~/.shell-aliases; . ~/.zshrc
