@@ -11,6 +11,11 @@ aliases:
   cat: ccat
   e2o: '2>&1'
   os: 'echo \"$(lsb_release -is)-$(lsb_release -rs)_x$(getconf LONG_BIT)($(lsb_release -cs))\"'
+  ping10:
+    value: ping 10.10.10.
+    space: false
+
+  tr: traceroute
 
   # curl
   clh:
