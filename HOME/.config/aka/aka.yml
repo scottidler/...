@@ -15,6 +15,7 @@ aliases:
     value: ping 10.10.10.
     space: false
 
+  # traceroute
   tr: traceroute
 
   # curl
@@ -30,10 +31,8 @@ aliases:
   curl-follow: curl $1 -gkLs -o /dev/null -v 2>&1|grep -e '^< HTTP' -e '[L|l]ocation:'
 
   # search (ripgrep)
-  '/': rg
-  '//': rg --hidden
-  'cd..': cd ..
-  'cd../': cd ..
+  /: rg
+  //: rg --hidden
 
   # piping
   '|b':
@@ -267,10 +266,13 @@ aliases:
   soud: sudo
   vmi: vim
   emacs: vim
+  cd..: cd ..
+  cd../: cd ..
 
   # ssh
   desk: ssh desk.lan
   work: ssh work.lan
+  xps: ssh saidler@xps.lan
 
   # chown
   mine: sudo chown -R $USER:$USER
@@ -301,18 +303,13 @@ aliases:
   # aws
   aws-id: 'aws sts get-caller-identity | jq -r .Account'
 
+  #one-offs
   ds: dig +short
-
   psgrep: 'ps aux | grep -v grep | grep'
   awsenv: 'env | grep AWS_'
-
-  xps: ssh saidler@xps.lan
-
   xdo: xdotool
-
   fix-dns: sudo systemd-resolve --flush-caches
 
+  #which combos
   cat-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; ccat "${WHICHD[@]}"'
   vim-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; vim "${WHICHD[@]}"'
-
-  voila: cp ~/tmp/Cargo.toml.hw ~/tmp/helloworld/Cargo.toml; cp ~/tmp/main.rs.hw ~/tmp/helloworld/src/main.rs
