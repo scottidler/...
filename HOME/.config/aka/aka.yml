@@ -132,16 +132,7 @@ aliases:
   grm: git rebase main
   grim: git rebase -i main
   tags: git tag -l
-  gl: git log
-  gl1: git log -1
-  gl2: git log -2
-  gl3: git log -3
-  gl4: git log -4
-  gl5: git log -5
-  gl6: git log -6
-  gl7: git log -7
-  gl8: git log -8
-  gl9: git log -9
+  gl: git log -$1
   reporoot: git rev-parse --show-toplevel
   branch: git rev-parse --abbrev-ref HEAD
   reponame: "git config --get remote.origin.url | sed -E 's;^(git|ssh|https)://([A-Za-z0-9._-]+@)?([A-Za-z0-9._-]+/);;'"
