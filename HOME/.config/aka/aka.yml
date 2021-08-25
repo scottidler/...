@@ -20,9 +20,9 @@ aliases:
 
   # curl
   clh:
-    value: "curl localhost:"
+    value: 'curl localhost:'
     space: false
-  url-effective: 'curl -Ls -o /dev/null -w %{url_effective}'
+  url-effective: curl -Ls -o /dev/null -w %{url_effective} $1
 
   json2yaml: 'curl -sF \"json=@-\" https://x2y.rocks/yaml'
   yaml2json: 'curl -sF \"yaml=@-\" https://x2y.rocks/json'
@@ -34,7 +34,7 @@ aliases:
   /: rg
   //: rg --hidden
 
-  # piping
+  # globals
   '|b':
     value: '| bash'
     global: true
@@ -65,6 +65,9 @@ aliases:
   tee2files:
     value: '> >(tee -a stdout.log) 2> >(tee -a stderr.log >&2)'
     global: true
+  rbt:
+    value: RUST_BACKTRACE=1
+    global: true
 
   # cargo (rust)
   ci: cargo init
@@ -74,9 +77,6 @@ aliases:
   cbr: cargo build --release
   cr: cargo run --
   crh: cargo run -- --help
-  rbt:
-    value: RUST_BACKTRACE=1
-    global: true
   R: rustc
 
   # cd to common directories
