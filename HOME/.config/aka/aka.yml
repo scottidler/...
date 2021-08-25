@@ -14,10 +14,10 @@ aliases:
     value: '| less -r'
     global: true
   '|h':
-    value: head -10
+    value: '| head -10'
     global: true
   '|t':
-    value: tail -10
+    value: '| tail -10'
     global: true
   '|b64':
     value: '| base64'
