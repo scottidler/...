@@ -259,6 +259,12 @@ aliases:
   # aws
   aws-id: 'aws sts get-caller-identity | jq -r .Account'
 
+  # flatpak
+  fp: flatpak
+  fpi: flatpak install
+  fps: flatpak search
+  fpu: flatpak update
+
   # traceroute
   tr: traceroute
 
