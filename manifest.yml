@@ -130,6 +130,16 @@ npm:
   - wt-cli
   - auth0-deploy-cli
 
+flatpak:
+  items:
+  - org.gnome.GTG
+  - org.gnome.BreakTimer
+  - com.github.hugolabe.Wike
+  - com.github.gi_lom.dialect
+  - com.rafaelmardojai.Blanket
+  - org.gnome.gitlab.somas.Apostrophe
+  - com.github.johnfactotum.QuickLookup
+
 github:
   scottidler/git:
     link:
