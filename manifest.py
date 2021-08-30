@@ -33,6 +33,7 @@ SECTIONS = [
     'npm',
     'pip3',
     'pipx',
+    'flatpak',
     'github',
     'script',
 ]
@@ -314,6 +315,12 @@ class PIPX(HeredocPackageType):
     pipx install $pkg
 '''.lstrip('\n').rstrip()
 
+class FLATPAK(ContinuePackageType):
+    def render_block(self):
+        return f'''
+flatpak install --assumeyes --or-update
+'''.lstrip('\n').rstrip()
+
 class Repo():
     def __init__(self, baseurl, reponame, spec, repopath, **kwargs):
         self.baseurl = baseurl
@@ -398,6 +405,7 @@ class Manifest():
             npm=None,
             pip3=None,
             pipx=None,
+            flatpak=None,
             github=None,
             script=None,
             **kwargs):
@@ -422,6 +430,8 @@ class Manifest():
             self.sections += [PIP3(spec['pip3'], pip3, **kwargs)]
         if complete or pipx != None:
             self.sections += [PIPX(spec['pipx'], pipx, **kwargs)]
+        if complete or flatpak != None:
+            self.sections += [FLATPAK(spec['flatpak'], flatpak, **kwargs)]
         if complete or github != None:
             self.sections += [Github(spec['github'], github, **kwargs)]
         if complete or script != None:
@@ -509,48 +519,53 @@ def main(args):
     parser.add_argument(
         '-l', '--link',
         metavar='LINK',
-	action=ManifestAction,
+        action=ManifestAction,
         nargs='*',
         help='specify list of glob patterns to match links')
     parser.add_argument(
         '-p', '--ppa',
-	action=ManifestAction,
+        action=ManifestAction,
         nargs='*',
         help='specify list of glob patterns to match ppa items')
     parser.add_argument(
         '-a', '--apt',
-	action=ManifestAction,
+        action=ManifestAction,
         nargs='*',
         help='specify list of glob patterns to match apt items')
     parser.add_argument(
         '-d', '--dnf',
-	action=ManifestAction,
+        action=ManifestAction,
         nargs='*',
         help='specify list of glob patterns to match dnf items')
     parser.add_argument(
         '-n', '--npm',
-	action=ManifestAction,
+        action=ManifestAction,
         nargs='*',
         help='specify list of glob patterns to match npm items')
     parser.add_argument(
         '-P', '--pip3',
-	action=ManifestAction,
+        action=ManifestAction,
         nargs='*',
         help='specify list of glob patterns to match pip3 items')
     parser.add_argument(
-        '-X', '--pipx',
-	action=ManifestAction,
+        '-x', '--pipx',
+        action=ManifestAction,
         nargs='*',
         help='specify list of glob patterns to match pipx items')
     parser.add_argument(
+        '-f', '--flatpak',
+        action=ManifestAction,
+        nargs='*',
+        help='specify list of glob patters to match flatpak items')
+    parser.add_argument(
         '-g', '--github',
-	action=ManifestAction,
+        action=ManifestAction,
         nargs='*',
         help='specify list of glob patterns to match github repos')
     parser.add_argument(
         '-s', '--script',
         metavar='SCRIPT',
-	action=ManifestAction,
+        action=ManifestAction,
         nargs='*',
         help='specify list of glob patterns to match script names')
     ns = parser.parse_args()
