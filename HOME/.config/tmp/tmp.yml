@@ -81,9 +81,9 @@ kinds:
         chmod: 664
         suffix: yml
         content: |
-            firstname: scott
-            lastname: idler
-            age: 43
+            first-name: scott
+            last-name: idler
+            age: 47
 
     docopt:
         chmod: 775
