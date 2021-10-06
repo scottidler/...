@@ -50,12 +50,14 @@ aliases:
   //: rg --hidden
 
   # cd to common directories
+  docs: cd ~/Documents
+  down: cd ~/Downloads
   cd-tmp: cd ~/tmp
   cd-repos: cd ~/repos/
   cd-aka: cd ~/repos/scottidler/aka
   cd-otto: cd ~/repos/scottidler/otto/
-  cd-philo: cd ~/repos/scottidler/philo/
-  cd-philo-fe: cd ~/repos/scottidler/philo-fe/
+  cd-philo: cd ~/repos/tatari-tv/philo/
+  cd-philo-fe: cd ~/repos/tatari-tv/philo-fe/
   cd-leatherman: cd ~/repos/scottidler/leatherman/
   cd-rfc: cd ~/repos/tatari-tv/rfc
 
@@ -156,6 +158,8 @@ aliases:
   branch: git rev-parse --abbrev-ref HEAD
   reponame: "git config --get remote.origin.url | sed -E 's;^(git|ssh|https)://([A-Za-z0-9._-]+@)?([A-Za-z0-9._-]+/);;'"
   nearest-tag: git describe --abbrev=0
+  merged: git branch -r --sort=committerdate --merged
+  no-merged: git branch -r --sort=committerdate --no-merged
   remote-origin-url: git config --get remote.origin.url
   ls-not-git: git ls-files . --ignored --exclude-standard --others
   ls-remote: git ls-remote
