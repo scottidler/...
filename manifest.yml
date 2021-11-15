@@ -111,7 +111,20 @@ pip3:
   - requests
   - ruamel.yaml
   - cryptography
-
+  distutils:
+  - Cython
+  - pexpect
+  - pyasn1-modules
+  - pycairo
+  - pycups
+  - pypng
+  - PyQt5
+  - PyTrie
+  - pyxdg
+  - PyYAML
+  - simplejson
+  - sip
+  - u-msgpack-python
 pipx:
   items:
   - doit
