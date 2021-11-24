@@ -92,7 +92,9 @@ aliases:
 
   # clipboard
   clipboard: xclip -sel clip
-  pb-copy: xclip -sel clip
+  pb-copy:
+    value: xclip -sel clip
+    global: true
   pb-paste: xclip -sel clip -o
 
   # cargo (rust)
