@@ -105,6 +105,7 @@ aliases:
   cbr: cargo build --release
   cr: cargo run --
   crh: cargo run -- --help
+  cs: cargo search
   R: rustc
 
   # python
