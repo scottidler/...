@@ -1,5 +1,10 @@
 aliases:
 
+  up3.8: replace 'FROM python:3.7' 'FROM python:3.8'; git checkout -b python3.8; git commit -m"SRE-869/upgrade-dockerfiles-to-3.8" -a
+  tarlist: tar ztvf
+
+  reboot-sound: pulseaudio -k && sudo alsa force-reload
+
   # globals
   '|b':
     value: '| bash'
@@ -67,6 +72,7 @@ aliases:
   mkdir-cd: mkdir -p $1 && cd $1
 
   T: tree -a -I '.*|__*|tf|venv|target|incremental'
+  TA: tree -a
 
   # curl
   clh:
