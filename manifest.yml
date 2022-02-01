@@ -386,6 +386,8 @@ script:
     # Update and install syncthing:
     sudo apt-get update
     sudo apt-get install syncthing
+  starlink: |
+    sudo sh -c "$(curl -fsSL https://starship.rs/install.sh)"
   nightly: |
     APP_DIR=~/.local/share/applications/
     NIGHTLY_CFG=~/.config/nightly/nightly.desktop
