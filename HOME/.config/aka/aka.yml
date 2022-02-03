@@ -5,6 +5,8 @@ aliases:
 
   reboot-sound: pulseaudio -k && sudo alsa force-reload
 
+  ss: starship
+
   # globals
   '|b':
     value: '| bash'
