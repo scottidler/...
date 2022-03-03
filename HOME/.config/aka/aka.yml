@@ -5,7 +5,12 @@ aliases:
 
   reboot-sound: pulseaudio -k && sudo alsa force-reload
 
+  pp: prepend $1 $2
+  pp-rust: prepend "#\![allow(unused_imports, unused_variables, dead_code)]" $1
+
   ss: starship
+
+  cl: clear
 
   # globals
   '|b':
@@ -107,14 +112,18 @@ aliases:
 
   # cargo (rust)
   ci: cargo init
-  cF: cargo fmt
+  cf: cargo fmt
   cc: cargo clippy
+  cfc: cargo fmt && cargo clippy
   cb: cargo build
   cbr: cargo build --release
   cr: cargo run --
   crh: cargo run -- --help
   cs: cargo search
+  cdndo: cargo doc --no-deps --open
   R: rustc
+
+  new-rust: cargo init $1; cd $1; vim src/main.rs Cargo.toml
 
   # python
   ipy: ipython
