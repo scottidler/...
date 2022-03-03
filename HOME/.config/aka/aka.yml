@@ -12,6 +12,8 @@ aliases:
 
   cl: clear
 
+  pm: pulsemixer
+
   # globals
   '|b':
     value: '| bash'

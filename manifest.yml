@@ -33,6 +33,7 @@ pkg:
   - xdotool
   - graphviz
   - shellcheck
+  - pulsemixer
   - ssh-askpass
   - openssh-server
   - npm
