@@ -13,6 +13,9 @@ aliases:
   cl: clear
 
   pm: pulsemixer
+  
+  home: ssh home.lan
+  work: ssh ltl-3587.lan
 
   # globals
   '|b':
