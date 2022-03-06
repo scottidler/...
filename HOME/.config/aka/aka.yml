@@ -13,9 +13,6 @@ aliases:
   cl: clear
 
   pm: pulsemixer
-  
-  home: ssh home.lan
-  work: ssh ltl-3587.lan
 
   # globals
   '|b':
@@ -99,8 +96,9 @@ aliases:
   url-effective: curl -Ls -o /dev/null -w %{url_effective} $1
 
   # ssh
-  desk: ssh desk.lan
-  work: ssh work.lan
+  home: ssh desk.lan
+  work: ssh ltl-3587.lan
+
   xps: ssh saidler@xps.lan
 
   # chown
