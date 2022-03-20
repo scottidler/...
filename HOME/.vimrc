@@ -470,14 +470,14 @@ nnoremap <Leader>o :.Gbrowse<CR>
 " vim-python
 augroup vimrc-python
   autocmd!
-  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=79
+  autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=119
       \ formatoptions+=croq softtabstop=4
       \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 augroup END
 
 augroup vimrc-rust
   autocmd!
-  autocmd FileType rust setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=79
+  autocmd FileType rust setlocal expandtab shiftwidth=4 tabstop=4 colorcolumn=119
       \ formatoptions+=croq softtabstop=4
       \ cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 augroup END
