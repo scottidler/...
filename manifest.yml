@@ -162,6 +162,7 @@ github:
       bin/git-objects: ~/bin/git-objects
       bin/ls-git-repos: ~/bin/ls-git-repos
       bin/ls-github-repos: ~/bin/ls-github-repos
+      bin/default-branch: ~/bin/default-branch
       shell-functions.sh: ~/.shell-functions.d/clone.sh
       cfg/clone.cfg: ~/.clone/clone/clone.cfg
   scottidler/tmp:
