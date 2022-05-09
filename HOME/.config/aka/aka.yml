@@ -1,12 +1,8 @@
 aliases:
 
-  up3.8: replace 'FROM python:3.7' 'FROM python:3.8'; git checkout -b python3.8; git commit -m"SRE-869/upgrade-dockerfiles-to-3.8" -a
-  tarlist: tar ztvf
-
-  reboot-sound: pulseaudio -k && sudo alsa force-reload
 
   pp: prepend $1 $2
-  pp-rust: prepend "#\![allow(unused_imports, unused_variables, dead_code)]" $1
+  pp-rust: prepend "#\![allow(unused_imports, unused_variables, unused_mut, dead_code)]" $1
 
   ss: starship
 
@@ -15,6 +11,13 @@ aliases:
   pm: pulsemixer
 
   fd: fdfind
+
+  lgr: ls-git-repos
+  lghr: ls-github-repos
+
+  ttv:
+    value: tatari-tv
+    global: true
 
   ping-google: ping 142.251.33.110
   ping-google-v6: ping 2607:f8b0:400a:80b::200e
@@ -184,8 +187,8 @@ aliases:
   tags: git tag -l
   gl: git log -$1
   reporoot: git rev-parse --show-toplevel
+  refresh: REPONAME=$(reponame); cd ~/repos; rmrf $REPONAME; clone $REPONAME
   branch: git rev-parse --abbrev-ref HEAD
-  reponame: "git config --get remote.origin.url | sed -E 's;^(git|ssh|https)://([A-Za-z0-9._-]+@)?([A-Za-z0-9._-]+/);;'"
   nearest-tag: git describe --abbrev=0
   merged: git branch -r --sort=committerdate --merged
   no-merged: git branch -r --sort=committerdate --no-merged
@@ -322,7 +325,7 @@ aliases:
   cat-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; ccat "${WHICHD[@]}"'
   vim-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; vim "${WHICHD[@]}"'
   printr:
-    value: print -r -- =
+    value: print -r -- =$1
     space: false
 
   # one-offs
@@ -333,6 +336,8 @@ aliases:
   awsenv: 'env | grep AWS_'
   xdo: xdotool
   fix-dns: sudo systemd-resolve --flush-caches
+  tarlist: tar ztvf
+  reboot-sound: pulseaudio -k && sudo alsa force-reload
   ping10:
     value: ping 10.10.10.
     space: false
