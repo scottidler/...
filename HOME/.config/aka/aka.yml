@@ -156,6 +156,7 @@ aliases:
   g: git
   ga: git add
   gb: git branch
+  gm: git merge
   gc:
     value: 'git commit -m"'
     space: false
