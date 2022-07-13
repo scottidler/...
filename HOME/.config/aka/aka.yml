@@ -207,6 +207,7 @@ aliases:
   clean: git clean -xfd
   describe: 'git describe --match "v*" --abbrev=7'
   rm-tag: git tag -d $1; git push origin :$1
+  db: delete-branch
 
   authors: git shortlog -s -n --all --no-merges
   gbp: git-big-picture
