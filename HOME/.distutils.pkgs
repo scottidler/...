@@ -6,6 +6,7 @@ pycairo
 pycups
 pypng
 PyQt5
+PyQtWebEngine
 PyTrie
 pyxdg
 PyYAML
