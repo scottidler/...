@@ -1,7 +1,9 @@
+blinker
 Cython
 entrypoints
 pexpect
 pyasn1-modules
+PyAudio
 pycairo
 pycups
 pypng
