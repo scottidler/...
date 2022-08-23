@@ -162,6 +162,7 @@ aliases:
     space: false
   gcf: git cat-file -p
   gd: git diff
+  gD: git describe
   gdm: git diff main
   gp: git pull
   gP: git push
