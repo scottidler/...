@@ -151,6 +151,10 @@ if [ -f /usr/local/bin/starship ]; then
     eval "$(starship init zsh)"
 fi
 
+if [ -f $HOME/.asdf/asdf.sh ]; then
+    . $HOME/.asdf/asdf.sh
+fi
+
 if [ $(ps ax | grep "[s]sh-agent" | wc -l) -eq 0 ] ; then
     eval $(ssh-agent -s) > /dev/null
     if [ "$(ssh-add -l)" = "The agent has no identities." ] ; then
