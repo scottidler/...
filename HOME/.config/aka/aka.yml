@@ -128,8 +128,8 @@ aliases:
   cfc: cargo fmt && cargo clippy
   cb: cargo build
   cbr: cargo build --release
-  cr: cargo run --
-  crh: cargo run -- --help
+  cr: cargo run -q --
+  crh: cargo run -q -- --help
   cs: cargo search
   cdndo: cargo doc --no-deps --open
   R: rustc
