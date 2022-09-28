@@ -6,7 +6,7 @@ import re
 import sys
 sys.dont_write_bytecode = True
 
-from attrdict import AttrDict
+from addict import Addict
 from subprocess import Popen, PIPE, CalledProcessError
 from fractions import Fraction
 from fnmatch import fnmatch
@@ -90,7 +90,7 @@ def _load_window_data():
     ]))
     text = call('wmctrl -lxpG')[1]
     groups = [AttrDict(match.groupdict()) for match in regex.finditer(text)]
-    windows = AttrDict()
+    windows = Addict()
     for group in groups:
         if group.desktop_id == '-1':
             width = int(group.width)
@@ -114,8 +114,8 @@ class Layout(object):
             f'(?P<window_name>{ANY_PN})',
         ]))
         text = call('wmctrl -lxpG')[1]
-        groups = [AttrDict(match.groupdict()) for match in regex.finditer(text)]
-        self.windows = AttrDict()
+        groups = [Addict(match.groupdict()) for match in regex.finditer(text)]
+        self.windows = Addict()
         for group in groups:
             if group.desktop_id == '-1':
                 self.width = int(group.width)
@@ -157,7 +157,7 @@ class Layout(object):
         match = regex.match(mvarg)
         if not match:
             raise MvargParseError(mvarg)
-        mvarg = AttrDict({k:classify(v) for k,v in match.groupdict().items()})
+        mvarg = Addict({k:classify(v) for k,v in match.groupdict().items()})
         if mvarg.xpos.denominator != 1:
             mvarg.xpos = self.width * mvarg.xpos
         if mvarg.ypos.denominator != 1:
