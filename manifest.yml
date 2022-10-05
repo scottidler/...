@@ -333,6 +333,12 @@ script:
     DEB=$(basename $URL)
     wget -q $URL
     sudo apt install ./$DEB && rm ./$DEB
+  obsidian: |
+    LATEST="https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest"
+    URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"AppImage\")) | .browser_download_url" | grep -v arm64)
+    NAME=$(basename $URL)
+    wget -q $URL
+    chmod +x ./$NAME && mv ./$NAME ~/bin/obsidian
   exa: |
     LATEST="https://api.github.com/repos/ogham/exa/releases/latest"
     CMPLT_DIR="/usr/local/share/zsh/site-functions"
