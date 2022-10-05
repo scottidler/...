@@ -14,5 +14,6 @@ pyxdg
 PyYAML
 simplejson
 sip
+sympy
 u-msgpack-python
 xdg
