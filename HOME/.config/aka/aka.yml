@@ -121,6 +121,9 @@ aliases:
     global: true
   pb-paste: xclip -sel clip -o
 
+  ip-lan: 'ip addr show |grep "inet " |grep -v 127.0.0.1 |head -1 |cut -d" " -f6 |cut -d/ -f1'
+  ip-pub: curl ifconfig.me
+
   # cargo (rust)
   ci: cargo init
   cf: cargo fmt
