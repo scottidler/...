@@ -351,6 +351,7 @@ aliases:
   # corrections
   suod: sudo
   soud: sudo
+  svim: sudo vim
   vmi: vim
   emacs: vim
   cd..: cd ..
