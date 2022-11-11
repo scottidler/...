@@ -114,6 +114,8 @@ aliases:
   yours: sudo chown -R root:root
   ours: sudo chmod -R 777
 
+  pa: pulseaudio
+
   # clipboard
   clipboard: xclip -sel clip
   pb-copy:
@@ -244,10 +246,10 @@ aliases:
   # kubectl (k8s)
   context: kubectl config current-context
   contexts: kubectl config get-contexts
-  staging-context: awsv2 eks --region us-west-2 update-kubeconfig --name staging --role-arn arn:aws:iam::878256633362:role/eks-staging-admin
-  prod-context: awsv2 eks --region us-east-1 update-kubeconfig --name prod --role-arn arn:aws:iam::878256633362:role/eks-prod-admin
-  test-context: awsv2 eks --region us-west-2 update-kubeconfig --name test --role-arn arn:aws:iam::878256633362:role/eks-test-admin
-  dev-context: awsv2 eks --region us-west-2 update-kubeconfig --name dev --role-arn arn:aws:iam::878256633362:role/eks-dev-admin
+  staging-context: aws eks --region us-west-2 update-kubeconfig --name staging --role-arn arn:aws:iam::878256633362:role/eks-staging-admin
+  prod-context: aws eks --region us-east-1 update-kubeconfig --name prod --role-arn arn:aws:iam::878256633362:role/eks-prod-admin
+  test-context: aws eks --region us-west-2 update-kubeconfig --name test --role-arn arn:aws:iam::878256633362:role/eks-test-admin
+  dev-context: aws eks --region us-west-2 update-kubeconfig --name dev --role-arn arn:aws:iam::878256633362:role/eks-dev-admin
 
   k: kubectl
   ka: kubectl apply -f
@@ -300,8 +302,7 @@ aliases:
   vl: vault login
 
   # aws
-  aws: awsv2
-  aws-id: 'awsv2 sts get-caller-identity | jq -r .Account'
+  aws-id: 'aws sts get-caller-identity | jq -r .Account'
 
   # flatpak
   fp: flatpak
