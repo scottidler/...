@@ -316,6 +316,9 @@ aliases:
   # papertrail
   pt: papertrail
 
+  jc: journalctl
+  sc: systemctl
+
   # edit, re-evals
   akas: vim ~/.config/aka/aka.yml; . ~/.zshrc
   bashrc: vim ~/.bashrc; . ~/.bashrc
