@@ -75,6 +75,7 @@ apt:
   - build-essential
   - portaudio19-dev
   - openvpn
+  - neovim
   - network-manager-openvpn
   - network-manager-openvpn-gnome
   - libcurl4-openssl-dev
@@ -345,8 +346,8 @@ script:
     LATEST="https://api.github.com/repos/ogham/exa/releases/latest"
     CMPLT_DIR="/usr/local/share/zsh/site-functions"
     CMPLT_URL="https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh"
-    URL="https://github.com/ogham/exa/releases/download/v0.9.0/exa-linux-x86_64-0.9.0.zip"
-    ZIP=$(basename $URL)
+    URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"$ARCH\")) | .browser_download_url" | grep linux | grep -v musl)
+    ZIP=$(basename "$URL")
     wget -q $URL
     unzip $ZIP && rm $ZIP && mv exa-linux-x86_64 ~/bin/exa
     sudo mkdir -p $CMPLT_DIR && sudo wget -qO $CMPLT_DIR/_exa $CMPLT_URL
