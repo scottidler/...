@@ -193,7 +193,7 @@ kinds:
                     config = dict([
                         (k.replace('-', '_'), v)
                         for k, v
-                        in yaml.safe_load(open(ns.config)).items()
+                        in yaml.safe_load(open(os.path.expanduser(ns.config))).items()
                     ])
                 except FileNotFoundError as er:
                     config = dict()
