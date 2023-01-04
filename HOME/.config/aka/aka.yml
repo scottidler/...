@@ -115,6 +115,13 @@ aliases:
   ours: sudo chmod -R 777
 
   pa: pulseaudio
+  pe: pyenv
+  Pe: pipenv
+
+  nv: nordvpn
+  nvl: nordvpn login
+  nvl: nordvpn connect
+  nvs: nordvpn status
 
   # clipboard
   clipboard: xclip -sel clip
