@@ -123,6 +123,8 @@ aliases:
   nvl: nordvpn connect
   nvs: nordvpn status
 
+  mi: mediainfo
+
   # clipboard
   clipboard: xclip -sel clip
   pb-copy:
@@ -222,6 +224,10 @@ aliases:
   rm-tag: git tag -d $1; git push origin :$1
   db: delete-branch
 
+  av: aws-vault exec -d 12h tatari --
+
+  epoch-to-date: date -d @$1
+
   authors: git shortlog -s -n --all --no-merges
   gbp: git-big-picture
 
@@ -303,10 +309,16 @@ aliases:
   tfa: terraform apply
   tf-fmt: terraform fmt -write=true -diff=true -recursive
 
+  tfpt-gh: terraform plan --target 'github_repository.repos["$1"]'
+
+  tfv: tfvar
+
   # vault
   v: vault
   ve: vault exec
   vl: vault login
+
+  pyt: pytest .
 
   # aws
   aws-id: 'aws sts get-caller-identity | jq -r .Account'
