@@ -120,7 +120,8 @@ aliases:
 
   nv: nordvpn
   nvl: nordvpn login
-  nvl: nordvpn connect
+  nvc: nordvpn connect
+  nvd: nordvpn disconnect
   nvs: nordvpn status
 
   mi: mediainfo
@@ -139,9 +140,11 @@ aliases:
   ci: cargo init
   cf: cargo fmt
   cc: cargo clippy
+  ccf: cargo clippy --fix -- -W clippy::pedantic -W clippy::nursery -W clippy::unwrap_used -W clippy::expect_used
   cfc: cargo fmt && cargo clippy
   cb: cargo build
   cbr: cargo build --release
+  ct: cargo test
   cr: cargo run -q --
   crh: cargo run -q -- --help
   cs: cargo search
@@ -224,12 +227,17 @@ aliases:
   rm-tag: git tag -d $1; git push origin :$1
   db: delete-branch
 
+  gh-title: gh pr create --title "$(git symbolic-ref --short HEAD | awk -v FS='/' -v OFS='/' '{ gsub(/-/," ",$2) } { print }' | tr '/' ' ')" --reviewer tatari-tv/SRE; gh pr view --web
   av: aws-vault exec -d 12h tatari --
 
-  epoch-to-date: date -d @$1
+  e2d: date -d @$1
+
+  repl: evcxr
 
   authors: git shortlog -s -n --all --no-merges
   gbp: git-big-picture
+
+  afields: awk -v N=$1 '{sep=""; for (i=N; i<=NF; i++) {printf("%s%s",sep,$i); sep=OFS}; printf("\n")}'
 
   gsm: git submodule
   gsmu: gsm update
@@ -319,6 +327,8 @@ aliases:
   vl: vault login
 
   pyt: pytest .
+
+  yml-lint: yq -i . $1
 
   # aws
   aws-id: 'aws sts get-caller-identity | jq -r .Account'
