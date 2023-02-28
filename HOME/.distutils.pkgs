@@ -16,5 +16,6 @@ PyYAML
 simplejson
 sip
 sympy
+systemd-python
 u-msgpack-python
 xdg
