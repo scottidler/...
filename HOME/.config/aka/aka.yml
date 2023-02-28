@@ -124,6 +124,8 @@ aliases:
   nvd: nordvpn disconnect
   nvs: nordvpn status
 
+  wiki: wiki-tui "$@"
+
   mi: mediainfo
 
   # clipboard
@@ -137,7 +139,10 @@ aliases:
   ip-pub: curl ifconfig.me
 
   # cargo (rust)
-  ci: cargo init
+  cI: cargo init
+  ci: cargo install
+  cil: cargo install --list
+  cin: cargo info
   cf: cargo fmt
   cc: cargo clippy
   ccf: cargo clippy --fix -- -W clippy::pedantic -W clippy::nursery -W clippy::unwrap_used -W clippy::expect_used
@@ -361,14 +366,14 @@ aliases:
   ushutdown: 'update && shutdown'
 
   #which combos
-  cat-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; ccat "${WHICHD[@]}"'
+  cat-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; bat "${WHICHD[@]}"'
   vim-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; vim "${WHICHD[@]}"'
   printr:
     value: print -r -- =$1
     space: false
 
   # one-offs
-  cat: ccat
+  cat: bat -p
   os: 'echo "$(lsb_release -is)-$(lsb_release -rs)_x$(getconf LONG_BIT)($(lsb_release -cs))"'
   ds: dig +short
   psgrep: 'ps aux | grep -v grep | grep'
