@@ -130,6 +130,10 @@ aliases:
 
   cm: chezmoi
   cma: chezmoi add --follow
+  cmA: chezmoi apply
+  cml: chezmoi list
+  cmd: chezmoi diff
+  cmi: chezmoi init
 
   # clipboard
   clipboard: xclip -sel clip
