@@ -10,8 +10,6 @@ aliases:
 
   pm: pulsemixer
 
-  fd: fdfind
-
   lgr: ls-git-repos
   lghr: ls-github-repos
 
@@ -134,6 +132,9 @@ aliases:
   cml: chezmoi list
   cmd: chezmoi diff
   cmi: chezmoi init
+
+  cinema: asciinema
+  st: speedtest-rs
 
   # clipboard
   clipboard: xclip -sel clip
