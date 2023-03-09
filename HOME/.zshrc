@@ -129,7 +129,7 @@ if [ -f ~/.shell-exports ]; then
     . ~/.shell-exports
 fi
 
-if [ -f ~/.expand-aka ]; then
+if hash aka 2>/dev/null && [ -f ~/.expand-aka ]; then
     export EXPAND_AKA=yes
     . ~/.expand-aka
 fi
@@ -147,7 +147,7 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
-if [ -f /usr/local/bin/starship ]; then
+if hash starship 2>/dev/null; then
     eval "$(starship init zsh)"
 fi
 
