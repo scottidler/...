@@ -75,6 +75,10 @@ aliases:
     value: RUST_BACKTRACE=1
     global: true
 
+  # apt install deb files
+  apt-deb: sudo apt install -f ~/Downloads/
+  apt-deb-force: sudo apt -o Dpkg::Options::="--force-overwrite" install -f ~/Downloads/
+
   # prepend
   pp: prepend $1 $2
   pp-rust: prepend "#\![allow(unused_imports, unused_variables, unused_mut, dead_code)]" $1
