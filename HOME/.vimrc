@@ -214,8 +214,8 @@ set scrolloff=3
 set laststatus=2
 
 "" Use modeline overrides
-set modeline
-set modelines=10
+"set modeline
+"set modelines=10
 
 set title
 set titleold="Terminal"
