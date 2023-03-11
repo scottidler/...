@@ -1,24 +1,41 @@
 aliases:
 
-
-  pp: prepend $1 $2
-  pp-rust: prepend "#\![allow(unused_imports, unused_variables, unused_mut, dead_code)]" $1
-
-  ss: starship
-
+  # one-offs
+  calc: fend
+  cat: bat -p
+  cinema: asciinema
   cl: clear
-
+  ds: dig +short
+  e2d: date -d @$1
+  email: himalaya
+  ex: exercism
+  fix-dns: sudo systemd-resolve --flush-caches
+  mi: mediainfo
+  os: 'echo "$(lsb_release -is)-$(lsb_release -rs)_x$(getconf LONG_BIT)($(lsb_release -cs))"'
+  pa: pulseaudio
+  pe: pyenv
+  Pe: pipenv
   pm: pulsemixer
-
-  lgr: ls-git-repos
-  lghr: ls-github-repos
-
+  psgrep: 'ps aux | grep -v grep | grep'
+  ping10:
+    value: ping 10.10.10.
+    space: false
+  reboot-sound: pulseaudio -k && sudo alsa force-reload
+  SS: starship
+  tarlist: tar ztvf
   ttv:
     value: tatari-tv
     global: true
+  xdo: xdotool
 
-  ping-google: ping 142.251.33.110
-  ping-google-v6: ping 2607:f8b0:400a:80b::200e
+  # corrections
+  suod: sudo
+  soud: sudo
+  svim: sudo vim
+  vmi: vim
+  emacs: vim
+  cd..: cd ..
+  cd../: cd ..
 
   # globals
   '|b':
@@ -58,16 +75,31 @@ aliases:
     value: RUST_BACKTRACE=1
     global: true
 
-  # ls
-  lah: exa -lah --git
-  ltr: exa -lr -sold
-  ll: exa -alF
-  la: exa -la
-  ls: exa
+  # prepend
+  pp: prepend $1 $2
+  pp-rust: prepend "#\![allow(unused_imports, unused_variables, unused_mut, dead_code)]" $1
 
-  # search (ripgrep)
-  /: rg
-  //: rg --hidden
+  ## surrealdb
+  s: surreal
+  ss: surreal start
+  sb: surreal backup
+  si: surreal import
+  se: surreal export
+  sS: sureal sql
+
+  ## etckeeper
+  ek: sudo etckeeper
+  eks: sudo etckeeper vcs status
+  ekd: sudo etckeeper vcs diff
+
+  # list git repos
+  lgr: ls-git-repos
+  lghr: ls-github-repos
+
+  # ping
+  ping-cloudflare: ping 1.1.1.1
+  ping-google: ping 142.251.33.110
+  ping-google-v6: ping 2607:f8b0:400a:80b::200e
 
   # cd to common directories
   docs: cd ~/Documents
@@ -81,11 +113,11 @@ aliases:
   cd-github-setup: cd ~/repos/tatari-tv/github-setup/
   cd-leatherman: cd ~/repos/scottidler/leatherman/
   cd-rfc: cd ~/repos/tatari-tv/rfc
-
   cp-cd: mkdir -p $2 && cp $1 $2 && cd $(toplevel $2)
   mv-cd: mkdir -p $2 && mv $1 $2 && cd $(toplevel $2)
   mkdir-cd: mkdir -p $1 && cd $1
 
+  # tree
   T: tree -a -I '.*|__*|tf|venv|target|incremental'
   TA: tree -a
 
@@ -104,7 +136,6 @@ aliases:
   # ssh
   home: ssh desk.lan
   work: ssh ltl-3587.lan
-
   xps: ssh saidler@xps.lan
 
   # chown
@@ -112,29 +143,30 @@ aliases:
   yours: sudo chown -R root:root
   ours: sudo chmod -R 777
 
-  pa: pulseaudio
-  pe: pyenv
-  Pe: pipenv
-
+  # nordvpn
   nv: nordvpn
   nvl: nordvpn login
   nvc: nordvpn connect
   nvd: nordvpn disconnect
   nvs: nordvpn status
 
-  wiki: wiki-tui "$@"
+  # rust cli tools
+  # ls
+  lah: exa -lah --git
+  ltr: exa -lr -sold
+  ll: exa -alF
+  la: exa -la
+  ls: exa
 
-  mi: mediainfo
+  repl: irust
+  repl2: evcxr
 
-  cm: chezmoi
-  cma: chezmoi add --follow
-  cmA: chezmoi apply
-  cml: chezmoi list
-  cmd: chezmoi diff
-  cmi: chezmoi init
+  # search
+  /: rg
+  //: rg --hidden
 
-  cinema: asciinema
   st: speedtest-rs
+  wiki: wiki-tui "$@"
 
   # clipboard
   clipboard: xclip -sel clip
@@ -143,6 +175,7 @@ aliases:
     global: true
   pb-paste: xclip -sel clip -o
 
+  ## ip adresses
   ip-lan: 'ip addr show |grep "inet " |grep -v 127.0.0.1 |head -1 |cut -d" " -f6 |cut -d/ -f1'
   ip-pub: curl ifconfig.me
 
@@ -181,6 +214,9 @@ aliases:
   pip3.7-ii: sudo -H python3.7 -m pip install -U --ignore-installed
   pip3.8: sudo -H python3.8 -m pip
   pip3.8-ii: sudo -H python3.8 -m pip install -U --ignore-installed
+
+  # pytest
+  pyt: pytest .
 
   # git
   g: git
@@ -240,23 +276,21 @@ aliases:
   rm-tag: git tag -d $1; git push origin :$1
   db: delete-branch
 
+  # git submodules
+  gsm: git submodule
+  gsmu: gsm update
+  gsmur: gsm update --remote
+  gsmui: 'gsm update --jobs=$((3 * $(nproc))) --init --recursive'
+
   gh-title: gh pr create --title "$(git symbolic-ref --short HEAD | awk -v FS='/' -v OFS='/' '{ gsub(/-/," ",$2) } { print }' | tr '/' ' ')" --reviewer tatari-tv/SRE; gh pr view --web
   av: aws-vault exec -d 12h tatari --
-
-  e2d: date -d @$1
-
-  repl: evcxr
 
   authors: git shortlog -s -n --all --no-merges
   gbp: git-big-picture
 
   afields: awk -v N=$1 '{sep=""; for (i=N; i<=NF; i++) {printf("%s%s",sep,$i); sep=OFS}; printf("\n")}'
 
-  gsm: git submodule
-  gsmu: gsm update
-  gsmur: gsm update --remote
-  gsmui: 'gsm update --jobs=$((3 * $(nproc))) --init --recursive'
-
+  # change dir
   cdr: '$(git rev-parse) && cd $(git rev-parse --show-toplevel)'
   cdpr: '$(git rev-parse) && {cd ../; cd $(git rev-parse --show-toplevel)}'
   cdp: '$(git rev-parse) && cd $(git rev-parse --show-toplevel) && cd ../'
@@ -278,13 +312,6 @@ aliases:
   rm-dangling-images: 'docker rmi $(docker images -q --filter "dangling=true")'
 
   # kubectl (k8s)
-  context: kubectl config current-context
-  contexts: kubectl config get-contexts
-  staging-context: aws eks --region us-west-2 update-kubeconfig --name staging --role-arn arn:aws:iam::878256633362:role/eks-staging-admin
-  prod-context: aws eks --region us-east-1 update-kubeconfig --name prod --role-arn arn:aws:iam::878256633362:role/eks-prod-admin
-  test-context: aws eks --region us-west-2 update-kubeconfig --name test --role-arn arn:aws:iam::878256633362:role/eks-test-admin
-  dev-context: aws eks --region us-west-2 update-kubeconfig --name dev --role-arn arn:aws:iam::878256633362:role/eks-dev-admin
-
   k: kubectl
   ka: kubectl apply -f
   kg: kubectl get
@@ -324,14 +351,19 @@ aliases:
     value: -o -yaml
     global: true
 
+  context: kubectl config current-context
+  contexts: kubectl config get-contexts
+  staging-context: aws eks --region us-west-2 update-kubeconfig --name staging --role-arn arn:aws:iam::878256633362:role/eks-staging-admin
+  prod-context: aws eks --region us-east-1 update-kubeconfig --name prod --role-arn arn:aws:iam::878256633362:role/eks-prod-admin
+  test-context: aws eks --region us-west-2 update-kubeconfig --name test --role-arn arn:aws:iam::878256633362:role/eks-test-admin
+  dev-context: aws eks --region us-west-2 update-kubeconfig --name dev --role-arn arn:aws:iam::878256633362:role/eks-dev-admin
+
   # terraform
   tf: terraform
   tfp: terraform plan
   tfa: terraform apply
   tf-fmt: terraform fmt -write=true -diff=true -recursive
-
   tfpt-gh: terraform plan --target 'github_repository.repos["$1"]'
-
   tfv: tfvar
 
   # vault
@@ -339,12 +371,11 @@ aliases:
   ve: vault exec
   vl: vault login
 
-  pyt: pytest .
-
   yml-lint: yq -i . $1
 
   # aws
   aws-id: 'aws sts get-caller-identity | jq -r .Account'
+  awsenv: 'env | grep AWS_'
 
   # flatpak
   fp: flatpak
@@ -355,9 +386,7 @@ aliases:
   # traceroute
   tr: traceroute
 
-  # papertrail
-  pt: papertrail
-
+  # linux
   jc: journalctl
   sc: systemctl
 
@@ -379,26 +408,3 @@ aliases:
   printr:
     value: print -r -- =$1
     space: false
-
-  # one-offs
-  cat: bat -p
-  os: 'echo "$(lsb_release -is)-$(lsb_release -rs)_x$(getconf LONG_BIT)($(lsb_release -cs))"'
-  ds: dig +short
-  psgrep: 'ps aux | grep -v grep | grep'
-  awsenv: 'env | grep AWS_'
-  xdo: xdotool
-  fix-dns: sudo systemd-resolve --flush-caches
-  tarlist: tar ztvf
-  reboot-sound: pulseaudio -k && sudo alsa force-reload
-  ping10:
-    value: ping 10.10.10.
-    space: false
-
-  # corrections
-  suod: sudo
-  soud: sudo
-  svim: sudo vim
-  vmi: vim
-  emacs: vim
-  cd..: cd ..
-  cd../: cd ..
