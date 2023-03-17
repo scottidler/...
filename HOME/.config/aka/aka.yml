@@ -116,6 +116,7 @@ aliases:
   cd-philo-fe: cd ~/repos/tatari-tv/philo-fe/
   cd-github-setup: cd ~/repos/tatari-tv/github-setup/
   cd-leatherman: cd ~/repos/scottidler/leatherman/
+  cd-sieve: cd ~/repos/scottidler/sieve/
   cd-rfc: cd ~/repos/tatari-tv/rfc
   cp-cd: mkdir -p $2 && cp $1 $2 && cd $(toplevel $2)
   mv-cd: mkdir -p $2 && mv $1 $2 && cd $(toplevel $2)
