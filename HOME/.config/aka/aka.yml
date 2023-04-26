@@ -122,6 +122,8 @@ aliases:
   mv-cd: mkdir -p $2 && mv $1 $2 && cd $(toplevel $2)
   mkdir-cd: mkdir -p $1 && cd $1
 
+  extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
+
   # tree
   T: tree -a -I '.*|__*|tf|venv|target|incremental'
   TA: tree -a
