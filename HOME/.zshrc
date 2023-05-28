@@ -136,6 +136,10 @@ fi
 
 PROMPT_EOL_MARK=''
 
+# remove the pipe from this zsh behavior
+# https://superuser.com/questions/613685/how-stop-zsh-from-eating-space-before-pipe-symbol
+ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&'
+
 # added by travis gem
 if [ -f ~/.travis/travis.sh ]; then
     . ~/.travis/travis.sh
