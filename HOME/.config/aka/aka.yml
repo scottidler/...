@@ -38,6 +38,12 @@ aliases:
   cd../: cd ..
 
   # globals
+  '|c':
+    value: '| xclip -sel clip'
+    global: true
+  'p|':
+    value: 'xclip -sel clip -o |'
+    global: true
   '|b':
     value: '| bash'
     global: true
@@ -55,6 +61,9 @@ aliases:
     global: true
   '|t':
     value: '| tail -10'
+    global: true
+  '|tf':
+    value: '| tail -f'
     global: true
   '|b64':
     value: '| base64'
