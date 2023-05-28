@@ -1,15 +1,25 @@
 #!/bin/zsh
 
+log() {
+  if [[ -n $AKA_LOG ]]; then
+    echo "$@" >> ~/aka.txt
+  fi
+}
+
 expand-aka-space() {
     if [ ! -f ~/aka-killswitch ]; then
+        log "expand-aka-space: BUFFER=$BUFFER"
         OUTPUT=$(aka query "$BUFFER")
         RC=$?
+        log "expand-aka-space: OUTPUT=$OUTPUT"
         if [ $RC -ne 0 ]; then
             echo "RC=$RC"
         fi
         if [ -n "$OUTPUT" ]; then
             BUFFER="$OUTPUT"
+            log "expand-aka-space: CURSOR=$CURSOR"
             CURSOR=$(expr length "$BUFFER")
+            log "expand-aka-space: CURSOR(after assignment)=$CURSOR"
         else
             zle self-insert
         fi
@@ -20,14 +30,18 @@ expand-aka-space() {
 
 expand-aka-accept-line() {
     if [ ! -f ~/aka-killswitch ]; then
+        log "expand-aka-accept-line: BUFFER=$BUFFER"
         OUTPUT=$(aka --eol query "$BUFFER")
         RC=$?
+        log "expand-aka-accept-line: OUTPUT=$OUTPUT"
         if [ $RC -ne 0 ]; then
             echo "RC=$RC"
         fi
         if [ -n "$OUTPUT" ]; then
             BUFFER="$OUTPUT"
+            log "expand-aka-accept-line: CURSOR=$CURSOR"
             CURSOR=$(expr length "$BUFFER")
+            log "expand-aka-accept-line: CURSOR(after assignment)=$CURSOR"
         fi
         zle .accept-line
     else
