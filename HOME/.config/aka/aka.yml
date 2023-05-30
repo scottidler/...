@@ -122,6 +122,7 @@ aliases:
   cd-aka: cd ~/repos/scottidler/aka
   cd-otto: cd ~/repos/scottidler/otto/
   cd-philo: cd ~/repos/tatari-tv/philo/
+  cd-rkvr: cd ~/repos/scottidler/rkvr/
   cd-philo-fe: cd ~/repos/tatari-tv/philo-fe/
   cd-github-setup: cd ~/repos/tatari-tv/github-setup/
   cd-leatherman: cd ~/repos/scottidler/leatherman/
