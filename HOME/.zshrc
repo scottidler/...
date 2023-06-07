@@ -17,6 +17,19 @@ ZSH_THEME="agnoster"
 
 . ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh
 
+HIST_SPACING_STYLE="always"
+
+function preexec() {
+  if [[ -n "$1" ]]; then
+    last_command="$1"
+  fi
+}
+function precmd() {
+  if [[ -n "$last_command" ]]; then
+    fc -R <(echo "$last_command ")
+  fi
+}
+
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
