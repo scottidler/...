@@ -73,3 +73,23 @@ function up-line-or-add-space() {
 zle -N up-line-or-add-space
 bindkey '^[[A' up-line-or-add-space
 
+# Define a function to search through aka aliases
+aka-search() {
+    # Run 'aka ls', pipe the output to fzf
+    local alias=$(aka ls | sk --prompt "aka> ")
+
+    # If an alias was selected (user didn't press escape)
+    if [[ -n $alias ]]; then
+        # Extract the alias name (everything before the first ':')
+        local alias_name=${alias%%:*}
+
+        # Type the alias at the command prompt
+        LBUFFER+=$alias_name
+    fi
+}
+zle -N aka-search
+
+# Bind the function to a shortcut key
+# Here we're using Ctrl+t, but you can choose a different shortcut
+bindkey '^t' aka-search
+
