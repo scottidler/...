@@ -417,3 +417,6 @@ script:
     cargo install tokei
   procs: |
     cargo install procs
+  rtx: |
+    curl https://rtx.pub/rtx-latest-linux-x64 > ~/bin/rtx
+    chmod +x ~/bin/rtx
