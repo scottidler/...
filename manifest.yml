@@ -158,9 +158,6 @@ flatpak:
   - com.github.johnfactotum.QuickLookup
 
 github:
-  asdf-vm/asdf:
-    link:
-      ./: ~/.asdf
   scottidler/git:
     link:
       bin/clone: ~/bin/clone
