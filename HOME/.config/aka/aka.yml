@@ -83,6 +83,9 @@ aliases:
   rbt:
     value: RUST_BACKTRACE=1
     global: true
+  target-windows:
+    value: --target x86_64-pc-windows-gnu
+    global: true
 
   # apt install deb files
   apt-deb: sudo apt install -f ~/Downloads/
@@ -128,14 +131,17 @@ aliases:
   cd-leatherman: cd ~/repos/scottidler/leatherman/
   cd-sieve: cd ~/repos/scottidler/sieve/
   cd-rfc: cd ~/repos/tatari-tv/rfc
+  cd-dashify: cd ~/repos/scottidler/dashify
   cp-cd: mkdir -p $2 && cp $1 $2 && cd $(toplevel $2)
   mv-cd: mkdir -p $2 && mv $1 $2 && cd $(toplevel $2)
   mkdir-cd: mkdir -p $1 && cd $1
+  mkdir: mkdir -p
 
   extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
 
   # tree
   T: tree -a -I '.*|__*|tf|venv|target|incremental'
+  TT: tree -a -I '__*|tf|venv|target|incremental'
   TA: tree -a
 
   # curl
@@ -207,14 +213,20 @@ aliases:
   cfc: cargo fmt && cargo clippy
   cb: cargo build
   cbr: cargo build --release
+  cbrw: cargo build --release --target=x86_64-pc-windows-gnu
   ct: cargo test
   cr: cargo run -q --
   crh: cargo run -q -- --help
   cs: cargo search
   cdndo: cargo doc --no-deps --open
   R: rustc
+  car: bat -p Cargo.toml
 
   new-rust: cargo init $1; cd $1; vim src/main.rs Cargo.toml
+
+  slack-gpg: sudo cp ~/Documents/slack.list /etc/apt/sources.list.d/slack.list
+
+  cookie: cookiecutter
 
   # python
   ipy: ipython
@@ -418,6 +430,8 @@ aliases:
   # update reboot|shutdown
   ureboot: 'update && reboot'
   ushutdown: 'update && shutdown'
+
+  CC: bat -p ~/Documents/.cards/.cc
 
   #which combos
   cat-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; bat "${WHICHD[@]}"'
