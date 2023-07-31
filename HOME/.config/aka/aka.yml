@@ -3,6 +3,7 @@ aliases:
   # one-offs
   calc: fend
   cat: bat -p
+  car: bat -p Cargo.toml
   cinema: asciinema
   cl: clear
   ds: dig +short
