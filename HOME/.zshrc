@@ -168,8 +168,8 @@ if hash starship 2>/dev/null; then
     eval "$(starship init zsh)"
 fi
 
-if [ -f $HOME/.asdf/asdf.sh ]; then
-    . $HOME/.asdf/asdf.sh
+if hash rtx 2>/dev/null; then
+    eval "$(~/bin/rtx activate zsh)"
 fi
 
 if [ $(ps ax | grep "[s]sh-agent" | wc -l) -eq 0 ] ; then
