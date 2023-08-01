@@ -435,13 +435,13 @@ aliases:
   CC: bat -p ~/Documents/.cards/.cc
 
   # package update
-  apt-up: |
+  apt-up|au: |
     sudo apt-get update &&
     sudo apt-get upgrade -y --allow-unauthenticated --allow-downgrades &&
     sudo apt-get dist-upgrade -y &&
     sudo apt-get autoremove -y
 
-  pip-up: |
+  pip-up|pu: |
     python3 -m pip install -U pip &&
     python3 -m pip list --outdated |
     cut -d' ' -f1 |
@@ -449,10 +449,8 @@ aliases:
     xargs -n1 sudo -H python3 -m pip install -U
 
   #which combos
-  cw: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; bat "${WHICHD[@]}"'
-  cat-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; bat "${WHICHD[@]}"'
-  vw: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; vim "${WHICHD[@]}"'
-  vim-which: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; vim "${WHICHD[@]}"'
+  cat-which|cw: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; bat "${WHICHD[@]}"'
+  vim-which|vw: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; vim "${WHICHD[@]}"'
   printr:
     value: print -r -- =$1
     space: false
