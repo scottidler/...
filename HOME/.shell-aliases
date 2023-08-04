@@ -6,7 +6,7 @@ if [ -n "$DEBUG" ]; then
 fi
 
 # global aliases, zsh only
-if [[ "$SHELL" == *"zsh" ]]; then
+if [[ "$0" == *"zsh" ]]; then
     # disable annoying oh-my-zsh aliases
     disable -a \...
     disable -a \....
@@ -44,7 +44,6 @@ fi
 #alias ll="ls-stat -alF --color=always"
 #alias la="ls-stat -A --color=always"
 #alias l="ls-stat -CF --color=always"
-
 
 if [ -d ~/.shell-aliases.d/ ]; then
     for f in ~/.shell-aliases.d/*; do . $f; done
