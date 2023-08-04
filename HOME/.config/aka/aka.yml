@@ -35,6 +35,7 @@ aliases:
   svim: sudo vim
   vmi: vim
   emacs: vim
+  old-vim: $(print -r =vim)
   cd..: cd ..
   cd../: cd ..
 
