@@ -450,6 +450,7 @@ aliases:
     xargs -n1 sudo -H python3 -m pip install -U
 
   #which combos
+  follow-which|fw: follow $(which $1)
   cat-which|cw: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; bat "${WHICHD[@]}"'
   vim-which|vw: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; vim "${WHICHD[@]}"'
   printr:
