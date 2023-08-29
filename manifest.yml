@@ -161,6 +161,7 @@ github:
   scottidler/git:
     link:
       bin/clone: ~/bin/clone
+      bin/clone-lite: ~/bin/clone-lite
       bin/reponame: ~/bin/reponame
       bin/git-objects: ~/bin/git-objects
       bin/ls-git-repos: ~/bin/ls-git-repos
