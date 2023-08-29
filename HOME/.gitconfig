@@ -1,7 +1,9 @@
 [user]
+    name = Scott A. Idler
     email = scott.a.idler@gmail.com
-    name = Scott Idler
     signingkey = 1637717AA84258312B7D4DA7883230927DBA8672
+[includeIf "gitdir:~/repos/tatari-tv"]
+    path = ~/gitconfig-work
 [commit]
     gpgsign = true
 [log]
