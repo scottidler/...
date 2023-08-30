@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ -n "$DEBUG" ]; then
+	PS4=':${LINENO}+'
+	set -x
+fi
+
+if [[ "$(pwd)" =~ "tatari-tv" ]]; then
+	exec /usr/bin/ssh -i ~/.ssh/identities/work/id_ed25519 "$@"
+else
+	exec /usr/bin/ssh -i ~/.ssh/identities/home/id_ed25519 "$@"
+fi
