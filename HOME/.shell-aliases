@@ -8,7 +8,6 @@ fi
 # global aliases, zsh only
 if [[ -n "$ZSH_VERSION" ]]; then
 	# disable annoying oh-my-zsh aliases
-	echo "disabling annoying oh-my-zsh aliases"
 	unalias '...' 2>/dev/null
 	unalias '...' 2>/dev/null
 	unalias '....' 2>/dev/null
