@@ -172,12 +172,8 @@ if hash rtx 2>/dev/null; then
     eval "$(~/bin/rtx activate zsh)"
 fi
 
-if [ $(ps ax | grep "[s]sh-agent" | wc -l) -eq 0 ] ; then
-    eval $(ssh-agent -s) > /dev/null
-    if [ "$(ssh-add -l)" = "The agent has no identities." ] ; then
-        # Auto-add ssh keys to your ssh agent
-        # Example:
-        # ssh-add ~/.ssh/id_rsa > /dev/null 2>&1
-        ssh-add ~/.ssh/identities/work/id_ed25519
-    fi
-fi
+# Initialize keychain for SSH keys
+eval $(keychain --eval --agents ssh \
+    identities/home/id_ed25519 \
+    identities/work/id_ed25519)
+
