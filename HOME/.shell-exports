@@ -1,8 +1,8 @@
 # vim: filetype=sh
 
 if [ -n "$DEBUG" ]; then
-    PS4=':${LINENO}+'
-    set -x
+	PS4=':${LINENO}+'
+	set -x
 fi
 
 export GPG_TTY=$(tty)
@@ -30,7 +30,10 @@ export home_pane=0,1792,0,1024,1400
 export work_pane=0,2816,0,1024,1400
 
 export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
+export WORK_REPOS_DIR="~/repos/tatari-tv"
+export WORK_SSH_PUB_KEY="~/.ssh/identities/work/id_ed25519"
+export HOME_SSH_PUB_KEY="~/.ssh/identities/home/id_ed25519"
 
 if [ -d ~/.shell-exports.d/ ]; then
-    for f in ~/.shell-exports.d/*; do . $f; done
+	for f in ~/.shell-exports.d/*; do . $f; done
 fi
