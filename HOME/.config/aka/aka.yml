@@ -88,14 +88,18 @@ aliases:
   target-windows:
     value: --target x86_64-pc-windows-gnu
     global: true
-
+  comb:
+    value: 2>&1
+    global: true
   # apt install deb files
   apt-deb: sudo apt install -f ~/Downloads/
   apt-deb-force: sudo apt -o Dpkg::Options::="--force-overwrite" install -f ~/Downloads/
 
   # prepend
   pp: prepend $1 $2
-  pp-rust: prepend "#\![allow(unused_imports, unused_variables, unused_mut, dead_code)]" $1
+  pp-rust: prepend "#![cfg_attr(debug_assertions, allow(unused_imports, unused_variables, unused_mut, dead_code))]" $1
+
+  dp: pyze --
 
   ## surrealdb
   s: surreal
@@ -320,6 +324,8 @@ aliases:
   gbp: git-big-picture
 
   afields: awk -v N=$1 '{sep=""; for (i=N; i<=NF; i++) {printf("%s%s",sep,$i); sep=OFS}; printf("\n")}'
+
+  par: parallel
 
   # change dir
   cdr: '$(git rev-parse) && cd $(git rev-parse --show-toplevel)'
