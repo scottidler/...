@@ -172,8 +172,9 @@ if hash rtx 2>/dev/null; then
     eval "$(~/bin/rtx activate zsh)"
 fi
 
-# Initialize keychain for SSH keys
+# Initialize keychain for SSH keysNOTE
+# NOTE: it is important for the work to come before the home
 eval $(keychain --eval --agents ssh \
-    identities/home/id_ed25519 \
-    identities/work/id_ed25519)
+    identities/work/id_ed25519 \
+    identities/home/id_ed25519)
 
