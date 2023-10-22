@@ -218,14 +218,17 @@ aliases:
   ccf: cargo clippy --fix -- -W clippy::pedantic -W clippy::nursery -W clippy::unwrap_used -W clippy::expect_used
   cfc: cargo fmt && cargo clippy
   cb: cargo build
+  cbe: cargo build --example $1
   cbr: cargo build --release
   cbrw: cargo build --release --target=x86_64-pc-windows-gnu
   ct: cargo test
   cr: cargo run -q --
+  cre: cargo run -q --example $1 --
   crh: cargo run -q -- --help
   cs: cargo search
   cdndo: cargo doc --no-deps --open
   R: rustc
+  RL: RUST_LOG=debug
   car: bat -p Cargo.toml
 
   new-rust: cargo init $1; cd $1; vim src/main.rs Cargo.toml
@@ -323,12 +326,14 @@ aliases:
   authors: git shortlog -s -n --all --no-merges
   gbp: git-big-picture
 
+  GS: github-setup
+
   afields: awk -v N=$1 '{sep=""; for (i=N; i<=NF; i++) {printf("%s%s",sep,$i); sep=OFS}; printf("\n")}'
 
   par: parallel
 
   # change dir
-  cdr: '$(git rev-parse) && cd $(git rev-parse --show-toplevel)'
+  cdr: '$(git rev-parse 2>/dev/null) && cd $(git rev-parse --show-toplevel)'
   cdpr: '$(git rev-parse) && {cd ../; cd $(git rev-parse --show-toplevel)}'
   cdp: '$(git rev-parse) && cd $(git rev-parse --show-toplevel) && cd ../'
 
