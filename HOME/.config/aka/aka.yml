@@ -3,6 +3,7 @@ aliases:
   # one-offs
   calc: fend
   cat: bat -p
+  catn: bat -n --decorations=always
   car: bat -p Cargo.toml
   cinema: asciinema
   cl: clear
@@ -209,6 +210,8 @@ aliases:
   ip-pub: curl ifconfig.me
 
   # cargo (rust)
+  ca: cargo add
+  cad: cargo add --dev
   cI: cargo init
   ci: cargo install
   cil: cargo install --list
@@ -221,6 +224,8 @@ aliases:
   cbe: cargo build --example $1
   cbr: cargo build --release
   cbrw: cargo build --release --target=x86_64-pc-windows-gnu
+  ce: cargo expand
+  cep: cargo expand | awk '/$@/,0'
   ct: cargo test
   cr: cargo run -q --
   cre: cargo run -q --example $1 --
@@ -320,6 +325,7 @@ aliases:
   gsmur: gsm update --remote
   gsmui: 'gsm update --jobs=$((3 * $(nproc))) --init --recursive'
 
+  gqs: git-quick-stats
   gh-title: gh pr create --title "$(git symbolic-ref --short HEAD | awk -v FS='/' -v OFS='/' '{ gsub(/-/," ",$2) } { print }' | tr '/' ' ')" --reviewer tatari-tv/SRE; gh pr view --web
   av: aws-vault exec -d 12h tatari --
 
