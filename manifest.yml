@@ -298,11 +298,6 @@ script:
     curl https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip ngrok.zip
     unzip ngrok.zip
     mv ngrok/ngrok ~/bin/
-  ccat: |
-    latest \
-      "linux-amd64" \
-      "https://api.github.com/repos/owenthereal/ccat/releases/latest" \
-      "ccat"
   kubectl: |
     sudo apt-get update && sudo apt-get install -y apt-transport-https
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -356,29 +351,12 @@ script:
     sudo apt install -y ./keybase_amd64.deb
     rm -rf keybase_amd64.deb
     run_keybase
-  ripgrep: |
-    ARCH="amd64"
-    DEB="ripgrep-latest.deb"
-    LATEST="https://api.github.com/repos/BurntSushi/ripgrep/releases/latest"
-    URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"$ARCH\")) | .browser_download_url")
-    DEB=$(basename $URL)
-    wget -q $URL
-    sudo apt install ./$DEB && rm ./$DEB
   obsidian: |
     LATEST="https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest"
     URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"AppImage\")) | .browser_download_url" | grep -v arm64)
     NAME=$(basename $URL)
     wget -q $URL
     chmod +x ./$NAME && mv ./$NAME ~/bin/obsidian
-  exa: |
-    LATEST="https://api.github.com/repos/ogham/exa/releases/latest"
-    CMPLT_DIR="/usr/local/share/zsh/site-functions"
-    CMPLT_URL="https://raw.githubusercontent.com/ogham/exa/master/contrib/completions.zsh"
-    URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"$ARCH\")) | .browser_download_url" | grep linux | grep -v musl)
-    ZIP=$(basename "$URL")
-    wget -q $URL
-    unzip $ZIP && rm $ZIP && mv exa-linux-x86_64 ~/bin/exa
-    sudo mkdir -p $CMPLT_DIR && sudo wget -qO $CMPLT_DIR/_exa $CMPLT_URL
   exercism: |
     LATEST="https://api.github.com/repos/exercism/cli/releases/latest"
     URL=$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\"$OS-$ARCH\")) | .browser_download_url")
@@ -433,21 +411,11 @@ script:
     # Update and install syncthing:
     sudo apt-get update
     sudo apt-get install syncthing
-  starship: |
-    sudo sh -c "$(curl -fsSL https://starship.rs/install.sh)"
   nightly: |
     APP_DIR=~/.local/share/applications/
     NIGHTLY_CFG=~/.config/nightly/nightly.desktop
     desktop-file-validate $NIGHTLY_CFG
     desktop-file-install --dir=$APP_DIR $NIGHTLY_CFG
-  drone: |
-    curl -L https://github.com/drone/drone-cli/releases/latest/download/drone_linux_amd64.tar.gz | tar zx
-    sudo install -t ~/bin drone
-    rm -f ./drone
-  tokei: |
-    cargo install tokei
-  procs: |
-    cargo install procs
   rtx: |
     curl https://rtx.pub/rtx-latest-linux-x64 > ~/bin/rtx
     chmod +x ~/bin/rtx
