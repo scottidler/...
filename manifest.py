@@ -34,6 +34,7 @@ SECTIONS = [
     'pip3',
     'pipx',
     'flatpak',
+    'cargo',
     'github',
     'script',
 ]
@@ -321,6 +322,12 @@ class FLATPAK(ContinuePackageType):
 flatpak install --assumeyes --or-update
 '''.lstrip('\n').rstrip()
 
+class Cargo(ContinuePackageType):
+    def render_block(self):
+        return f'''
+cargo install
+'''.lstrip('\n').rstrip()
+
 class Repo():
     def __init__(self, baseurl, reponame, spec, repopath, **kwargs):
         self.baseurl = baseurl
@@ -406,6 +413,7 @@ class Manifest():
             pip3=None,
             pipx=None,
             flatpak=None,
+            cargo=None,
             github=None,
             script=None,
             **kwargs):
@@ -432,6 +440,8 @@ class Manifest():
             self.sections += [PIPX(spec['pipx'], pipx, **kwargs)]
         if complete or flatpak != None:
             self.sections += [FLATPAK(spec['flatpak'], flatpak, **kwargs)]
+        if complete or cargo != None:
+            self.sections += [Cargo(spec['cargo'], cargo, **kwargs)]
         if complete or github != None:
             self.sections += [Github(spec['github'], github, **kwargs)]
         if complete or script != None:
@@ -557,6 +567,11 @@ def main(args):
         action=ManifestAction,
         nargs='*',
         help='specify list of glob patters to match flatpak items')
+    parser.add_argument(
+        '-c', '--cargo',
+        action=ManifestAction,
+        nargs='*',
+        help='specify list of glob patterns to match cargo crate names')
     parser.add_argument(
         '-g', '--github',
         action=ManifestAction,

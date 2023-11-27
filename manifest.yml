@@ -157,6 +157,35 @@ flatpak:
   - org.gnome.gitlab.somas.Apostrophe
   - com.github.johnfactotum.QuickLookup
 
+cargo:
+  items:
+  - bat
+  - cargo-expand
+  - cargo-show-asm
+  - cargo-udeps
+  - cargo-update
+  - cargo-upgrades
+  - du-dust
+  - exa
+  - fd-find
+  - fend
+  - grex
+  - himalaya
+  - irust
+  - lfs
+  - procs
+  - ripgrep
+  - sccache
+  - sd
+  - skim
+  - starship
+  - tail
+  - tealdeer
+  - tokei
+  - tree-sitter-cli
+  - wiki-tui
+  - ytop
+
 github:
   scottidler/git:
     link:
