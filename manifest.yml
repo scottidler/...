@@ -58,6 +58,7 @@ apt:
 # - diagrams # awesome diagramming (in python) tool
   - fzf
   - cloc
+  - fuse3
   - ldap-utils
   - fonts-powerline
   - libsmbclient-dev
