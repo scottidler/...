@@ -454,9 +454,8 @@ aliases:
 
   # package update
   apt-up|au: |
-    sudo apt-get update &&
-    sudo apt-get upgrade -y --allow-unauthenticated --allow-downgrades &&
-    sudo apt-get dist-upgrade -y &&
+    sudo apt-get update && \
+    sudo apt-get dist-upgrade -y && \
     sudo apt-get autoremove -y
 
   pip-up|pu: |
