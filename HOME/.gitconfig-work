@@ -3,3 +3,7 @@
     name = Scott A. Idler
     email = scott.idler@tatari.tv
     signingkey = 31A73D9D5AF20C82AD9B3AAB0B1C51AB67D7F75A
+
+[branch "main"]
+    autosetupmerge = true
+    pushRemote = no_push
