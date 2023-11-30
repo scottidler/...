@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ -n "$DEBUG" ]; then
+	PS4=':${LINENO}+'
+	set -x
+fi
+
+source ~/.shell-exports
+
+# Manually expand tilde to $HOME for the environment variables
+WORK_REPOS_DIR="${WORK_REPOS_DIR/#\~/$HOME}"
+WORK_SSH_PUB_KEY="${WORK_SSH_PUB_KEY/#\~/$HOME}"
+HOME_SSH_PUB_KEY="${HOME_SSH_PUB_KEY/#\~/$HOME}"
+
+# If WORK_REPOS_DIR is set and the current directory matches WORK_REPOS_DIR, use the "work" SSH key
+if [ -n "$WORK_REPOS_DIR" ] && [[ "$(pwd)" == "$WORK_REPOS_DIR"* ]]; then
+	exec /usr/bin/ssh -i "$WORK_SSH_PUB_KEY" "$@"
+else
+	exec /usr/bin/ssh -i "$HOME_SSH_PUB_KEY" "$@"
+fi
