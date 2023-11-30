@@ -160,9 +160,12 @@ fi
 
 # tab complete for pyenv
 # https://github.com/pyenv/pyenv#installation
+# chat-gippity says this is an update
 if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init --path)"
   eval "$(pyenv init -)"
 fi
+
 
 if hash starship 2>/dev/null; then
     eval "$(starship init zsh)"
@@ -172,9 +175,8 @@ if hash rtx 2>/dev/null; then
     eval "$(~/bin/rtx activate zsh)"
 fi
 
-# Initialize keychain for SSH keysNOTE
+# Initialize keychain for SSH keys with reduced output
 # NOTE: it is important for the work to come before the home
-eval $(keychain --eval --agents ssh \
+eval $(keychain --eval --agents ssh --quiet \
     identities/work/id_ed25519 \
     identities/home/id_ed25519)
-
