@@ -1,8 +1,14 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+
+# ensure that the path is unique
+typeset -U path
+
+path=("$HOME/bin" $path)
+
+# export PYENV_DEBUG=1
 
 # macos specific nonsense
 autoload -Uz compinit && compinit
@@ -119,7 +125,8 @@ if [ -f ~/src/google-cloud-sdk/completion.zsh.inc ]; then
 fi
 
 if [ -d /usr/local/go/bin ]; then
-    export PATH=$PATH:/usr/local/go/bin
+    # export PATH=$PATH:/usr/local/go/bin
+    path+=(/usr/local/go/bin)
 fi
 
 if hash kubectl 2> /dev/null; then
@@ -162,7 +169,8 @@ fi
 # https://github.com/pyenv/pyenv#installation
 # chat-gippity says this is an update
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --path)"
+  export PYENV_ROOT="$HOME/.pyenv"
+  [[ -d $PYENV_ROOT/bin ]] && path+=($PYENV_ROOT/bin)
   eval "$(pyenv init -)"
 fi
 
@@ -180,3 +188,5 @@ fi
 eval $(keychain --eval --agents ssh --quiet \
     identities/work/id_ed25519 \
     identities/home/id_ed25519)
+
+eval "$(zoxide init --cmd cd zsh)"

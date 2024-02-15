@@ -7,11 +7,8 @@ fi
 
 export GPG_TTY=$(tty)
 export PYENV_ROOT=$HOME/.pyenv
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-
-# make sure ~/bin is first in the path
-PATH=$HOME/bin:/home/$USER/go/bin:$(echo -n $PATH | sed -e "s|:/home/$USER/bin:|:|g")
+path+=($PYENV_ROOT/bin)
+path+=($HOME/.local/bin)
 
 export LESS=-Xr
 
@@ -20,7 +17,6 @@ export ARCH=$(uname -m)
 
 export AWS_VAULT_BACKEND=secret-service
 export ANSIBLE_NOCOWS=1
-#export GOROOT=~/go
 export GOPATH=~/go
 
 export term_pane=0,0,0,1792,2100
@@ -29,7 +25,7 @@ export spotify_pane=0,2816,1400,1024,700
 export home_pane=0,1792,0,1024,1400
 export work_pane=0,2816,0,1024,1400
 
-export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"
+path+=(/usr/local/opt/postgresql@9.6/bin)
 export WORK_REPOS_DIR="~/repos/tatari-tv"
 export WORK_SSH_PUB_KEY="~/.ssh/identities/work/id_ed25519"
 export HOME_SSH_PUB_KEY="~/.ssh/identities/home/id_ed25519"
