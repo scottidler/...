@@ -322,7 +322,7 @@ script:
       "kind"
   k9s: |
     latest \
-      "k9s_Linux_x86_64" \
+      "k9s_Linux_amd64.tar.gz" \
       "https://api.github.com/repos/derailed/k9s/releases/latest" \
       "k9s"
   spotify: |
