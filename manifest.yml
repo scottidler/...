@@ -244,7 +244,7 @@ github:
   scottidler/repo:
     link:
       bin/repo: ~/bin/repo
-  mozilla-it/cert-tools:
+  scottidler/cert-tools:
     link:
       findcert: ~/bin/findcert
       modcert: ~/bin/modcert
