@@ -53,6 +53,9 @@ aliases:
   '|g':
     value: '| grep'
     global: true
+  '|gi':
+    value: '| grep -i'
+    global: true
   '|wc':
     value: '| wc -l'
     global: true
@@ -83,7 +86,11 @@ aliases:
   tee2files:
     value: '> >(tee -a stdout.log) 2> >(tee -a stderr.log >&2)'
     global: true
-  rbt:
+  LL:
+    value: 'LOG_LEVEL='
+    space: false
+    global: true
+  RBT:
     value: RUST_BACKTRACE=1
     global: true
   target-windows:
@@ -104,6 +111,10 @@ aliases:
 
   sorted: bat -p $1 | sort -u > $1.new; mv $1.new $1
   xtract: PDF="$1"; ~/Documents/spanish/cronicas/extract.py $PDF; bat "${PDF%.pdf}.yml"
+
+  ## path
+  path: echo $PATH | tr ':' '\n' | sort
+  path-u: echo $PATH | tr ':' '\n' | sort -u
 
   ## surrealdb
   s: surreal
@@ -424,6 +435,8 @@ aliases:
 
   yml-lint: yq -i . $1
 
+  ww: workweek
+
   # aws
   aws-id: 'aws sts get-caller-identity | jq -r .Account'
   awsenv: 'env | grep AWS_'
@@ -458,8 +471,8 @@ aliases:
   # package update
   apt-up|au: |
     sudo apt-get update && \
-    sudo apt-get dist-upgrade -y && \
-    sudo apt-get autoremove -y
+    sudo apt-get full-upgrade -y \
+    && sudo apt-get autoremove -y
 
   pip-up|pu: |
     python3 -m pip install -U pip &&
