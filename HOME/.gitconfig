@@ -48,3 +48,5 @@
 	defaultBranch = main
 [includeIf "gitdir:~/repos/tatari-tv/"]
 	path = ~/.gitconfig-work
+[maintenance]
+	repo = /home/saidler/repos/tatari-tv/philo
