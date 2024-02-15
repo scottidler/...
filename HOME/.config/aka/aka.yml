@@ -290,6 +290,7 @@ aliases:
   gp: git pull
   gP: git push
   gpo: 'git push -u origin $(git symbolic-ref --short -q HEAD)'
+  gpof: 'git push -u origin $(git symbolic-ref --short -q HEAD) --force-with-lease'
   gs: git status --short
   gbc: git branch --contains
   gco: git checkout
