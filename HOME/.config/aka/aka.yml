@@ -129,6 +129,13 @@ aliases:
   eks: sudo etckeeper vcs status
   ekd: sudo etckeeper vcs diff
 
+  ## rmrf-rs
+  bkup: rmrf-rs bkup
+  rmrf: rmrf-rs
+  ls-bkup: rmrf-rs ls-bkup
+  ls-rmrf: rmrf-rs ls-rmrf
+  bkup-rmrf: rmrf-rs bkup-rmrf
+
   # list git repos
   lgr: ls-git-repos
   lghr: ls-github-repos
@@ -162,6 +169,7 @@ aliases:
 
   # tree
   T: tree -a -I '.*|__*|tf|venv|target|incremental'
+  T2: exa --tree --long -a --ignore-glob='.*' --ignore-glob='__*' --ignore-glob='tf' --ignore-glob='venv' --ignore-glob='target' --ignore-glob='incremental'
   TT: tree -a -I '__*|tf|venv|target|incremental'
   TA: tree -a
 

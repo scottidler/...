@@ -425,3 +425,21 @@ script:
     curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
     tar xf lazygit.tar.gz lazygit
     sudo install lazygit /usr/local/bin
+  nvim: |
+    NVIM_DIR="$HOME/.nvim"
+    NVIM_BIN="$HOME/bin/nvim"
+    # Fetch the latest release data from GitHub API
+    LATEST_RELEASE=$(curl -sL "https://api.github.com/repos/neovim/neovim/releases/latest")
+    # Extract the tag_name from the release data
+    NVIM_VERSION=$(echo $LATEST_RELEASE | jq -r ".tag_name")
+    # Get the download URL for the nvim-linux64.tar.gz asset
+    LATEST_NVIM=$(echo $LATEST_RELEASE | jq -r ".assets[] | select(.name | test(\"nvim-linux64.tar.gz\")) | .browser_download_url")
+    mkdir -p $NVIM_DIR
+    # Download and extract the nvim tarball
+    curl -L $LATEST_NVIM -o $NVIM_DIR/nvim-linux64.tar.gz
+    tar -xzf $NVIM_DIR/nvim-linux64.tar.gz -C $NVIM_DIR
+    # Rename the extracted directory to the version number
+    NVIM_VERSION_DIR=$NVIM_DIR/$NVIM_VERSION
+    mv $NVIM_DIR/nvim-linux64 $NVIM_VERSION_DIR
+    ln -sfn $NVIM_VERSION_DIR/bin/nvim $NVIM_BIN
+    echo "Neovim version $NVIM_VERSION installed into $NVIM_VERSION_DIR and symlinked to $NVIM_BIN"
