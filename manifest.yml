@@ -443,3 +443,9 @@ script:
     mv $NVIM_DIR/nvim-linux64 $NVIM_VERSION_DIR
     ln -sfn $NVIM_VERSION_DIR/bin/nvim $NVIM_BIN
     echo "Neovim version $NVIM_VERSION installed into $NVIM_VERSION_DIR and symlinked to $NVIM_BIN"
+  btop: |
+    latest \
+      "-x86_64-linux-musl.tbz" \
+      "https://api.github.com/repos/aristocratos/btop/releases/latest" \
+      "btop"
+    echo "btop installed successfully."

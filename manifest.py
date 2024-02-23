@@ -78,16 +78,21 @@ latest() {
     PATTERN="$1"
     LATEST="$2"
     NAME="${3:-"$PATTERN"}"
-    URL="$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\\"$PATTERN\\")) | .browser_download_url")"
-    FILENAME=$(basename $URL)
+    # Correctly quote the pattern within the jq command
+    URL="$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\\\"$PATTERN\\\")) | .browser_download_url")"
+    FILENAME=$(basename "$URL")
     TMPDIR=$(mkdir -p /tmp/manifest && mktemp -d /tmp/manifest/XXX)
-    pushd $TMPDIR
-    curl -sSL $URL -o $FILENAME
-    if [[ $FILENAME =~ \.tar\.gz ]]; then
-        tar xvf $FILENAME
-        NAME=$(find . -name "$NAME")
+    pushd "$TMPDIR"
+    curl -sSL "$URL" -o "$FILENAME"
+    # Adjust the extraction command based on file extension
+    if [[ "$FILENAME" =~ \.tar\.gz$ ]]; then
+        tar xzf "$FILENAME"
+    elif [[ "$FILENAME" =~ \.tbz$ ]]; then
+        tar xjf "$FILENAME"
     fi
-    chmod a+x "$NAME" && cp "$NAME" ~/bin/
+    # Use find to locate the binary and ensure it's executable
+    NAME=$(find . -type f -name "$NAME" -exec chmod a+x {} + -print)
+    mv "$NAME" ~/bin/
     popd
 }
 '''.lstrip('\n').rstrip()
