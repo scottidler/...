@@ -168,8 +168,8 @@ aliases:
   extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
 
   # tree
-  T: tree -a -I '.*|__*|tf|venv|target|incremental'
-  T2: exa --tree --long -a --ignore-glob='.*' --ignore-glob='__*' --ignore-glob='tf' --ignore-glob='venv' --ignore-glob='target' --ignore-glob='incremental'
+  T: exa --tree --ignore-glob='|__*|tf|venv|target|incremental'
+  TOLD: tree -a -I '.*|__*|tf|venv|target|incremental'
   TT: tree -a -I '__*|tf|venv|target|incremental'
   TA: tree -a
 
