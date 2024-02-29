@@ -1,6 +1,7 @@
 aliases:
 
   # one-offs
+  dmesg: sudo dmesg
   calc: fend
   cat: bat -p
   catn: bat -n --decorations=always
@@ -126,8 +127,9 @@ aliases:
 
   ## etckeeper
   ek: sudo etckeeper
-  eks: sudo etckeeper vcs status
-  ekd: sudo etckeeper vcs diff
+  ekv-log: (cd /etc && sudo etckeeper vcs log)
+  ekv-status: (cd /etc && sudo etckeeper vcs status)
+  ekv-diff: (cd /etc && sudo etckeeper vcs diff)
 
   ## rmrf-rs
   bkup: rmrf-rs bkup
@@ -168,7 +170,7 @@ aliases:
   extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
 
   # tree
-  T: exa --tree --ignore-glob='|__*|tf|venv|target|incremental'
+  T: exa --tree --long --ignore-glob='|__*|tf|venv|target|incremental'
   TOLD: tree -a -I '.*|__*|tf|venv|target|incremental'
   TT: tree -a -I '__*|tf|venv|target|incremental'
   TA: tree -a
