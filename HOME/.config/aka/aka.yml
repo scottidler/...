@@ -34,6 +34,7 @@ aliases:
   # corrections
   suod: sudo
   soud: sudo
+  vim: nvim
   svim: sudo vim
   vmi: vim
   emacs: vim
