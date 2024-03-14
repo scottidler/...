@@ -132,11 +132,12 @@ aliases:
   ekv-diff: (cd /etc && sudo etckeeper vcs diff)
 
   ## rmrf-rs
-  bkup: rmrf-rs bkup
-  rmrf: rmrf-rs
-  ls-bkup: rmrf-rs ls-bkup
-  ls-rmrf: rmrf-rs ls-rmrf
-  bkup-rmrf: rmrf-rs bkup-rmrf
+  bkup: rmrf bkup
+  rmrf: rmrf
+  rcvr: rmrf rcvr
+  ls-bkup: rmrf ls-bkup
+  ls-rmrf: rmrf ls-rmrf
+  bkup-rmrf: rmrf bkup-rmrf
 
   # list git repos
   lgr: ls-git-repos
@@ -170,7 +171,7 @@ aliases:
   extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
 
   # tree
-  T: exa --tree --long --ignore-glob='|__*|tf|venv|target|incremental'
+  T: eza --tree -a --long --ignore-glob='.git|__*|tf|venv|target|incremental'
   TOLD: tree -a -I '.*|__*|tf|venv|target|incremental'
   TT: tree -a -I '__*|tf|venv|target|incremental'
   TA: tree -a
@@ -252,6 +253,7 @@ aliases:
   cep: cargo expand | awk '/$@/,0'
   ct: cargo test
   cr: cargo run -q --
+  crd: RUST_LOG=debug cargo run -q --
   cre: cargo run -q --example $1 --
   crh: cargo run -q -- --help
   cs: cargo search
@@ -259,6 +261,8 @@ aliases:
   R: rustc
   RL: RUST_LOG=debug
   car: bat -p Cargo.toml
+  csm: bat -p src/main.rs
+  vsm: vim src/main.rs
 
   new-rust: cargo init $1; cd $1; vim src/main.rs Cargo.toml
 
