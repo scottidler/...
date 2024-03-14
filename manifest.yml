@@ -224,13 +224,6 @@ github:
   scottidler/pimp:
     link:
       pimp: ~/bin/pimp
-  scottidler/rmrf:
-    link:
-      rmrf: ~/bin/rmrf
-      bkup: ~/bin/bkup
-      bkup-rmrf: ~/bin/bkup-rmrf
-      ls-rmrf: ~/bin/ls-rmrf
-      ls-bkup: ~/bin/ls-bkup
   scottidler/ls-stat:
     link:
       ls-stat: ~/bin/ls-stat
