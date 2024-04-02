@@ -5,7 +5,6 @@ aliases:
   calc: fend
   cat: bat -p
   catn: bat -n --decorations=always
-  car: bat -p Cargo.toml
   cinema: asciinema
   cl: clear
   ds: dig +short
@@ -208,11 +207,11 @@ aliases:
 
   # rust cli tools
   # ls
-  lah: exa -lah --git
-  ltr: exa -lr -sold
-  ll: exa -alF
-  la: exa -la
-  ls: exa
+  lah: eza -lah --git
+  ltr: eza -lr -sold
+  ll: eza -alF
+  la: eza -la
+  ls: eza
 
   repl: irust
   repl2: evcxr
@@ -290,6 +289,8 @@ aliases:
   # pytest
   pyt: pytest .
 
+  m: meltano
+
   # git
   g: git
   ga: git add
@@ -305,6 +306,7 @@ aliases:
   gp: git pull
   gP: git push
   gpo: 'git push -u origin $(git symbolic-ref --short -q HEAD)'
+  gpot: 'git push -u origin $(git symbolic-ref --short -q HEAD) --tags'
   gpof: 'git push -u origin $(git symbolic-ref --short -q HEAD) --force-with-lease'
   gs: git status --short
   gbc: git branch --contains
@@ -354,6 +356,10 @@ aliases:
   gsmu: gsm update
   gsmur: gsm update --remote
   gsmui: 'gsm update --jobs=$((3 * $(nproc))) --init --recursive'
+
+  # gh cli
+  gcs: gh copilot suggest
+  gce: gh copilot explain
 
   gqs: git-quick-stats
   gh-title: gh pr create --title "$(git symbolic-ref --short HEAD | awk -v FS='/' -v OFS='/' '{ gsub(/-/," ",$2) } { print }' | tr '/' ' ')" --reviewer tatari-tv/SRE; gh pr view --web
