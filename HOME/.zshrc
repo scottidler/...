@@ -165,16 +165,6 @@ if [ -f ~/.travis/travis.sh ]; then
     . ~/.travis/travis.sh
 fi
 
-# tab complete for pyenv
-# https://github.com/pyenv/pyenv#installation
-# chat-gippity says this is an update
-if command -v pyenv 1>/dev/null 2>&1; then
-  export PYENV_ROOT="$HOME/.pyenv"
-  [[ -d $PYENV_ROOT/bin ]] && path+=($PYENV_ROOT/bin)
-  eval "$(pyenv init -)"
-fi
-
-
 if hash starship 2>/dev/null; then
     eval "$(starship init zsh)"
 fi
@@ -189,4 +179,16 @@ eval $(keychain --eval --agents ssh --quiet \
     identities/work/id_ed25519 \
     identities/home/id_ed25519)
 
+if hash fzf 2>/dev/null; then
+    source <(fzf --zsh)
+    HISTFILE=~/.zsh_history
+    HISTSIZE=10000
+    SAVEHIST=10000
+    setopt appendhistory
+fi
+
 eval "$(zoxide init --cmd cd zsh)"
+
+if hash macchina 2> /dev/null; then
+    macchina
+fi
