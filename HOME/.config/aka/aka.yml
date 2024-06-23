@@ -125,6 +125,10 @@ aliases:
   se: surreal export
   sS: sureal sql
 
+  ## nixos
+  nb: nix-build
+  nrs: sudo nix-rebuild switch
+
   ## etckeeper
   ek: sudo etckeeper
   ekv-log: (cd /etc && sudo etckeeper vcs log)
@@ -151,6 +155,8 @@ aliases:
   # cd to common directories
   docs: cd ~/Documents
   down: cd ~/Downloads
+  pics: cd ~/Pictures
+  vids: cd ~/Videos
   cd-tmp: cd ~/tmp
   cd-repos: cd ~/repos/
   cd-aka: cd ~/repos/scottidler/aka
@@ -171,7 +177,7 @@ aliases:
   extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
 
   # tree
-  T: eza --tree -a --long --ignore-glob='.git|__*|tf|venv|target|incremental'
+  T: eza --tree -a --long --ignore-glob='.git|__*|tf|.venv|target|incremental'
   TOLD: tree -a -I '.*|__*|tf|venv|target|incremental'
   TT: tree -a -I '__*|tf|venv|target|incremental'
   TA: tree -a
@@ -287,11 +293,13 @@ aliases:
   pip3.8-ii: sudo -H python3.8 -m pip install -U --ignore-installed
 
   # pytest
-  pyt: pytest .
+  pt: pytest
 
   m: meltano
 
   # git
+  grpo: git remote prune origin
+  gC: git clone git@github.com:$1 $1
   g: git
   ga: git add
   gb: git branch
@@ -502,6 +510,9 @@ aliases:
     cut -d' ' -f1 |
     grep -vxFf ~/.distutils.pkgs |
     xargs -n1 sudo -H python3 -m pip install -U
+
+  pr: poetry run
+  pb: poetry build
 
   #which combos
   follow-which|fw: follow $(which $1)
