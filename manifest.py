@@ -78,22 +78,39 @@ latest() {
     PATTERN="$1"
     LATEST="$2"
     NAME="${3:-"$PATTERN"}"
+    echo "Fetching latest release from: $LATEST"
+    echo "Using pattern: $PATTERN"
     # Correctly quote the pattern within the jq command
     URL="$(curl -sL "$LATEST" | jq -r ".assets[] | select(.name | test(\\\"$PATTERN\\\")) | .browser_download_url")"
+    if [[ -z "$URL" ]]; then
+        echo "No URL found for pattern: $PATTERN"
+        exit 1
+    fi
+    echo "Downloading from URL: $URL"
     FILENAME=$(basename "$URL")
-    TMPDIR=$(mkdir -p /tmp/manifest && mktemp -d /tmp/manifest/XXX)
+    TMPDIR=$(mktemp -d /tmp/manifest.XXXXXX)
     pushd "$TMPDIR"
     curl -sSL "$URL" -o "$FILENAME"
+    echo "Downloaded $FILENAME"
     # Adjust the extraction command based on file extension
     if [[ "$FILENAME" =~ \.tar\.gz$ ]]; then
         tar xzf "$FILENAME"
+        echo "Extracted $FILENAME using tar xzf"
     elif [[ "$FILENAME" =~ \.tbz$ ]]; then
         tar xjf "$FILENAME"
+        echo "Extracted $FILENAME using tar xjf"
     fi
     # Use find to locate the binary and ensure it's executable
-    NAME=$(find . -type f -name "$NAME" -exec chmod a+x {} + -print)
-    mv "$NAME" ~/bin/
+    BINARY=$(find . -type f -name "$NAME" -exec chmod a+x {} + -print)
+    if [[ -z "$BINARY" ]]; then
+        echo "No binary found named $NAME"
+        exit 1
+    fi
+    mv "$BINARY" ~/bin/
+    echo "Moved $BINARY to ~/bin/"
     popd
+    rm -rf "$TMPDIR"
+    echo "Cleaned up temporary directory $TMPDIR"
 }
 '''.lstrip('\n').rstrip()
 
