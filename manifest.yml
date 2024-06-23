@@ -303,6 +303,11 @@ script:
       "fluxctl_linux_amd64" \
       "https://api.github.com/repos/fluxcd/flux/releases/latest" \
       "fluxctl"
+  fzf: |
+    latest \
+      "fzf-.*-linux_amd64.tar.gz" \
+      "https://api.github.com/repos/junegunn/fzf/releases/latest" \
+      "fzf"
   kubetpl: |
     latest \
       "linux-amd64" \
@@ -442,3 +447,11 @@ script:
       "https://api.github.com/repos/aristocratos/btop/releases/latest" \
       "btop"
     echo "btop installed successfully."
+  git-tools: |
+    latest \
+      "git-tools-v.*-linux.tar.gz" \
+      "https://api.github.com/repos/scottidler/git-tools/releases/latest" \
+      "git-tools-v.*-linux.tar.gz"
+    tar -xzf git-tools-v.*-linux.tar.gz -C ~/bin/
+    mv ~/bin/shell-functions.sh ~/.shell-functions.d/git-tools.sh
+    rm git-tools-v.*-linux.tar.gz
