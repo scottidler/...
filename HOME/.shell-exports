@@ -19,6 +19,8 @@ export AWS_VAULT_BACKEND=secret-service
 export ANSIBLE_NOCOWS=1
 export GOPATH=~/go
 
+export PATH=$PATH:$(go env GOPATH)/bin
+
 export term_pane=0,0,0,1792,2100
 export slack_pane=0,1792,1400,1024,700
 export spotify_pane=0,2816,1400,1024,700
