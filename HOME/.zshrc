@@ -165,12 +165,12 @@ if [ -f ~/.travis/travis.sh ]; then
     . ~/.travis/travis.sh
 fi
 
-if hash starship 2>/dev/null; then
-    eval "$(starship init zsh)"
+if hash mise 2>/dev/null; then
+    eval "$(mise activate zsh)"
 fi
 
-if hash rtx 2>/dev/null; then
-    eval "$(~/bin/rtx activate zsh)"
+if hash starship 2>/dev/null; then
+    eval "$(starship init zsh)"
 fi
 
 # Initialize keychain for SSH keys with reduced output
@@ -192,3 +192,7 @@ eval "$(zoxide init --cmd cd zsh)"
 if hash macchina 2> /dev/null; then
     macchina
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
