@@ -1,6 +1,13 @@
+lookups:
+  region:
+    prod|apps: us-east-1
+    staging|test|dev|ops: us-west-2
+
 aliases:
 
   # one-offs
+  bak: mv $1 $1.bak
+  sav: cp $1 $1.sav
   dmesg: sudo dmesg
   calc: fend
   cat: bat -p
@@ -37,6 +44,7 @@ aliases:
   svim: sudo vim
   vmi: vim
   emacs: vim
+  rtx: mise
   old-vim: $(print -r =vim)
   cd..: cd ..
   cd../: cd ..
@@ -114,8 +122,8 @@ aliases:
   xtract: PDF="$1"; ~/Documents/spanish/cronicas/extract.py $PDF; bat "${PDF%.pdf}.yml"
 
   ## path
-  path: echo $PATH | tr ':' '\n' | sort
-  path-u: echo $PATH | tr ':' '\n' | sort -u
+  path: echo $PATH | tr ':' '\n'
+  path-sort: echo $PATH | tr ':' '\n' | sort -u
 
   ## surrealdb
   s: surreal
@@ -238,7 +246,7 @@ aliases:
 
   ## ip adresses
   ip-lan: 'ip addr show |grep "inet " |grep -v 127.0.0.1 |head -1 |cut -d" " -f6 |cut -d/ -f1'
-  ip-pub: curl ifconfig.me
+  ip-pub|ip-web: curl ifconfig.me
 
   # cargo (rust)
   ca: cargo add
@@ -295,6 +303,7 @@ aliases:
   # pytest
   pt: pytest
 
+  # meltano
   m: meltano
 
   # git
@@ -418,7 +427,6 @@ aliases:
   kgh: kubectl get helmrelease
   kgn: kubectl get namespace
   kgN: kubectl get networkpolicy
-  kgv: kubectl get ingress.voyager.appscode.com
   kd: kubectl describe
   kdC: kubectl describe crd
   kdp: kubectl describe pod
@@ -443,12 +451,10 @@ aliases:
     value: -o -yaml
     global: true
 
-  context: kubectl config current-context
-  contexts: kubectl config get-contexts
-  staging-context: aws eks --region us-west-2 update-kubeconfig --name staging --role-arn arn:aws:iam::878256633362:role/eks-staging-admin
-  prod-context: aws eks --region us-east-1 update-kubeconfig --name prod --role-arn arn:aws:iam::878256633362:role/eks-prod-admin
-  test-context: aws eks --region us-west-2 update-kubeconfig --name test --role-arn arn:aws:iam::878256633362:role/eks-test-admin
-  dev-context: aws eks --region us-west-2 update-kubeconfig --name dev --role-arn arn:aws:iam::878256633362:role/eks-dev-admin
+  ctx|context: kubectl config current-context
+  ctxs|contexts: kubectl config get-contexts
+  update-ctx|update-context: aws eks --region lookup:region[$1] update-kubeconfig --name $1 --alias $1 --role-arn arn:aws:iam::878256633362:role/eks-$1-admin
+  use-ctx|use-context: kubectl config use-context $1
 
   # terraform
   tf: terraform
@@ -469,7 +475,7 @@ aliases:
 
   # aws
   aws-id: 'aws sts get-caller-identity | jq -r .Account'
-  awsenv: 'env | grep AWS_'
+  aws-env: 'env | grep AWS_'
 
   # flatpak
   fp: flatpak
@@ -511,8 +517,16 @@ aliases:
     grep -vxFf ~/.distutils.pkgs |
     xargs -n1 sudo -H python3 -m pip install -U
 
+  # search for an apt pkg
+  as: apt-cache search $1 | grep ^$1
+
+  p: poetry
   pr: poetry run
   pb: poetry build
+
+  # quartz
+  qs: npx quartz sync
+  qbs: npx quartz build --serve
 
   #which combos
   follow-which|fw: follow $(which $1)
