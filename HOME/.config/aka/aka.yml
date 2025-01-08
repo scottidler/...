@@ -144,19 +144,21 @@ aliases:
   ekv-diff: (cd /etc && sudo etckeeper vcs diff)
 
   ## rmrf-rs
-  bkup: rmrf bkup
-  rmrf: rmrf
-  rcvr: rmrf rcvr
-  ls-bkup: rmrf ls-bkup
-  ls-rmrf: rmrf ls-rmrf
-  bkup-rmrf: rmrf bkup-rmrf
+  bkup: rkvr bkup
+  rmrf: rkvr rmrf
+  rcvr: rkvr rcvr
+  ls-bkup: rkvr ls-bkup
+  ls-rmrf: rkvr ls-rmrf
+  bkup-rmrf: rkvr bkup-rmrf
 
   # list git repos
   lgr: ls-git-repos
   lghr: ls-github-repos
 
   # ping
-  ping-cloudflare: ping 1.1.1.1
+  ping-1s|ping-cloudflare: ping 1.1.1.1
+  ping-8s: ping 8.8.8.8
+  ping-9s: ping 9.9.9.9
   ping-google: ping 142.251.33.110
   ping-google-v6: ping 2607:f8b0:400a:80b::200e
 
