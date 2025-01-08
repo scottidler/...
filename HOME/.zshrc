@@ -169,8 +169,8 @@ if hash mise 2>/dev/null; then
     eval "$(mise activate zsh)"
 fi
 
-if hash starship 2>/dev/null; then
-    eval "$(starship init zsh)"
+if hash mise 2>/dev/null; then
+    eval "$(/home/saidler/.local/bin/mise activate zsh)"
 fi
 
 # Initialize keychain for SSH keys with reduced output
