@@ -5,6 +5,8 @@ lookups:
 
 aliases:
 
+  backup: tar --exclude='**/*[Cc]ache*' -czvf $1-backup.tar.gz $1
+
   # one-offs
   bak: mv $1 $1.bak
   sav: cp $1 $1.sav
