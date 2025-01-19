@@ -8,11 +8,13 @@ import sys
 sys.dont_write_bytecode = True
 
 from copy import deepcopy
-from ruamel import yaml
 from pathlib import Path
 from fnmatch import fnmatch
 from contextlib import contextmanager
 from argparse import ArgumentParser, Action
+from ruamel.yaml import YAML
+import warnings
+warnings.filterwarnings("ignore", category=SyntaxWarning, module="__main__")
 
 from leatherman.fuzzy import fuzzy
 from leatherman.repr import __repr__
@@ -519,9 +521,11 @@ class Manifest():
     __str__ = __repr__
 
 def load_manifest(complete=True, config=None, **kwargs):
-    spec = yaml.safe_load(open(config))
-    manifest = Manifest(spec=spec, complete=complete, **kwargs)
-    return manifest
+    yaml = YAML(typ='safe', pure=True)
+    with open(config, 'r') as f:
+        spec = yaml.load(f)
+        manifest = Manifest(spec=spec, complete=complete, **kwargs)
+        return manifest
 
 def complete(ns):
     return not any([getattr(ns, sec) for sec in SECTIONS])
