@@ -55,6 +55,9 @@ aliases:
   '|c':
     value: '| xclip -sel clip'
     global: true
+  '|C':
+    value: '| column'
+    global: true
   'p|':
     value: 'xclip -sel clip -o |'
     global: true
@@ -109,6 +112,9 @@ aliases:
     global: true
   comb:
     value: 2>&1
+    global: true
+  lappy:
+    value: ltl-3587
     global: true
   # apt install deb files
   apt-deb: sudo apt install -f ~/Downloads/
@@ -477,6 +483,9 @@ aliases:
 
   ww: workweek
 
+  # zig
+  z: zig
+
   # aws
   aws-id: 'aws sts get-caller-identity | jq -r .Account'
   aws-env: 'env | grep AWS_'
@@ -492,7 +501,7 @@ aliases:
 
   # linux
   jc: journalctl
-  sc: systemctl
+  sc: sudo systemctl
 
   # edit, re-evals
   akas: vim ~/.config/aka/aka.yml; . ~/.zshrc
