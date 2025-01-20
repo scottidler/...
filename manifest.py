@@ -13,8 +13,6 @@ from fnmatch import fnmatch
 from contextlib import contextmanager
 from argparse import ArgumentParser, Action
 from ruamel.yaml import YAML
-import warnings
-warnings.filterwarnings("ignore", category=SyntaxWarning, module="__main__")
 
 from leatherman.fuzzy import fuzzy
 from leatherman.repr import __repr__
@@ -46,14 +44,14 @@ GID = pwd.getpwuid(UID).pw_gid
 USER = pwd.getpwuid(UID).pw_name
 HOME = pwd.getpwuid(UID).pw_dir
 
-DEBUG = '''
+DEBUG = r'''
 if [ -n "$DEBUG" ]; then
     PS4=':${LINENO}+'
     set -x
 fi
 '''.lstrip('\n').rstrip()
 
-LINKER = '''
+LINKER = r'''
 linker() {
     file=$(realpath "$1")
     link="${2/#\~/$HOME}"
@@ -75,7 +73,7 @@ linker() {
 }
 '''.lstrip('\n').rstrip()
 
-LATEST = '''
+LATEST = r'''
 latest() {
     PATTERN="$1"
     LATEST="$2"
@@ -236,7 +234,7 @@ def divine_dst(filepath, srcpath, dstpath):
     return re.sub(srcpath, dstpath, filepath)
 @path2str
 def interpolate_home(filepath, home):
-    return re.sub('\$HOME', home, filepath)
+    return re.sub(r'\$HOME', home, filepath)
 @path2str
 def interpolate_root(filepath, root='/'):
     return re.sub('ROOT', root, filepath)
