@@ -143,6 +143,8 @@ if [ -f /home/sidler/.acme.sh/acme.sh.env ]; then
     source /home/sidler/.acme.sh/acme.sh.env
 fi
 
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 if [ -f ~/.shell-aliases ]; then
     source ~/.shell-aliases
 fi
@@ -161,3 +163,4 @@ fi
 if [ -f $HOME/.cargo/env ]; then
     source "$HOME/.cargo/env"
 fi
+
