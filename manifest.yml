@@ -56,7 +56,6 @@ pkg:
 apt:
   items:
 # - diagrams # awesome diagramming (in python) tool
-  - fzf
   - fuse3
   - ldap-utils
   - fonts-powerline
