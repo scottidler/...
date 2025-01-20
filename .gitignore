@@ -65,3 +65,5 @@ repos/*
 
 *.deb
 *.tar.gz
+
+.venv/
