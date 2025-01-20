@@ -70,6 +70,9 @@ aliases:
   '|gi':
     value: '| grep -i'
     global: true
+  '|gi':
+    value: '| grep -i'
+    global: true
   '|wc':
     value: '| wc -l'
     global: true
@@ -504,12 +507,12 @@ aliases:
   sc: sudo systemctl
 
   # edit, re-evals
-  akas: vim ~/.config/aka/aka.yml; . ~/.zshrc
-  bashrc: vim ~/.bashrc; . ~/.bashrc
-  zshrc: vim ~/.zshrc; . ~/.zshrc
-  aliases: vim ~/.shell-aliases; . ~/.zshrc
-  exports: vim ~/.shell-exports; . ~/.zshrc
-  functions: vim ~/.shell-functions; . ~/.zshrc
+  akas: editor ~/.config/aka/aka.yml; . ~/.zshrc
+  bashrc: editor ~/.bashrc; . ~/.bashrc
+  zshrc: editor ~/.zshrc; . ~/.zshrc
+  aliases: editor ~/.shell-aliases; . ~/.zshrc
+  exports: editor ~/.shell-exports; . ~/.zshrc
+  functions: editor ~/.shell-functions; . ~/.zshrc
 
   # update reboot|shutdown
   ureboot: 'update && reboot'
