@@ -203,3 +203,7 @@ if hash starship 2> /dev/null; then
     eval "$(starship init zsh)"
 fi
 
+if [ -f $HOME/.cargo/env ]; then
+    source "$HOME/.cargo/env"
+fi
+
