@@ -70,9 +70,10 @@ aliases:
   '|gi':
     value: '| grep -i'
     global: true
-  '|gi':
-    value: '| grep -i'
+  '|g^':
+    value: '| grep ^'
     global: true
+    space: false
   '|wc':
     value: '| wc -l'
     global: true
@@ -161,6 +162,16 @@ aliases:
   ls-bkup: rkvr ls-bkup
   ls-rmrf: rkvr ls-rmrf
   bkup-rmrf: rkvr bkup-rmrf
+
+  ## kat
+  rat: kat rust
+  Rat: kat rust | xclip -sel clip
+  pat: kat python
+  Pat: kat python | xclip -sel clip
+  yat: kat yaml
+  Yat: kat yaml | xclip -sel clip
+  tat: kat toml
+  Tat: kat toml | xclip -sel clip
 
   # list git repos
   lgr: ls-git-repos
