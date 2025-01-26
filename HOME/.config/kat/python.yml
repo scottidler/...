@@ -1,0 +1,34 @@
+about: Concatenates Python-related files
+
+included_paths:
+  - "setup.py"
+  - "requirements.txt"
+  - "pyproject.toml"
+  - "src/"
+  - "tests/"
+  - "scripts/"
+  - "config/"
+
+excluded_paths:
+  - "build/"
+  - "dist/"
+  - "*.egg-info/"
+  - "venv/"
+  - "__pycache__/"
+  - "*.git/"
+
+included_types:
+  - "py"
+  - "toml"
+  - "yml"
+  - "yaml"
+  - "txt"
+  - "md"
+
+excluded_types:
+  - "bin"
+  - "exe"
+  - "o"
+  - "so"
+  - "pyc"
+

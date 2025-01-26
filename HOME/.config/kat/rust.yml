@@ -1,0 +1,24 @@
+about: Concatenates Rust-related files
+
+included_paths:
+  - "Cargo.toml"
+  - "build.rs"
+  - "src/"
+
+excluded_paths:
+  - "target/"
+  - "LICENSE"
+  - "README"
+  - "CONTRIBUT"
+  - "*.git/"
+
+included_types:
+  - "rs"
+  - "toml"
+
+excluded_types:
+  - "bin"
+  - "exe"
+  - "o"
+  - "so"
+

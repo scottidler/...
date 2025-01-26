@@ -1,0 +1,19 @@
+about: "Handles YAML and YML files only"
+included_paths:
+  - "."
+excluded_paths:
+  - "build/"
+  - "dist/"
+  - "*.git/"
+  - "__pycache__/"
+  - "*.egg-info/"
+included_types:
+  - "yml"
+  - "yaml"
+excluded_types:
+  - "bin"
+  - "exe"
+  - "o"
+  - "so"
+  - "pyc"
+

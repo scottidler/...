@@ -1,0 +1,20 @@
+about: "Handles TOML files only"
+included_paths:
+  - "config/"
+  - "setup/"
+  - "dependencies/"
+excluded_paths:
+  - "target/"
+  - "dist/"
+  - "*.git/"
+  - "__pycache__/"
+  - "*.egg-info/"
+included_types:
+  - "toml"
+excluded_types:
+  - "bin"
+  - "exe"
+  - "o"
+  - "so"
+  - "pyc"
+
