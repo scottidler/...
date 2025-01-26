@@ -179,7 +179,6 @@ cargo:
   - tealdeer
   - tokei
   - tree-sitter-cli
-  - wiki-tui
   - ytop
 
 github:
