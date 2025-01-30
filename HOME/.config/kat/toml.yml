@@ -1,20 +1,21 @@
-about: "Handles TOML files only"
+about: "Concatenates TOML files only"
+
 included_paths:
-  - "config/"
-  - "setup/"
-  - "dependencies/"
+  - "**/*.toml"
+
 excluded_paths:
   - "target/"
   - "dist/"
-  - "*.git/"
-  - "__pycache__/"
-  - "*.egg-info/"
+  - "**/.git/"
+  - "**/__pycache__/"
+  - "**/*.egg-info/"
+
 included_types:
   - "toml"
+
 excluded_types:
   - "bin"
   - "exe"
   - "o"
   - "so"
   - "pyc"
-

@@ -1,16 +1,23 @@
 about: Concatenates Rust-related files
 
 included_paths:
-  - "Cargo.toml"
-  - "build.rs"
-  - "src/"
+  - "**/Cargo.toml"
+  - "**/build.rs"
+  - "**/src/**/*.rs"
+  - "**/examples/**/*.rs"
+  - "**/tests/**/*.rs"
+  - "**/benches/**/*.rs"
 
 excluded_paths:
-  - "target/"
-  - "LICENSE"
-  - "README"
-  - "CONTRIBUT"
-  - "*.git/"
+  - "target/**"
+  - "**/target/**"
+  - "**/incremental/**"
+  - "**/.git/**"
+  - "**/.idea/**"
+  - "**/.DS_Store"
+  - "examples/rust/**"
+  - "examples/rust/*.rs"
+  - "examples/rust/**/.rs"
 
 included_types:
   - "rs"
@@ -21,4 +28,3 @@ excluded_types:
   - "exe"
   - "o"
   - "so"
-
