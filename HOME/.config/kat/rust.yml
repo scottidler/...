@@ -16,8 +16,9 @@ excluded_paths:
   - "**/.idea/**"
   - "**/.DS_Store"
   - "examples/rust/**"
-  - "examples/rust/*.rs"
-  - "examples/rust/**/.rs"
+  - "examples/rust/Cargo.toml"
+  - "examples/rust/build.rs"
+  - "examples/rust/src/**"
 
 included_types:
   - "rs"
