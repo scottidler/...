@@ -8,6 +8,7 @@ aliases:
   backup: tar --exclude='**/*[Cc]ache*' -czvf $1-backup.tar.gz $1
 
   # one-offs
+  debug-git: GIT_SSH_COMMAND="ssh -i $WORK_SSH_PUB_KEY -vvv"
   bak: mv $1 $1.bak
   sav: cp $1 $1.sav
   dmesg: sudo dmesg
