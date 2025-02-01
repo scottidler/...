@@ -1,0 +1,44 @@
+about: "Concatenates Go-related files"
+
+included_paths:
+  - "**/*.go"
+  - "go.mod"
+  - "go.sum"
+  - "**/Makefile"
+  - "**/Dockerfile"
+  - "**/*.yaml"
+  - "**/*.yml"
+  - "**/*.toml"
+  - "**/*.md"
+
+excluded_paths:
+  - "**/.git/**"
+  - "**/.idea/**"
+  - "**/.vscode/**"
+  - "**/bin/**"
+  - "**/build/**"
+  - "**/dist/**"
+  - "**/vendor/**"
+  - "**/tmp/**"
+  - "**/node_modules/**"
+  - "**/*.test"
+  - "**/testdata/**"
+
+included_types:
+  - "go"
+  - "mod"
+  - "sum"
+  - "makefile"
+  - "dockerfile"
+  - "yaml"
+  - "yml"
+  - "toml"
+  - "md"
+
+excluded_types:
+  - "bin"
+  - "exe"
+  - "o"
+  - "so"
+  - "pyc"
+
