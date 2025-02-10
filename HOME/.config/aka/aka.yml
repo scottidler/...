@@ -173,6 +173,8 @@ aliases:
   Yat: kat yaml | xclip -sel clip
   tat: kat toml
   Tat: kat toml | xclip -sel clip
+  wat: kat web
+  Wat: kat web | xclip -sel clip
 
   # list git repos
   lgr: ls-git-repos
@@ -210,7 +212,7 @@ aliases:
   extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
 
   # tree
-  T: eza --tree -a --long --ignore-glob='.git|__*|tf|.venv|target|incremental'
+  T: eza --tree -a --long --ignore-glob='.git|__*|tf|.venv|target|incremental|node_modules'
   TOLD: tree -a -I '.*|__*|tf|venv|target|incremental'
   TT: tree -a -I '__*|tf|venv|target|incremental'
   TA: tree -a

@@ -1,4 +1,4 @@
-about: "Concatenates YAML and YML files only"
+about: Concatenates YAML and YML files only
 
 included_paths:
   - "**/*.yml"
