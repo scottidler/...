@@ -169,10 +169,6 @@ if hash mise 2>/dev/null; then
     eval "$(mise activate zsh)"
 fi
 
-if hash mise 2>/dev/null; then
-    eval "$(/home/saidler/.local/bin/mise activate zsh)"
-fi
-
 # Initialize keychain for SSH keys with reduced output
 # NOTE: it is important for the work to come before the home
 eval $(keychain --eval --agents ssh --quiet \
