@@ -162,13 +162,14 @@ cargo:
   - cargo-update
   - cargo-upgrades
   - du-dust
-  - exa
+  - eza
   - fd-find
   - fend
   - grex
   - himalaya
   - irust
   - lfs
+  - macchina
   - procs
   - ripgrep
   - sccache
@@ -180,6 +181,7 @@ cargo:
   - tokei
   - tree-sitter-cli
   - ytop
+  - zoxide
 
 github:
   scottidler/git:
