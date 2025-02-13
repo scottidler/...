@@ -190,8 +190,6 @@ github:
       bin/clone-lite: ~/bin/clone-lite
       bin/reponame: ~/bin/reponame
       bin/git-objects: ~/bin/git-objects
-      bin/ls-git-repos: ~/bin/ls-git-repos
-      bin/ls-github-repos: ~/bin/ls-github-repos
       bin/default-branch: ~/bin/default-branch
       bin/stale-branches: ~/bin/stale-branches
       bin/filter-ref: ~/bin/filter-ref
