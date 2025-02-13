@@ -176,10 +176,6 @@ aliases:
   wat: kat web
   Wat: kat web | xclip -sel clip
 
-  # list git repos
-  lgr: ls-git-repos
-  lghr: ls-github-repos
-
   # ping
   ping-1s|ping-cloudflare: ping 1.1.1.1
   ping-8s: ping 8.8.8.8
@@ -400,6 +396,11 @@ aliases:
   gsmu: gsm update
   gsmur: gsm update --remote
   gsmui: 'gsm update --jobs=$((3 * $(nproc))) --init --recursive'
+
+  # ls-{git,github}-repos
+  lgr: ls-git-repos
+  lghr: ls-github-repos
+
 
   # gh cli
   gcs: gh copilot suggest
