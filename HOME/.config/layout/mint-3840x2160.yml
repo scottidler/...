@@ -20,5 +20,5 @@ windows:
     spotify:
         command: spotify
         move: 2560,1560
-        sixe: 1280x600
+        size: 1280x600
 
