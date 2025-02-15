@@ -176,7 +176,10 @@ eval $(keychain --eval --agents ssh --quiet \
     identities/home/id_ed25519)
 
 if hash fzf 2>/dev/null; then
-    source <(fzf --zsh)
+    [[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
+    [[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
+    [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
+
     HISTFILE=~/.zsh_history
     HISTSIZE=10000
     SAVEHIST=10000
