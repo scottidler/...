@@ -1,0 +1,26 @@
+about: "Concatenates JSON files"
+
+included_paths:
+  - "**/*.json"
+
+excluded_paths:
+  - "**/.git/**"
+  - "**/.idea/**"
+  - "**/.vscode/**"
+  - "**/node_modules/**"
+  - "**/build/**"
+  - "**/dist/**"
+  - "**/tmp/**"
+  - "**/.cache/**"
+  - "**/coverage/**"
+
+included_types:
+  - "json"
+
+excluded_types:
+  - "bin"
+  - "exe"
+  - "o"
+  - "so"
+  - "pyc"
+

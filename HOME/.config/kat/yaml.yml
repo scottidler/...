@@ -1,15 +1,15 @@
-about: Concatenates YAML and YML files only
+about: "Concatenates YAML and YML files"
 
 included_paths:
   - "**/*.yml"
   - "**/*.yaml"
 
 excluded_paths:
-  - "build/"
-  - "dist/"
-  - "**/.git/"
-  - "**/__pycache__/"
-  - "**/*.egg-info/"
+  - "**/.git/**"
+  - "**/__pycache__/**"
+  - "**/*.egg-info/**"
+  - "**/dist/**"
+  - "**/target/**"
 
 included_types:
   - "yml"
@@ -21,4 +21,3 @@ excluded_types:
   - "o"
   - "so"
   - "pyc"
-
