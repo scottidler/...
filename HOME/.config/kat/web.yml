@@ -19,7 +19,6 @@ included_paths:
   - "**/postcss.config.*"
   - "**/babel.config.*"
   - "**/package.json"
-  - "**/package-lock.json"
   - "**/prompt"
 
 excluded_paths:
@@ -33,6 +32,7 @@ excluded_paths:
   - "**/build/**"
   - "**/coverage/**"
   - "**/.cache/**"
+  - "**/package-lock.json"
 
 included_types:
   - "html"
