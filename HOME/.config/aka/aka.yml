@@ -165,6 +165,8 @@ aliases:
   bkup-rmrf: rkvr bkup-rmrf
 
   ## kat
+  jat: kat json
+  Jat: kat json | xclip -sel clip
   rat: kat rust
   Rat: kat rust | xclip -sel clip
   pat: kat python
