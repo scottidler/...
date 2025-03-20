@@ -8,7 +8,7 @@
     date = local
 [core]
     pager = less -F -X
-    editor = vim
+    editor = editor
     sshCommand = ~/.gitconfig-ssh
 [branch]
     autosetupmerge = true
