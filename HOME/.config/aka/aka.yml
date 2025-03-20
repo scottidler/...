@@ -44,7 +44,7 @@ aliases:
   suod: sudo
   soud: sudo
   vim: nvim
-  svim: sudo vim
+  svim: sudo nvim
   vmi: vim
   emacs: vim
   rtx: mise
@@ -232,10 +232,11 @@ aliases:
   work: ssh ltl-3587.lan
   xps: ssh saidler@xps.lan
 
-  # chown
+  # chown / chmod
   mine: sudo chown -R $USER:$USER
   yours: sudo chown -R root:root
   ours: sudo chmod -R 777
+  chmodx: sudo chmod +x
 
   # nordvpn
   nv: nordvpn
@@ -372,7 +373,7 @@ aliases:
   tags: git tag -l
   gl: git log -$1
   reporoot: git rev-parse --show-toplevel
-  refresh: REPONAME=$(reponame); cd ~/repos; rmrf $REPONAME; clone $REPONAME
+  #refresh: REPONAME=$(reponame); cd ~/repos; rmrf $REPONAME; clone $REPONAME
   branch: git rev-parse --abbrev-ref HEAD
   nearest-tag: git describe --abbrev=0
   merged: git branch -r --sort=committerdate --merged
@@ -392,6 +393,8 @@ aliases:
   describe: 'git describe --match "v*" --abbrev=7'
   rm-tag: git tag -d $1; git push origin :$1
   db: delete-branch
+
+  refresh: find . -maxdepth 2 -type d -name ".git" | xargs -n1 dirname | parallel -j $(nproc) "cd {} && git pull"
 
   # git submodules
   gsm: git submodule
