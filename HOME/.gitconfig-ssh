@@ -5,16 +5,51 @@ if [ -n "$DEBUG" ]; then
 	set -x
 fi
 
-source ~/.shell-exports
+# This script selects the appropriate SSH identity file for Git operations.
+# It defaults to using the home key. If any of the SSH command arguments
+# contain the substring "tatari", it will use the work key.
+#
+# It also performs a minimal reordering for clone scenarios:
+# if the first argument is "git-upload-pack" or "git-receive-pack", it assumes
+# the second argument is an scp-style URL (e.g. "git@github.com:tatari-tv/somerepo.git")
+# and splits it into a hostname and repository path.
+#
+# Usage:
+#   export GIT_SSH_COMMAND="/path/to/.gitconfig-ssh"
+#   git clone git@github.com:tatari-tv/somerepo.git   # Uses work key
+#   git clone git@github.com:scottidler/slam.git       # Uses home key
 
-# Manually expand tilde to $HOME for the environment variables
-WORK_REPOS_DIR="${WORK_REPOS_DIR/#\~/$HOME}"
-WORK_SSH_PUB_KEY="${WORK_SSH_PUB_KEY/#\~/$HOME}"
-HOME_SSH_PUB_KEY="${HOME_SSH_PUB_KEY/#\~/$HOME}"
+WORK_IDENTIFIER="tatari"
+HOME_KEY="${HOME}/.ssh/identities/home/id_ed25519"
+WORK_KEY="${HOME}/.ssh/identities/work/id_ed25519"
 
-# If WORK_REPOS_DIR is set and the current directory matches WORK_REPOS_DIR, use the "work" SSH key
-if [ -n "$WORK_REPOS_DIR" ] && [[ "$(pwd)" == "$WORK_REPOS_DIR"* ]]; then
-	exec /usr/bin/ssh -i "$WORK_SSH_PUB_KEY" "$@"
-else
-	exec /usr/bin/ssh -i "$HOME_SSH_PUB_KEY" "$@"
+# Default to home key.
+SELECTED_KEY="$HOME_KEY"
+
+# Scan all arguments for the work identifier.
+for arg in "$@"; do
+	if [[ "$arg" == *"$WORK_IDENTIFIER"* ]]; then
+		SELECTED_KEY="$WORK_KEY"
+		break
+	fi
+done
+
+# Handle clone-style arguments: if the first argument is a Git remote command,
+# split the scp-style URL (e.g. "git@github.com:tatari-tv/somerepo.git") into host and path.
+if [[ "$1" == "git-upload-pack" || "$1" == "git-receive-pack" ]]; then
+	RAW_REMOTE="$2"
+	if [[ "$RAW_REMOTE" == *:* ]]; then
+		HOST="${RAW_REMOTE%%:*}"
+		REPO_PATH="${RAW_REMOTE#*:}"
+		# Prepend a slash if needed.
+		if [[ "$REPO_PATH" != /* ]]; then
+			REPO_PATH="/$REPO_PATH"
+		fi
+		# Reorder arguments so SSH sees the hostname first.
+		REMOTE_CMD="$1"
+		shift 2
+		set -- "$HOST" "$REMOTE_CMD" "$REPO_PATH" "$@"
+	fi
 fi
+
+exec /usr/bin/ssh -i "$SELECTED_KEY" "$@"
