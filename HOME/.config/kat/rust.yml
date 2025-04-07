@@ -4,6 +4,7 @@ included_paths:
   - "**/Cargo.toml"
   - "**/build.rs"
   - "**/src/**/*.rs"
+  - "**/src/**/*.sh"
   - "**/examples/**/*.rs"
   - "**/tests/**/*.rs"
   - "**/benches/**/*.rs"
