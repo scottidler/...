@@ -196,7 +196,7 @@ echo "{type(self).__name__.lower()}s:"
 
 class HeredocPackageType(PackageType):
     def render_items(self):
-        return '\n'.join([render_item(item) for item in self.items])
+        return '\n'.join(sorted([render_item(item) for item in self.items]))
 
     def render(self):
         return f'''
@@ -211,7 +211,7 @@ EOM
 
 class ContinuePackageType(PackageType):
     def render_items(self):
-        return ' \\\n    '.join([render_item(item) for item in self.items])
+        return ' \\\n    '.join(sorted([render_item(item) for item in self.items]))
 
     def render(self):
         return f'''
