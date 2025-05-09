@@ -200,7 +200,6 @@ github:
       bin/tmp: ~/bin/tmp
   scottidler/helpful:
     link:
-      bin/cidr: ~/bin/cidr
       bin/say: ~/bin/say
       bin/speedtest: ~/bin/speedtest
       bin/tab: ~/bin/tab
