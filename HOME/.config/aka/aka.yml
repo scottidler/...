@@ -29,6 +29,7 @@ aliases:
   pe: pyenv
   Pe: pipenv
   pm: pulsemixer
+  co: cat .github/CODEOWNERS
   psgrep: 'ps aux | grep -v grep | grep'
   ping10:
     value: ping 10.10.10.
@@ -40,6 +41,7 @@ aliases:
     value: tatari-tv
     global: true
   xdo: xdotool
+  ls-tatari: ls-github-repos tatari-tv
 
   # corrections
   suod: sudo
@@ -168,6 +170,8 @@ aliases:
   ## kat
   jat: kat json
   Jat: kat json | xclip -sel clip
+  jvat: kat java
+  Jvat: kat java | xclip -sel clip
   rat: kat rust
   Rat: kat rust | xclip -sel clip
   pat: kat python
@@ -276,6 +280,7 @@ aliases:
   ip-pub|ip-web: curl ifconfig.me
 
   # cargo (rust)
+  carog: cargo #typo fix
   ca: cargo add
   cad: cargo add --dev
   cI: cargo init
@@ -416,7 +421,7 @@ aliases:
   gh-title: gh pr create --title "$(git symbolic-ref --short HEAD | awk -v FS='/' -v OFS='/' '{ gsub(/-/," ",$2) } { print }' | tr '/' ' ')" --reviewer tatari-tv/SRE; gh pr view --web
   av: aws-vault exec -d 12h tatari --
 
-  authors: git shortlog -s -n --all --no-merges
+  authors|authros: git shortlog -s -n --all --no-merges
   gbp: git-big-picture
 
   GS: github-setup
