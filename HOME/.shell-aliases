@@ -39,13 +39,6 @@ fi
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# some more ls aliases
-#alias lah="ls-stat -lah --color=always"
-#alias ltr="ls-stat -ltr --color=always"
-#alias ll="ls-stat -alF --color=always"
-#alias la="ls-stat -A --color=always"
-#alias l="ls-stat -CF --color=always"
-
 if [ -d ~/.shell-aliases.d/ ]; then
 	for f in ~/.shell-aliases.d/*; do . $f; done
 fi
