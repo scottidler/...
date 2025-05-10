@@ -252,10 +252,10 @@ aliases:
 
   # rust cli tools
   # ls
-  lah: eza -lah --git
-  ltr: eza -lr -sold
-  ll: eza -alF
-  la: eza -la
+  lah: eza -laho --git
+  ltr: eza -lro -sold
+  ll: eza -alFo
+  la: eza -lao
   ls: eza
 
   repl: irust
