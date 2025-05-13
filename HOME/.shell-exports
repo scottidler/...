@@ -5,10 +5,20 @@ if [ -n "$DEBUG" ]; then
   set -x
 fi
 
+typeset -U path
+
+path+=(
+  $PYENV_ROOT/bin
+  $HOME/.local/bin
+  $(go env GOPATH)/bin
+  /usr/local/opt/postgresql@9.6/bin
+)
+
+# Export the scalar $PATH once, reflecting everything in `path`
+export PATH
+
 export GPG_TTY=$(tty)
 export PYENV_ROOT=$HOME/.pyenv
-path+=($PYENV_ROOT/bin)
-path+=($HOME/.local/bin)
 
 export LESS=-Xr
 
@@ -19,21 +29,18 @@ export AWS_VAULT_BACKEND=secret-service
 export ANSIBLE_NOCOWS=1
 export GOPATH=~/go
 
-export PATH=$PATH:$(go env GOPATH)/bin
-
-# Created by `pipx` on 2025-04-18 19:14:17
-export PATH="$PATH:/home/saidler/.local/bin"
-
 export term_pane=0,0,0,1792,2100
 export slack_pane=0,1792,1400,1024,700
 export spotify_pane=0,2816,1400,1024,700
 export home_pane=0,1792,0,1024,1400
 export work_pane=0,2816,0,1024,1400
 
-path+=(/usr/local/opt/postgresql@9.6/bin)
 export WORK_REPOS_DIR="~/repos/tatari-tv"
 export WORK_SSH_PUB_KEY="~/.ssh/identities/work/id_ed25519"
 export HOME_SSH_PUB_KEY="~/.ssh/identities/home/id_ed25519"
+
+ip=$(hostname -I | awk '{print $1}')
+export DEFAULT_NETWORK="${ip%.*}.0"
 
 if [ -d ~/.shell-exports.d/ ]; then
   for f in ~/.shell-exports.d/*; do . $f; done
