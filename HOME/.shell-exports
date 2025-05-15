@@ -42,6 +42,10 @@ export HOME_SSH_PUB_KEY="~/.ssh/identities/home/id_ed25519"
 ip=$(hostname -I | awk '{print $1}')
 export DEFAULT_NETWORK="${ip%.*}.0"
 
+export RUSTC_WRAPPER="$(which sccache)"
+export SCCACHE_DIR="$HOME/.cache/sccache"
+export SCCACHE_CACHE_SIZE="20G"
+
 if [ -d ~/.shell-exports.d/ ]; then
   for f in ~/.shell-exports.d/*; do . $f; done
 fi
