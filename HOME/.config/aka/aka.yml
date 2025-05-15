@@ -124,6 +124,9 @@ aliases:
   lappy:
     value: ltl-3587
     global: true
+  ave:
+    value: aws-vault exec --
+    global: true
   # apt install deb files
   apt-deb: sudo apt install -f ~/Downloads/
   apt-deb-force: sudo apt -o Dpkg::Options::="--force-overwrite" install -f ~/Downloads/
@@ -311,6 +314,12 @@ aliases:
   vsm: vim src/main.rs
 
   new-rust: cargo init $1; cd $1; vim src/main.rs Cargo.toml
+
+  rli: RUST_LOG=info
+  rld: RUST_LOG=debug
+  rlw: RUST_LOG=warm
+  rle: RUST_LOG=error
+  rlt: RUST_LOG=trace
 
   slack-gpg: sudo cp ~/Documents/slack.list /etc/apt/sources.list.d/slack.list
 
