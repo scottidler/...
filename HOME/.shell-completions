@@ -1,0 +1,29 @@
+# ~/.shell-completions
+# vim:filetype=sh
+
+# if you ever enable DEBUG, you’ll see tracing here
+if [ -n "$DEBUG" ]; then
+    PS4=':${LINENO}+'
+    set -x
+fi
+
+# only proceed if there’s actually a completions dir
+if [ -d ~/.shell-completions.d/ ]; then
+
+    # 1) make sure zsh can find our completion scripts
+    fpath=(~/.shell-completions.d $fpath)
+
+    # 2) load/reload the completion system (so new files get indexed)
+    autoload -Uz compinit
+    compinit -u
+
+    # 3) for each file named _*_(commands|complete), autoload & bind it
+    for f in ~/.shell-completions.d/_[^_]*; do
+      name=${f:t}      # strip the path, yields e.g. "_aka_commands"
+      if [[ $name == _*_(commands|complete) ]]; then
+        autoload -Uz $name
+        compdef $name command
+      fi
+    done
+
+fi
