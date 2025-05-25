@@ -1,6 +1,7 @@
 about: Concatenates Rust-related files
 
 included_paths:
+  - "bin/**"
   - "**/Cargo.toml"
   - "**/build.rs"
   - "**/src/**/*.rs"
