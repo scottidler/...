@@ -42,6 +42,7 @@ aliases:
     global: true
   xdo: xdotool
   ls-tatari: ls-github-repos tatari-tv
+  P: cat ~/prompt | xclip -sel clip
 
   # corrections
   suod: sudo
@@ -255,7 +256,7 @@ aliases:
 
   # rust cli tools
   # ls
-  lah: eza -laho --git
+  lah: eza -halo --git
   ltr: eza -lro -sold
   ll: eza -alFo
   la: eza -lao
