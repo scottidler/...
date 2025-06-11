@@ -1,0 +1,30 @@
+about: "Concatenates Makefiles"
+
+included_paths:
+  - "Makefile"
+  - "**/[MG]NUmakefile"
+  - "**/[Mm]akefile"
+  - "**/*.mk"
+
+excluded_paths:
+  - "**/.git/**"
+  - "**/.idea/**"
+  - "**/.vscode/**"
+  - "**/node_modules/**"
+  - "**/build/**"
+  - "**/dist/**"
+  - "**/out/**"
+  - "**/tmp/**"
+  - "**/.cache/**"
+  - "**/__pycache__/**"
+  - "**/*.egg-info/**"
+
+included_types:
+  - "makefile"
+  - "mk"
+
+excluded_types:
+  - "bin"
+  - "exe"
+  - "o"
+  - "so"

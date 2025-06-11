@@ -1,0 +1,48 @@
+about: "Concatenates Java-related files"
+
+included_paths:
+  - "**/*.java"
+  - "pom.xml"
+  - "build.gradle"
+  - "settings.gradle"
+  - "**/*.gradle"
+  - "**/*.properties"
+  - "**/*.xml"
+  - "**/*.yaml"
+  - "**/*.yml"
+  - "**/*.md"
+  - "**/Dockerfile"
+
+excluded_paths:
+  - "**/.git/**"
+  - "**/.idea/**"
+  - "**/.vscode/**"
+  - "**/target/**"
+  - "**/build/**"
+  - "**/out/**"
+  - "**/bin/**"
+  - "**/node_modules/**"
+  - "**/*.class"
+  - "**/*.jar"
+  - "**/*.war"
+  - "**/*.ear"
+  - "**/*.log"
+  - "**/*.iml"
+
+included_types:
+  - "java"
+  - "xml"
+  - "gradle"
+  - "properties"
+  - "yaml"
+  - "yml"
+  - "md"
+
+excluded_types:
+  - "class"
+  - "jar"
+  - "war"
+  - "ear"
+  - "exe"
+  - "bin"
+  - "log"

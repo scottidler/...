@@ -1,0 +1,26 @@
+about: "Concatenates Zsh script files"
+
+included_paths:
+  - "**/*.zsh"
+
+excluded_paths:
+  - "**/.git/**"
+  - "**/.idea/**"
+  - "**/.vscode/**"
+  - "**/node_modules/**"
+  - "**/build/**"
+  - "**/dist/**"
+  - "**/tmp/**"
+  - "**/.cache/**"
+  - "**/__pycache__/**"
+  - "**/*.egg-info/**"
+
+included_types:
+  - "zsh"
+
+excluded_types:
+  - "bin"
+  - "exe"
+  - "o"
+  - "so"
+  - "pyc"
