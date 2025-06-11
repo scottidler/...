@@ -1,30 +1,59 @@
-# If you come from bash you might have to change your $PATH.
+# ============================================================================
+# PATH & ENVIRONMENT
+# ============================================================================
 
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
-
-# ensure that the path is unique
 typeset -U path
-
 path=("$HOME/bin" $path)
 
-# export PYENV_DEBUG=1
-
-# macos specific nonsense
-autoload -Uz compinit && compinit
-
-# macos specific alias
+# macOS compatibility
 gdircolors &>/dev/null && alias dircolors='gdircolors'
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="agnoster"
+# History settings
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory clobber
+unsetopt nomatch
 
-. ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh
+PROMPT_EOL_MARK=''
+ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&'
 
+# ============================================================================
+# DIRCOLORS
+# ============================================================================
+[ -f ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh ] && \
+  source ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh
+
+# ============================================================================
+# PLUGINS - Antidote
+# ============================================================================
+
+# Make completion functions available before compinit
+if [ -d ~/.shell-completions.d/ ]; then
+  fpath=(~/.shell-completions.d $fpath)
+fi
+
+# Load Antidote
+source ~/.antidote/antidote.zsh
+
+# Source static plugin bundle
+[[ -f ~/.zsh_plugins.zsh ]] && source ~/.zsh_plugins.zsh
+
+# ============================================================================
+# COMINIT (MUST come after plugins, before compdef)
+# ============================================================================
+autoload -Uz compinit
+compinit -u
+
+# Autoload any custom completions
+for f in ~/.shell-completions.d/_*(.N); do
+  autoload -Uz ${f:t}
+done
+
+# ============================================================================
+# ZSH HOOKS
+# ============================================================================
 HIST_SPACING_STYLE="always"
-
 function preexec() {
   if [[ -n "$1" ]]; then
     last_command="$1"
@@ -36,146 +65,36 @@ function precmd() {
   fi
 }
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# ============================================================================
+# ALIASES, FUNCTIONS, EXPORTS
+# ============================================================================
+[ -f ~/.shell-aliases ] && source ~/.shell-aliases
+[ -f ~/.shell-exports ] && source ~/.shell-exports
+[ -f ~/.shell-functions ] && source ~/.shell-functions
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-
-. $ZSH/oh-my-zsh.sh
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-setopt clobber
-unsetopt nomatch
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f ~/src/google-cloud-sdk/path.zsh.inc ]; then
-    . ~/src/google-cloud-sdk/path.zsh.inc
+# ============================================================================
+# AKA COMPLETION
+# ============================================================================
+if whence -w _aka_commands >/dev/null; then
+  compdef _aka_commands -command-
 fi
 
-# The next line enables shell command completion for gcloud.
-if [ -f ~/src/google-cloud-sdk/completion.zsh.inc ]; then
-    . ~/src/google-cloud-sdk/completion.zsh.inc
-fi
 
-if [ -d /usr/local/go/bin ]; then
-    # export PATH=$PATH:/usr/local/go/bin
-    path+=(/usr/local/go/bin)
-fi
+# ============================================================================
+# GOOGLE CLOUD / K8s / SSH KEYS
+# ============================================================================
+[ -f ~/src/google-cloud-sdk/path.zsh.inc ] && source ~/src/google-cloud-sdk/path.zsh.inc
+[ -f ~/src/google-cloud-sdk/completion.zsh.inc ] && source ~/src/google-cloud-sdk/completion.zsh.inc
+[ -d /usr/local/go/bin ] && path+=("/usr/local/go/bin")
+hash kubectl 2>/dev/null && source <(kubectl completion zsh)
+[ -f ~/.acme.sh/acme.sh.env ] && source ~/.acme.sh/acme.sh.env
 
-if hash kubectl 2> /dev/null; then
-    . <(kubectl completion zsh)
-fi
-
-if [ -f ~/.acme.sh/acme.sh.env ]; then
-    . ~/.acme.sh/acme.sh.env
-fi
-
-if [ -f ~/.shell-aliases ]; then
-    . ~/.shell-aliases
-fi
-
-if [ -f ~/.shell-functions ]; then
-    . ~/.shell-functions
-fi
-
-if [ -f ~/.shell-exports ]; then
-    . ~/.shell-exports
-fi
-
-if hash aka 2>/dev/null && [ -f ~/.expand-aka ]; then
-    export EXPAND_AKA=yes
-    . ~/.expand-aka
-fi
-
-PROMPT_EOL_MARK=''
-
-# remove the pipe from this zsh behavior
-# https://superuser.com/questions/613685/how-stop-zsh-from-eating-space-before-pipe-symbol
-ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&'
-
-# added by travis gem
-if [ -f ~/.travis/travis.sh ]; then
-    . ~/.travis/travis.sh
-fi
-
-if hash mise 2>/dev/null; then
-    eval "$(mise activate zsh)"
-fi
-
-# Initialize keychain for SSH keys with reduced output
 # NOTE: it is important for the work to come before the home
 eval $(keychain --eval --agents ssh --quiet \
     identities/work/id_ed25519 \
     identities/home/id_ed25519)
 
-if hash fzf 2>/dev/null; then
+if hash fzf 2> /dev/null; then
     [[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
     [[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
     [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
@@ -186,17 +105,17 @@ if hash fzf 2>/dev/null; then
     setopt appendhistory
 fi
 
-eval "$(zoxide init --cmd cd zsh)"
+if [ -f ~/.fzf.zsh ]; then
+  . ~/.fzf.zsh
+fi
+
+if hash zoxide 2>/dev/null; then
+  eval "$(zoxide init --cmd cd zsh)"
+fi
 
 if hash macchina 2> /dev/null; then
     macchina
 fi
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 if hash starship 2> /dev/null; then
     eval "$(starship init zsh)"
@@ -205,4 +124,3 @@ fi
 if [ -f $HOME/.cargo/env ]; then
     source "$HOME/.cargo/env"
 fi
-
