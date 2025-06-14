@@ -186,6 +186,7 @@ aliases:
   Tat: kat toml | xclip -sel clip
   wat: kat web
   Wat: kat web | xclip -sel clip
+  ptns: kat ptns -i $1 | xclip -sel clip
 
   # ping
   ping-1s|ping-cloudflare: ping 1.1.1.1
@@ -359,6 +360,7 @@ aliases:
     value: 'git commit -m"'
     space: false
   gcf: git cat-file -p
+  gcm: "git checkout $(git rev-parse --abbrev-ref origin/HEAD 2>/dev/null | sed 's@^origin/@@')"
   gd: git diff
   gD: git describe
   gdm: git diff main
