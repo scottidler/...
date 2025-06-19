@@ -45,8 +45,7 @@ aliases:
   P: cat ~/prompt | xclip -sel clip
 
   # corrections
-  suod: sudo
-  soud: sudo
+  sud|suod|soud: sudo
   vim: nvim
   svim: sudo nvim
   vmi: vim
