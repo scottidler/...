@@ -184,6 +184,50 @@ cargo:
   - zoxide
 
 github:
+  scottidler/aka:
+    cargo:
+    - ./
+    link:
+      bin/aka.zsh: ~/.config/aka/aka.zsh
+      bin/_aka_commands: ~/.shell-completions.d/_aka_commands
+      bin/aka-loader.zsh: ~/.shell-functions.d/aka-loader.zsh
+  scottidler/nvim:
+    link:
+      ./: ~/.config/nvim/
+  scottidler/cidr:
+    cargo:
+    - ./
+  scottidler/dashify:
+    cargo:
+    - ./
+  scottidler/kat:
+    cargo:
+    - ./
+  scottidler/git-tools:
+    cargo:
+    - ls-git-repos
+    - ls-github-repos
+    - ls-owners
+    - ls-stale-branches
+    - ls-stale-prs
+  scottidler/nerf:
+    cargo:
+    - ./
+  scottidler/requote:
+    cargo:
+    - ./
+  scottidler/rkvr:
+    cargo:
+    - ./
+  scottidler/scrabbler:
+    cargo:
+    - ./
+  scottidler/slam:
+    cargo:
+    - ./
+  scottidler/workweek:
+    cargo:
+    - ./
   scottidler/git:
     link:
       bin/clone: ~/bin/clone
@@ -257,9 +301,24 @@ github:
   joel-porquet/zsh-dircolors-solarized:
     link:
       zsh-dircolors-solarized.zsh: ~/.zsh/zsh-dircolors-solarized/zsh-dircolors-solarized.zsh
+  mattmc3/antidote:
+    link:
+      ./: ~/.antidote
   robbyrussell/oh-my-zsh:
     link:
       ./: ~/.oh-my-zsh
+  marlonrichert/zsh-autocomplete:
+    link:
+      ./: ~/.oh-my-zsh/custom/plugins/zsh-autocomplete
+  zsh-users/zsh-autosuggestions:
+    link:
+      ./: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+  zsh-users/zsh-syntax-highlighting:
+    link:
+      ./: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+  Aloxaf/fzf-tab:
+    link:
+      ./: ~/.oh-my-zsh/custom/plugins/fzf-tab
   awslabs/git-secrets:
     link:
       git-secrets: ~/bin/git-secrets
