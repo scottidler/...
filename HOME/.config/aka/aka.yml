@@ -306,6 +306,7 @@ aliases:
   crd: RUST_LOG=debug cargo run -q --
   cre: cargo run -q --example $1 --
   crh: cargo run -q -- --help
+  crv: cargo run -q -- --version
   cs: cargo search
   cdndo: cargo doc --no-deps --open
   R: rustc
