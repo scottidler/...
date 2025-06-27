@@ -311,6 +311,8 @@ aliases:
   rle: RUST_LOG=error
   rlt: RUST_LOG=trace
 
+  bump: cargo release patch --execute --no-publish
+
   slack-gpg: sudo cp ~/Documents/slack.list /etc/apt/sources.list.d/slack.list
 
   cookie: cookiecutter
