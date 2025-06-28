@@ -15,7 +15,6 @@ aliases:
   dmesg: sudo dmesg
   calc: fend
   cat: bat -p
-  catn: bat -n --decorations=always
   cinema: asciinema
   cl: clear
   ds: dig +short
@@ -48,8 +47,7 @@ aliases:
   sud|suod|soud: sudo
   vim: nvim
   svim: sudo nvim
-  vmi: vim
-  emacs: vim
+  vmi|emacs: vim
   rtx: mise
   old-vim: $(print -r =vim)
   cd..: cd ..
@@ -102,7 +100,7 @@ aliases:
   '|x':
     value: "| xargs -I% bash -c 'echo %; tab2 '"
     global: true
-  e2o:
+  e2o|comb:
     value: '2>&1'
     global: true
   tee2files:
@@ -118,9 +116,6 @@ aliases:
   target-windows:
     value: --target x86_64-pc-windows-gnu
     global: true
-  comb:
-    value: 2>&1
-    global: true
   lappy:
     value: ltl-3587
     global: true
@@ -134,8 +129,6 @@ aliases:
   # prepend
   pp: prepend $1 $2
   pp-rust: prepend "#![cfg_attr(debug_assertions, allow(unused_imports, unused_variables, unused_mut, dead_code))]" $1
-
-  dp: pyze --
 
   sorted: bat -p $1 | sort -u > $1.new; mv $1.new $1
   xtract: PDF="$1"; ~/Documents/spanish/cronicas/extract.py $PDF; bat "${PDF%.pdf}.yml"
@@ -208,17 +201,11 @@ aliases:
 
   # tree
   T: eza --tree -a --long --ignore-glob='.git|__*|tf|.venv|target|incremental|node_modules'
-  TOLD: tree -a -I '.*|__*|tf|venv|target|incremental'
-  TT: tree -a -I '__*|tf|venv|target|incremental'
-  TA: tree -a
 
   # curl
   clh:
     value: 'curl localhost:'
     space: false
-
-  json2yaml: 'curl -sF \"json=@-\" https://x2y.rocks/yaml'
-  yaml2json: 'curl -sF \"yaml=@-\" https://x2y.rocks/json'
 
   headers-only: curl -sSL -D - $1 -o /dev/null
   curl-follow: curl $1 -gkLs -o /dev/null -v 2>&1|grep -e '^< HTTP' -e '[L|l]ocation:'
