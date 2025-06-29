@@ -320,11 +320,9 @@ aliases:
   pip3.8: sudo -H python3.8 -m pip
   pip3.8-ii: sudo -H python3.8 -m pip install -U --ignore-installed
 
-  # pytest
   pt: pytest
-
-  # meltano
-  m: meltano
+  m: manifest
+  o: otto
 
   # git
   grpo: git remote prune origin
