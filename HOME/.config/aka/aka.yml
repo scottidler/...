@@ -323,6 +323,7 @@ aliases:
   pt: pytest
   m: manifest
   o: otto
+  scaf: scaffold
 
   # git
   grpo: git remote prune origin
