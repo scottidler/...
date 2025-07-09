@@ -211,9 +211,18 @@ aliases:
   curl-follow: curl $1 -gkLs -o /dev/null -v 2>&1|grep -e '^< HTTP' -e '[L|l]ocation:'
   url-effective: curl -Ls -o /dev/null -w %{url_effective} $1
 
+  # aka
+  ah: aka --help
+  al: aka ls
+  ad: aka daemon
+  adr: aka daemon --restart
+  aq: aka query
+  af: aka freq
+  afu: aka freq --used
+
   # ssh
   home: ssh desk.lan
-  work: ssh ltl-3587.lan
+  work: ssh ltl-7007.lan
   xps: ssh saidler@xps.lan
 
   # chown / chmod
@@ -537,8 +546,8 @@ aliases:
   # package update
   apt-up|au: |
     sudo apt-get update && \
-    sudo apt-get full-upgrade -y \
-    && sudo apt-get autoremove -y
+    sudo apt-get full-upgrade -y && \
+    sudo apt-get autoremove -y
 
   pip-up|pu: |
     python3 -m pip install -U pip &&
