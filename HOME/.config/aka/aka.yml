@@ -246,9 +246,6 @@ aliases:
   la: eza -lao
   ls: eza
 
-  repl: irust
-  repl2: evcxr
-
   # search
   /: rg
   //: rg --hidden
