@@ -36,8 +36,15 @@ fi
 # Load Antidote
 source ~/.antidote/antidote.zsh
 
-# Source static plugin bundle
-[[ -f ~/.zsh_plugins.zsh ]] && source ~/.zsh_plugins.zsh
+# Recompile the bundle if the .txt master-list exists
+if [[ -f ~/.zsh_plugins.txt ]]; then
+  antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
+fi
+
+# Only try to source it if the bundle file actually exists
+if [[ -f ~/.zsh_plugins.zsh ]]; then
+  source ~/.zsh_plugins.zsh
+fi
 
 # ============================================================================
 # COMINIT (MUST come after plugins, before compdef)
