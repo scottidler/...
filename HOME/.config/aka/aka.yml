@@ -218,7 +218,7 @@ aliases:
   adr: aka daemon --restart
   aq: aka query
   af: aka freq
-  afu: aka freq --used
+  afa: aka freq --all
 
   # ssh
   home: ssh desk.lan
