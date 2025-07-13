@@ -1,6 +1,7 @@
 # ~/.zsh_plugins.txt
+#
+#  antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
 
 zsh-users/zsh-autosuggestions
-zsh-users/zsh-syntax-highlighting
 Aloxaf/fzf-tab
-marlonrichert/zsh-autocomplete
+zsh-users/zsh-syntax-highlighting
