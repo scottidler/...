@@ -40,7 +40,7 @@ aliases:
     value: tatari-tv
     global: true
   xdo: xdotool
-  ls-tatari: ls-github-repos tatari-tv
+  ls-tatari|ls-ttv: ls-github-repos tatari-tv
   P: cat ~/prompt | xclip -sel clip
 
   # corrections
@@ -144,6 +144,11 @@ aliases:
   si: surreal import
   se: surreal export
   sS: sureal sql
+
+  # otto
+  oh: otto --help
+  ov: otto --version
+  og: otto graph
 
   ## nixos
   nb: nix-build
@@ -271,6 +276,7 @@ aliases:
   cI: cargo init
   ci: cargo install
   cil: cargo install --list
+  cip: cargo install --path .
   cin: cargo info
   cf: cargo fmt
   cc: cargo clippy
