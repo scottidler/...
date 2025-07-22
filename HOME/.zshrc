@@ -36,6 +36,9 @@ fi
 # Load Antidote
 source ~/.antidote/antidote.zsh
 
+# case-insensitive matching so `re<TAB>` hits README.md
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
 # Recompile the bundle if the .txt master-list exists
 if [[ -f ~/.zsh_plugins.txt ]]; then
   antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
