@@ -150,6 +150,10 @@ aliases:
   ov: otto --version
   og: otto graph
 
+  # slam
+  slame: slam
+  ssr: slam sandbox refresh
+
   ## nixos
   nb: nix-build
   nrs: sudo nix-rebuild switch
