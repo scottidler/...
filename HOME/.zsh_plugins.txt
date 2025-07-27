@@ -2,6 +2,48 @@
 #
 #  antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
 
+# If you use Oh-My-Zsh with antidote, load this plugin FIRST to set things up so you
+# don't have to worry about whether OMZ will work correctly.
+getantidote/use-omz
+
+# Regarding OMZ libs - you may choose to use all of OMZ's lib like so:
+#   ohmyzsh/ohmyzsh path:lib
+# -OR-
+# If you really know what you want and nothing else, you might be able to
+# choose only the specific libs you need:
+#   ohmyzsh/ohmyzsh path:lib/clipboard.zsh
+#   ohmyzsh/ohmyzsh path:lib/history.zsh
+#   ohmyzsh/ohmyzsh path:lib/completion.zsh
+# -OR-
+# You may decide not to load anything from lib at all.
+
+# Let's go ahead and use all of Oh My Zsh's lib directory.
+# ohmyzsh/ohmyzsh path:lib
+
+# Now, let's pick our Oh My Zsh utilty plugins
+ohmyzsh/ohmyzsh path:plugins/colored-man-pages
+ohmyzsh/ohmyzsh path:plugins/copybuffer
+ohmyzsh/ohmyzsh path:plugins/copyfile
+ohmyzsh/ohmyzsh path:plugins/copypath
+ohmyzsh/ohmyzsh path:plugins/extract
+ohmyzsh/ohmyzsh path:plugins/globalias
+ohmyzsh/ohmyzsh path:plugins/magic-enter
+ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z
+ohmyzsh/ohmyzsh path:plugins/otp
+ohmyzsh/ohmyzsh path:plugins/zoxide
+
+# Add some programmer plugins
+ohmyzsh/ohmyzsh path:plugins/git
+ohmyzsh/ohmyzsh path:plugins/golang
+ohmyzsh/ohmyzsh path:plugins/python
+ohmyzsh/ohmyzsh path:plugins/gh
+ohmyzsh/ohmyzsh path:plugins/rust
+
+# Add binary utils
+romkatv/zsh-bench kind:path
+
+# Add core plugins that make Zsh a bit more like Fish
+zsh-users/zsh-completions path:src kind:fpath
 zsh-users/zsh-autosuggestions
-Aloxaf/fzf-tab
-zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-history-substring-search
+zdharma-continuum/fast-syntax-highlighting

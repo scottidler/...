@@ -1,3 +1,12 @@
+#export ZSH_DEBUG_LOG=/tmp/zsh_debug.log
+#exec 3>$ZSH_DEBUG_LOG
+#trap 'echo "TRACE: ${(%):-%x}:${LINENO}: $ZSH_DEBUG_LOG: ${1:-}" >&3' DEBUG
+
+
+if [[ -n "$ZSH_PROFILE" ]]; then
+    zmodload zsh/zprof
+fi
+
 # ============================================================================
 # PATH & ENVIRONMENT
 # ============================================================================
@@ -17,6 +26,14 @@ unsetopt nomatch
 
 PROMPT_EOL_MARK=''
 ZLE_REMOVE_SUFFIX_CHARS=$' \t\n;&'
+
+# ============================================================================
+# ZSH CACHE DIR - required for Oh My Zsh plugins used via Antidote
+# ============================================================================
+if [[ -d ~/.antidote && ! -v ZSH_CACHE_DIR ]]; then
+  export ZSH_CACHE_DIR="$HOME/.cache/oh-my-zsh"
+  mkdir -p "$ZSH_CACHE_DIR/completions"
+fi
 
 # ============================================================================
 # DIRCOLORS
@@ -49,11 +66,15 @@ if [[ -f ~/.zsh_plugins.zsh ]]; then
   source ~/.zsh_plugins.zsh
 fi
 
+# Enable and control zsh completion cache
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "$HOME/.zcompcache"
+
 # ============================================================================
 # COMINIT (MUST come after plugins, before compdef)
 # ============================================================================
 autoload -Uz compinit
-compinit -u
+compinit -C
 
 # Autoload any custom completions
 for f in ~/.shell-completions.d/_*(.N); do
@@ -136,5 +157,9 @@ if [ -f $HOME/.cargo/env ]; then
 fi
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                    # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+if [[ -n "$ZSH_PROFILE" ]]; then
+    zprof
+fi
