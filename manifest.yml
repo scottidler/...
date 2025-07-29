@@ -203,9 +203,6 @@ github:
   scottidler/dashify:
     cargo:
     - ./
-  scottidler/kat:
-    cargo:
-    - ./
   scottidler/git-tools:
     cargo:
     - ls-git-repos
@@ -213,6 +210,9 @@ github:
     - ls-owners
     - ls-stale-branches
     - ls-stale-prs
+  scottidler/kat:
+    cargo:
+    - ./
   scottidler/nerf:
     cargo:
     - ./
@@ -229,6 +229,9 @@ github:
     cargo:
     - ./
   scottidler/workweek:
+    cargo:
+    - ./
+  scottidler/whitespace:
     cargo:
     - ./
   scottidler/git:
