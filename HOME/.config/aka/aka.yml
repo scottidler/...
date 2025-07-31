@@ -117,7 +117,7 @@ aliases:
     value: --target x86_64-pc-windows-gnu
     global: true
   lappy:
-    value: ltl-3587
+    value: ltl-7007
     global: true
   ave:
     value: aws-vault exec --
@@ -209,7 +209,7 @@ aliases:
   extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
 
   # tree
-  T: eza --tree -a --long --ignore-glob='.git|__*|tf|.venv|target|incremental|node_modules'
+  T: eza --tree -a --long --ignore-glob='.git|__*|tf|.venv|.mypy_cache|target|incremental|node_modules'
 
   # curl
   clh:
@@ -416,6 +416,11 @@ aliases:
   lgr: ls-git-repos
   lghr: ls-github-repos
 
+  # whitespace
+  ws|whitespace: whitespace -r
+
+  # yamllint
+  yl: yamllint
 
   # gh cli
   gcs: gh copilot suggest
@@ -423,7 +428,7 @@ aliases:
 
   gqs: git-quick-stats
   gh-title: gh pr create --title "$(git symbolic-ref --short HEAD | awk -v FS='/' -v OFS='/' '{ gsub(/-/," ",$2) } { print }' | tr '/' ' ')" --reviewer tatari-tv/SRE; gh pr view --web
-  av: aws-vault exec -d 12h tatari --
+  av: aws-vault exec -d 12h prod --
 
   authors|authros: git shortlog -s -n --all --no-merges
   gbp: git-big-picture
@@ -520,7 +525,7 @@ aliases:
   z: zig
 
   # aws
-  aws-id: 'aws sts get-caller-identity | jq -r .Account'
+  aws-id: 'aws-vault exec -d 12h prod -- aws sts get-caller-identity | jq -r .Account'
   aws-env: 'env | grep AWS_'
 
   # flatpak
