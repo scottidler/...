@@ -512,11 +512,6 @@ aliases:
   tfpt-gh: terraform plan --target 'github_repository.repos["$1"]'
   tfv: tfvar
 
-  # vault
-  v: vault
-  ve: vault exec
-  vl: vault login
-
   yml-lint: yq -i . $1
 
   ww: workweek
