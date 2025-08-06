@@ -137,14 +137,6 @@ aliases:
   path: echo $PATH | tr ':' '\n'
   path-sort: echo $PATH | tr ':' '\n' | sort -u
 
-  ## surrealdb
-  s: surreal
-  ss: surreal start
-  sb: surreal backup
-  si: surreal import
-  se: surreal export
-  sS: sureal sql
-
   # otto
   oh: otto --help
   ov: otto --version
