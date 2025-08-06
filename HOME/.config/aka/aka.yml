@@ -501,7 +501,7 @@ aliases:
 
   ctx|context: kubectl config current-context
   ctxs|contexts: kubectl config get-contexts
-  update-ctx|update-context: aws eks --region lookup:region[$1] update-kubeconfig --name $1 --alias $1 --role-arn arn:aws:iam::878256633362:role/eks-$1-admin
+  update-ctx|update-context: $av aws eks --region lookup:region[$1] update-kubeconfig --name $1 --alias $1 --role-arn arn:aws:iam::878256633362:role/eks-$1-admin
   use-ctx|use-context: kubectl config use-context $1
 
   # terraform
