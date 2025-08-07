@@ -2,10 +2,9 @@ lookups:
   region:
     prod|apps: us-east-1
     staging|test|dev|ops: us-west-2
+    ignore-ptns: '.git|__*|tf|.venv|.mypy_cache|target|incremental|node_modules'
 
 aliases:
-
-  backup: tar --exclude='**/*[Cc]ache*' -czvf $1-backup.tar.gz $1
 
   # one-offs
   ntws|nuke-trailing-whitespace: sed -i 's/[[:space:]]*$//' $1
@@ -29,6 +28,7 @@ aliases:
   Pe: pipenv
   pm: pulsemixer
   co: cat .github/CODEOWNERS
+  hn: hostname
   psgrep: 'ps aux | grep -v grep | grep'
   ping10:
     value: ping 10.10.10.
@@ -42,6 +42,8 @@ aliases:
   xdo: xdotool
   ls-tatari|ls-ttv: ls-github-repos tatari-tv
   P: cat ~/prompt | xclip -sel clip
+  backup: tar --exclude='**/*[Cc]ache*' -czvf $1-backup.tar.gz $1
+  extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
 
   # corrections
   sud|suod|soud: sudo
@@ -122,6 +124,7 @@ aliases:
   ave:
     value: aws-vault exec --
     global: true
+
   # apt install deb files
   apt-deb: sudo apt install -f ~/Downloads/
   apt-deb-force: sudo apt -o Dpkg::Options::="--force-overwrite" install -f ~/Downloads/
@@ -138,6 +141,7 @@ aliases:
   path-sort: echo $PATH | tr ':' '\n' | sort -u
 
   # otto
+  o: otto
   oh: otto --help
   ov: otto --version
   og: otto graph
@@ -149,12 +153,6 @@ aliases:
   ## nixos
   nb: nix-build
   nrs: sudo nix-rebuild switch
-
-  ## etckeeper
-  ek: sudo etckeeper
-  ekv-log: (cd /etc && sudo etckeeper vcs log)
-  ekv-status: (cd /etc && sudo etckeeper vcs status)
-  ekv-diff: (cd /etc && sudo etckeeper vcs diff)
 
   ## rmrf-rs
   bkup: rkvr bkup
@@ -198,8 +196,6 @@ aliases:
   mkdir-cd: mkdir -p $1 && cd $1
   mkdir: mkdir -p
 
-  extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
-
   # tree
   T: eza --tree -a --long --ignore-glob='.git|__*|tf|.venv|.mypy_cache|target|incremental|node_modules'
 
@@ -230,7 +226,7 @@ aliases:
   mine: sudo chown -R $USER:$USER
   yours: sudo chown -R root:root
   ours: sudo chmod -R 777
-  chmodx: sudo chmod +x
+  +x: sudo chmod +x
 
   # nordvpn
   nv: nordvpn
@@ -239,13 +235,12 @@ aliases:
   nvd: nordvpn disconnect
   nvs: nordvpn status
 
-  # rust cli tools
-  # ls
-  lah: eza -halo --git
-  ltr: eza -lro -sold
+  # eza (ls replacement)
+  ls: eza
   ll: eza -alFo
   la: eza -lao
-  ls: eza
+  lah: eza -halo --git
+  ltr: eza -lro -sold
 
   # search
   /: rg
@@ -269,43 +264,23 @@ aliases:
   carog: cargo #typo fix
   ca: cargo add
   cad: cargo add --dev
-  cI: cargo init
-  ci: cargo install
-  cil: cargo install --list
+  ci: cargo init
   cip: cargo install --path .
-  cin: cargo info
   cf: cargo fmt
   cc: cargo clippy
   ccf: cargo clippy --fix -- -W clippy::pedantic -W clippy::nursery -W clippy::unwrap_used -W clippy::expect_used
   cfc: cargo fmt && cargo clippy
   cb: cargo build
-  cbe: cargo build --example $1
   cbr: cargo build --release
-  cbrw: cargo build --release --target=x86_64-pc-windows-gnu
-  ce: cargo expand
-  cep: cargo expand | awk '/$@/,0'
   ct: cargo test
   cr: cargo run -q --
   crd: RUST_LOG=debug cargo run -q --
-  cre: cargo run -q --example $1 --
   crh: cargo run -q -- --help
   crv: cargo run -q -- --version
-  cs: cargo search
-  cdndo: cargo doc --no-deps --open
-  R: rustc
   RL: RUST_LOG=debug
   car: bat -p Cargo.toml
   csm: bat -p src/main.rs
   vsm: vim src/main.rs
-
-  new-rust: cargo init $1; cd $1; vim src/main.rs Cargo.toml
-
-  rli: RUST_LOG=info
-  rld: RUST_LOG=debug
-  rlw: RUST_LOG=warm
-  rle: RUST_LOG=error
-  rlt: RUST_LOG=trace
-
   bump: cargo release patch --execute --no-publish
 
   slack-gpg: sudo cp ~/Documents/slack.list /etc/apt/sources.list.d/slack.list
@@ -315,27 +290,13 @@ aliases:
   # python
   ipy: ipython
   pip-search: pip_search
-  rmpyc: 'find . -name "*.pyc" -print0 | xargs -0 /bin/rm'
-
-  # pip
-  pip3: python3 -m pip
-  pip3-ii: python3 -m pip install -U --ignore-installed
-  spip3: sudo -H python3 -m pip
-  spip3-ii: sudo -H python3 -m pip install -U --ignore-installed
-
-  pip3.7: sudo -H python3.7 -m pip
-  pip3.7-ii: sudo -H python3.7 -m pip install -U --ignore-installed
-  pip3.8: sudo -H python3.8 -m pip
-  pip3.8-ii: sudo -H python3.8 -m pip install -U --ignore-installed
 
   pt: pytest
   m: manifest
-  o: otto
   scaf: scaffold
 
   # git
   grpo: git remote prune origin
-  gC: git clone git@github.com:$1 $1
   g: git
   ga: git add
   gb: git branch
@@ -343,51 +304,29 @@ aliases:
   gc:
     value: 'git commit -m"'
     space: false
-  gcf: git cat-file -p
   gcm: "git checkout $(git rev-parse --abbrev-ref origin/HEAD 2>/dev/null | sed 's@^origin/@@')"
   gd: git diff
   gD: git describe
-  gdm: git diff main
   gp: git pull
   gP: git push
   gpo: 'git push -u origin $(git symbolic-ref --short -q HEAD)'
-  gpot: 'git push -u origin $(git symbolic-ref --short -q HEAD) --tags'
-  gpof: 'git push -u origin $(git symbolic-ref --short -q HEAD) --force-with-lease'
   gs: git status --short
-  gbc: git branch --contains
   gco: git checkout
   gcob: git checkout -b
-  gcd: git checkout develop
   grp: git rev-parse
   gsh: git show
-  gsn: 'git show --notes=*'
-  gpP: 'gp && gP'
-  gbmm: git branch --merged main
-  gbnmm: git branch --no-merged main
   grh: git reset --hard
   grhh: git reset --hard HEAD
   grph: git rev-parse HEAD
-  gfbn: git fetch origin +refs/notes/buildno/:refs/notes/buildno
-  gfofu: git fetch origin -f -u +refs/heads/*:refs/heads/*
-  grloa: git rev-list --objects --all
-  grm: git rebase main
   grim: git rebase -i main
   tags: git tag -l
   gl: git log -$1
   reporoot: git rev-parse --show-toplevel
-  #refresh: REPONAME=$(reponame); cd ~/repos; rmrf $REPONAME; clone $REPONAME
-  branch: git rev-parse --abbrev-ref HEAD
-  nearest-tag: git describe --abbrev=0
-  merged: git branch -r --sort=committerdate --merged
-  no-merged: git branch -r --sort=committerdate --no-merged
-  remote-origin-url: git config --get remote.origin.url
-  ls-not-git: git ls-files . --ignored --exclude-standard --others
   ls-remote: git ls-remote
   ls-remote-heads: git ls-remote | grep refs/heads/
   ls-remote-branch: 'git ls-remote | grep refs/heads/$(git rev-parse --abbrev-ref HEAD)'
   ls-remote-tag: 'git ls-remote | grep refs/tags/$(git describe --abbrev=0)'
   ls-remote-tags: git ls-remote | grep refs/tags/
-  not-on-main: git branch --no-merged main
   set-upstream: 'git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD) $(git rev-parse --abbrev-ref HEAD)'
   prune: git remote prune origin
   unstage: git reset HEAD
@@ -395,37 +334,14 @@ aliases:
   describe: 'git describe --match "v*" --abbrev=7'
   rm-tag: git tag -d $1; git push origin :$1
   db: delete-branch
+  authors|authros: git shortlog -s -n --all --no-merges
 
   refresh: find . -maxdepth 2 -type d -name ".git" | xargs -n1 dirname | parallel -j $(nproc) "cd {} && git pull"
-
-  # git submodules
-  gsm: git submodule
-  gsmu: gsm update
-  gsmur: gsm update --remote
-  gsmui: 'gsm update --jobs=$((3 * $(nproc))) --init --recursive'
-
-  # ls-{git,github}-repos
-  lgr: ls-git-repos
-  lghr: ls-github-repos
 
   # whitespace
   ws|whitespace: whitespace -r
 
-  # yamllint
-  yl: yamllint
-
-  # gh cli
-  gcs: gh copilot suggest
-  gce: gh copilot explain
-
-  gqs: git-quick-stats
-  gh-title: gh pr create --title "$(git symbolic-ref --short HEAD | awk -v FS='/' -v OFS='/' '{ gsub(/-/," ",$2) } { print }' | tr '/' ' ')" --reviewer tatari-tv/SRE; gh pr view --web
   av: aws-vault exec -d 12h prod --
-
-  authors|authros: git shortlog -s -n --all --no-merges
-  gbp: git-big-picture
-
-  GS: github-setup
 
   afields: awk -v N=$1 '{sep=""; for (i=N; i<=NF; i++) {printf("%s%s",sep,$i); sep=OFS}; printf("\n")}'
 
@@ -439,11 +355,9 @@ aliases:
   # docker
   d: docker
   dc: docker-compose
-  dI: docker inspect
   di: 'docker images | (read -r; printf "%s\n" "$REPLY"; sort)'
   dps: 'docker ps | (read -r; printf "%s\n" "$REPLY"; sort)'
   dpsa: 'docker ps -a | (read -r; printf "%s\n" "$REPLY"; sort)'
-  dpsaq: docker ps -aq
   drm: docker rm
   drmi: docker rmi
   drit: docker run -it
@@ -504,22 +418,15 @@ aliases:
   tfpt-gh: terraform plan --target 'github_repository.repos["$1"]'
   tfv: tfvar
 
+  # yaml formatting
+  yl: yamllint
   yml-lint: yq -i . $1
 
   ww: workweek
 
-  # zig
-  z: zig
-
   # aws
-  aws-id: 'aws-vault exec -d 12h prod -- aws sts get-caller-identity | jq -r .Account'
+  aws-id: '$av aws sts get-caller-identity | jq -r .Account'
   aws-env: 'env | grep AWS_'
-
-  # flatpak
-  fp: flatpak
-  fpi: flatpak install
-  fps: flatpak search
-  fpu: flatpak update
 
   # traceroute
   tr: traceroute
@@ -540,8 +447,6 @@ aliases:
   ureboot: 'update && reboot'
   ushutdown: 'update && shutdown'
 
-  CC: bat -p ~/Documents/.cards/.cc
-
   # package update
   apt-up|au: |
     sudo apt-get update && \
@@ -558,6 +463,7 @@ aliases:
   # search for an apt pkg
   as: apt-cache search $1 | grep ^$1
 
+  # poetry
   p: poetry
   pr: poetry run
   pb: poetry build
