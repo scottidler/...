@@ -149,5 +149,5 @@ hi link anyLabel Label
 hi link caseLabelKeyword Keyword
 hi link beginRL Type
 hi link rlBuiltIns Constant
- 
+
 let b:current_syntax = "ragel"
