@@ -44,6 +44,8 @@ aliases:
   P: cat ~/prompt | xclip -sel clip
   backup: tar --exclude='**/*[Cc]ache*' -czvf $1-backup.tar.gz $1
   extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
+  sorted: bat -p $1 | sort -u > $1.new; mv $1.new $1
+  xtract: PDF="$1"; ~/Documents/spanish/cronicas/extract.py $PDF; bat "${PDF%.pdf}.yml"
 
   # corrections
   sud|suod|soud: sudo
@@ -54,6 +56,25 @@ aliases:
   old-vim: $(print -r =vim)
   cd..: cd ..
   cd../: cd ..
+
+  # package update
+  apt-up|au: |
+    sudo apt-get update && \
+    sudo apt-get full-upgrade -y && \
+    sudo apt-get autoremove -y
+
+  # cd to common directories
+  docs: cd ~/Documents
+  down: cd ~/Downloads
+  pics: cd ~/Pictures
+  vids: cd ~/Videos
+  cp-cd: mkdir -p $2 && cp $1 $2 && cd $(toplevel $2)
+  mv-cd: mkdir -p $2 && mv $1 $2 && cd $(toplevel $2)
+  mkdir-cd: mkdir -p $1 && cd $1
+  mkdir: mkdir -p
+
+  # tree
+  T: eza --tree -a --long --ignore-glob='.git|__*|tf|.venv|.mypy_cache|target|incremental|node_modules'
 
   # globals
   '|c':
@@ -125,20 +146,9 @@ aliases:
     value: aws-vault exec --
     global: true
 
-  # apt install deb files
-  apt-deb: sudo apt install -f ~/Downloads/
-  apt-deb-force: sudo apt -o Dpkg::Options::="--force-overwrite" install -f ~/Downloads/
-
   # prepend
   pp: prepend $1 $2
   pp-rust: prepend "#![cfg_attr(debug_assertions, allow(unused_imports, unused_variables, unused_mut, dead_code))]" $1
-
-  sorted: bat -p $1 | sort -u > $1.new; mv $1.new $1
-  xtract: PDF="$1"; ~/Documents/spanish/cronicas/extract.py $PDF; bat "${PDF%.pdf}.yml"
-
-  ## path
-  path: echo $PATH | tr ':' '\n'
-  path-sort: echo $PATH | tr ':' '\n' | sort -u
 
   # otto
   o: otto
@@ -185,19 +195,6 @@ aliases:
   ping-9s: ping 9.9.9.9
   ping-google: ping 142.251.33.110
   ping-google-v6: ping 2607:f8b0:400a:80b::200e
-
-  # cd to common directories
-  docs: cd ~/Documents
-  down: cd ~/Downloads
-  pics: cd ~/Pictures
-  vids: cd ~/Videos
-  cp-cd: mkdir -p $2 && cp $1 $2 && cd $(toplevel $2)
-  mv-cd: mkdir -p $2 && mv $1 $2 && cd $(toplevel $2)
-  mkdir-cd: mkdir -p $1 && cd $1
-  mkdir: mkdir -p
-
-  # tree
-  T: eza --tree -a --long --ignore-glob='.git|__*|tf|.venv|.mypy_cache|target|incremental|node_modules'
 
   # curl
   clh:
@@ -422,6 +419,7 @@ aliases:
   yl: yamllint
   yml-lint: yq -i . $1
 
+  # workwwk
   ww: workweek
 
   # aws
@@ -447,21 +445,12 @@ aliases:
   ureboot: 'update && reboot'
   ushutdown: 'update && shutdown'
 
-  # package update
-  apt-up|au: |
-    sudo apt-get update && \
-    sudo apt-get full-upgrade -y && \
-    sudo apt-get autoremove -y
-
   pip-up|pu: |
     python3 -m pip install -U pip &&
     python3 -m pip list --outdated |
     cut -d' ' -f1 |
     grep -vxFf ~/.distutils.pkgs |
     xargs -n1 sudo -H python3 -m pip install -U
-
-  # search for an apt pkg
-  as: apt-cache search $1 | grep ^$1
 
   # poetry
   p: poetry
