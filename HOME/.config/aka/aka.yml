@@ -273,6 +273,11 @@ aliases:
   af: aka freq
   afa: aka freq --all
 
+  # gx
+  gxs: gx status
+  gxc: gx clone
+  gxco: gx checkout
+
   # kat
   jat: kat json
   Jat: kat json | xclip -sel clip
@@ -307,9 +312,15 @@ aliases:
   ls-rmrf: rkvr ls-rmrf
   bkup-rmrf: rkvr bkup-rmrf
 
+  # slam
+  slame: slam
+  ssr: slam sandbox refresh
+
   # whitespace
   ws|whitespace: whitespace -r
 
+  # workweek
+  ww: workweek
 
 
   # ========================================
@@ -460,19 +471,6 @@ aliases:
   tf-fmt: terraform fmt -write=true -diff=true -recursive
   tfpt-gh: terraform plan --target 'github_repository.repos["$1"]'
   tfv: tfvar
-
-  # ========================================
-  # SLAM
-  # ========================================
-
-  slame: slam
-  ssr: slam sandbox refresh
-
-  # ========================================
-  # WORKWEEK
-  # ========================================
-
-  ww: workweek
 
   # ========================================
   # YAML
