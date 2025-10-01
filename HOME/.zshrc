@@ -142,6 +142,8 @@ fi
 
 if hash zoxide 2>/dev/null; then
   eval "$(zoxide init --cmd cd zsh)"
+  # uncomment if I suspect something with zoxide is not working correctly
+  export _ZO_DOCTOR=0
 fi
 
 if hash macchina 2> /dev/null; then
