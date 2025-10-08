@@ -112,9 +112,6 @@ aliases:
   target-windows:
     value: --target x86_64-pc-windows-gnu
     global: true
-  lappy:
-    value: ltl-7007
-    global: true
   ave:
     value: aws-vault exec --
     global: true
@@ -202,8 +199,8 @@ aliases:
   # SSH
   # ========================================
 
-  home: ssh desk.lan
-  work: ssh ltl-7007.lan
+  desk|home: ssh desk.lan
+  lappy|work: ssh ltl-7007.lan
   xps: ssh saidler@xps.lan
 
   # ========================================
@@ -218,7 +215,7 @@ aliases:
   ltr: eza -lro -sold
 
   # tree
-  T: eza --tree -a --long --ignore-glob='.git|__*|tf|.venv|.mypy_cache|target|incremental|node_modules'
+  T: eza --tree -a --long --ignore-glob='.git|__*|tf|.venv|*_cache|target|incremental|node_modules'
 
   # other tools
   calc: fend
@@ -274,6 +271,7 @@ aliases:
   afa: aka freq --all
 
   # gx
+  gxh: gx --help
   gxs: gx status
   gxc: gx clone
   gxco: gx checkout
@@ -384,6 +382,8 @@ aliases:
   gp: git pull
   gP: git push
   gpo: 'git push -u origin $(git symbolic-ref --short -q HEAD)'
+  gpot: 'git push -u origin $(git symbolic-ref --short -q HEAD) --tags'
+  gpof: 'git push -u origin $(git symbolic-ref --short -q HEAD) --force-with-lease'
   gs: git status --short
   gco: git checkout
   gcob: git checkout -b
@@ -476,7 +476,7 @@ aliases:
   # YAML
   # ========================================
 
-  yl: yamllint
+  YL: yamllint
   yml-lint: yq -i . $1
 
   # ========================================
