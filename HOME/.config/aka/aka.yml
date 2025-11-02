@@ -302,6 +302,8 @@ aliases:
   ov: otto --version
   oc: otto clean
   og: otto graph
+  oH: otto history
+  os: otto stats
 
   # rkvr (rmrf-rs)
   bkup: rkvr bkup
