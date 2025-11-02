@@ -199,8 +199,8 @@ aliases:
   # SSH
   # ========================================
 
-  desk|home: ssh desk.lan
-  lappy|work: ssh ltl-7007.lan
+  home|desk: ssh desk.lan
+  work|lappy: ssh ltl-7007.lan
   xps: ssh saidler@xps.lan
 
   # ========================================
@@ -300,6 +300,7 @@ aliases:
   o: otto
   oh: otto --help
   ov: otto --version
+  oc: otto clean
   og: otto graph
 
   # rkvr (rmrf-rs)
