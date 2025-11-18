@@ -300,10 +300,18 @@ aliases:
   o: otto
   oh: otto --help
   ov: otto --version
-  oc: otto clean
-  og: otto graph
-  oH: otto history
-  os: otto stats
+  # built-ins
+  oc: otto Clean
+  oC: otto Convert
+  og: otto Graph
+  oH: otto History
+  os: otto Stats
+  ou: otto Upgrade
+  # common
+  oa: otto all
+  ot: otto test
+
+  mem: ps -eo comm,rss --no-headers | awk '{a[$$1]+=$$2} END {for (i in a) printf "%-30s %8.2f GiB\n", i, a[i]/1024/1024}' | sort -nr -k2 | head -15
 
   # rkvr (rmrf-rs)
   bkup: rkvr bkup
@@ -521,6 +529,8 @@ aliases:
   afields: awk -v N=$1 '{sep=""; for (i=N; i<=NF; i++) {printf("%s%s",sep,$i); sep=OFS}; printf("\n")}'
   par: parallel
   tr: traceroute
+  acre-side: 'awk "BEGIN { print sqrt($1 * 43560) }"'
+
 
   # change dir
   cdr: '$(git rev-parse 2>/dev/null) && cd $(git rev-parse --show-toplevel)'
