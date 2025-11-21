@@ -17,11 +17,7 @@ path=("$HOME/bin" $path)
 # macOS compatibility
 gdircolors &>/dev/null && alias dircolors='gdircolors'
 
-# History settings
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt appendhistory clobber
+setopt clobber
 unsetopt nomatch
 
 PROMPT_EOL_MARK=''
@@ -122,18 +118,13 @@ hash kubectl 2>/dev/null && source <(kubectl completion zsh)
 
 # NOTE: it is important for the work to come before the home
 eval $(keychain --eval --agents ssh --quiet \
-    identities/work/id_ed25519 \
-    identities/home/id_ed25519)
+    ~/.ssh/identities/work/id_ed25519 \
+    ~/.ssh/identities/home/id_ed25519)
 
 if hash fzf 2> /dev/null; then
     [[ -f /usr/share/fzf/completion.zsh ]] && source /usr/share/fzf/completion.zsh
     [[ -f /usr/share/fzf/key-bindings.zsh ]] && source /usr/share/fzf/key-bindings.zsh
     [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
-
-    HISTFILE=~/.zsh_history
-    HISTSIZE=10000
-    SAVEHIST=10000
-    setopt appendhistory
 fi
 
 if [ -f ~/.fzf.zsh ]; then
@@ -161,6 +152,29 @@ fi
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                    # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# ============================================================================
+# Put INC_APPEND_HISTORY and safe history settings HERE
+### --- SAFER, REAL-TIME ZSH HISTORY --- ###
+
+# File and size
+HISTFILE=~/.zsh_history
+HISTSIZE=500000
+SAVEHIST=500000
+
+# Write each command to history immediately
+setopt INC_APPEND_HISTORY    # <- The important one
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+
+# Clean & safe behavior
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt EXTENDED_HISTORY      # timestamps
+setopt HIST_IGNORE_SPACE     # commands starting with space not logged
+
+### ---------------------------------------- ###
 
 if [[ -n "$ZSH_PROFILE" ]]; then
     zprof
