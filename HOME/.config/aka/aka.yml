@@ -331,6 +331,9 @@ aliases:
   # workweek
   ww: workweek
 
+  # readtime
+  rt: readtime
+
 
   # ========================================
   # LARGE BLOCKS - alphabetized
