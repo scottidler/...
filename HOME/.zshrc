@@ -127,10 +127,6 @@ if hash fzf 2> /dev/null; then
     [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 fi
 
-if [ -f ~/.fzf.zsh ]; then
-  . ~/.fzf.zsh
-fi
-
 if hash zoxide 2>/dev/null; then
   eval "$(zoxide init --cmd cd zsh)"
   # uncomment if I suspect something with zoxide is not working correctly
@@ -147,6 +143,10 @@ fi
 
 if [ -f $HOME/.cargo/env ]; then
     source "$HOME/.cargo/env"
+fi
+
+if hash qai 2> /dev/null; then
+    eval "$(qai shell-init zsh)"
 fi
 
 export NVM_DIR="$HOME/.nvm"
