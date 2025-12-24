@@ -72,7 +72,8 @@ ohmyzsh/ohmyzsh path:plugins/uv
 romkatv/zsh-bench kind:path
 
 # Add core plugins that make Zsh a bit more like Fish
+# ORDER MATTERS: syntax-highlighting must load BEFORE history-substring-search
 zsh-users/zsh-completions path:src kind:fpath
-zsh-users/zsh-autosuggestions
-zsh-users/zsh-history-substring-search
 zdharma-continuum/fast-syntax-highlighting
+zsh-users/zsh-history-substring-search
+zsh-users/zsh-autosuggestions
