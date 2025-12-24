@@ -349,7 +349,7 @@ aliases:
   ca: cargo add
   cad: cargo add --dev
   ci: cargo init
-  cip: cargo install --path .
+  cip: cargo install --path . --locked
   cf: cargo fmt
   cc: cargo clippy
   ccf: cargo clippy --fix -- -W clippy::pedantic -W clippy::nursery -W clippy::unwrap_used -W clippy::expect_used
@@ -375,7 +375,7 @@ aliases:
   dpsa: 'docker ps -a | (read -r; printf "%s\n" "$REPLY"; sort)'
   drm: docker rm
   drmi: docker rmi
-  drit: docker run -it
+  drit: docker run -it --rm
   deit: docker exec -it
   ls-dangling-images: docker images -q --filter "dangling=true"
   rm-stopped-containers: 'docker rm $(docker ps -q -f "status=exited")'
@@ -425,6 +425,9 @@ aliases:
   authors|authros: git shortlog -s -n --all --no-merges
   refresh: find . -maxdepth 2 -type d -name ".git" | xargs -n1 dirname | parallel -j $(nproc) "cd {} && git pull"
 
+  # gh
+  ghpr: gh pr create -t "$(git branch --show-current)" -a "@me"
+
   # kubectl (k8s)
   k: kubectl
   ka: kubectl apply -f
@@ -468,6 +471,11 @@ aliases:
   update-ctx|update-context: $av aws eks --region lookup:region[$1] update-kubeconfig --name $1 --alias $1 --role-arn arn:aws:iam::878256633362:role/eks-$1-admin
   use-ctx|use-context: kubectl config use-context $1
 
+  # pdf -> md
+  pdf2md: |
+    filename="${1%.pdf}"
+    pdftotext -layout "$filename.pdf" - | pandoc -f markdown -t markdown -o "$filename.md"
+
   # poetry
   p: poetry
   pr: poetry run
@@ -485,6 +493,9 @@ aliases:
   tf-fmt: terraform fmt -write=true -diff=true -recursive
   tfpt-gh: terraform plan --target 'github_repository.repos["$1"]'
   tfv: tfvar
+
+  # uname
+  kernel: uname -sr
 
   # ========================================
   # YAML
