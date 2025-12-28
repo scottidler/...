@@ -100,14 +100,6 @@ function precmd() {
 [ -f ~/.shell-functions ] && source ~/.shell-functions
 
 # ============================================================================
-# AKA COMPLETION
-# ============================================================================
-if whence -w _aka_commands >/dev/null; then
-  compdef _aka_commands -command-
-fi
-
-
-# ============================================================================
 # GOOGLE CLOUD / K8s / SSH KEYS
 # ============================================================================
 [ -f ~/src/google-cloud-sdk/path.zsh.inc ] && source ~/src/google-cloud-sdk/path.zsh.inc
@@ -149,6 +141,10 @@ if hash qai 2> /dev/null; then
     eval "$(qai shell-init zsh)"
 fi
 
+if hash aka 2>/dev/null; then
+    eval "$(aka shell-init zsh)"
+fi
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                    # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -176,15 +172,6 @@ setopt HIST_IGNORE_SPACE     # commands starting with space not logged
 
 ### ---------------------------------------- ###
 
-# ============================================================================
-# HISTORY PREFIX SEARCH - must be at very end after all plugins load
-# ============================================================================
-# Use ZSH built-in prefix search (matches commands STARTING with typed text)
-# Bind BOTH escape sequences (normal mode and application mode)
-bindkey '^[[A' history-beginning-search-backward
-bindkey '^[[B' history-beginning-search-forward
-bindkey '^[OA' history-beginning-search-backward
-bindkey '^[OB' history-beginning-search-forward
 
 if [[ -n "$ZSH_PROFILE" ]]; then
     zprof
