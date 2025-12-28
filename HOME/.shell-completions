@@ -1,11 +1,5 @@
-# ~/.shell-completions  – minimal, just reproduces manual steps
+# ~/.shell-completions – load completions from ~/.shell-completions.d
 [[ -n $DEBUG ]] && { PS4=':${LINENO}+'; set -x; }
 
 [[ -d ~/.shell-completions.d ]] || return
-fpath=(~/.shell-completions.d $fpath)   # step 1
-
-autoload -Uz compinit
-compinit -u                              # steps 2+3 (scans & loads)
-
-autoload -Uz _aka_commands               # step 3 (ensure stub ready)
-compdef _aka_commands -command-          # step 4 (bind it once)
+fpath=(~/.shell-completions.d $fpath)
