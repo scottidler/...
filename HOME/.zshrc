@@ -172,6 +172,15 @@ setopt HIST_IGNORE_SPACE     # commands starting with space not logged
 
 ### ---------------------------------------- ###
 
+# ============================================================================
+# HISTORY PREFIX SEARCH - must be at very end after all plugins load
+# ============================================================================
+# Use ZSH built-in prefix search (matches commands STARTING with typed text)
+# Bind BOTH escape sequences (normal mode and application mode)
+bindkey '^[[A' history-beginning-search-backward
+bindkey '^[[B' history-beginning-search-forward
+bindkey '^[OA' history-beginning-search-backward
+bindkey '^[OB' history-beginning-search-forward
 
 if [[ -n "$ZSH_PROFILE" ]]; then
     zprof
