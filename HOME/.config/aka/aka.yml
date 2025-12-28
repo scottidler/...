@@ -301,8 +301,8 @@ aliases:
   oh: otto --help
   ov: otto --version
   # built-ins
-  oc: otto Clean
-  oC: otto Convert
+  oC: otto Clean
+  oV: otto Convert
   og: otto Graph
   oH: otto History
   os: otto Stats
@@ -310,6 +310,8 @@ aliases:
   # common
   oa: otto all
   ot: otto test
+  oc: otto cov
+  oci: otto ci
 
   mem: ps -eo comm,rss --no-headers | awk '{a[$$1]+=$$2} END {for (i in a) printf "%-30s %8.2f GiB\n", i, a[i]/1024/1024}' | sort -nr -k2 | head -15
 
@@ -365,7 +367,7 @@ aliases:
   car: bat -p Cargo.toml
   csm: bat -p src/main.rs
   vsm: vim src/main.rs
-  bump: cargo release patch --execute --no-publish
+  bump2: cargo release patch --execute --no-publish
 
   # docker
   d: docker
