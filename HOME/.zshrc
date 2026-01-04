@@ -119,8 +119,9 @@ if hash fzf 2> /dev/null; then
     [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 fi
 
-if hash zoxide 2>/dev/null; then
-  eval "$(zoxide init --cmd cd zsh)"
+# zsh: only override cd in interactive shells
+if command -v zoxide >/dev/null 2>&1 && [[ -o interactive ]]; then
+  eval "$(zoxide init zsh --cmd cd)"
   # uncomment if I suspect something with zoxide is not working correctly
   export _ZO_DOCTOR=0
 fi
@@ -133,16 +134,16 @@ if hash starship 2> /dev/null; then
     eval "$(starship init zsh)"
 fi
 
-if [ -f $HOME/.cargo/env ]; then
-    source "$HOME/.cargo/env"
-fi
-
 if hash qai 2> /dev/null; then
     eval "$(qai shell-init zsh)"
 fi
 
 if hash aka 2>/dev/null; then
     eval "$(aka shell-init zsh)"
+fi
+
+if [ -f $HOME/.cargo/env ]; then
+    source "$HOME/.cargo/env"
 fi
 
 export NVM_DIR="$HOME/.nvm"
