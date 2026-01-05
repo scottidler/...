@@ -7,47 +7,21 @@ lookups:
 aliases:
 
   # ========================================
-  # CLIPBOARD
+  # TYPO CORRECTIONS
   # ========================================
 
-  clipboard: xclip -sel clip
-  pb-copy:
-    value: xclip -sel clip
-    global: true
-  pb-paste: xclip -sel clip -o
-  P: cat ~/prompt | xclip -sel clip
+  sud|suod|soud: sudo
+  vim: nvim
+  svim: sudo nvim
+  vmi|emacs: vim
+  rtx: mise
+  cd..: cd ..
+  cd../: cd ..
+  carog: cargo
+  authros: authors
 
   # ========================================
-  # CURL / HTTP
-  # ========================================
-
-  clh:
-    value: 'curl localhost:'
-    space: false
-  headers-only: curl -sSL -D - $1 -o /dev/null
-  curl-follow: curl $1 -gkLs -o /dev/null -v 2>&1|grep -e '^< HTTP' -e '[L|l]ocation:'
-  url-effective: curl -Ls -o /dev/null -w %{url_effective} $1
-
-  # ========================================
-  # FILE OPERATIONS
-  # ========================================
-
-  bak: mv $1 $1.bak
-  sav: cp $1 $1.sav
-  backup: tar --exclude='**/*[Cc]ache*' -czvf $1-backup.tar.gz $1
-  extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
-  sorted: bat -p $1 | sort -u > $1.new; mv $1.new $1
-  xtract: PDF="$1"; ~/Documents/spanish/cronicas/extract.py $PDF; bat "${PDF%.pdf}.yml"
-  tarlist: tar ztvf
-
-  # chown / chmod
-  mine: sudo chown -R $USER:$USER
-  yours: sudo chown -R root:root
-  ours: sudo chmod -R 777
-  +x: sudo chmod +x
-
-  # ========================================
-  # GLOBAL ALIASES
+  # GLOBAL ALIASES - Pipes
   # ========================================
 
   '|c':
@@ -68,10 +42,19 @@ aliases:
   '|gi':
     value: '| grep -i'
     global: true
+  '|gv':
+    value: '| grep -v'
+    global: true
   '|g^':
     value: '| grep ^'
     global: true
     space: false
+  '|s':
+    value: '| sort'
+    global: true
+  '|u':
+    value: '| sort -u'
+    global: true
   '|wc':
     value: '| wc -l'
     global: true
@@ -96,12 +79,22 @@ aliases:
   '|x':
     value: "| xargs -I% bash -c 'echo %; tab2 '"
     global: true
+
+  # ========================================
+  # GLOBAL ALIASES - Redirects
+  # ========================================
+
   e2o|comb:
     value: '2>&1'
     global: true
   tee2files:
     value: '> >(tee -a stdout.log) 2> >(tee -a stderr.log >&2)'
     global: true
+
+  # ========================================
+  # GLOBAL ALIASES - Environment
+  # ========================================
+
   LL:
     value: 'LOG_LEVEL='
     space: false
@@ -109,26 +102,28 @@ aliases:
   RBT:
     value: RUST_BACKTRACE=1
     global: true
+  RL:
+    value: RUST_LOG=debug
+    global: true
+
+  # ========================================
+  # GLOBAL ALIASES - Rust Cross-compile
+  # ========================================
+
   target-windows:
     value: --target x86_64-pc-windows-gnu
     global: true
-  ave:
-    value: aws-vault exec --
-    global: true
-  ttv:
-    value: tatari-tv
-    global: true
 
   # ========================================
-  # LINUX / SYSTEM
+  # CLIPBOARD
   # ========================================
 
-  dmesg: sudo dmesg
-  fix-dns: sudo systemd-resolve --flush-caches
-  reboot-sound: pulseaudio -k && sudo alsa force-reload
-  os: 'echo "$(lsb_release -is)-$(lsb_release -rs)_x$(getconf LONG_BIT)($(lsb_release -cs))"'
-  hn: hostname
-  psgrep: 'ps aux | grep -v grep | grep'
+  clipboard: xclip -sel clip
+  pb-copy:
+    value: xclip -sel clip
+    global: true
+  pb-paste: xclip -sel clip -o
+  P: cat ~/prompt | xclip -sel clip
 
   # ========================================
   # NAVIGATION / DIRECTORIES
@@ -142,6 +137,48 @@ aliases:
   mv-cd: mkdir -p $2 && mv $1 $2 && cd $(toplevel $2)
   mkdir-cd: mkdir -p $1 && cd $1
   mkdir: mkdir -p
+  cdr: '$(git rev-parse 2>/dev/null) && cd $(git rev-parse --show-toplevel)'
+  cdpr: '$(git rev-parse) && {cd ../; cd $(git rev-parse --show-toplevel)}'
+  cdp: '$(git rev-parse) && cd $(git rev-parse --show-toplevel) && cd ../'
+
+  # ========================================
+  # FILE OPERATIONS
+  # ========================================
+
+  bak: mv $1 $1.bak
+  sav: cp $1 $1.sav
+  backup: tar --exclude='**/*[Cc]ache*' -czvf $1-backup.tar.gz $1
+  tarlist: tar ztvf
+  sorted: bat -p $1 | sort -u > $1.new; mv $1.new $1
+
+  # ========================================
+  # PERMISSIONS
+  # ========================================
+
+  mine: sudo chown -R $USER:$USER
+  yours: sudo chown -R root:root
+  ours: sudo chmod -R 777
+  +x: sudo chmod +x
+
+  # ========================================
+  # SEARCH
+  # ========================================
+
+  /: rg
+  //: rg --hidden
+
+  # ========================================
+  # LINUX / SYSTEM
+  # ========================================
+
+  dmesg: sudo dmesg
+  fix-dns: sudo systemd-resolve --flush-caches
+  reboot-sound: pulseaudio -k && sudo alsa force-reload
+  os-info: 'echo "$(lsb_release -is)-$(lsb_release -rs)_x$(getconf LONG_BIT)($(lsb_release -cs))"'
+  hn: hostname
+  psgrep: 'ps aux | grep -v grep | grep'
+  kernel: uname -sr
+  mem: ps -eo comm,rss --no-headers | awk '{a[$$1]+=$$2} END {for (i in a) printf "%-30s %8.2f GiB\n", i, a[i]/1024/1024}' | sort -nr -k2 | head -15
 
   # ========================================
   # NETWORKING
@@ -163,6 +200,7 @@ aliases:
 
   # dns
   ds: dig +short
+  tr: traceroute
 
   # nordvpn
   nv: nordvpn
@@ -172,11 +210,23 @@ aliases:
   nvs: nordvpn status
 
   # ========================================
-  # NIXOS
+  # SSH
   # ========================================
 
-  nb: nix-build
-  nrs: sudo nix-rebuild switch
+  home|desk: ssh desk.lan
+  work|lappy: ssh ltl-7007.lan
+  xps: ssh saidler@xps.lan
+
+  # ========================================
+  # CURL / HTTP
+  # ========================================
+
+  clh:
+    value: 'curl localhost:'
+    space: false
+  headers-only: curl -sSL -D - $1 -o /dev/null
+  curl-follow: curl $1 -gkLs -o /dev/null -v 2>&1|grep -e '^< HTTP' -e '[L|l]ocation:'
+  url-effective: curl -Ls -o /dev/null -w %{url_effective} $1
 
   # ========================================
   # PACKAGE MANAGEMENT
@@ -188,44 +238,39 @@ aliases:
     sudo apt-get full-upgrade -y && \
     sudo apt-get autoremove -y
 
-  # ========================================
-  # SEARCH
-  # ========================================
+  # pip
+  pip-up|pu: |
+    python3 -m pip install -U pip &&
+    python3 -m pip list --outdated |
+    cut -d' ' -f1 |
+    grep -vxFf ~/.distutils.pkgs |
+    xargs -n1 sudo -H python3 -m pip install -U
 
-  /: rg
-  //: rg --hidden
-
-  # ========================================
-  # SSH
-  # ========================================
-
-  home|desk: ssh desk.lan
-  work|lappy: ssh ltl-7007.lan
-  xps: ssh saidler@xps.lan
+  # nix
+  nb: nix-build
+  nrs: sudo nix-rebuild switch
 
   # ========================================
-  # TOOLS / UTILITIES
+  # TOOLS - eza (ls replacement)
   # ========================================
 
-  # eza (ls replacement)
   ls: eza
   ll: eza -alFo
   la: eza -lao
   lah: eza -halo --git
   ltr: eza -lro -sold
-
-  # tree
   T: eza --tree -a --long --ignore-glob='.git|__*|tf|.venv|*_cache|target|incremental|node_modules'
 
-  # other tools
+  # ========================================
+  # TOOLS - General
+  # ========================================
+
   calc: fend
   cat: bat -p
-  cinema: asciinema
   cl: clear
   e2d: date -d @$1
   email: himalaya
   ex: exercism
-  mi: mediainfo
   pa: pulseaudio
   pm: pulsemixer
   co: cat .github/CODEOWNERS
@@ -233,35 +278,49 @@ aliases:
   xdo: xdotool
   st: speedtest-rs
   wiki: wiki-tui "$@"
-  ls-tatari|ls-ttv: ls-github-repos tatari-tv
-
-  # ========================================
-  # TYPO CORRECTIONS
-  # ========================================
-
-  sud|suod|soud: sudo
-  vim: nvim
-  svim: sudo nvim
-  vmi|emacs: vim
-  rtx: mise
-  old-vim: $(print -r =vim)
-  cd..: cd ..
-  cd../: cd ..
-
-  # ========================================
-  # UTILITIES / MISC
-  # ========================================
-
+  cookie: cookiecutter
+  scaf: scaffold
+  afields: awk -v N=$1 '{sep=""; for (i=N; i<=NF; i++) {printf("%s%s",sep,$i); sep=OFS}; printf("\n")}'
+  par: parallel
+  acre-side: 'awk "BEGIN { print sqrt($1 * 43560) }"'
   ntws|nuke-trailing-whitespace: sed -i 's/[[:space:]]*$//' $1
-  debug-git: GIT_SSH_COMMAND="ssh -i $WORK_SSH_PUB_KEY -vvv"
   pp: prepend $1 $2
   pp-rust: prepend "#![cfg_attr(debug_assertions, allow(unused_imports, unused_variables, unused_mut, dead_code))]" $1
 
   # ========================================
-  # PERSONAL PROJECTS (scottidler)
+  # MEDIA
   # ========================================
 
-  # aka
+  extract: ffmpeg -i $1 -vsync 2 '$1_%04d.png'
+  mi: mediainfo
+  cinema: asciinema
+
+  # ========================================
+  # CONFIG EDITING
+  # ========================================
+
+  akas: editor ~/.config/aka/aka.yml; . ~/.zshrc
+  bashrc: editor ~/.bashrc; . ~/.bashrc
+  zshrc: editor ~/.zshrc; . ~/.zshrc
+  aliases: editor ~/.shell-aliases; . ~/.zshrc
+  exports: editor ~/.shell-exports; . ~/.zshrc
+  functions: editor ~/.shell-functions; . ~/.zshrc
+
+  # ========================================
+  # WHICH COMBOS
+  # ========================================
+
+  follow-which|fw: follow $(which $1)
+  cat-which|cw: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; bat "${WHICHD[@]}"'
+  vim-which|vw: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; vim "${WHICHD[@]}"'
+  printr:
+    value: print -r -- =$1
+    space: false
+
+  # ========================================
+  # PERSONAL PROJECTS - aka
+  # ========================================
+
   ah: aka --help
   al: aka ls
   ad: aka daemon
@@ -270,13 +329,19 @@ aliases:
   af: aka freq
   afa: aka freq --all
 
-  # gx
+  # ========================================
+  # PERSONAL PROJECTS - gx
+  # ========================================
+
   gxh: gx --help
   gxs: gx status
   gxc: gx clone
   gxco: gx checkout
 
-  # kat
+  # ========================================
+  # PERSONAL PROJECTS - kat
+  # ========================================
+
   jat: kat json
   Jat: kat json | xclip -sel clip
   jvat: kat java
@@ -293,10 +358,16 @@ aliases:
   Wat: kat web | xclip -sel clip
   ptns: kat ptns -i $1 | xclip -sel clip
 
-  # manifest
+  # ========================================
+  # PERSONAL PROJECTS - manifest
+  # ========================================
+
   m: manifest
 
-  # otto
+  # ========================================
+  # PERSONAL PROJECTS - otto
+  # ========================================
+
   o: otto
   oh: otto --help
   ov: otto --version
@@ -305,7 +376,7 @@ aliases:
   oV: otto Convert
   og: otto Graph
   oH: otto History
-  os: otto Stats
+  ost: otto Stats
   ou: otto Upgrade
   # common
   oa: otto all
@@ -313,9 +384,10 @@ aliases:
   oc: otto cov
   oci: otto ci
 
-  mem: ps -eo comm,rss --no-headers | awk '{a[$$1]+=$$2} END {for (i in a) printf "%-30s %8.2f GiB\n", i, a[i]/1024/1024}' | sort -nr -k2 | head -15
+  # ========================================
+  # PERSONAL PROJECTS - rkvr (rmrf-rs)
+  # ========================================
 
-  # rkvr (rmrf-rs)
   bkup: rkvr bkup
   rmrf: rkvr rmrf
   rcvr: rkvr rcvr
@@ -323,31 +395,40 @@ aliases:
   ls-rmrf: rkvr ls-rmrf
   bkup-rmrf: rkvr bkup-rmrf
 
-  # slam
-  slame: slam
-  ssr: slam sandbox refresh
+  # ========================================
+  # PERSONAL PROJECTS - whitespace
+  # ========================================
 
-  # whitespace
   ws|whitespace: whitespace -r
 
-  # workweek
-  ww: workweek
+  # ========================================
+  # PERSONAL PROJECTS - workweek / readtime
+  # ========================================
 
-  # readtime
+  ww: workweek
   rt: readtime
 
-
   # ========================================
-  # LARGE BLOCKS - alphabetized
+  # WORK - Tatari
   # ========================================
 
-  # aws
+  ave:
+    value: aws-vault exec --
+    global: true
+  ttv:
+    value: tatari-tv
+    global: true
+  ls-tatari|ls-ttv: ls-github-repos tatari-tv
   av: aws-vault exec -d 12h prod --
   aws-id: '$av aws sts get-caller-identity | jq -r .Account'
   aws-env: 'env | grep AWS_'
+  update-ctx|update-context: $av aws eks --region lookup:region[$1] update-kubeconfig --name $1 --alias $1 --role-arn arn:aws:iam::878256633362:role/eks-$1-admin
+  debug-git: GIT_SSH_COMMAND="ssh -i $WORK_SSH_PUB_KEY -vvv"
 
-  # cargo (rust)
-  carog: cargo #typo fix
+  # ========================================
+  # CARGO (Rust)
+  # ========================================
+
   ca: cargo add
   cad: cargo add --dev
   ci: cargo init
@@ -363,13 +444,15 @@ aliases:
   crd: RUST_LOG=debug cargo run -q --
   crh: cargo run -q -- --help
   crv: cargo run -q -- --version
-  RL: RUST_LOG=debug
   car: bat -p Cargo.toml
   csm: bat -p src/main.rs
   vsm: vim src/main.rs
   bump2: cargo release patch --execute --no-publish
 
-  # docker
+  # ========================================
+  # DOCKER
+  # ========================================
+
   d: docker
   dc: docker-compose
   di: 'docker images | (read -r; printf "%s\n" "$REPLY"; sort)'
@@ -383,8 +466,10 @@ aliases:
   rm-stopped-containers: 'docker rm $(docker ps -q -f "status=exited")'
   rm-dangling-images: 'docker rmi $(docker images -q --filter "dangling=true")'
 
-  # git
-  grpo: git remote prune origin
+  # ========================================
+  # GIT
+  # ========================================
+
   g: git
   ga: git add
   gb: git branch
@@ -424,13 +509,19 @@ aliases:
   describe: 'git describe --match "v*" --abbrev=7'
   rm-tag: git tag -d $1; git push origin :$1
   db: delete-branch
-  authors|authros: git shortlog -s -n --all --no-merges
+  authors: git shortlog -s -n --all --no-merges
   refresh: find . -maxdepth 2 -type d -name ".git" | xargs -n1 dirname | parallel -j $(nproc) "cd {} && git pull"
 
-  # gh
+  # ========================================
+  # GH (GitHub CLI)
+  # ========================================
+
   ghpr: gh pr create -t "$(git branch --show-current)" -a "@me"
 
-  # kubectl (k8s)
+  # ========================================
+  # KUBECTL (k8s)
+  # ========================================
+
   k: kubectl
   ka: kubectl apply -f
   kg: kubectl get
@@ -466,38 +557,30 @@ aliases:
     value: --namespace
     global: true
   oy:
-    value: -o -yaml
+    value: -o yaml
     global: true
   ctx|context: kubectl config current-context
   ctxs|contexts: kubectl config get-contexts
-  update-ctx|update-context: $av aws eks --region lookup:region[$1] update-kubeconfig --name $1 --alias $1 --role-arn arn:aws:iam::878256633362:role/eks-$1-admin
   use-ctx|use-context: kubectl config use-context $1
 
-  # pdf -> md
-  pdf2md: |
-    filename="${1%.pdf}"
-    pdftotext -layout "$filename.pdf" - | pandoc -f markdown -t markdown -o "$filename.md"
+  # ========================================
+  # PYTHON
+  # ========================================
 
-  # poetry
-  p: poetry
-  pr: poetry run
-  pb: poetry build
-
-  # python
   ipy: ipython
   pip-search: pip_search
   pt: pytest
 
-  # terraform
+  # ========================================
+  # TERRAFORM
+  # ========================================
+
   tf: terraform
   tfp: terraform plan
   tfa: terraform apply
   tf-fmt: terraform fmt -write=true -diff=true -recursive
   tfpt-gh: terraform plan --target 'github_repository.repos["$1"]'
   tfv: tfvar
-
-  # uname
-  kernel: uname -sr
 
   # ========================================
   # YAML
@@ -514,52 +597,26 @@ aliases:
   qbs: npx quartz build --serve
 
   # ========================================
-  # CONFIG EDITING
+  # PDF
   # ========================================
 
-  akas: editor ~/.config/aka/aka.yml; . ~/.zshrc
-  bashrc: editor ~/.bashrc; . ~/.bashrc
-  zshrc: editor ~/.zshrc; . ~/.zshrc
-  aliases: editor ~/.shell-aliases; . ~/.zshrc
-  exports: editor ~/.shell-exports; . ~/.zshrc
-  functions: editor ~/.shell-functions; . ~/.zshrc
+  pdf2md: |
+    filename="${1%.pdf}"
+    pdftotext -layout "$filename.pdf" - | pandoc -f markdown -t markdown -o "$filename.md"
 
   # ========================================
-  # WHICH COMBOS
+  # UPDATE + SHUTDOWN/REBOOT
   # ========================================
 
-  follow-which|fw: follow $(which $1)
-  cat-which|cw: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; bat "${WHICHD[@]}"'
-  vim-which|vw: 'WHICHD=(); for ARG in $(echo "$@"); do WHICHD+=("$(which $ARG)") done; vim "${WHICHD[@]}"'
-  printr:
-    value: print -r -- =$1
-    space: false
-
-  # ========================================
-  # MISC / ONE-OFFS
-  # ========================================
-
-  slack-gpg: sudo cp ~/Documents/slack.list /etc/apt/sources.list.d/slack.list
-  cookie: cookiecutter
-  scaf: scaffold
-  afields: awk -v N=$1 '{sep=""; for (i=N; i<=NF; i++) {printf("%s%s",sep,$i); sep=OFS}; printf("\n")}'
-  par: parallel
-  tr: traceroute
-  acre-side: 'awk "BEGIN { print sqrt($1 * 43560) }"'
-
-
-  # change dir
-  cdr: '$(git rev-parse 2>/dev/null) && cd $(git rev-parse --show-toplevel)'
-  cdpr: '$(git rev-parse) && {cd ../; cd $(git rev-parse --show-toplevel)}'
-  cdp: '$(git rev-parse) && cd $(git rev-parse --show-toplevel) && cd ../'
-
-  # update reboot|shutdown
   ureboot: 'update && reboot'
   ushutdown: 'update && shutdown'
 
-  pip-up|pu: |
-    python3 -m pip install -U pip &&
-    python3 -m pip list --outdated |
-    cut -d' ' -f1 |
-    grep -vxFf ~/.distutils.pkgs |
-    xargs -n1 sudo -H python3 -m pip install -U
+  # ========================================
+  # ONE-OFFS (review periodically)
+  # ========================================
+
+  # slack gpg key for apt
+  slack-gpg: sudo cp ~/Documents/slack.list /etc/apt/sources.list.d/slack.list
+
+  # spanish pdf extraction - consider moving to a script
+  xtract: PDF="$1"; ~/Documents/spanish/cronicas/extract.py $PDF; bat "${PDF%.pdf}.yml"
