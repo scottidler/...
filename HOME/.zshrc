@@ -105,6 +105,7 @@ function precmd() {
 [ -f ~/src/google-cloud-sdk/path.zsh.inc ] && source ~/src/google-cloud-sdk/path.zsh.inc
 [ -f ~/src/google-cloud-sdk/completion.zsh.inc ] && source ~/src/google-cloud-sdk/completion.zsh.inc
 [ -d /usr/local/go/bin ] && path+=("/usr/local/go/bin")
+[ -d ~/go/bin ] && path+=("$HOME/go/bin")
 hash kubectl 2>/dev/null && source <(kubectl completion zsh)
 [ -f ~/.acme.sh/acme.sh.env ] && source ~/.acme.sh/acme.sh.env
 
@@ -187,3 +188,5 @@ bindkey '^[OB' history-beginning-search-forward
 if [[ -n "$ZSH_PROFILE" ]]; then
     zprof
 fi
+
+[[ "$TERM" == "" ]] && export TERM=xterm-kitty
