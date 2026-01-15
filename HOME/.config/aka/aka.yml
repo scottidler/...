@@ -620,3 +620,29 @@ aliases:
 
   # spanish pdf extraction - consider moving to a script
   xtract: PDF="$1"; ~/Documents/spanish/cronicas/extract.py $PDF; bat "${PDF%.pdf}.yml"
+
+  # ========================================
+  # PAIS (Personal AI System)
+  # ========================================
+
+  # Session launchers (like Daniel's 'kai')
+  p: pais session                       # Minimal session (no MCPs)
+  pg: pais session --profile github     # GitHub MCP only
+  ps: pais session --profile slack      # Slack MCP only
+  pw: pais session --profile work       # Full work setup
+  pa: pais session --profile atlassian  # Atlassian MCP only
+  pall: pais session --profile all      # Everything
+
+  pc: pais session -- --continue                        # Minimal session (no MCPs)
+  pcg: pais session --profile github -- --continue      # GitHub MCP only
+  pcs: pais session --profile slack -- --continue       # Slack MCP only
+  pcw: pais session --profile work -- --continue        # Full work setup
+  pca: pais session --profile atlassian -- --continue   # Atlassian MCP only
+  pcall: pais session --profile all -- --continue       # Everything
+
+  # Session with explicit MCPs
+  pm: pais session --mcp              # e.g., pm github,slack
+
+  # Session utilities
+  psl: pais session --list            # List MCPs and profiles
+  psd: pais session --dry-run         # Dry run
