@@ -1,0 +1,37 @@
+# tmux grid config - 4 columns x 3 rows for 4K TV
+# Usage: tmux -f ~/.../.tmux.conf-grid new-session
+
+# Prefix: C-q (from main config)
+unbind C-b
+set-option -g prefix C-q
+bind-key C-q send-prefix
+
+# Reload config
+bind r source-file ~/.../.tmux.conf-grid
+
+# Mouse support
+set -g mouse on
+
+# No escape delay
+set -s escape-time 0
+
+# Terminal/color settings
+set -g default-terminal "screen-256color"
+set-option -g focus-events on
+set-option -sa terminal-features ',xterm-256color:RGB'
+
+# Stop renaming windows
+set-option -g allow-rename off
+
+# Fast pane-switching with Alt+Arrow
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D
+
+# X clipboard support
+set -g update-environment "DISPLAY XAUTHORITY"
+set-hook -g client-attached 'run-shell "tmux setenv -g DISPLAY $DISPLAY; tmux setenv -g XAUTHORITY $XAUTHORITY"'
+
+# Create 4x3 grid on new session (12 even panes)
+set-hook -g session-created 'split-window; select-layout tiled; split-window; select-layout tiled; split-window; select-layout tiled; split-window; select-layout tiled; split-window; select-layout tiled; split-window; select-layout tiled; split-window; select-layout tiled; split-window; select-layout tiled; split-window; select-layout tiled; split-window; select-layout tiled; split-window; select-layout tiled; select-pane -t 0'
