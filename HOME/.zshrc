@@ -119,9 +119,10 @@ if hash fzf 2> /dev/null; then
     [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 fi
 
-# zsh: only override cd in interactive shells
-if command -v zoxide >/dev/null 2>&1 && [[ -o interactive ]]; then
-  eval "$(zoxide init zsh --cmd cd)"
+# Only initialize zoxide in interactive shells to prevent 'command not found: __zoxide_z'
+# errors when non-interactive tools (like Claude Code) use 'cd' in bash commands
+if [[ -o interactive ]] && hash zoxide 2>/dev/null; then
+  eval "$(zoxide init --cmd cd zsh)"
   # uncomment if I suspect something with zoxide is not working correctly
   export _ZO_DOCTOR=0
 fi
