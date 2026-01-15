@@ -1,0 +1,10 @@
+{
+  "enabledPlugins": {
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
+  "model": "opus",
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  }
+}
